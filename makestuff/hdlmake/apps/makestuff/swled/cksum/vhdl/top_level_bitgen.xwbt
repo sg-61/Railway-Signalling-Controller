@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.ncd
+OUTFILE=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.bit
+FAMILY=Spartan6
+PART=xc6slx45-3csg324
+WORKINGDIR=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl
+LICENSE=WebPack
+USER_INFO=211460752_0_0_971

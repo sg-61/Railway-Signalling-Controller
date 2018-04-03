@@ -1,0 +1,399 @@
+   1              		.file	"libdump.c"
+   2              		.section	.rodata.str1.1,"aMS",@progbits,1
+   3              	.LC0:
+   4 0000 25303458 		.string	"%04X "
+   4      2000
+   5              		.section	.text.unlikely,"ax",@progbits
+   6              	.LCOLDB1:
+   7              		.text
+   8              	.LHOTB1:
+   9              		.p2align 4,,15
+  11              	printAddr16:
+  12              	.LFB17:
+  13              		.cfi_startproc
+  14 0000 488D3500 		leaq	.LC0(%rip), %rsi
+  14      000000
+  15 0007 89FA     		movl	%edi, %edx
+  16 0009 31C0     		xorl	%eax, %eax
+  17 000b BF010000 		movl	$1, %edi
+  17      00
+  18 0010 E9000000 		jmp	__printf_chk@PLT
+  18      00
+  19              		.cfi_endproc
+  20              	.LFE17:
+  22              		.section	.text.unlikely
+  23              	.LCOLDE1:
+  24              		.text
+  25              	.LHOTE1:
+  26              		.section	.rodata.str1.1
+  27              	.LC2:
+  28 0006 25303858 		.string	"%08X "
+  28      2000
+  29              		.section	.text.unlikely
+  30              	.LCOLDB3:
+  31              		.text
+  32              	.LHOTB3:
+  33 0015 90662E0F 		.p2align 4,,15
+  33      1F840000 
+  33      000000
+  35              	printAddr32:
+  36              	.LFB18:
+  37              		.cfi_startproc
+  38 0020 488D3500 		leaq	.LC2(%rip), %rsi
+  38      000000
+  39 0027 89FA     		movl	%edi, %edx
+  40 0029 31C0     		xorl	%eax, %eax
+  41 002b BF010000 		movl	$1, %edi
+  41      00
+  42 0030 E9000000 		jmp	__printf_chk@PLT
+  42      00
+  43              		.cfi_endproc
+  44              	.LFE18:
+  46              		.section	.text.unlikely
+  47              	.LCOLDE3:
+  48              		.text
+  49              	.LHOTE3:
+  50              		.section	.rodata.str1.1
+  51              	.LC4:
+  52 000c 25303136 		.string	"%016zX "
+  52      7A582000 
+  53              		.section	.text.unlikely
+  54              	.LCOLDB5:
+  55              		.text
+  56              	.LHOTB5:
+  57 0035 90662E0F 		.p2align 4,,15
+  57      1F840000 
+  57      000000
+  59              	printAddr64:
+  60              	.LFB19:
+  61              		.cfi_startproc
+  62 0040 488D3500 		leaq	.LC4(%rip), %rsi
+  62      000000
+  63 0047 4889FA   		movq	%rdi, %rdx
+  64 004a 31C0     		xorl	%eax, %eax
+  65 004c BF010000 		movl	$1, %edi
+  65      00
+  66 0051 E9000000 		jmp	__printf_chk@PLT
+  66      00
+  67              		.cfi_endproc
+  68              	.LFE19:
+  70              		.section	.text.unlikely
+  71              	.LCOLDE5:
+  72              		.text
+  73              	.LHOTE5:
+  74              		.section	.rodata.str1.1
+  75              	.LC6:
+  76 0014 20202020 		.string	"                "
+  76      20202020 
+  76      20202020 
+  76      20202020 
+  76      00
+  77              	.LC7:
+  78 0025 20202020 		.string	"        "
+  78      20202020 
+  78      00
+  79              	.LC8:
+  80 002e 20202020 		.string	"    "
+  80      00
+  81              		.section	.rodata.str1.8,"aMS",@progbits,1
+  82              		.align 8
+  83              	.LC9:
+  84 0000 25732030 		.string	"%s 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n"
+  84      30203031 
+  84      20303220 
+  84      30332030 
+  84      34203035 
+  85              		.section	.rodata.str1.1
+  86              	.LC10:
+  87 0033 25303258 		.string	"%02X "
+  87      2000
+  88              	.LC11:
+  89 0039 20202000 		.string	"   "
+  90              	.LC12:
+  91 003d 0A00     		.string	"\n"
+  92              	.LC13:
+  93 003f 256300   		.string	"%c"
+  94              		.section	.text.unlikely
+  95              	.LCOLDB14:
+  96              		.text
+  97              	.LHOTB14:
+  98 0056 662E0F1F 		.p2align 4,,15
+  98      84000000 
+  98      0000
+  99              		.globl	dump
+ 101              	dump:
+ 102              	.LFB20:
+ 103              		.cfi_startproc
+ 104 0060 4885D2   		testq	%rdx, %rdx
+ 105 0063 0F843E01 		je	.L33
+ 105      0000
+ 106 0069 4157     		pushq	%r15
+ 107              		.cfi_def_cfa_offset 16
+ 108              		.cfi_offset 15, -16
+ 109 006b 4156     		pushq	%r14
+ 110              		.cfi_def_cfa_offset 24
+ 111              		.cfi_offset 14, -24
+ 112 006d 488D05CC 		leaq	printAddr64(%rip), %rax
+ 112      FFFFFF
+ 113 0074 4155     		pushq	%r13
+ 114              		.cfi_def_cfa_offset 32
+ 115              		.cfi_offset 13, -32
+ 116 0076 4154     		pushq	%r12
+ 117              		.cfi_def_cfa_offset 40
+ 118              		.cfi_offset 12, -40
+ 119 0078 488D0C3A 		leaq	(%rdx,%rdi), %rcx
+ 120 007c 55       		pushq	%rbp
+ 121              		.cfi_def_cfa_offset 48
+ 122              		.cfi_offset 6, -48
+ 123 007d 53       		pushq	%rbx
+ 124              		.cfi_def_cfa_offset 56
+ 125              		.cfi_offset 3, -56
+ 126 007e 4989D4   		movq	%rdx, %r12
+ 127 0081 4989FD   		movq	%rdi, %r13
+ 128 0084 4889F5   		movq	%rsi, %rbp
+ 129 0087 488D1500 		leaq	.LC6(%rip), %rdx
+ 129      000000
+ 130 008e 4883EC18 		subq	$24, %rsp
+ 131              		.cfi_def_cfa_offset 80
+ 132 0092 48894424 		movq	%rax, 8(%rsp)
+ 132      08
+ 133 0097 B8FFFFFF 		movl	$4294967295, %eax
+ 133      FF
+ 134 009c 4839C1   		cmpq	%rax, %rcx
+ 135 009f 0F860401 		jbe	.L36
+ 135      0000
+ 136              	.L6:
+ 137 00a5 488D3500 		leaq	.LC9(%rip), %rsi
+ 137      000000
+ 138 00ac BF010000 		movl	$1, %edi
+ 138      00
+ 139 00b1 31C0     		xorl	%eax, %eax
+ 140 00b3 E8000000 		call	__printf_chk@PLT
+ 140      00
+ 141 00b8 0F1F8400 		.p2align 4,,10
+ 141      00000000 
+ 142              		.p2align 3
+ 143              	.L14:
+ 144 00c0 4D89EE   		movq	%r13, %r14
+ 145 00c3 4C89EF   		movq	%r13, %rdi
+ 146 00c6 488B4424 		movq	8(%rsp), %rax
+ 146      08
+ 147 00cb 4889EB   		movq	%rbp, %rbx
+ 148 00ce 4531FF   		xorl	%r15d, %r15d
+ 149 00d1 4929EE   		subq	%rbp, %r14
+ 150 00d4 FFD0     		call	*%rax
+ 151 00d6 EB0D     		jmp	.L7
+ 152 00d8 0F1F8400 		.p2align 4,,10
+ 152      00000000 
+ 153              		.p2align 3
+ 154              	.L37:
+ 155 00e0 4D85E4   		testq	%r12, %r12
+ 156 00e3 7430     		je	.L22
+ 157              	.L7:
+ 158 00e5 4883C301 		addq	$1, %rbx
+ 159 00e9 0FB653FF 		movzbl	-1(%rbx), %edx
+ 160 00ed 488D3500 		leaq	.LC10(%rip), %rsi
+ 160      000000
+ 161 00f4 31C0     		xorl	%eax, %eax
+ 162 00f6 BF010000 		movl	$1, %edi
+ 162      00
+ 163 00fb 4983EC01 		subq	$1, %r12
+ 164 00ff 4E8D2C33 		leaq	(%rbx,%r14), %r13
+ 165 0103 E8000000 		call	__printf_chk@PLT
+ 165      00
+ 166 0108 4489F8   		movl	%r15d, %eax
+ 167 010b 4183C701 		addl	$1, %r15d
+ 168 010f 4180FF0F 		cmpb	$15, %r15b
+ 169 0113 7ECB     		jle	.L37
+ 170              	.L22:
+ 171 0115 4180FF0F 		cmpb	$15, %r15b
+ 172 0119 448D7002 		leal	2(%rax), %r14d
+ 173 011d 7F1F     		jg	.L13
+ 174 011f 90       		.p2align 4,,10
+ 175              		.p2align 3
+ 176              	.L26:
+ 177 0120 488D3500 		leaq	.LC11(%rip), %rsi
+ 177      000000
+ 178 0127 31C0     		xorl	%eax, %eax
+ 179 0129 BF010000 		movl	$1, %edi
+ 179      00
+ 180 012e E8000000 		call	__printf_chk@PLT
+ 180      00
+ 181 0133 4489F0   		movl	%r14d, %eax
+ 182 0136 4183C601 		addl	$1, %r14d
+ 183 013a 3C0F     		cmpb	$15, %al
+ 184 013c 7EE2     		jle	.L26
+ 185              	.L13:
+ 186 013e 4839EB   		cmpq	%rbp, %rbx
+ 187 0141 41BE2E00 		movl	$46, %r14d
+ 187      0000
+ 188 0147 7630     		jbe	.L11
+ 189 0149 0F1F8000 		.p2align 4,,10
+ 189      000000
+ 190              		.p2align 3
+ 191              	.L25:
+ 192 0150 4883C501 		addq	$1, %rbp
+ 193 0154 0FB655FF 		movzbl	-1(%rbp), %edx
+ 194 0158 488D3500 		leaq	.LC13(%rip), %rsi
+ 194      000000
+ 195 015f BF010000 		movl	$1, %edi
+ 195      00
+ 196 0164 8D42E0   		leal	-32(%rdx), %eax
+ 197 0167 3C5E     		cmpb	$94, %al
+ 198 0169 410F47D6 		cmova	%r14d, %edx
+ 199 016d 31C0     		xorl	%eax, %eax
+ 200 016f E8000000 		call	__printf_chk@PLT
+ 200      00
+ 201 0174 4839EB   		cmpq	%rbp, %rbx
+ 202 0177 75D7     		jne	.L25
+ 203              	.L11:
+ 204 0179 488D3500 		leaq	.LC12(%rip), %rsi
+ 204      000000
+ 205 0180 31C0     		xorl	%eax, %eax
+ 206 0182 BF010000 		movl	$1, %edi
+ 206      00
+ 207 0187 E8000000 		call	__printf_chk@PLT
+ 207      00
+ 208 018c 4D85E4   		testq	%r12, %r12
+ 209 018f 7408     		je	.L38
+ 210 0191 4889DD   		movq	%rbx, %rbp
+ 211 0194 E927FFFF 		jmp	.L14
+ 211      FF
+ 212              	.L38:
+ 213 0199 4883C418 		addq	$24, %rsp
+ 214              		.cfi_def_cfa_offset 56
+ 215 019d 5B       		popq	%rbx
+ 216              		.cfi_restore 3
+ 217              		.cfi_def_cfa_offset 48
+ 218 019e 5D       		popq	%rbp
+ 219              		.cfi_restore 6
+ 220              		.cfi_def_cfa_offset 40
+ 221 019f 415C     		popq	%r12
+ 222              		.cfi_restore 12
+ 223              		.cfi_def_cfa_offset 32
+ 224 01a1 415D     		popq	%r13
+ 225              		.cfi_restore 13
+ 226              		.cfi_def_cfa_offset 24
+ 227 01a3 415E     		popq	%r14
+ 228              		.cfi_restore 14
+ 229              		.cfi_def_cfa_offset 16
+ 230 01a5 415F     		popq	%r15
+ 231              		.cfi_restore 15
+ 232              		.cfi_def_cfa_offset 8
+ 233              	.L33:
+ 234 01a7 F3C3     		rep ret
+ 235              	.L36:
+ 236              		.cfi_def_cfa_offset 80
+ 237              		.cfi_offset 3, -56
+ 238              		.cfi_offset 6, -48
+ 239              		.cfi_offset 12, -40
+ 240              		.cfi_offset 13, -32
+ 241              		.cfi_offset 14, -24
+ 242              		.cfi_offset 15, -16
+ 243 01a9 488D0500 		leaq	.LC7(%rip), %rax
+ 243      000000
+ 244 01b0 488D1500 		leaq	.LC8(%rip), %rdx
+ 244      000000
+ 245 01b7 4881F9FF 		cmpq	$65535, %rcx
+ 245      FF0000
+ 246 01be 4C8D3D5B 		leaq	printAddr32(%rip), %r15
+ 246      FEFFFF
+ 247 01c5 480F47D0 		cmova	%rax, %rdx
+ 248 01c9 488D0530 		leaq	printAddr16(%rip), %rax
+ 248      FEFFFF
+ 249 01d0 490F47C7 		cmova	%r15, %rax
+ 250 01d4 48894424 		movq	%rax, 8(%rsp)
+ 250      08
+ 251 01d9 E9C7FEFF 		jmp	.L6
+ 251      FF
+ 252              		.cfi_endproc
+ 253              	.LFE20:
+ 255              		.section	.text.unlikely
+ 256              	.LCOLDE14:
+ 257              		.text
+ 258              	.LHOTE14:
+ 259              		.section	.rodata.str1.1
+ 260              	.LC15:
+ 261 0042 20253032 		.string	" %02X"
+ 261      5800
+ 262              		.section	.text.unlikely
+ 263              	.LCOLDB16:
+ 264              		.text
+ 265              	.LHOTB16:
+ 266 01de 6690     		.p2align 4,,15
+ 267              		.globl	dumpSimple
+ 269              	dumpSimple:
+ 270              	.LFB21:
+ 271              		.cfi_startproc
+ 272 01e0 55       		pushq	%rbp
+ 273              		.cfi_def_cfa_offset 16
+ 274              		.cfi_offset 6, -16
+ 275 01e1 53       		pushq	%rbx
+ 276              		.cfi_def_cfa_offset 24
+ 277              		.cfi_offset 3, -24
+ 278 01e2 4889FD   		movq	%rdi, %rbp
+ 279 01e5 4889F3   		movq	%rsi, %rbx
+ 280 01e8 4883EC08 		subq	$8, %rsp
+ 281              		.cfi_def_cfa_offset 32
+ 282 01ec 4885F6   		testq	%rsi, %rsi
+ 283 01ef 7428     		je	.L42
+ 284              		.p2align 4,,10
+ 285 01f1 0F1F8000 		.p2align 3
+ 285      000000
+ 286              	.L43:
+ 287 01f8 4883C501 		addq	$1, %rbp
+ 288 01fc 0FB655FF 		movzbl	-1(%rbp), %edx
+ 289 0200 488D3500 		leaq	.LC15(%rip), %rsi
+ 289      000000
+ 290 0207 31C0     		xorl	%eax, %eax
+ 291 0209 BF010000 		movl	$1, %edi
+ 291      00
+ 292 020e E8000000 		call	__printf_chk@PLT
+ 292      00
+ 293 0213 4883EB01 		subq	$1, %rbx
+ 294 0217 75DF     		jne	.L43
+ 295              	.L42:
+ 296 0219 4883C408 		addq	$8, %rsp
+ 297              		.cfi_def_cfa_offset 24
+ 298 021d 488D3500 		leaq	.LC12(%rip), %rsi
+ 298      000000
+ 299 0224 BF010000 		movl	$1, %edi
+ 299      00
+ 300 0229 5B       		popq	%rbx
+ 301              		.cfi_def_cfa_offset 16
+ 302 022a 5D       		popq	%rbp
+ 303              		.cfi_def_cfa_offset 8
+ 304 022b 31C0     		xorl	%eax, %eax
+ 305 022d E9000000 		jmp	__printf_chk@PLT
+ 305      00
+ 306              		.cfi_endproc
+ 307              	.LFE21:
+ 309              		.section	.text.unlikely
+ 310              	.LCOLDE16:
+ 311              		.text
+ 312              	.LHOTE16:
+ 313              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 314              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 libdump.c
+     /tmp/ccbqrdJU.s:11     .text:0000000000000000 printAddr16
+     /tmp/ccbqrdJU.s:35     .text:0000000000000020 printAddr32
+     /tmp/ccbqrdJU.s:59     .text:0000000000000040 printAddr64
+     /tmp/ccbqrdJU.s:101    .text:0000000000000060 dump
+     /tmp/ccbqrdJU.s:269    .text:00000000000001e0 dumpSimple
+     /tmp/ccbqrdJU.s:3      .rodata.str1.1:0000000000000000 .LC0
+     /tmp/ccbqrdJU.s:27     .rodata.str1.1:0000000000000006 .LC2
+     /tmp/ccbqrdJU.s:51     .rodata.str1.1:000000000000000c .LC4
+     /tmp/ccbqrdJU.s:75     .rodata.str1.1:0000000000000014 .LC6
+     /tmp/ccbqrdJU.s:83     .rodata.str1.8:0000000000000000 .LC9
+     /tmp/ccbqrdJU.s:86     .rodata.str1.1:0000000000000033 .LC10
+     /tmp/ccbqrdJU.s:88     .rodata.str1.1:0000000000000039 .LC11
+     /tmp/ccbqrdJU.s:92     .rodata.str1.1:000000000000003f .LC13
+     /tmp/ccbqrdJU.s:90     .rodata.str1.1:000000000000003d .LC12
+     /tmp/ccbqrdJU.s:77     .rodata.str1.1:0000000000000025 .LC7
+     /tmp/ccbqrdJU.s:79     .rodata.str1.1:000000000000002e .LC8
+     /tmp/ccbqrdJU.s:260    .rodata.str1.1:0000000000000042 .LC15
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+__printf_chk

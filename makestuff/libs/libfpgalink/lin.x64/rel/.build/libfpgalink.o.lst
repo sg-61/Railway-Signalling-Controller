@@ -1,0 +1,2607 @@
+   1              		.file	"libfpgalink.c"
+   2              		.section	.rodata.str1.1,"aMS",@progbits,1
+   3              	.LC0:
+   4 0000 62756666 		.string	"bufferAppend()"
+   4      65724170 
+   4      70656E64 
+   4      282900
+   5              		.section	.text.unlikely,"ax",@progbits
+   6              	.LCOLDB1:
+   7              		.text
+   8              	.LHOTB1:
+   9              		.p2align 4,,15
+  11              	bufferAppend:
+  12              	.LFB58:
+  13              		.cfi_startproc
+  14 0000 4157     		pushq	%r15
+  15              		.cfi_def_cfa_offset 16
+  16              		.cfi_offset 15, -16
+  17 0002 4156     		pushq	%r14
+  18              		.cfi_def_cfa_offset 24
+  19              		.cfi_offset 14, -24
+  20 0004 4989FF   		movq	%rdi, %r15
+  21 0007 4155     		pushq	%r13
+  22              		.cfi_def_cfa_offset 32
+  23              		.cfi_offset 13, -32
+  24 0009 4154     		pushq	%r12
+  25              		.cfi_def_cfa_offset 40
+  26              		.cfi_offset 12, -40
+  27 000b 4989D5   		movq	%rdx, %r13
+  28 000e 55       		pushq	%rbp
+  29              		.cfi_def_cfa_offset 48
+  30              		.cfi_offset 6, -48
+  31 000f 53       		pushq	%rbx
+  32              		.cfi_def_cfa_offset 56
+  33              		.cfi_offset 3, -56
+  34 0010 4889CB   		movq	%rcx, %rbx
+  35 0013 4883EC18 		subq	$24, %rsp
+  36              		.cfi_def_cfa_offset 80
+  37 0017 488B3F   		movq	(%rdi), %rdi
+  38 001a 48893424 		movq	%rsi, (%rsp)
+  39 001e E8000000 		call	usbNumOutstandingRequests@PLT
+  39      00
+  40 0023 498B7F40 		movq	64(%r15), %rdi
+  41 0027 4989C6   		movq	%rax, %r14
+  42 002a 4885FF   		testq	%rdi, %rdi
+  43 002d 0F840A01 		je	.L2
+  43      0000
+  44 0033 4889F8   		movq	%rdi, %rax
+  45 0036 492B4738 		subq	56(%r15), %rax
+  46              	.L3:
+  47 003a 458B6748 		movl	72(%r15), %r12d
+  48 003e 498D6F20 		leaq	32(%r15), %rbp
+  49 0042 4929C4   		subq	%rax, %r12
+  50 0045 498D4740 		leaq	64(%r15), %rax
+  51 0049 4D39EC   		cmpq	%r13, %r12
+  52 004c 48894424 		movq	%rax, 8(%rsp)
+  52      08
+  53 0051 0F83CA00 		jnb	.L7
+  53      0000
+  54              	.L21:
+  55 0057 4983FE02 		cmpq	$2, %r14
+  56 005b 7667     		jbe	.L10
+  57 005d 41F64730 		testb	$1, 48(%r15)
+  57      01
+  58 0062 741D     		je	.L11
+  59 0064 EB5E     		jmp	.L10
+  60 0066 662E0F1F 		.p2align 4,,10
+  60      84000000 
+  60      0000
+  61              		.p2align 3
+  62              	.L8:
+  63 0070 4983EE01 		subq	$1, %r14
+  64 0074 4983FE02 		cmpq	$2, %r14
+  65 0078 7446     		je	.L26
+  66 007a 41F64730 		testb	$1, 48(%r15)
+  66      01
+  67 007f 753F     		jne	.L26
+  68              	.L11:
+  69 0081 498B3F   		movq	(%r15), %rdi
+  70 0084 4889DA   		movq	%rbx, %rdx
+  71 0087 4889EE   		movq	%rbp, %rsi
+  72 008a E8000000 		call	usbBulkAwaitCompletion@PLT
+  72      00
+  73 008f 85C0     		testl	%eax, %eax
+  74 0091 74DD     		je	.L8
+  75              	.L12:
+  76 0093 488D3500 		leaq	.LC0(%rip), %rsi
+  76      000000
+  77 009a 4889DF   		movq	%rbx, %rdi
+  78 009d E8000000 		call	errPrefix@PLT
+  78      00
+  79 00a2 B8020000 		movl	$2, %eax
+  79      00
+  80              	.L5:
+  81 00a7 4883C418 		addq	$24, %rsp
+  82              		.cfi_remember_state
+  83              		.cfi_def_cfa_offset 56
+  84 00ab 5B       		popq	%rbx
+  85              		.cfi_def_cfa_offset 48
+  86 00ac 5D       		popq	%rbp
+  87              		.cfi_def_cfa_offset 40
+  88 00ad 415C     		popq	%r12
+  89              		.cfi_def_cfa_offset 32
+  90 00af 415D     		popq	%r13
+  91              		.cfi_def_cfa_offset 24
+  92 00b1 415E     		popq	%r14
+  93              		.cfi_def_cfa_offset 16
+  94 00b3 415F     		popq	%r15
+  95              		.cfi_def_cfa_offset 8
+  96 00b5 C3       		ret
+  97 00b6 662E0F1F 		.p2align 4,,10
+  97      84000000 
+  97      0000
+  98              		.p2align 3
+  99              	.L26:
+ 100              		.cfi_restore_state
+ 101 00c0 498B7F40 		movq	64(%r15), %rdi
+ 102              	.L10:
+ 103 00c4 488B3424 		movq	(%rsp), %rsi
+ 104 00c8 4C89E2   		movq	%r12, %rdx
+ 105 00cb 4D29E5   		subq	%r12, %r13
+ 106 00ce E8000000 		call	memcpy@PLT
+ 106      00
+ 107 00d3 410FB677 		movzbl	9(%r15), %esi
+ 107      09
+ 108 00d8 418B5748 		movl	72(%r15), %edx
+ 109 00dc 4989D8   		movq	%rbx, %r8
+ 110 00df 498B3F   		movq	(%r15), %rdi
+ 111 00e2 B9FFFFFF 		movl	$-1, %ecx
+ 111      FF
+ 112 00e7 4C012424 		addq	%r12, (%rsp)
+ 113 00eb E8000000 		call	usbBulkWriteAsyncSubmit@PLT
+ 113      00
+ 114 00f0 85C0     		testl	%eax, %eax
+ 115 00f2 759F     		jne	.L12
+ 116 00f4 488B7424 		movq	8(%rsp), %rsi
+ 116      08
+ 117 00f9 498B3F   		movq	(%r15), %rdi
+ 118 00fc 4889DA   		movq	%rbx, %rdx
+ 119 00ff 4983C601 		addq	$1, %r14
+ 120 0103 E8000000 		call	usbBulkWriteAsyncPrepare@PLT
+ 120      00
+ 121 0108 85C0     		testl	%eax, %eax
+ 122 010a 7587     		jne	.L12
+ 123 010c 458B6748 		movl	72(%r15), %r12d
+ 124 0110 498B7F40 		movq	64(%r15), %rdi
+ 125 0114 49897F38 		movq	%rdi, 56(%r15)
+ 126 0118 4D39E5   		cmpq	%r12, %r13
+ 127 011b 0F8736FF 		ja	.L21
+ 127      FFFF
+ 128              	.L7:
+ 129 0121 4D39EC   		cmpq	%r13, %r12
+ 130 0124 743D     		je	.L28
+ 131 0126 488B3424 		movq	(%rsp), %rsi
+ 132 012a 4C89EA   		movq	%r13, %rdx
+ 133 012d E8000000 		call	memcpy@PLT
+ 133      00
+ 134 0132 4D016F40 		addq	%r13, 64(%r15)
+ 135 0136 31C0     		xorl	%eax, %eax
+ 136 0138 E96AFFFF 		jmp	.L5
+ 136      FF
+ 137              	.L2:
+ 138 013d 498B3F   		movq	(%r15), %rdi
+ 139 0140 498D7740 		leaq	64(%r15), %rsi
+ 140 0144 4889DA   		movq	%rbx, %rdx
+ 141 0147 E8000000 		call	usbBulkWriteAsyncPrepare@PLT
+ 141      00
+ 142 014c 85C0     		testl	%eax, %eax
+ 143 014e 0F859A00 		jne	.L29
+ 143      0000
+ 144 0154 498B7F40 		movq	64(%r15), %rdi
+ 145 0158 31C0     		xorl	%eax, %eax
+ 146 015a 49897F38 		movq	%rdi, 56(%r15)
+ 147 015e E9D7FEFF 		jmp	.L3
+ 147      FF
+ 148              	.L28:
+ 149 0163 4983FE02 		cmpq	$2, %r14
+ 150 0167 7643     		jbe	.L15
+ 151 0169 41F64730 		testb	$1, 48(%r15)
+ 151      01
+ 152 016e 753C     		jne	.L15
+ 153 0170 498D6F20 		leaq	32(%r15), %rbp
+ 154 0174 EB1B     		jmp	.L17
+ 155 0176 662E0F1F 		.p2align 4,,10
+ 155      84000000 
+ 155      0000
+ 156              		.p2align 3
+ 157              	.L30:
+ 158 0180 4983EE01 		subq	$1, %r14
+ 159 0184 4983FE02 		cmpq	$2, %r14
+ 160 0188 741E     		je	.L18
+ 161 018a 41F64730 		testb	$1, 48(%r15)
+ 161      01
+ 162 018f 7517     		jne	.L18
+ 163              	.L17:
+ 164 0191 498B3F   		movq	(%r15), %rdi
+ 165 0194 4889DA   		movq	%rbx, %rdx
+ 166 0197 4889EE   		movq	%rbp, %rsi
+ 167 019a E8000000 		call	usbBulkAwaitCompletion@PLT
+ 167      00
+ 168 019f 85C0     		testl	%eax, %eax
+ 169 01a1 74DD     		je	.L30
+ 170 01a3 E9EBFEFF 		jmp	.L12
+ 170      FF
+ 171              	.L18:
+ 172 01a8 498B7F40 		movq	64(%r15), %rdi
+ 173              	.L15:
+ 174 01ac 488B3424 		movq	(%rsp), %rsi
+ 175 01b0 4C89E2   		movq	%r12, %rdx
+ 176 01b3 E8000000 		call	memcpy@PLT
+ 176      00
+ 177 01b8 410FB677 		movzbl	9(%r15), %esi
+ 177      09
+ 178 01bd 418B5748 		movl	72(%r15), %edx
+ 179 01c1 4989D8   		movq	%rbx, %r8
+ 180 01c4 498B3F   		movq	(%r15), %rdi
+ 181 01c7 B9FFFFFF 		movl	$-1, %ecx
+ 181      FF
+ 182 01cc E8000000 		call	usbBulkWriteAsyncSubmit@PLT
+ 182      00
+ 183 01d1 85C0     		testl	%eax, %eax
+ 184 01d3 0F85BAFE 		jne	.L12
+ 184      FFFF
+ 185 01d9 49C74740 		movq	$0, 64(%r15)
+ 185      00000000 
+ 186 01e1 49C74738 		movq	$0, 56(%r15)
+ 186      00000000 
+ 187 01e9 E9B9FEFF 		jmp	.L5
+ 187      FF
+ 188              	.L29:
+ 189 01ee 488D3500 		leaq	.LC0(%rip), %rsi
+ 189      000000
+ 190 01f5 4889DF   		movq	%rbx, %rdi
+ 191 01f8 E8000000 		call	errPrefix@PLT
+ 191      00
+ 192 01fd B8010000 		movl	$1, %eax
+ 192      00
+ 193 0202 E9A0FEFF 		jmp	.L5
+ 193      FF
+ 194              		.cfi_endproc
+ 195              	.LFE58:
+ 197              		.section	.text.unlikely
+ 198              	.LCOLDE1:
+ 199              		.text
+ 200              	.LHOTE1:
+ 201              		.section	.rodata.str1.1
+ 202              	.LC2:
+ 203 000f 666C496E 		.string	"flInitialise()"
+ 203      69746961 
+ 203      6C697365 
+ 203      282900
+ 204              		.section	.text.unlikely
+ 205              	.LCOLDB3:
+ 206              		.text
+ 207              	.LHOTB3:
+ 208 0207 660F1F84 		.p2align 4,,15
+ 208      00000000 
+ 208      00
+ 209              		.globl	flInitialise
+ 211              	flInitialise:
+ 212              	.LFB47:
+ 213              		.cfi_startproc
+ 214 0210 53       		pushq	%rbx
+ 215              		.cfi_def_cfa_offset 16
+ 216              		.cfi_offset 3, -16
+ 217 0211 4889F3   		movq	%rsi, %rbx
+ 218 0214 E8000000 		call	usbInitialise@PLT
+ 218      00
+ 219 0219 31D2     		xorl	%edx, %edx
+ 220 021b 85C0     		testl	%eax, %eax
+ 221 021d 7414     		je	.L32
+ 222 021f 488D3500 		leaq	.LC2(%rip), %rsi
+ 222      000000
+ 223 0226 4889DF   		movq	%rbx, %rdi
+ 224 0229 E8000000 		call	errPrefix@PLT
+ 224      00
+ 225 022e BA020000 		movl	$2, %edx
+ 225      00
+ 226              	.L32:
+ 227 0233 89D0     		movl	%edx, %eax
+ 228 0235 5B       		popq	%rbx
+ 229              		.cfi_def_cfa_offset 8
+ 230 0236 C3       		ret
+ 231              		.cfi_endproc
+ 232              	.LFE47:
+ 234              		.section	.text.unlikely
+ 235              	.LCOLDE3:
+ 236              		.text
+ 237              	.LHOTE3:
+ 238              		.section	.text.unlikely
+ 239              	.LCOLDB4:
+ 240              		.text
+ 241              	.LHOTB4:
+ 242 0237 660F1F84 		.p2align 4,,15
+ 242      00000000 
+ 242      00
+ 243              		.globl	flFreeError
+ 245              	flFreeError:
+ 246              	.LFB48:
+ 247              		.cfi_startproc
+ 248 0240 E9000000 		jmp	errFree@PLT
+ 248      00
+ 249              		.cfi_endproc
+ 250              	.LFE48:
+ 252              		.section	.text.unlikely
+ 253              	.LCOLDE4:
+ 254              		.text
+ 255              	.LHOTE4:
+ 256              		.section	.rodata.str1.1
+ 257              	.LC5:
+ 258 001e 666C4973 		.string	"flIsDeviceAvailable()"
+ 258      44657669 
+ 258      63654176 
+ 258      61696C61 
+ 258      626C6528 
+ 259              		.section	.text.unlikely
+ 260              	.LCOLDB6:
+ 261              		.text
+ 262              	.LHOTB6:
+ 263 0245 90662E0F 		.p2align 4,,15
+ 263      1F840000 
+ 263      000000
+ 264              		.globl	flIsDeviceAvailable
+ 266              	flIsDeviceAvailable:
+ 267              	.LFB49:
+ 268              		.cfi_startproc
+ 269 0250 55       		pushq	%rbp
+ 270              		.cfi_def_cfa_offset 16
+ 271              		.cfi_offset 6, -16
+ 272 0251 53       		pushq	%rbx
+ 273              		.cfi_def_cfa_offset 24
+ 274              		.cfi_offset 3, -24
+ 275 0252 4889F5   		movq	%rsi, %rbp
+ 276 0255 4889D3   		movq	%rdx, %rbx
+ 277 0258 4883EC18 		subq	$24, %rsp
+ 278              		.cfi_def_cfa_offset 48
+ 279 025c 488D7424 		leaq	7(%rsp), %rsi
+ 279      07
+ 280 0261 64488B04 		movq	%fs:40, %rax
+ 280      25280000 
+ 280      00
+ 281 026a 48894424 		movq	%rax, 8(%rsp)
+ 281      08
+ 282 026f 31C0     		xorl	%eax, %eax
+ 283 0271 E8000000 		call	usbIsDeviceAvailable@PLT
+ 283      00
+ 284 0276 85C0     		testl	%eax, %eax
+ 285 0278 7526     		jne	.L43
+ 286 027a 0FB64424 		movzbl	7(%rsp), %eax
+ 286      07
+ 287 027f 884500   		movb	%al, 0(%rbp)
+ 288 0282 31C0     		xorl	%eax, %eax
+ 289              	.L40:
+ 290 0284 488B4C24 		movq	8(%rsp), %rcx
+ 290      08
+ 291 0289 6448330C 		xorq	%fs:40, %rcx
+ 291      25280000 
+ 291      00
+ 292 0292 7522     		jne	.L44
+ 293 0294 4883C418 		addq	$24, %rsp
+ 294              		.cfi_remember_state
+ 295              		.cfi_def_cfa_offset 24
+ 296 0298 5B       		popq	%rbx
+ 297              		.cfi_def_cfa_offset 16
+ 298 0299 5D       		popq	%rbp
+ 299              		.cfi_def_cfa_offset 8
+ 300 029a C3       		ret
+ 301 029b 0F1F4400 		.p2align 4,,10
+ 301      00
+ 302              		.p2align 3
+ 303              	.L43:
+ 304              		.cfi_restore_state
+ 305 02a0 488D3500 		leaq	.LC5(%rip), %rsi
+ 305      000000
+ 306 02a7 4889DF   		movq	%rbx, %rdi
+ 307 02aa E8000000 		call	errPrefix@PLT
+ 307      00
+ 308 02af B8020000 		movl	$2, %eax
+ 308      00
+ 309 02b4 EBCE     		jmp	.L40
+ 310              	.L44:
+ 311 02b6 E8000000 		call	__stack_chk_fail@PLT
+ 311      00
+ 312              		.cfi_endproc
+ 313              	.LFE49:
+ 315              		.section	.text.unlikely
+ 316              	.LCOLDE6:
+ 317              		.text
+ 318              	.LHOTE6:
+ 319              		.section	.rodata.str1.1
+ 320              	.LC7:
+ 321 0034 666C4F70 		.string	"flOpen()"
+ 321      656E2829 
+ 321      00
+ 322              	.LC8:
+ 323 003d 67657453 		.string	"getStatus()"
+ 323      74617475 
+ 323      73282900 
+ 324              		.section	.rodata.str1.8,"aMS",@progbits,1
+ 325              		.align 8
+ 326              	.LC9:
+ 327 0000 666C4F70 		.string	"flOpen(): Device at %s not recognised"
+ 327      656E2829 
+ 327      3A204465 
+ 327      76696365 
+ 327      20617420 
+ 328 0026 0000     		.align 8
+ 329              	.LC10:
+ 330 0028 666C4F70 		.string	"flOpen(): Device at %s supports neither NeroProg nor CommFPGA"
+ 330      656E2829 
+ 330      3A204465 
+ 330      76696365 
+ 330      20617420 
+ 331              		.section	.text.unlikely
+ 332              	.LCOLDB11:
+ 333              		.text
+ 334              	.LHOTB11:
+ 335 02bb 0F1F4400 		.p2align 4,,15
+ 335      00
+ 336              		.globl	flOpen
+ 338              	flOpen:
+ 339              	.LFB50:
+ 340              		.cfi_startproc
+ 341 02c0 4155     		pushq	%r13
+ 342              		.cfi_def_cfa_offset 16
+ 343              		.cfi_offset 13, -16
+ 344 02c2 4154     		pushq	%r12
+ 345              		.cfi_def_cfa_offset 24
+ 346              		.cfi_offset 12, -24
+ 347 02c4 4989F5   		movq	%rsi, %r13
+ 348 02c7 55       		pushq	%rbp
+ 349              		.cfi_def_cfa_offset 32
+ 350              		.cfi_offset 6, -32
+ 351 02c8 53       		pushq	%rbx
+ 352              		.cfi_def_cfa_offset 40
+ 353              		.cfi_offset 3, -40
+ 354 02c9 4989FC   		movq	%rdi, %r12
+ 355 02cc BE010000 		movl	$1, %esi
+ 355      00
+ 356 02d1 BF500000 		movl	$80, %edi
+ 356      00
+ 357 02d6 4889D5   		movq	%rdx, %rbp
+ 358 02d9 4883EC28 		subq	$40, %rsp
+ 359              		.cfi_def_cfa_offset 80
+ 360 02dd 64488B04 		movq	%fs:40, %rax
+ 360      25280000 
+ 360      00
+ 361 02e6 48894424 		movq	%rax, 24(%rsp)
+ 361      18
+ 362 02eb 31C0     		xorl	%eax, %eax
+ 363 02ed E8000000 		call	calloc@PLT
+ 363      00
+ 364 02f2 4885C0   		testq	%rax, %rax
+ 365 02f5 0F846501 		je	.L66
+ 365      0000
+ 366 02fb 31C9     		xorl	%ecx, %ecx
+ 367 02fd 31D2     		xorl	%edx, %edx
+ 368 02ff 4989E9   		movq	%rbp, %r9
+ 369 0302 4989C0   		movq	%rax, %r8
+ 370 0305 BE010000 		movl	$1, %esi
+ 370      00
+ 371 030a 4C89E7   		movq	%r12, %rdi
+ 372 030d 4889C3   		movq	%rax, %rbx
+ 373 0310 E8000000 		call	usbOpenDevice@PLT
+ 373      00
+ 374 0315 85C0     		testl	%eax, %eax
+ 375 0317 7457     		je	.L48
+ 376 0319 488D3500 		leaq	.LC7(%rip), %rsi
+ 376      000000
+ 377 0320 4889EF   		movq	%rbp, %rdi
+ 378 0323 BD020000 		movl	$2, %ebp
+ 378      00
+ 379 0328 E8000000 		call	errPrefix@PLT
+ 379      00
+ 380              	.L49:
+ 381 032d 488B3B   		movq	(%rbx), %rdi
+ 382 0330 4885FF   		testq	%rdi, %rdi
+ 383 0333 7407     		je	.L59
+ 384 0335 31F6     		xorl	%esi, %esi
+ 385 0337 E8000000 		call	usbCloseDevice@PLT
+ 385      00
+ 386              	.L59:
+ 387 033c 4889DF   		movq	%rbx, %rdi
+ 388 033f E8000000 		call	free@PLT
+ 388      00
+ 389              	.L47:
+ 390 0344 49C74500 		movq	$0, 0(%r13)
+ 390      00000000 
+ 391 034c 89E8     		movl	%ebp, %eax
+ 392              	.L55:
+ 393 034e 488B4C24 		movq	24(%rsp), %rcx
+ 393      18
+ 394 0353 6448330C 		xorq	%fs:40, %rcx
+ 394      25280000 
+ 394      00
+ 395 035c 0F855201 		jne	.L67
+ 395      0000
+ 396 0362 4883C428 		addq	$40, %rsp
+ 397              		.cfi_remember_state
+ 398              		.cfi_def_cfa_offset 40
+ 399 0366 5B       		popq	%rbx
+ 400              		.cfi_def_cfa_offset 32
+ 401 0367 5D       		popq	%rbp
+ 402              		.cfi_def_cfa_offset 24
+ 403 0368 415C     		popq	%r12
+ 404              		.cfi_def_cfa_offset 16
+ 405 036a 415D     		popq	%r13
+ 406              		.cfi_def_cfa_offset 8
+ 407 036c C3       		ret
+ 408 036d 0F1F00   		.p2align 4,,10
+ 409              		.p2align 3
+ 410              	.L48:
+ 411              		.cfi_restore_state
+ 412 0370 55       		pushq	%rbp
+ 413              		.cfi_def_cfa_offset 88
+ 414 0371 68E80300 		pushq	$1000
+ 414      00
+ 415              		.cfi_def_cfa_offset 96
+ 416 0376 31C9     		xorl	%ecx, %ecx
+ 417 0378 488B3B   		movq	(%rbx), %rdi
+ 418 037b 31D2     		xorl	%edx, %edx
+ 419 037d 41B91000 		movl	$16, %r9d
+ 419      0000
+ 420 0383 4C8D4424 		leaq	16(%rsp), %r8
+ 420      10
+ 421 0388 BE800000 		movl	$128, %esi
+ 421      00
+ 422 038d E8000000 		call	usbControlRead@PLT
+ 422      00
+ 423 0392 85C0     		testl	%eax, %eax
+ 424 0394 5A       		popq	%rdx
+ 425              		.cfi_def_cfa_offset 88
+ 426 0395 59       		popq	%rcx
+ 427              		.cfi_def_cfa_offset 80
+ 428 0396 0F859400 		jne	.L68
+ 428      0000
+ 429 039c 803C244E 		cmpb	$78, (%rsp)
+ 430 03a0 741E     		je	.L69
+ 431              	.L51:
+ 432 03a2 488D3500 		leaq	.LC9(%rip), %rsi
+ 432      000000
+ 433 03a9 4889EF   		movq	%rbp, %rdi
+ 434 03ac 4C89E2   		movq	%r12, %rdx
+ 435 03af 31C0     		xorl	%eax, %eax
+ 436 03b1 BD030000 		movl	$3, %ebp
+ 436      00
+ 437 03b6 E8000000 		call	errRender@PLT
+ 437      00
+ 438 03bb E96DFFFF 		jmp	.L49
+ 438      FF
+ 439              		.p2align 4,,10
+ 440              		.p2align 3
+ 441              	.L69:
+ 442 03c0 807C2401 		cmpb	$69, 1(%rsp)
+ 442      45
+ 443 03c5 75DB     		jne	.L51
+ 444 03c7 807C2402 		cmpb	$77, 2(%rsp)
+ 444      4D
+ 445 03cc 75D4     		jne	.L51
+ 446 03ce 807C2403 		cmpb	$73, 3(%rsp)
+ 446      49
+ 447 03d3 75CD     		jne	.L51
+ 448 03d5 0FB64424 		movzbl	6(%rsp), %eax
+ 448      06
+ 449 03da 0FB65424 		movzbl	7(%rsp), %edx
+ 449      07
+ 450 03df 84C0     		testb	%al, %al
+ 451 03e1 0F859200 		jne	.L53
+ 451      0000
+ 452 03e7 84D2     		testb	%dl, %dl
+ 453 03e9 0F84A900 		je	.L70
+ 453      0000
+ 454              	.L54:
+ 455 03ef 89D0     		movl	%edx, %eax
+ 456 03f1 83E20F   		andl	$15, %edx
+ 457 03f4 C6430801 		movb	$1, 8(%rbx)
+ 458 03f8 C0E804   		shrb	$4, %al
+ 459 03fb 88530A   		movb	%dl, 10(%rbx)
+ 460 03fe 884309   		movb	%al, 9(%rbx)
+ 461              	.L57:
+ 462 0401 0FB64424 		movzbl	8(%rsp), %eax
+ 462      08
+ 463 0406 0FB65424 		movzbl	9(%rsp), %edx
+ 463      09
+ 464 040b C7434800 		movl	$65536, 72(%rbx)
+ 464      000100
+ 465 0412 49895D00 		movq	%rbx, 0(%r13)
+ 466 0416 C1E008   		sall	$8, %eax
+ 467 0419 09D0     		orl	%edx, %eax
+ 468 041b 6689430C 		movw	%ax, 12(%rbx)
+ 469 041f 8B44240A 		movl	10(%rsp), %eax
+ 470 0423 0FC8     		bswap	%eax
+ 471 0425 894310   		movl	%eax, 16(%rbx)
+ 472 0428 31C0     		xorl	%eax, %eax
+ 473 042a E91FFFFF 		jmp	.L55
+ 473      FF
+ 474 042f 90       		.p2align 4,,10
+ 475              		.p2align 3
+ 476              	.L68:
+ 477 0430 488D3500 		leaq	.LC8(%rip), %rsi
+ 477      000000
+ 478 0437 4889EF   		movq	%rbp, %rdi
+ 479 043a E8000000 		call	errPrefix@PLT
+ 479      00
+ 480 043f 488D3500 		leaq	.LC7(%rip), %rsi
+ 480      000000
+ 481 0446 4889EF   		movq	%rbp, %rdi
+ 482 0449 BD030000 		movl	$3, %ebp
+ 482      00
+ 483 044e E8000000 		call	errPrefix@PLT
+ 483      00
+ 484 0453 E9D5FEFF 		jmp	.L49
+ 484      FF
+ 485 0458 0F1F8400 		.p2align 4,,10
+ 485      00000000 
+ 486              		.p2align 3
+ 487              	.L66:
+ 488 0460 488D3500 		leaq	.LC7(%rip), %rsi
+ 488      000000
+ 489 0467 4889EF   		movq	%rbp, %rdi
+ 490 046a BD010000 		movl	$1, %ebp
+ 490      00
+ 491 046f E8000000 		call	errPrefix@PLT
+ 491      00
+ 492 0474 E9CBFEFF 		jmp	.L47
+ 492      FF
+ 493              	.L53:
+ 494 0479 89C1     		movl	%eax, %ecx
+ 495 047b 83E00F   		andl	$15, %eax
+ 496 047e C6431401 		movb	$1, 20(%rbx)
+ 497 0482 C0E904   		shrb	$4, %cl
+ 498 0485 84D2     		testb	%dl, %dl
+ 499 0487 884316   		movb	%al, 22(%rbx)
+ 500 048a 884B15   		movb	%cl, 21(%rbx)
+ 501 048d 0F846EFF 		je	.L57
+ 501      FFFF
+ 502 0493 E957FFFF 		jmp	.L54
+ 502      FF
+ 503              	.L70:
+ 504 0498 488D3500 		leaq	.LC10(%rip), %rsi
+ 504      000000
+ 505 049f 4889EF   		movq	%rbp, %rdi
+ 506 04a2 4C89E2   		movq	%r12, %rdx
+ 507 04a5 BD030000 		movl	$3, %ebp
+ 507      00
+ 508 04aa E8000000 		call	errRender@PLT
+ 508      00
+ 509 04af E979FEFF 		jmp	.L49
+ 509      FF
+ 510              	.L67:
+ 511 04b4 E8000000 		call	__stack_chk_fail@PLT
+ 511      00
+ 512              		.cfi_endproc
+ 513              	.LFE50:
+ 515              		.section	.text.unlikely
+ 516              	.LCOLDE11:
+ 517              		.text
+ 518              	.LHOTE11:
+ 519              		.section	.text.unlikely
+ 520              	.LCOLDB12:
+ 521              		.text
+ 522              	.LHOTB12:
+ 523 04b9 0F1F8000 		.p2align 4,,15
+ 523      000000
+ 524              		.globl	flIsNeroCapable
+ 526              	flIsNeroCapable:
+ 527              	.LFB52:
+ 528              		.cfi_startproc
+ 529 04c0 0FB64714 		movzbl	20(%rdi), %eax
+ 530 04c4 C3       		ret
+ 531              		.cfi_endproc
+ 532              	.LFE52:
+ 534              		.section	.text.unlikely
+ 535              	.LCOLDE12:
+ 536              		.text
+ 537              	.LHOTE12:
+ 538              		.section	.text.unlikely
+ 539              	.LCOLDB13:
+ 540              		.text
+ 541              	.LHOTB13:
+ 542 04c5 90662E0F 		.p2align 4,,15
+ 542      1F840000 
+ 542      000000
+ 543              		.globl	flIsCommCapable
+ 545              	flIsCommCapable:
+ 546              	.LFB53:
+ 547              		.cfi_startproc
+ 548 04d0 0FB64708 		movzbl	8(%rdi), %eax
+ 549 04d4 C3       		ret
+ 550              		.cfi_endproc
+ 551              	.LFE53:
+ 553              		.section	.text.unlikely
+ 554              	.LCOLDE13:
+ 555              		.text
+ 556              	.LHOTE13:
+ 557              		.section	.text.unlikely
+ 558              	.LCOLDB14:
+ 559              		.text
+ 560              	.LHOTB14:
+ 561 04d5 90662E0F 		.p2align 4,,15
+ 561      1F840000 
+ 561      000000
+ 562              		.globl	flGetFirmwareID
+ 564              	flGetFirmwareID:
+ 565              	.LFB54:
+ 566              		.cfi_startproc
+ 567 04e0 0FB7470C 		movzwl	12(%rdi), %eax
+ 568 04e4 C3       		ret
+ 569              		.cfi_endproc
+ 570              	.LFE54:
+ 572              		.section	.text.unlikely
+ 573              	.LCOLDE14:
+ 574              		.text
+ 575              	.LHOTE14:
+ 576              		.section	.text.unlikely
+ 577              	.LCOLDB15:
+ 578              		.text
+ 579              	.LHOTB15:
+ 580 04e5 90662E0F 		.p2align 4,,15
+ 580      1F840000 
+ 580      000000
+ 581              		.globl	flGetFirmwareVersion
+ 583              	flGetFirmwareVersion:
+ 584              	.LFB55:
+ 585              		.cfi_startproc
+ 586 04f0 8B4710   		movl	16(%rdi), %eax
+ 587 04f3 C3       		ret
+ 588              		.cfi_endproc
+ 589              	.LFE55:
+ 591              		.section	.text.unlikely
+ 592              	.LCOLDE15:
+ 593              		.text
+ 594              	.LHOTE15:
+ 595              		.section	.rodata.str1.1
+ 596              	.LC16:
+ 597 0049 666C5365 		.string	"flSelectConduit()"
+ 597      6C656374 
+ 597      436F6E64 
+ 597      75697428 
+ 597      2900
+ 598              		.section	.text.unlikely
+ 599              	.LCOLDB17:
+ 600              		.text
+ 601              	.LHOTB17:
+ 602 04f4 6690662E 		.p2align 4,,15
+ 602      0F1F8400 
+ 602      00000000 
+ 603              		.globl	flSelectConduit
+ 605              	flSelectConduit:
+ 606              	.LFB56:
+ 607              		.cfi_startproc
+ 608 0500 53       		pushq	%rbx
+ 609              		.cfi_def_cfa_offset 16
+ 610              		.cfi_offset 3, -16
+ 611 0501 52       		pushq	%rdx
+ 612              		.cfi_def_cfa_offset 24
+ 613 0502 400FB6CE 		movzbl	%sil, %ecx
+ 614 0506 488B3F   		movq	(%rdi), %rdi
+ 615 0509 68E80300 		pushq	$1000
+ 615      00
+ 616              		.cfi_def_cfa_offset 32
+ 617 050e 4531C9   		xorl	%r9d, %r9d
+ 618 0511 4531C0   		xorl	%r8d, %r8d
+ 619 0514 4889D3   		movq	%rdx, %rbx
+ 620 0517 BE800000 		movl	$128, %esi
+ 620      00
+ 621 051c 31D2     		xorl	%edx, %edx
+ 622 051e E8000000 		call	usbControlWrite@PLT
+ 622      00
+ 623 0523 5A       		popq	%rdx
+ 624              		.cfi_def_cfa_offset 24
+ 625 0524 31D2     		xorl	%edx, %edx
+ 626 0526 85C0     		testl	%eax, %eax
+ 627 0528 59       		popq	%rcx
+ 628              		.cfi_def_cfa_offset 16
+ 629 0529 7414     		je	.L76
+ 630 052b 488D3500 		leaq	.LC16(%rip), %rsi
+ 630      000000
+ 631 0532 4889DF   		movq	%rbx, %rdi
+ 632 0535 E8000000 		call	errPrefix@PLT
+ 632      00
+ 633 053a BA020000 		movl	$2, %edx
+ 633      00
+ 634              	.L76:
+ 635 053f 89D0     		movl	%edx, %eax
+ 636 0541 5B       		popq	%rbx
+ 637              		.cfi_def_cfa_offset 8
+ 638 0542 C3       		ret
+ 639              		.cfi_endproc
+ 640              	.LFE56:
+ 642              		.section	.text.unlikely
+ 643              	.LCOLDE17:
+ 644              		.text
+ 645              	.LHOTE17:
+ 646              		.section	.rodata.str1.8
+ 647 0066 0000     		.align 8
+ 648              	.LC18:
+ 649 0068 666C4973 		.string	"flIsFPGARunning(): This device does not support CommFPGA"
+ 649      46504741 
+ 649      52756E6E 
+ 649      696E6728 
+ 649      293A2054 
+ 650              		.section	.rodata.str1.1
+ 651              	.LC19:
+ 652 005b 666C4973 		.string	"flIsFPGARunning()"
+ 652      46504741 
+ 652      52756E6E 
+ 652      696E6728 
+ 652      2900
+ 653              		.section	.text.unlikely
+ 654              	.LCOLDB20:
+ 655              		.text
+ 656              	.LHOTB20:
+ 657 0543 0F1F0066 		.p2align 4,,15
+ 657      2E0F1F84 
+ 657      00000000 
+ 657      00
+ 658              		.globl	flIsFPGARunning
+ 660              	flIsFPGARunning:
+ 661              	.LFB57:
+ 662              		.cfi_startproc
+ 663 0550 55       		pushq	%rbp
+ 664              		.cfi_def_cfa_offset 16
+ 665              		.cfi_offset 6, -16
+ 666 0551 53       		pushq	%rbx
+ 667              		.cfi_def_cfa_offset 24
+ 668              		.cfi_offset 3, -24
+ 669 0552 4889D3   		movq	%rdx, %rbx
+ 670 0555 4883EC28 		subq	$40, %rsp
+ 671              		.cfi_def_cfa_offset 64
+ 672 0559 64488B04 		movq	%fs:40, %rax
+ 672      25280000 
+ 672      00
+ 673 0562 48894424 		movq	%rax, 24(%rsp)
+ 673      18
+ 674 0567 31C0     		xorl	%eax, %eax
+ 675 0569 807F0800 		cmpb	$0, 8(%rdi)
+ 676 056d 7531     		jne	.L82
+ 677 056f 488D3500 		leaq	.LC18(%rip), %rsi
+ 677      000000
+ 678 0576 4889D7   		movq	%rdx, %rdi
+ 679 0579 E8000000 		call	errPrefix@PLT
+ 679      00
+ 680 057e B8030000 		movl	$3, %eax
+ 680      00
+ 681              	.L83:
+ 682 0583 488B4C24 		movq	24(%rsp), %rcx
+ 682      18
+ 683 0588 6448330C 		xorq	%fs:40, %rcx
+ 683      25280000 
+ 683      00
+ 684 0591 7575     		jne	.L89
+ 685 0593 4883C428 		addq	$40, %rsp
+ 686              		.cfi_remember_state
+ 687              		.cfi_def_cfa_offset 24
+ 688 0597 5B       		popq	%rbx
+ 689              		.cfi_def_cfa_offset 16
+ 690 0598 5D       		popq	%rbp
+ 691              		.cfi_def_cfa_offset 8
+ 692 0599 C3       		ret
+ 693 059a 660F1F44 		.p2align 4,,10
+ 693      0000
+ 694              		.p2align 3
+ 695              	.L82:
+ 696              		.cfi_restore_state
+ 697 05a0 52       		pushq	%rdx
+ 698              		.cfi_def_cfa_offset 72
+ 699 05a1 68E80300 		pushq	$1000
+ 699      00
+ 700              		.cfi_def_cfa_offset 80
+ 701 05a6 31C9     		xorl	%ecx, %ecx
+ 702 05a8 488B3F   		movq	(%rdi), %rdi
+ 703 05ab 31D2     		xorl	%edx, %edx
+ 704 05ad 4889F5   		movq	%rsi, %rbp
+ 705 05b0 4C8D4424 		leaq	16(%rsp), %r8
+ 705      10
+ 706 05b5 41B91000 		movl	$16, %r9d
+ 706      0000
+ 707 05bb BE800000 		movl	$128, %esi
+ 707      00
+ 708 05c0 E8000000 		call	usbControlRead@PLT
+ 708      00
+ 709 05c5 85C0     		testl	%eax, %eax
+ 710 05c7 5A       		popq	%rdx
+ 711              		.cfi_def_cfa_offset 72
+ 712 05c8 59       		popq	%rcx
+ 713              		.cfi_def_cfa_offset 64
+ 714 05c9 7515     		jne	.L90
+ 715 05cb 0FB64424 		movzbl	5(%rsp), %eax
+ 715      05
+ 716 05d0 83E001   		andl	$1, %eax
+ 717 05d3 884500   		movb	%al, 0(%rbp)
+ 718 05d6 31C0     		xorl	%eax, %eax
+ 719 05d8 EBA9     		jmp	.L83
+ 720 05da 660F1F44 		.p2align 4,,10
+ 720      0000
+ 721              		.p2align 3
+ 722              	.L90:
+ 723 05e0 488D3500 		leaq	.LC8(%rip), %rsi
+ 723      000000
+ 724 05e7 4889DF   		movq	%rbx, %rdi
+ 725 05ea E8000000 		call	errPrefix@PLT
+ 725      00
+ 726 05ef 488D3500 		leaq	.LC19(%rip), %rsi
+ 726      000000
+ 727 05f6 4889DF   		movq	%rbx, %rdi
+ 728 05f9 E8000000 		call	errPrefix@PLT
+ 728      00
+ 729 05fe B8030000 		movl	$3, %eax
+ 729      00
+ 730 0603 E97BFFFF 		jmp	.L83
+ 730      FF
+ 731              	.L89:
+ 732 0608 E8000000 		call	__stack_chk_fail@PLT
+ 732      00
+ 733              		.cfi_endproc
+ 734              	.LFE57:
+ 736              		.section	.text.unlikely
+ 737              	.LCOLDE20:
+ 738              		.text
+ 739              	.LHOTE20:
+ 740              		.section	.rodata.str1.8
+ 741 00a1 00000000 		.align 8
+ 741      000000
+ 742              	.LC21:
+ 743 00a8 666C5365 		.string	"flSetAsyncWriteChunkSize(): cannot change chunk size when there's some data pending"
+ 743      74417379 
+ 743      6E635772 
+ 743      69746543 
+ 743      68756E6B 
+ 744              		.section	.text.unlikely
+ 745              	.LCOLDB22:
+ 746              		.text
+ 747              	.LHOTB22:
+ 748 060d 0F1F00   		.p2align 4,,15
+ 749              		.globl	flSetAsyncWriteChunkSize
+ 751              	flSetAsyncWriteChunkSize:
+ 752              	.LFB59:
+ 753              		.cfi_startproc
+ 754 0610 48837F40 		cmpq	$0, 64(%rdi)
+ 754      00
+ 755 0615 7421     		je	.L92
+ 756              	.L93:
+ 757 0617 488D3500 		leaq	.LC21(%rip), %rsi
+ 757      000000
+ 758 061e 4883EC08 		subq	$8, %rsp
+ 759              		.cfi_def_cfa_offset 16
+ 760 0622 4889D7   		movq	%rdx, %rdi
+ 761 0625 E8000000 		call	errPrefix@PLT
+ 761      00
+ 762 062a B8160000 		movl	$22, %eax
+ 762      00
+ 763 062f 4883C408 		addq	$8, %rsp
+ 764              		.cfi_def_cfa_offset 8
+ 765 0633 C3       		ret
+ 766              		.p2align 4,,10
+ 767 0634 0F1F4000 		.p2align 3
+ 768              	.L92:
+ 769 0638 6685F6   		testw	%si, %si
+ 770 063b 7513     		jne	.L97
+ 771 063d C7474800 		movl	$65536, 72(%rdi)
+ 771      000100
+ 772 0644 31C0     		xorl	%eax, %eax
+ 773 0646 C3       		ret
+ 774 0647 660F1F84 		.p2align 4,,10
+ 774      00000000 
+ 774      00
+ 775              		.p2align 3
+ 776              	.L97:
+ 777 0650 0FB7F6   		movzwl	%si, %esi
+ 778 0653 31C0     		xorl	%eax, %eax
+ 779 0655 897748   		movl	%esi, 72(%rdi)
+ 780 0658 C3       		ret
+ 781              		.cfi_endproc
+ 782              	.LFE59:
+ 784              		.section	.text.unlikely
+ 785              	.LCOLDE22:
+ 786              		.text
+ 787              	.LHOTE22:
+ 788              		.section	.rodata.str1.8
+ 789 00fc 00000000 		.align 8
+ 790              	.LC23:
+ 791 0100 666C466C 		.string	"flFlushAsyncWrites(): This device does not support CommFPGA"
+ 791      75736841 
+ 791      73796E63 
+ 791      57726974 
+ 791      65732829 
+ 792              		.section	.rodata.str1.1
+ 793              	.LC24:
+ 794 006d 666C466C 		.string	"flFlushAsyncWrites()"
+ 794      75736841 
+ 794      73796E63 
+ 794      57726974 
+ 794      65732829 
+ 795              		.section	.text.unlikely
+ 796              	.LCOLDB25:
+ 797              		.text
+ 798              	.LHOTB25:
+ 799 0659 0F1F8000 		.p2align 4,,15
+ 799      000000
+ 800              		.globl	flFlushAsyncWrites
+ 802              	flFlushAsyncWrites:
+ 803              	.LFB60:
+ 804              		.cfi_startproc
+ 805 0660 488B5740 		movq	64(%rdi), %rdx
+ 806 0664 4885D2   		testq	%rdx, %rdx
+ 807 0667 743F     		je	.L103
+ 808 0669 488B4738 		movq	56(%rdi), %rax
+ 809 066d 4885C0   		testq	%rax, %rax
+ 810 0670 7436     		je	.L103
+ 811 0672 4839C2   		cmpq	%rax, %rdx
+ 812 0675 7631     		jbe	.L103
+ 813 0677 55       		pushq	%rbp
+ 814              		.cfi_def_cfa_offset 16
+ 815              		.cfi_offset 6, -16
+ 816 0678 53       		pushq	%rbx
+ 817              		.cfi_def_cfa_offset 24
+ 818              		.cfi_offset 3, -24
+ 819 0679 4889F5   		movq	%rsi, %rbp
+ 820 067c 4889FB   		movq	%rdi, %rbx
+ 821 067f 4883EC08 		subq	$8, %rsp
+ 822              		.cfi_def_cfa_offset 32
+ 823 0683 807F0800 		cmpb	$0, 8(%rdi)
+ 824 0687 7527     		jne	.L100
+ 825 0689 488D3500 		leaq	.LC23(%rip), %rsi
+ 825      000000
+ 826 0690 4889EF   		movq	%rbp, %rdi
+ 827 0693 E8000000 		call	errPrefix@PLT
+ 827      00
+ 828 0698 B8030000 		movl	$3, %eax
+ 828      00
+ 829              	.L99:
+ 830 069d 4883C408 		addq	$8, %rsp
+ 831              		.cfi_def_cfa_offset 24
+ 832 06a1 5B       		popq	%rbx
+ 833              		.cfi_restore 3
+ 834              		.cfi_def_cfa_offset 16
+ 835 06a2 5D       		popq	%rbp
+ 836              		.cfi_restore 6
+ 837              		.cfi_def_cfa_offset 8
+ 838 06a3 C3       		ret
+ 839              		.p2align 4,,10
+ 840 06a4 0F1F4000 		.p2align 3
+ 841              	.L103:
+ 842 06a8 31C0     		xorl	%eax, %eax
+ 843 06aa C3       		ret
+ 844 06ab 0F1F4400 		.p2align 4,,10
+ 844      00
+ 845              		.p2align 3
+ 846              	.L100:
+ 847              		.cfi_def_cfa_offset 32
+ 848              		.cfi_offset 3, -24
+ 849              		.cfi_offset 6, -16
+ 850 06b0 0FB67709 		movzbl	9(%rdi), %esi
+ 851 06b4 488B3F   		movq	(%rdi), %rdi
+ 852 06b7 4829C2   		subq	%rax, %rdx
+ 853 06ba 4531C0   		xorl	%r8d, %r8d
+ 854 06bd B9FFFFFF 		movl	$-1, %ecx
+ 854      FF
+ 855 06c2 E8000000 		call	usbBulkWriteAsyncSubmit@PLT
+ 855      00
+ 856 06c7 85C0     		testl	%eax, %eax
+ 857 06c9 7515     		jne	.L112
+ 858 06cb 48C74338 		movq	$0, 56(%rbx)
+ 858      00000000 
+ 859 06d3 48C74340 		movq	$0, 64(%rbx)
+ 859      00000000 
+ 860 06db 31C0     		xorl	%eax, %eax
+ 861 06dd EBBE     		jmp	.L99
+ 862 06df 90       		.p2align 4,,10
+ 863              		.p2align 3
+ 864              	.L112:
+ 865 06e0 488D3500 		leaq	.LC24(%rip), %rsi
+ 865      000000
+ 866 06e7 4889EF   		movq	%rbp, %rdi
+ 867 06ea E8000000 		call	errPrefix@PLT
+ 867      00
+ 868 06ef B8020000 		movl	$2, %eax
+ 868      00
+ 869 06f4 EBA7     		jmp	.L99
+ 870              		.cfi_endproc
+ 871              	.LFE60:
+ 873              		.section	.text.unlikely
+ 874              	.LCOLDE25:
+ 875              		.text
+ 876              	.LHOTE25:
+ 877              		.section	.text.unlikely
+ 878              	.LCOLDB26:
+ 879              		.text
+ 880              	.LHOTB26:
+ 881 06f6 662E0F1F 		.p2align 4,,15
+ 881      84000000 
+ 881      0000
+ 882              		.globl	flClose
+ 884              	flClose:
+ 885              	.LFB51:
+ 886              		.cfi_startproc
+ 887 0700 4154     		pushq	%r12
+ 888              		.cfi_def_cfa_offset 16
+ 889              		.cfi_offset 12, -16
+ 890 0702 55       		pushq	%rbp
+ 891              		.cfi_def_cfa_offset 24
+ 892              		.cfi_offset 6, -24
+ 893 0703 53       		pushq	%rbx
+ 894              		.cfi_def_cfa_offset 32
+ 895              		.cfi_offset 3, -32
+ 896 0704 4883EC20 		subq	$32, %rsp
+ 897              		.cfi_def_cfa_offset 64
+ 898 0708 64488B04 		movq	%fs:40, %rax
+ 898      25280000 
+ 898      00
+ 899 0711 48894424 		movq	%rax, 24(%rsp)
+ 899      18
+ 900 0716 31C0     		xorl	%eax, %eax
+ 901 0718 4885FF   		testq	%rdi, %rdi
+ 902 071b 7463     		je	.L113
+ 903 071d 31F6     		xorl	%esi, %esi
+ 904 071f 4889FD   		movq	%rdi, %rbp
+ 905 0722 4989E4   		movq	%rsp, %r12
+ 906 0725 E8000000 		call	flFlushAsyncWrites@PLT
+ 906      00
+ 907 072a 488B7D00 		movq	0(%rbp), %rdi
+ 908 072e E8000000 		call	usbNumOutstandingRequests@PLT
+ 908      00
+ 909 0733 4885C0   		testq	%rax, %rax
+ 910 0736 4889C3   		movq	%rax, %rbx
+ 911 0739 7419     		je	.L118
+ 912 073b 0F1F4400 		.p2align 4,,10
+ 912      00
+ 913              		.p2align 3
+ 914              	.L120:
+ 915 0740 488B7D00 		movq	0(%rbp), %rdi
+ 916 0744 31D2     		xorl	%edx, %edx
+ 917 0746 4C89E6   		movq	%r12, %rsi
+ 918 0749 E8000000 		call	usbBulkAwaitCompletion@PLT
+ 918      00
+ 919 074e 4883EB01 		subq	$1, %rbx
+ 920 0752 75EC     		jne	.L120
+ 921              	.L118:
+ 922 0754 488B7D00 		movq	0(%rbp), %rdi
+ 923 0758 31F6     		xorl	%esi, %esi
+ 924 075a E8000000 		call	usbCloseDevice@PLT
+ 924      00
+ 925 075f 488B4424 		movq	24(%rsp), %rax
+ 925      18
+ 926 0764 64483304 		xorq	%fs:40, %rax
+ 926      25280000 
+ 926      00
+ 927 076d 752A     		jne	.L123
+ 928 076f 4883C420 		addq	$32, %rsp
+ 929              		.cfi_remember_state
+ 930              		.cfi_def_cfa_offset 32
+ 931 0773 4889EF   		movq	%rbp, %rdi
+ 932 0776 5B       		popq	%rbx
+ 933              		.cfi_def_cfa_offset 24
+ 934 0777 5D       		popq	%rbp
+ 935              		.cfi_def_cfa_offset 16
+ 936 0778 415C     		popq	%r12
+ 937              		.cfi_def_cfa_offset 8
+ 938 077a E9000000 		jmp	free@PLT
+ 938      00
+ 939 077f 90       		.p2align 4,,10
+ 940              		.p2align 3
+ 941              	.L113:
+ 942              		.cfi_restore_state
+ 943 0780 488B4424 		movq	24(%rsp), %rax
+ 943      18
+ 944 0785 64483304 		xorq	%fs:40, %rax
+ 944      25280000 
+ 944      00
+ 945 078e 7509     		jne	.L123
+ 946 0790 4883C420 		addq	$32, %rsp
+ 947              		.cfi_remember_state
+ 948              		.cfi_def_cfa_offset 32
+ 949 0794 5B       		popq	%rbx
+ 950              		.cfi_def_cfa_offset 24
+ 951 0795 5D       		popq	%rbp
+ 952              		.cfi_def_cfa_offset 16
+ 953 0796 415C     		popq	%r12
+ 954              		.cfi_def_cfa_offset 8
+ 955 0798 C3       		ret
+ 956              	.L123:
+ 957              		.cfi_restore_state
+ 958 0799 E8000000 		call	__stack_chk_fail@PLT
+ 958      00
+ 959              		.cfi_endproc
+ 960              	.LFE51:
+ 962              		.section	.text.unlikely
+ 963              	.LCOLDE26:
+ 964              		.text
+ 965              	.LHOTE26:
+ 966              		.section	.rodata.str1.1
+ 967              	.LC27:
+ 968 0082 666C4177 		.string	"flAwaitAsyncWrites()"
+ 968      61697441 
+ 968      73796E63 
+ 968      57726974 
+ 968      65732829 
+ 969              		.section	.rodata.str1.8
+ 970 013c 00000000 		.align 8
+ 971              	.LC28:
+ 972 0140 666C4177 		.string	"flAwaitAsyncWrites(): An asynchronous read is in flight"
+ 972      61697441 
+ 972      73796E63 
+ 972      57726974 
+ 972      65732829 
+ 973              		.section	.text.unlikely
+ 974              	.LCOLDB29:
+ 975              		.text
+ 976              	.LHOTB29:
+ 977 079e 6690     		.p2align 4,,15
+ 978              		.globl	flAwaitAsyncWrites
+ 980              	flAwaitAsyncWrites:
+ 981              	.LFB61:
+ 982              		.cfi_startproc
+ 983 07a0 4156     		pushq	%r14
+ 984              		.cfi_def_cfa_offset 16
+ 985              		.cfi_offset 14, -16
+ 986 07a2 4155     		pushq	%r13
+ 987              		.cfi_def_cfa_offset 24
+ 988              		.cfi_offset 13, -24
+ 989 07a4 4154     		pushq	%r12
+ 990              		.cfi_def_cfa_offset 32
+ 991              		.cfi_offset 12, -32
+ 992 07a6 55       		pushq	%rbp
+ 993              		.cfi_def_cfa_offset 40
+ 994              		.cfi_offset 6, -40
+ 995 07a7 4989F4   		movq	%rsi, %r12
+ 996 07aa 53       		pushq	%rbx
+ 997              		.cfi_def_cfa_offset 48
+ 998              		.cfi_offset 3, -48
+ 999 07ab 4889FD   		movq	%rdi, %rbp
+ 1000 07ae E8000000 		call	flFlushAsyncWrites@PLT
+ 1000      00
+ 1001 07b3 85C0     		testl	%eax, %eax
+ 1002 07b5 4189C6   		movl	%eax, %r14d
+ 1003 07b8 7566     		jne	.L141
+ 1004 07ba 488B7D00 		movq	0(%rbp), %rdi
+ 1005 07be E8000000 		call	usbNumOutstandingRequests@PLT
+ 1005      00
+ 1006 07c3 4885C0   		testq	%rax, %rax
+ 1007 07c6 4889C3   		movq	%rax, %rbx
+ 1008 07c9 7449     		je	.L134
+ 1009 07cb F6453001 		testb	$1, 48(%rbp)
+ 1010 07cf 756F     		jne	.L128
+ 1011 07d1 4C8D6D20 		leaq	32(%rbp), %r13
+ 1012 07d5 EB15     		jmp	.L130
+ 1013 07d7 660F1F84 		.p2align 4,,10
+ 1013      00000000 
+ 1013      00
+ 1014              		.p2align 3
+ 1015              	.L129:
+ 1016 07e0 4883EB01 		subq	$1, %rbx
+ 1017 07e4 742E     		je	.L134
+ 1018 07e6 F6453001 		testb	$1, 48(%rbp)
+ 1019 07ea 7554     		jne	.L128
+ 1020              	.L130:
+ 1021 07ec 488B7D00 		movq	0(%rbp), %rdi
+ 1022 07f0 4C89E2   		movq	%r12, %rdx
+ 1023 07f3 4C89EE   		movq	%r13, %rsi
+ 1024 07f6 E8000000 		call	usbBulkAwaitCompletion@PLT
+ 1024      00
+ 1025 07fb 85C0     		testl	%eax, %eax
+ 1026 07fd 74E1     		je	.L129
+ 1027 07ff 488D3500 		leaq	.LC27(%rip), %rsi
+ 1027      000000
+ 1028 0806 4C89E7   		movq	%r12, %rdi
+ 1029 0809 41BE0200 		movl	$2, %r14d
+ 1029      0000
+ 1030 080f E8000000 		call	errPrefix@PLT
+ 1030      00
+ 1031              	.L134:
+ 1032 0814 5B       		popq	%rbx
+ 1033              		.cfi_remember_state
+ 1034              		.cfi_def_cfa_offset 40
+ 1035 0815 4489F0   		movl	%r14d, %eax
+ 1036 0818 5D       		popq	%rbp
+ 1037              		.cfi_def_cfa_offset 32
+ 1038 0819 415C     		popq	%r12
+ 1039              		.cfi_def_cfa_offset 24
+ 1040 081b 415D     		popq	%r13
+ 1041              		.cfi_def_cfa_offset 16
+ 1042 081d 415E     		popq	%r14
+ 1043              		.cfi_def_cfa_offset 8
+ 1044 081f C3       		ret
+ 1045              		.p2align 4,,10
+ 1046              		.p2align 3
+ 1047              	.L141:
+ 1048              		.cfi_restore_state
+ 1049 0820 488D3500 		leaq	.LC27(%rip), %rsi
+ 1049      000000
+ 1050 0827 4C89E7   		movq	%r12, %rdi
+ 1051 082a E8000000 		call	errPrefix@PLT
+ 1051      00
+ 1052 082f 5B       		popq	%rbx
+ 1053              		.cfi_remember_state
+ 1054              		.cfi_def_cfa_offset 40
+ 1055 0830 4489F0   		movl	%r14d, %eax
+ 1056 0833 5D       		popq	%rbp
+ 1057              		.cfi_def_cfa_offset 32
+ 1058 0834 415C     		popq	%r12
+ 1059              		.cfi_def_cfa_offset 24
+ 1060 0836 415D     		popq	%r13
+ 1061              		.cfi_def_cfa_offset 16
+ 1062 0838 415E     		popq	%r14
+ 1063              		.cfi_def_cfa_offset 8
+ 1064 083a C3       		ret
+ 1065 083b 0F1F4400 		.p2align 4,,10
+ 1065      00
+ 1066              		.p2align 3
+ 1067              	.L128:
+ 1068              		.cfi_restore_state
+ 1069              	.L126:
+ 1070 0840 488D3500 		leaq	.LC28(%rip), %rsi
+ 1070      000000
+ 1071 0847 4C89E7   		movq	%r12, %rdi
+ 1072 084a 41BE1600 		movl	$22, %r14d
+ 1072      0000
+ 1073 0850 E8000000 		call	errPrefix@PLT
+ 1073      00
+ 1074 0855 5B       		popq	%rbx
+ 1075              		.cfi_def_cfa_offset 40
+ 1076 0856 4489F0   		movl	%r14d, %eax
+ 1077 0859 5D       		popq	%rbp
+ 1078              		.cfi_def_cfa_offset 32
+ 1079 085a 415C     		popq	%r12
+ 1080              		.cfi_def_cfa_offset 24
+ 1081 085c 415D     		popq	%r13
+ 1082              		.cfi_def_cfa_offset 16
+ 1083 085e 415E     		popq	%r14
+ 1084              		.cfi_def_cfa_offset 8
+ 1085 0860 C3       		ret
+ 1086              		.cfi_endproc
+ 1087              	.LFE61:
+ 1089              		.section	.text.unlikely
+ 1090              	.LCOLDE29:
+ 1091              		.text
+ 1092              	.LHOTE29:
+ 1093              		.section	.rodata.str1.1
+ 1094              	.LC30:
+ 1095 0097 666C5265 		.string	"flReadChannelAsyncAwait()"
+ 1095      61644368 
+ 1095      616E6E65 
+ 1095      6C417379 
+ 1095      6E634177 
+ 1096              		.section	.text.unlikely
+ 1097              	.LCOLDB31:
+ 1098              		.text
+ 1099              	.LHOTB31:
+ 1100 0861 0F1F4400 		.p2align 4,,15
+ 1100      00662E0F 
+ 1100      1F840000 
+ 1100      000000
+ 1101              		.globl	flReadChannelAsyncAwait
+ 1103              	flReadChannelAsyncAwait:
+ 1104              	.LFB66:
+ 1105              		.cfi_startproc
+ 1106 0870 4157     		pushq	%r15
+ 1107              		.cfi_def_cfa_offset 16
+ 1108              		.cfi_offset 15, -16
+ 1109 0872 4156     		pushq	%r14
+ 1110              		.cfi_def_cfa_offset 24
+ 1111              		.cfi_offset 14, -24
+ 1112 0874 4989F7   		movq	%rsi, %r15
+ 1113 0877 4155     		pushq	%r13
+ 1114              		.cfi_def_cfa_offset 32
+ 1115              		.cfi_offset 13, -32
+ 1116 0879 4154     		pushq	%r12
+ 1117              		.cfi_def_cfa_offset 40
+ 1118              		.cfi_offset 12, -40
+ 1119 087b 4989D6   		movq	%rdx, %r14
+ 1120 087e 55       		pushq	%rbp
+ 1121              		.cfi_def_cfa_offset 48
+ 1122              		.cfi_offset 6, -48
+ 1123 087f 53       		pushq	%rbx
+ 1124              		.cfi_def_cfa_offset 56
+ 1125              		.cfi_offset 3, -56
+ 1126 0880 4989CD   		movq	%rcx, %r13
+ 1127 0883 4889FB   		movq	%rdi, %rbx
+ 1128 0886 4D89C4   		movq	%r8, %r12
+ 1129 0889 488D6F20 		leaq	32(%rdi), %rbp
+ 1130 088d 4883EC08 		subq	$8, %rsp
+ 1131              		.cfi_def_cfa_offset 64
+ 1132 0891 EB17     		jmp	.L143
+ 1133              		.p2align 4,,10
+ 1134 0893 0F1F4400 		.p2align 3
+ 1134      00
+ 1135              	.L145:
+ 1136 0898 488B3B   		movq	(%rbx), %rdi
+ 1137 089b 4C89E2   		movq	%r12, %rdx
+ 1138 089e 4889EE   		movq	%rbp, %rsi
+ 1139 08a1 E8000000 		call	usbBulkAwaitCompletion@PLT
+ 1139      00
+ 1140 08a6 85C0     		testl	%eax, %eax
+ 1141 08a8 7546     		jne	.L149
+ 1142              	.L143:
+ 1143 08aa F6433001 		testb	$1, 48(%rbx)
+ 1144 08ae 74E8     		je	.L145
+ 1145              	.L144:
+ 1146 08b0 488B4320 		movq	32(%rbx), %rax
+ 1147 08b4 498907   		movq	%rax, (%r15)
+ 1148 08b7 8B4328   		movl	40(%rbx), %eax
+ 1149 08ba 418906   		movl	%eax, (%r14)
+ 1150 08bd 8B432C   		movl	44(%rbx), %eax
+ 1151 08c0 41894500 		movl	%eax, 0(%r13)
+ 1152 08c4 48C74320 		movq	$0, 32(%rbx)
+ 1152      00000000 
+ 1153 08cc 31C0     		xorl	%eax, %eax
+ 1154 08ce 48C74508 		movq	$0, 8(%rbp)
+ 1154      00000000 
+ 1155 08d6 48C74510 		movq	$0, 16(%rbp)
+ 1155      00000000 
+ 1156 08de 4883C408 		addq	$8, %rsp
+ 1157              		.cfi_remember_state
+ 1158              		.cfi_def_cfa_offset 56
+ 1159 08e2 5B       		popq	%rbx
+ 1160              		.cfi_def_cfa_offset 48
+ 1161 08e3 5D       		popq	%rbp
+ 1162              		.cfi_def_cfa_offset 40
+ 1163 08e4 415C     		popq	%r12
+ 1164              		.cfi_def_cfa_offset 32
+ 1165 08e6 415D     		popq	%r13
+ 1166              		.cfi_def_cfa_offset 24
+ 1167 08e8 415E     		popq	%r14
+ 1168              		.cfi_def_cfa_offset 16
+ 1169 08ea 415F     		popq	%r15
+ 1170              		.cfi_def_cfa_offset 8
+ 1171 08ec C3       		ret
+ 1172 08ed 0F1F00   		.p2align 4,,10
+ 1173              		.p2align 3
+ 1174              	.L149:
+ 1175              		.cfi_restore_state
+ 1176 08f0 488D3500 		leaq	.LC30(%rip), %rsi
+ 1176      000000
+ 1177 08f7 4C89E7   		movq	%r12, %rdi
+ 1178 08fa E8000000 		call	errPrefix@PLT
+ 1178      00
+ 1179 08ff 4883C408 		addq	$8, %rsp
+ 1180              		.cfi_def_cfa_offset 56
+ 1181 0903 B8020000 		movl	$2, %eax
+ 1181      00
+ 1182 0908 5B       		popq	%rbx
+ 1183              		.cfi_def_cfa_offset 48
+ 1184 0909 5D       		popq	%rbp
+ 1185              		.cfi_def_cfa_offset 40
+ 1186 090a 415C     		popq	%r12
+ 1187              		.cfi_def_cfa_offset 32
+ 1188 090c 415D     		popq	%r13
+ 1189              		.cfi_def_cfa_offset 24
+ 1190 090e 415E     		popq	%r14
+ 1191              		.cfi_def_cfa_offset 16
+ 1192 0910 415F     		popq	%r15
+ 1193              		.cfi_def_cfa_offset 8
+ 1194 0912 C3       		ret
+ 1195              		.cfi_endproc
+ 1196              	.LFE66:
+ 1198              		.section	.text.unlikely
+ 1199              	.LCOLDE31:
+ 1200              		.text
+ 1201              	.LHOTE31:
+ 1202              		.section	.rodata.str1.1
+ 1203              	.LC32:
+ 1204 00b1 666C5265 		.string	"flResetToggle()"
+ 1204      73657454 
+ 1204      6F67676C 
+ 1204      65282900 
+ 1205              		.section	.text.unlikely
+ 1206              	.LCOLDB33:
+ 1207              		.text
+ 1208              	.LHOTB33:
+ 1209 0913 0F1F0066 		.p2align 4,,15
+ 1209      2E0F1F84 
+ 1209      00000000 
+ 1209      00
+ 1210              		.globl	flResetToggle
+ 1212              	flResetToggle:
+ 1213              	.LFB67:
+ 1214              		.cfi_startproc
+ 1215 0920 53       		pushq	%rbx
+ 1216              		.cfi_def_cfa_offset 16
+ 1217              		.cfi_offset 3, -16
+ 1218 0921 56       		pushq	%rsi
+ 1219              		.cfi_def_cfa_offset 24
+ 1220 0922 31C9     		xorl	%ecx, %ecx
+ 1221 0924 488B3F   		movq	(%rdi), %rdi
+ 1222 0927 68E80300 		pushq	$1000
+ 1222      00
+ 1223              		.cfi_def_cfa_offset 32
+ 1224 092c 31D2     		xorl	%edx, %edx
+ 1225 092e 4531C9   		xorl	%r9d, %r9d
+ 1226 0931 4531C0   		xorl	%r8d, %r8d
+ 1227 0934 4889F3   		movq	%rsi, %rbx
+ 1228 0937 BE0B0000 		movl	$11, %esi
+ 1228      00
+ 1229 093c E8000000 		call	usbControlWrite@PLT
+ 1229      00
+ 1230 0941 5A       		popq	%rdx
+ 1231              		.cfi_def_cfa_offset 24
+ 1232 0942 31D2     		xorl	%edx, %edx
+ 1233 0944 85C0     		testl	%eax, %eax
+ 1234 0946 59       		popq	%rcx
+ 1235              		.cfi_def_cfa_offset 16
+ 1236 0947 7414     		je	.L151
+ 1237 0949 488D3500 		leaq	.LC32(%rip), %rsi
+ 1237      000000
+ 1238 0950 4889DF   		movq	%rbx, %rdi
+ 1239 0953 E8000000 		call	errPrefix@PLT
+ 1239      00
+ 1240 0958 BA020000 		movl	$2, %edx
+ 1240      00
+ 1241              	.L151:
+ 1242 095d 89D0     		movl	%edx, %eax
+ 1243 095f 5B       		popq	%rbx
+ 1244              		.cfi_def_cfa_offset 8
+ 1245 0960 C3       		ret
+ 1246              		.cfi_endproc
+ 1247              	.LFE67:
+ 1249              		.section	.text.unlikely
+ 1250              	.LCOLDE33:
+ 1251              		.text
+ 1252              	.LHOTE33:
+ 1253              		.section	.text.unlikely
+ 1254              	.LCOLDB34:
+ 1255              		.text
+ 1256              	.LHOTB34:
+ 1257 0961 0F1F4400 		.p2align 4,,15
+ 1257      00662E0F 
+ 1257      1F840000 
+ 1257      000000
+ 1258              		.globl	flReadWord
+ 1260              	flReadWord:
+ 1261              	.LFB68:
+ 1262              		.cfi_startproc
+ 1263 0970 0FB607   		movzbl	(%rdi), %eax
+ 1264 0973 0FB65701 		movzbl	1(%rdi), %edx
+ 1265 0977 C1E008   		sall	$8, %eax
+ 1266 097a 09D0     		orl	%edx, %eax
+ 1267 097c C3       		ret
+ 1268              		.cfi_endproc
+ 1269              	.LFE68:
+ 1271              		.section	.text.unlikely
+ 1272              	.LCOLDE34:
+ 1273              		.text
+ 1274              	.LHOTE34:
+ 1275              		.section	.text.unlikely
+ 1276              	.LCOLDB35:
+ 1277              		.text
+ 1278              	.LHOTB35:
+ 1279 097d 0F1F00   		.p2align 4,,15
+ 1280              		.globl	flReadLong
+ 1282              	flReadLong:
+ 1283              	.LFB69:
+ 1284              		.cfi_startproc
+ 1285 0980 0FB707   		movzwl	(%rdi), %eax
+ 1286 0983 0FB65702 		movzbl	2(%rdi), %edx
+ 1287 0987 66C1C008 		rolw	$8, %ax
+ 1288 098b 0FB7C0   		movzwl	%ax, %eax
+ 1289 098e C1E008   		sall	$8, %eax
+ 1290 0991 09D0     		orl	%edx, %eax
+ 1291 0993 0FB65703 		movzbl	3(%rdi), %edx
+ 1292 0997 C1E008   		sall	$8, %eax
+ 1293 099a 09D0     		orl	%edx, %eax
+ 1294 099c C3       		ret
+ 1295              		.cfi_endproc
+ 1296              	.LFE69:
+ 1298              		.section	.text.unlikely
+ 1299              	.LCOLDE35:
+ 1300              		.text
+ 1301              	.LHOTE35:
+ 1302              		.section	.text.unlikely
+ 1303              	.LCOLDB36:
+ 1304              		.text
+ 1305              	.LHOTB36:
+ 1306 099d 0F1F00   		.p2align 4,,15
+ 1307              		.globl	flWriteWord
+ 1309              	flWriteWord:
+ 1310              	.LFB70:
+ 1311              		.cfi_startproc
+ 1312 09a0 40887E01 		movb	%dil, 1(%rsi)
+ 1313 09a4 66C1EF08 		shrw	$8, %di
+ 1314 09a8 40883E   		movb	%dil, (%rsi)
+ 1315 09ab C3       		ret
+ 1316              		.cfi_endproc
+ 1317              	.LFE70:
+ 1319              		.section	.text.unlikely
+ 1320              	.LCOLDE36:
+ 1321              		.text
+ 1322              	.LHOTE36:
+ 1323              		.section	.rodata.str1.8
+ 1324              		.align 8
+ 1325              	.LC37:
+ 1326 0178 666C5772 		.string	"flWriteChannelAsync(): Zero-length writes are illegal!"
+ 1326      69746543 
+ 1326      68616E6E 
+ 1326      656C4173 
+ 1326      796E6328 
+ 1327 01af 00       		.align 8
+ 1328              	.LC38:
+ 1329 01b0 666C5772 		.string	"flWriteChannelAsync(): This device does not support CommFPGA"
+ 1329      69746543 
+ 1329      68616E6E 
+ 1329      656C4173 
+ 1329      796E6328 
+ 1330              		.section	.rodata.str1.1
+ 1331              	.LC39:
+ 1332 00c1 666C5772 		.string	"flWriteChannelAsync()"
+ 1332      69746543 
+ 1332      68616E6E 
+ 1332      656C4173 
+ 1332      796E6328 
+ 1333              		.section	.text.unlikely
+ 1334              	.LCOLDB40:
+ 1335              		.text
+ 1336              	.LHOTB40:
+ 1337 09ac 0F1F4000 		.p2align 4,,15
+ 1338              		.globl	flWriteChannelAsync
+ 1340              	flWriteChannelAsync:
+ 1341              	.LFB63:
+ 1342              		.cfi_startproc
+ 1343 09b0 4156     		pushq	%r14
+ 1344              		.cfi_def_cfa_offset 16
+ 1345              		.cfi_offset 14, -16
+ 1346 09b2 4155     		pushq	%r13
+ 1347              		.cfi_def_cfa_offset 24
+ 1348              		.cfi_offset 13, -24
+ 1349 09b4 4154     		pushq	%r12
+ 1350              		.cfi_def_cfa_offset 32
+ 1351              		.cfi_offset 12, -32
+ 1352 09b6 55       		pushq	%rbp
+ 1353              		.cfi_def_cfa_offset 40
+ 1354              		.cfi_offset 6, -40
+ 1355 09b7 4D89C4   		movq	%r8, %r12
+ 1356 09ba 53       		pushq	%rbx
+ 1357              		.cfi_def_cfa_offset 48
+ 1358              		.cfi_offset 3, -48
+ 1359 09bb 4883EC20 		subq	$32, %rsp
+ 1360              		.cfi_def_cfa_offset 80
+ 1361 09bf 64488B04 		movq	%fs:40, %rax
+ 1361      25280000 
+ 1361      00
+ 1362 09c8 48894424 		movq	%rax, 24(%rsp)
+ 1362      18
+ 1363 09cd 31C0     		xorl	%eax, %eax
+ 1364 09cf 4885D2   		testq	%rdx, %rdx
+ 1365 09d2 0F84D800 		je	.L181
+ 1365      0000
+ 1366 09d8 807F0800 		cmpb	$0, 8(%rdi)
+ 1367 09dc 4989FD   		movq	%rdi, %r13
+ 1368 09df 0F849300 		je	.L182
+ 1368      0000
+ 1369 09e5 83E67F   		andl	$127, %esi
+ 1370 09e8 4881FAFF 		cmpq	$65535, %rdx
+ 1370      FF0000
+ 1371 09ef 4889D3   		movq	%rdx, %rbx
+ 1372 09f2 4889CD   		movq	%rcx, %rbp
+ 1373 09f5 40887424 		movb	%sil, 16(%rsp)
+ 1373      10
+ 1374 09fa C6442411 		movb	$0, 17(%rsp)
+ 1374      00
+ 1375 09ff C6442412 		movb	$0, 18(%rsp)
+ 1375      00
+ 1376 0a04 4C8D7424 		leaq	16(%rsp), %r14
+ 1376      10
+ 1377 0a09 7737     		ja	.L167
+ 1378 0a0b E9C50000 		jmp	.L163
+ 1378      00
+ 1379              		.p2align 4,,10
+ 1380              		.p2align 3
+ 1381              	.L184:
+ 1382 0a10 4C89E1   		movq	%r12, %rcx
+ 1383 0a13 BA000001 		movl	$65536, %edx
+ 1383      00
+ 1384 0a18 4889EE   		movq	%rbp, %rsi
+ 1385 0a1b 4C89EF   		movq	%r13, %rdi
+ 1386 0a1e E8DDF5FF 		call	bufferAppend
+ 1386      FF
+ 1387 0a23 85C0     		testl	%eax, %eax
+ 1388 0a25 7532     		jne	.L180
+ 1389 0a27 4881EB00 		subq	$65536, %rbx
+ 1389      000100
+ 1390 0a2e 4881C500 		addq	$65536, %rbp
+ 1390      000100
+ 1391 0a35 4881FBFF 		cmpq	$65535, %rbx
+ 1391      FF0000
+ 1392 0a3c 0F868E00 		jbe	.L183
+ 1392      0000
+ 1393              	.L167:
+ 1394 0a42 4C89E1   		movq	%r12, %rcx
+ 1395 0a45 BA030000 		movl	$3, %edx
+ 1395      00
+ 1396 0a4a 4C89F6   		movq	%r14, %rsi
+ 1397 0a4d 4C89EF   		movq	%r13, %rdi
+ 1398 0a50 E8ABF5FF 		call	bufferAppend
+ 1398      FF
+ 1399 0a55 85C0     		testl	%eax, %eax
+ 1400 0a57 74B7     		je	.L184
+ 1401              	.L180:
+ 1402 0a59 488D3500 		leaq	.LC39(%rip), %rsi
+ 1402      000000
+ 1403 0a60 4C89E7   		movq	%r12, %rdi
+ 1404 0a63 8944240C 		movl	%eax, 12(%rsp)
+ 1405 0a67 E8000000 		call	errPrefix@PLT
+ 1405      00
+ 1406 0a6c 8B44240C 		movl	12(%rsp), %eax
+ 1407 0a70 EB1A     		jmp	.L161
+ 1408              		.p2align 4,,10
+ 1409 0a72 660F1F44 		.p2align 3
+ 1409      0000
+ 1410              	.L182:
+ 1411 0a78 488D3500 		leaq	.LC38(%rip), %rsi
+ 1411      000000
+ 1412 0a7f 4C89C7   		movq	%r8, %rdi
+ 1413 0a82 E8000000 		call	errPrefix@PLT
+ 1413      00
+ 1414 0a87 B8030000 		movl	$3, %eax
+ 1414      00
+ 1415              	.L165:
+ 1416              	.L161:
+ 1417 0a8c 488B5424 		movq	24(%rsp), %rdx
+ 1417      18
+ 1418 0a91 64483314 		xorq	%fs:40, %rdx
+ 1418      25280000 
+ 1418      00
+ 1419 0a9a 757D     		jne	.L185
+ 1420 0a9c 4883C420 		addq	$32, %rsp
+ 1421              		.cfi_remember_state
+ 1422              		.cfi_def_cfa_offset 48
+ 1423 0aa0 5B       		popq	%rbx
+ 1424              		.cfi_def_cfa_offset 40
+ 1425 0aa1 5D       		popq	%rbp
+ 1426              		.cfi_def_cfa_offset 32
+ 1427 0aa2 415C     		popq	%r12
+ 1428              		.cfi_def_cfa_offset 24
+ 1429 0aa4 415D     		popq	%r13
+ 1430              		.cfi_def_cfa_offset 16
+ 1431 0aa6 415E     		popq	%r14
+ 1432              		.cfi_def_cfa_offset 8
+ 1433 0aa8 C3       		ret
+ 1434 0aa9 0F1F8000 		.p2align 4,,10
+ 1434      000000
+ 1435              		.p2align 3
+ 1436              	.L181:
+ 1437              		.cfi_restore_state
+ 1438 0ab0 488D3500 		leaq	.LC37(%rip), %rsi
+ 1438      000000
+ 1439 0ab7 4C89C7   		movq	%r8, %rdi
+ 1440 0aba E8000000 		call	errPrefix@PLT
+ 1440      00
+ 1441 0abf B8030000 		movl	$3, %eax
+ 1441      00
+ 1442 0ac4 EBC6     		jmp	.L161
+ 1443 0ac6 662E0F1F 		.p2align 4,,10
+ 1443      84000000 
+ 1443      0000
+ 1444              		.p2align 3
+ 1445              	.L183:
+ 1446 0ad0 4885DB   		testq	%rbx, %rbx
+ 1447 0ad3 74B7     		je	.L161
+ 1448              	.L163:
+ 1449 0ad5 498D7601 		leaq	1(%r14), %rsi
+ 1450 0ad9 89DF     		movl	%ebx, %edi
+ 1451 0adb E8000000 		call	flWriteWord@PLT
+ 1451      00
+ 1452 0ae0 4C89E1   		movq	%r12, %rcx
+ 1453 0ae3 BA030000 		movl	$3, %edx
+ 1453      00
+ 1454 0ae8 4C89F6   		movq	%r14, %rsi
+ 1455 0aeb 4C89EF   		movq	%r13, %rdi
+ 1456 0aee E80DF5FF 		call	bufferAppend
+ 1456      FF
+ 1457 0af3 85C0     		testl	%eax, %eax
+ 1458 0af5 0F855EFF 		jne	.L180
+ 1458      FFFF
+ 1459 0afb 4C89E1   		movq	%r12, %rcx
+ 1460 0afe 4889DA   		movq	%rbx, %rdx
+ 1461 0b01 4889EE   		movq	%rbp, %rsi
+ 1462 0b04 4C89EF   		movq	%r13, %rdi
+ 1463 0b07 E8F4F4FF 		call	bufferAppend
+ 1463      FF
+ 1464 0b0c 85C0     		testl	%eax, %eax
+ 1465 0b0e 0F8478FF 		je	.L161
+ 1465      FFFF
+ 1466 0b14 E940FFFF 		jmp	.L180
+ 1466      FF
+ 1467              	.L185:
+ 1468 0b19 E8000000 		call	__stack_chk_fail@PLT
+ 1468      00
+ 1469              		.cfi_endproc
+ 1470              	.LFE63:
+ 1472              		.section	.text.unlikely
+ 1473              	.LCOLDE40:
+ 1474              		.text
+ 1475              	.LHOTE40:
+ 1476              		.section	.rodata.str1.1
+ 1477              	.LC41:
+ 1478 00d7 666C5772 		.string	"flWriteChannel()"
+ 1478      69746543 
+ 1478      68616E6E 
+ 1478      656C2829 
+ 1478      00
+ 1479              		.section	.text.unlikely
+ 1480              	.LCOLDB42:
+ 1481              		.text
+ 1482              	.LHOTB42:
+ 1483 0b1e 6690     		.p2align 4,,15
+ 1484              		.globl	flWriteChannel
+ 1486              	flWriteChannel:
+ 1487              	.LFB62:
+ 1488              		.cfi_startproc
+ 1489 0b20 55       		pushq	%rbp
+ 1490              		.cfi_def_cfa_offset 16
+ 1491              		.cfi_offset 6, -16
+ 1492 0b21 53       		pushq	%rbx
+ 1493              		.cfi_def_cfa_offset 24
+ 1494              		.cfi_offset 3, -24
+ 1495 0b22 400FB6F6 		movzbl	%sil, %esi
+ 1496 0b26 4889FD   		movq	%rdi, %rbp
+ 1497 0b29 4C89C3   		movq	%r8, %rbx
+ 1498 0b2c 4883EC18 		subq	$24, %rsp
+ 1499              		.cfi_def_cfa_offset 48
+ 1500 0b30 E8000000 		call	flWriteChannelAsync@PLT
+ 1500      00
+ 1501 0b35 85C0     		testl	%eax, %eax
+ 1502 0b37 7517     		jne	.L193
+ 1503 0b39 4889DE   		movq	%rbx, %rsi
+ 1504 0b3c 4889EF   		movq	%rbp, %rdi
+ 1505 0b3f E8000000 		call	flAwaitAsyncWrites@PLT
+ 1505      00
+ 1506 0b44 85C0     		testl	%eax, %eax
+ 1507 0b46 7508     		jne	.L193
+ 1508              	.L188:
+ 1509 0b48 4883C418 		addq	$24, %rsp
+ 1510              		.cfi_remember_state
+ 1511              		.cfi_def_cfa_offset 24
+ 1512 0b4c 5B       		popq	%rbx
+ 1513              		.cfi_def_cfa_offset 16
+ 1514 0b4d 5D       		popq	%rbp
+ 1515              		.cfi_def_cfa_offset 8
+ 1516 0b4e C3       		ret
+ 1517 0b4f 90       		.p2align 4,,10
+ 1518              		.p2align 3
+ 1519              	.L193:
+ 1520              		.cfi_restore_state
+ 1521 0b50 488D3500 		leaq	.LC41(%rip), %rsi
+ 1521      000000
+ 1522 0b57 4889DF   		movq	%rbx, %rdi
+ 1523 0b5a 8944240C 		movl	%eax, 12(%rsp)
+ 1524 0b5e E8000000 		call	errPrefix@PLT
+ 1524      00
+ 1525 0b63 8B44240C 		movl	12(%rsp), %eax
+ 1526 0b67 4883C418 		addq	$24, %rsp
+ 1527              		.cfi_def_cfa_offset 24
+ 1528 0b6b 5B       		popq	%rbx
+ 1529              		.cfi_def_cfa_offset 16
+ 1530 0b6c 5D       		popq	%rbp
+ 1531              		.cfi_def_cfa_offset 8
+ 1532 0b6d C3       		ret
+ 1533              		.cfi_endproc
+ 1534              	.LFE62:
+ 1536              		.section	.text.unlikely
+ 1537              	.LCOLDE42:
+ 1538              		.text
+ 1539              	.LHOTE42:
+ 1540              		.section	.rodata.str1.8
+ 1541 01ed 000000   		.align 8
+ 1542              	.LC43:
+ 1543 01f0 666C5265 		.string	"flReadChannelAsyncSubmit(): This device does not support CommFPGA"
+ 1543      61644368 
+ 1543      616E6E65 
+ 1543      6C417379 
+ 1543      6E635375 
+ 1544 0232 00000000 		.align 8
+ 1544      0000
+ 1545              	.LC44:
+ 1546 0238 666C5265 		.string	"flReadChannelAsyncSubmit(): Zero-length reads are illegal!"
+ 1546      61644368 
+ 1546      616E6E65 
+ 1546      6C417379 
+ 1546      6E635375 
+ 1547 0273 00000000 		.align 8
+ 1547      00
+ 1548              	.LC45:
+ 1549 0278 666C5265 		.string	"flReadChannelAsyncSubmit(): Transfer length exceeds 0x10000"
+ 1549      61644368 
+ 1549      616E6E65 
+ 1549      6C417379 
+ 1549      6E635375 
+ 1550              		.section	.rodata.str1.1
+ 1551              	.LC46:
+ 1552 00e8 666C5265 		.string	"flReadChannelAsyncSubmit()"
+ 1552      61644368 
+ 1552      616E6E65 
+ 1552      6C417379 
+ 1552      6E635375 
+ 1553              		.section	.text.unlikely
+ 1554              	.LCOLDB47:
+ 1555              		.text
+ 1556              	.LHOTB47:
+ 1557 0b6e 6690     		.p2align 4,,15
+ 1558              		.globl	flReadChannelAsyncSubmit
+ 1560              	flReadChannelAsyncSubmit:
+ 1561              	.LFB65:
+ 1562              		.cfi_startproc
+ 1563 0b70 4157     		pushq	%r15
+ 1564              		.cfi_def_cfa_offset 16
+ 1565              		.cfi_offset 15, -16
+ 1566 0b72 4156     		pushq	%r14
+ 1567              		.cfi_def_cfa_offset 24
+ 1568              		.cfi_offset 14, -24
+ 1569 0b74 4989CE   		movq	%rcx, %r14
+ 1570 0b77 4155     		pushq	%r13
+ 1571              		.cfi_def_cfa_offset 32
+ 1572              		.cfi_offset 13, -32
+ 1573 0b79 4154     		pushq	%r12
+ 1574              		.cfi_def_cfa_offset 40
+ 1575              		.cfi_offset 12, -40
+ 1576 0b7b 4D89C4   		movq	%r8, %r12
+ 1577 0b7e 55       		pushq	%rbp
+ 1578              		.cfi_def_cfa_offset 48
+ 1579              		.cfi_offset 6, -48
+ 1580 0b7f 53       		pushq	%rbx
+ 1581              		.cfi_def_cfa_offset 56
+ 1582              		.cfi_offset 3, -56
+ 1583 0b80 89D5     		movl	%edx, %ebp
+ 1584 0b82 4889FB   		movq	%rdi, %rbx
+ 1585 0b85 4883EC28 		subq	$40, %rsp
+ 1586              		.cfi_def_cfa_offset 96
+ 1587 0b89 64488B04 		movq	%fs:40, %rax
+ 1587      25280000 
+ 1587      00
+ 1588 0b92 48894424 		movq	%rax, 24(%rsp)
+ 1588      18
+ 1589 0b97 31C0     		xorl	%eax, %eax
+ 1590 0b99 81FA0000 		cmpl	$65536, %edx
+ 1590      0100
+ 1591 0b9f 744F     		je	.L195
+ 1592 0ba1 807F0800 		cmpb	$0, 8(%rdi)
+ 1593 0ba5 744F     		je	.L208
+ 1594 0ba7 85D2     		testl	%edx, %edx
+ 1595 0ba9 7565     		jne	.L198
+ 1596 0bab 488D3500 		leaq	.LC44(%rip), %rsi
+ 1596      000000
+ 1597 0bb2 4C89C7   		movq	%r8, %rdi
+ 1598 0bb5 41BD0300 		movl	$3, %r13d
+ 1598      0000
+ 1599 0bbb E8000000 		call	errPrefix@PLT
+ 1599      00
+ 1600              	.L197:
+ 1601 0bc0 488B4C24 		movq	24(%rsp), %rcx
+ 1601      18
+ 1602 0bc5 6448330C 		xorq	%fs:40, %rcx
+ 1602      25280000 
+ 1602      00
+ 1603 0bce 4489E8   		movl	%r13d, %eax
+ 1604 0bd1 0F854501 		jne	.L221
+ 1604      0000
+ 1605 0bd7 4883C428 		addq	$40, %rsp
+ 1606              		.cfi_remember_state
+ 1607              		.cfi_def_cfa_offset 56
+ 1608 0bdb 5B       		popq	%rbx
+ 1609              		.cfi_def_cfa_offset 48
+ 1610 0bdc 5D       		popq	%rbp
+ 1611              		.cfi_def_cfa_offset 40
+ 1612 0bdd 415C     		popq	%r12
+ 1613              		.cfi_def_cfa_offset 32
+ 1614 0bdf 415D     		popq	%r13
+ 1615              		.cfi_def_cfa_offset 24
+ 1616 0be1 415E     		popq	%r14
+ 1617              		.cfi_def_cfa_offset 16
+ 1618 0be3 415F     		popq	%r15
+ 1619              		.cfi_def_cfa_offset 8
+ 1620 0be5 C3       		ret
+ 1621 0be6 662E0F1F 		.p2align 4,,10
+ 1621      84000000 
+ 1621      0000
+ 1622              		.p2align 3
+ 1623              	.L195:
+ 1624              		.cfi_restore_state
+ 1625 0bf0 807F0800 		cmpb	$0, 8(%rdi)
+ 1626 0bf4 7542     		jne	.L222
+ 1627              	.L208:
+ 1628 0bf6 488D3500 		leaq	.LC43(%rip), %rsi
+ 1628      000000
+ 1629 0bfd 4C89E7   		movq	%r12, %rdi
+ 1630 0c00 41BD0300 		movl	$3, %r13d
+ 1630      0000
+ 1631 0c06 E8000000 		call	errPrefix@PLT
+ 1631      00
+ 1632 0c0b EBB3     		jmp	.L197
+ 1633 0c0d 0F1F00   		.p2align 4,,10
+ 1634              		.p2align 3
+ 1635              	.L198:
+ 1636 0c10 81FA0000 		cmpl	$65536, %edx
+ 1636      0100
+ 1637 0c16 0F860501 		jbe	.L199
+ 1637      0000
+ 1638 0c1c 488D3500 		leaq	.LC45(%rip), %rsi
+ 1638      000000
+ 1639 0c23 4C89C7   		movq	%r8, %rdi
+ 1640 0c26 41BD0300 		movl	$3, %r13d
+ 1640      0000
+ 1641 0c2c E8000000 		call	errPrefix@PLT
+ 1641      00
+ 1642 0c31 EB8D     		jmp	.L197
+ 1643              		.p2align 4,,10
+ 1644 0c33 0F1F4400 		.p2align 3
+ 1644      00
+ 1645              	.L222:
+ 1646 0c38 31FF     		xorl	%edi, %edi
+ 1647              	.L207:
+ 1648 0c3a 83CE80   		orl	$-128, %esi
+ 1649 0c3d 4C8D6C24 		leaq	16(%rsp), %r13
+ 1649      10
+ 1650 0c42 40887424 		movb	%sil, 16(%rsp)
+ 1650      10
+ 1651 0c47 488D7424 		leaq	17(%rsp), %rsi
+ 1651      11
+ 1652 0c4c E8000000 		call	flWriteWord@PLT
+ 1652      00
+ 1653 0c51 4C89EE   		movq	%r13, %rsi
+ 1654 0c54 4C89E1   		movq	%r12, %rcx
+ 1655 0c57 BA030000 		movl	$3, %edx
+ 1655      00
+ 1656 0c5c 4889DF   		movq	%rbx, %rdi
+ 1657 0c5f E89CF3FF 		call	bufferAppend
+ 1657      FF
+ 1658 0c64 85C0     		testl	%eax, %eax
+ 1659 0c66 4189C5   		movl	%eax, %r13d
+ 1660 0c69 7575     		jne	.L218
+ 1661 0c6b 4C89E6   		movq	%r12, %rsi
+ 1662 0c6e 4889DF   		movq	%rbx, %rdi
+ 1663 0c71 E8000000 		call	flFlushAsyncWrites@PLT
+ 1663      00
+ 1664 0c76 85C0     		testl	%eax, %eax
+ 1665 0c78 4189C5   		movl	%eax, %r13d
+ 1666 0c7b 7563     		jne	.L218
+ 1667 0c7d 488B3B   		movq	(%rbx), %rdi
+ 1668 0c80 E8000000 		call	usbNumOutstandingRequests@PLT
+ 1668      00
+ 1669 0c85 4883F802 		cmpq	$2, %rax
+ 1670 0c89 4989C7   		movq	%rax, %r15
+ 1671 0c8c 766A     		jbe	.L204
+ 1672 0c8e F6433001 		testb	$1, 48(%rbx)
+ 1673 0c92 7564     		jne	.L204
+ 1674 0c94 488D4320 		leaq	32(%rbx), %rax
+ 1675 0c98 48894424 		movq	%rax, 8(%rsp)
+ 1675      08
+ 1676 0c9d EB11     		jmp	.L206
+ 1677 0c9f 90       		.p2align 4,,10
+ 1678              		.p2align 3
+ 1679              	.L205:
+ 1680 0ca0 4983EF01 		subq	$1, %r15
+ 1681 0ca4 4983FF02 		cmpq	$2, %r15
+ 1682 0ca8 744E     		je	.L204
+ 1683 0caa F6433001 		testb	$1, 48(%rbx)
+ 1684 0cae 7548     		jne	.L204
+ 1685              	.L206:
+ 1686 0cb0 488B7424 		movq	8(%rsp), %rsi
+ 1686      08
+ 1687 0cb5 488B3B   		movq	(%rbx), %rdi
+ 1688 0cb8 4C89E2   		movq	%r12, %rdx
+ 1689 0cbb E8000000 		call	usbBulkAwaitCompletion@PLT
+ 1689      00
+ 1690 0cc0 85C0     		testl	%eax, %eax
+ 1691 0cc2 74DC     		je	.L205
+ 1692              	.L203:
+ 1693 0cc4 488D3500 		leaq	.LC46(%rip), %rsi
+ 1693      000000
+ 1694 0ccb 4C89E7   		movq	%r12, %rdi
+ 1695 0cce 41BD0200 		movl	$2, %r13d
+ 1695      0000
+ 1696 0cd4 E8000000 		call	errPrefix@PLT
+ 1696      00
+ 1697 0cd9 E9E2FEFF 		jmp	.L197
+ 1697      FF
+ 1698 0cde 6690     		.p2align 4,,10
+ 1699              		.p2align 3
+ 1700              	.L218:
+ 1701 0ce0 488D3500 		leaq	.LC46(%rip), %rsi
+ 1701      000000
+ 1702 0ce7 4C89E7   		movq	%r12, %rdi
+ 1703 0cea E8000000 		call	errPrefix@PLT
+ 1703      00
+ 1704 0cef E9CCFEFF 		jmp	.L197
+ 1704      FF
+ 1705              		.p2align 4,,10
+ 1706 0cf4 0F1F4000 		.p2align 3
+ 1707              	.L204:
+ 1708 0cf8 0FB6730A 		movzbl	10(%rbx), %esi
+ 1709 0cfc 488B3B   		movq	(%rbx), %rdi
+ 1710 0cff 4D89E1   		movq	%r12, %r9
+ 1711 0d02 41B8FFFF 		movl	$-1, %r8d
+ 1711      FFFF
+ 1712 0d08 89E9     		movl	%ebp, %ecx
+ 1713 0d0a 4C89F2   		movq	%r14, %rdx
+ 1714 0d0d E8000000 		call	usbBulkReadAsync@PLT
+ 1714      00
+ 1715 0d12 85C0     		testl	%eax, %eax
+ 1716 0d14 0F84A6FE 		je	.L197
+ 1716      FFFF
+ 1717 0d1a EBA8     		jmp	.L203
+ 1718              	.L221:
+ 1719 0d1c E8000000 		call	__stack_chk_fail@PLT
+ 1719      00
+ 1720              	.L199:
+ 1721 0d21 0FB7FA   		movzwl	%dx, %edi
+ 1722 0d24 E911FFFF 		jmp	.L207
+ 1722      FF
+ 1723              		.cfi_endproc
+ 1724              	.LFE65:
+ 1726              		.section	.text.unlikely
+ 1727              	.LCOLDE47:
+ 1728              		.text
+ 1729              	.LHOTE47:
+ 1730              		.section	.rodata.str1.8
+ 1731 02b4 00000000 		.align 8
+ 1732              	.LC48:
+ 1733 02b8 666C5265 		.string	"flReadChannel(): Zero-length reads are illegal!"
+ 1733      61644368 
+ 1733      616E6E65 
+ 1733      6C28293A 
+ 1733      205A6572 
+ 1734              		.align 8
+ 1735              	.LC49:
+ 1736 02e8 666C5265 		.string	"flReadChannel(): This device does not support CommFPGA"
+ 1736      61644368 
+ 1736      616E6E65 
+ 1736      6C28293A 
+ 1736      20546869 
+ 1737              		.section	.rodata.str1.1
+ 1738              	.LC50:
+ 1739 0103 666C5265 		.string	"flReadChannel()"
+ 1739      61644368 
+ 1739      616E6E65 
+ 1739      6C282900 
+ 1740              		.section	.text.unlikely
+ 1741              	.LCOLDB51:
+ 1742              		.text
+ 1743              	.LHOTB51:
+ 1744 0d29 0F1F8000 		.p2align 4,,15
+ 1744      000000
+ 1745              		.globl	flReadChannel
+ 1747              	flReadChannel:
+ 1748              	.LFB64:
+ 1749              		.cfi_startproc
+ 1750 0d30 4157     		pushq	%r15
+ 1751              		.cfi_def_cfa_offset 16
+ 1752              		.cfi_offset 15, -16
+ 1753 0d32 4156     		pushq	%r14
+ 1754              		.cfi_def_cfa_offset 24
+ 1755              		.cfi_offset 14, -24
+ 1756 0d34 4155     		pushq	%r13
+ 1757              		.cfi_def_cfa_offset 32
+ 1758              		.cfi_offset 13, -32
+ 1759 0d36 4154     		pushq	%r12
+ 1760              		.cfi_def_cfa_offset 40
+ 1761              		.cfi_offset 12, -40
+ 1762 0d38 4D89C4   		movq	%r8, %r12
+ 1763 0d3b 55       		pushq	%rbp
+ 1764              		.cfi_def_cfa_offset 48
+ 1765              		.cfi_offset 6, -48
+ 1766 0d3c 53       		pushq	%rbx
+ 1767              		.cfi_def_cfa_offset 56
+ 1768              		.cfi_offset 3, -56
+ 1769 0d3d 4883EC38 		subq	$56, %rsp
+ 1770              		.cfi_def_cfa_offset 112
+ 1771 0d41 64488B04 		movq	%fs:40, %rax
+ 1771      25280000 
+ 1771      00
+ 1772 0d4a 48894424 		movq	%rax, 40(%rsp)
+ 1772      28
+ 1773 0d4f 31C0     		xorl	%eax, %eax
+ 1774 0d51 4885D2   		testq	%rdx, %rdx
+ 1775 0d54 0F843601 		je	.L250
+ 1775      0000
+ 1776 0d5a 807F0800 		cmpb	$0, 8(%rdi)
+ 1777 0d5e 4989FD   		movq	%rdi, %r13
+ 1778 0d61 0F84E900 		je	.L251
+ 1778      0000
+ 1779 0d67 4881FAFF 		cmpq	$65535, %rdx
+ 1779      FF0000
+ 1780 0d6e 4889D3   		movq	%rdx, %rbx
+ 1781 0d71 4889CD   		movq	%rcx, %rbp
+ 1782 0d74 0F863601 		jbe	.L227
+ 1782      0000
+ 1783 0d7a 440FB6F6 		movzbl	%sil, %r14d
+ 1784 0d7e BA000001 		movl	$65536, %edx
+ 1784      00
+ 1785 0d83 4489F6   		movl	%r14d, %esi
+ 1786 0d86 E8000000 		call	flReadChannelAsyncSubmit@PLT
+ 1786      00
+ 1787 0d8b 85C0     		testl	%eax, %eax
+ 1788 0d8d 0F859D00 		jne	.L249
+ 1788      0000
+ 1789 0d93 4881EB00 		subq	$65536, %rbx
+ 1789      000100
+ 1790 0d9a 4881C500 		addq	$65536, %rbp
+ 1790      000100
+ 1791 0da1 4881FBFF 		cmpq	$65535, %rbx
+ 1791      FF0000
+ 1792 0da8 0F866A01 		jbe	.L229
+ 1792      0000
+ 1793 0dae 488D4424 		leaq	24(%rsp), %rax
+ 1793      18
+ 1794 0db3 4C8D7C24 		leaq	28(%rsp), %r15
+ 1794      1C
+ 1795 0db8 48890424 		movq	%rax, (%rsp)
+ 1796 0dbc 488D4424 		leaq	32(%rsp), %rax
+ 1796      20
+ 1797 0dc1 48894424 		movq	%rax, 8(%rsp)
+ 1797      08
+ 1798 0dc6 EB4C     		jmp	.L233
+ 1799 0dc8 0F1F8400 		.p2align 4,,10
+ 1799      00000000 
+ 1800              		.p2align 3
+ 1801              	.L252:
+ 1802 0dd0 488B1424 		movq	(%rsp), %rdx
+ 1803 0dd4 488B7424 		movq	8(%rsp), %rsi
+ 1803      08
+ 1804 0dd9 4D89E0   		movq	%r12, %r8
+ 1805 0ddc 4C89F9   		movq	%r15, %rcx
+ 1806 0ddf 4C89EF   		movq	%r13, %rdi
+ 1807 0de2 4881EB00 		subq	$65536, %rbx
+ 1807      000100
+ 1808 0de9 4881C500 		addq	$65536, %rbp
+ 1808      000100
+ 1809 0df0 E8000000 		call	flReadChannelAsyncAwait@PLT
+ 1809      00
+ 1810 0df5 85C0     		testl	%eax, %eax
+ 1811 0df7 7537     		jne	.L249
+ 1812 0df9 8B442418 		movl	24(%rsp), %eax
+ 1813 0dfd 3944241C 		cmpl	%eax, 28(%rsp)
+ 1814 0e01 0F85F300 		jne	.L237
+ 1814      0000
+ 1815 0e07 4881FBFF 		cmpq	$65535, %rbx
+ 1815      FF0000
+ 1816 0e0e 0F860401 		jbe	.L229
+ 1816      0000
+ 1817              	.L233:
+ 1818 0e14 4D89E0   		movq	%r12, %r8
+ 1819 0e17 4889E9   		movq	%rbp, %rcx
+ 1820 0e1a BA000001 		movl	$65536, %edx
+ 1820      00
+ 1821 0e1f 4489F6   		movl	%r14d, %esi
+ 1822 0e22 4C89EF   		movq	%r13, %rdi
+ 1823 0e25 E8000000 		call	flReadChannelAsyncSubmit@PLT
+ 1823      00
+ 1824 0e2a 85C0     		testl	%eax, %eax
+ 1825 0e2c 74A2     		je	.L252
+ 1826 0e2e 6690     		.p2align 4,,10
+ 1827              		.p2align 3
+ 1828              	.L249:
+ 1829 0e30 488D3500 		leaq	.LC50(%rip), %rsi
+ 1829      000000
+ 1830 0e37 4C89E7   		movq	%r12, %rdi
+ 1831 0e3a 890424   		movl	%eax, (%rsp)
+ 1832 0e3d E8000000 		call	errPrefix@PLT
+ 1832      00
+ 1833 0e42 8B0424   		movl	(%rsp), %eax
+ 1834 0e45 EB1D     		jmp	.L225
+ 1835 0e47 660F1F84 		.p2align 4,,10
+ 1835      00000000 
+ 1835      00
+ 1836              		.p2align 3
+ 1837              	.L251:
+ 1838 0e50 488D3500 		leaq	.LC49(%rip), %rsi
+ 1838      000000
+ 1839 0e57 4C89C7   		movq	%r8, %rdi
+ 1840 0e5a E8000000 		call	errPrefix@PLT
+ 1840      00
+ 1841 0e5f B8030000 		movl	$3, %eax
+ 1841      00
+ 1842              	.L225:
+ 1843 0e64 488B5424 		movq	40(%rsp), %rdx
+ 1843      28
+ 1844 0e69 64483314 		xorq	%fs:40, %rdx
+ 1844      25280000 
+ 1844      00
+ 1845 0e72 0F85FA00 		jne	.L253
+ 1845      0000
+ 1846 0e78 4883C438 		addq	$56, %rsp
+ 1847              		.cfi_remember_state
+ 1848              		.cfi_def_cfa_offset 56
+ 1849 0e7c 5B       		popq	%rbx
+ 1850              		.cfi_def_cfa_offset 48
+ 1851 0e7d 5D       		popq	%rbp
+ 1852              		.cfi_def_cfa_offset 40
+ 1853 0e7e 415C     		popq	%r12
+ 1854              		.cfi_def_cfa_offset 32
+ 1855 0e80 415D     		popq	%r13
+ 1856              		.cfi_def_cfa_offset 24
+ 1857 0e82 415E     		popq	%r14
+ 1858              		.cfi_def_cfa_offset 16
+ 1859 0e84 415F     		popq	%r15
+ 1860              		.cfi_def_cfa_offset 8
+ 1861 0e86 C3       		ret
+ 1862 0e87 660F1F84 		.p2align 4,,10
+ 1862      00000000 
+ 1862      00
+ 1863              		.p2align 3
+ 1864              	.L250:
+ 1865              		.cfi_restore_state
+ 1866 0e90 488D3500 		leaq	.LC48(%rip), %rsi
+ 1866      000000
+ 1867 0e97 4C89C7   		movq	%r8, %rdi
+ 1868 0e9a E8000000 		call	errPrefix@PLT
+ 1868      00
+ 1869 0e9f B8030000 		movl	$3, %eax
+ 1869      00
+ 1870 0ea4 EBBE     		jmp	.L225
+ 1871 0ea6 662E0F1F 		.p2align 4,,10
+ 1871      84000000 
+ 1871      0000
+ 1872              		.p2align 3
+ 1873              	.L227:
+ 1874 0eb0 400FB6F6 		movzbl	%sil, %esi
+ 1875 0eb4 E8000000 		call	flReadChannelAsyncSubmit@PLT
+ 1875      00
+ 1876 0eb9 85C0     		testl	%eax, %eax
+ 1877 0ebb 0F856FFF 		jne	.L249
+ 1877      FFFF
+ 1878              	.L248:
+ 1879 0ec1 4C8D7424 		leaq	28(%rsp), %r14
+ 1879      1C
+ 1880 0ec6 488D6C24 		leaq	24(%rsp), %rbp
+ 1880      18
+ 1881 0ecb 488D5C24 		leaq	32(%rsp), %rbx
+ 1881      20
+ 1882              	.L234:
+ 1883 0ed0 4D89E0   		movq	%r12, %r8
+ 1884 0ed3 4C89F1   		movq	%r14, %rcx
+ 1885 0ed6 4889EA   		movq	%rbp, %rdx
+ 1886 0ed9 4889DE   		movq	%rbx, %rsi
+ 1887 0edc 4C89EF   		movq	%r13, %rdi
+ 1888 0edf E8000000 		call	flReadChannelAsyncAwait@PLT
+ 1888      00
+ 1889 0ee4 85C0     		testl	%eax, %eax
+ 1890 0ee6 0F8544FF 		jne	.L249
+ 1890      FFFF
+ 1891 0eec 8B4C2418 		movl	24(%rsp), %ecx
+ 1892 0ef0 394C241C 		cmpl	%ecx, 28(%rsp)
+ 1893 0ef4 0F846AFF 		je	.L225
+ 1893      FFFF
+ 1894              	.L237:
+ 1895 0efa 488D3500 		leaq	.LC50(%rip), %rsi
+ 1895      000000
+ 1896 0f01 4C89E7   		movq	%r12, %rdi
+ 1897 0f04 E8000000 		call	errPrefix@PLT
+ 1897      00
+ 1898 0f09 B8040000 		movl	$4, %eax
+ 1898      00
+ 1899 0f0e E951FFFF 		jmp	.L225
+ 1899      FF
+ 1900              		.p2align 4,,10
+ 1901 0f13 0F1F4400 		.p2align 3
+ 1901      00
+ 1902              	.L229:
+ 1903 0f18 4885DB   		testq	%rbx, %rbx
+ 1904 0f1b 74A4     		je	.L248
+ 1905 0f1d 4D89E0   		movq	%r12, %r8
+ 1906 0f20 4889E9   		movq	%rbp, %rcx
+ 1907 0f23 89DA     		movl	%ebx, %edx
+ 1908 0f25 4489F6   		movl	%r14d, %esi
+ 1909 0f28 4C89EF   		movq	%r13, %rdi
+ 1910 0f2b E8000000 		call	flReadChannelAsyncSubmit@PLT
+ 1910      00
+ 1911 0f30 85C0     		testl	%eax, %eax
+ 1912 0f32 0F85F8FE 		jne	.L249
+ 1912      FFFF
+ 1913 0f38 4C8D7424 		leaq	28(%rsp), %r14
+ 1913      1C
+ 1914 0f3d 488D6C24 		leaq	24(%rsp), %rbp
+ 1914      18
+ 1915 0f42 488D5C24 		leaq	32(%rsp), %rbx
+ 1915      20
+ 1916 0f47 4D89E0   		movq	%r12, %r8
+ 1917 0f4a 4C89EF   		movq	%r13, %rdi
+ 1918 0f4d 4C89F1   		movq	%r14, %rcx
+ 1919 0f50 4889EA   		movq	%rbp, %rdx
+ 1920 0f53 4889DE   		movq	%rbx, %rsi
+ 1921 0f56 E8000000 		call	flReadChannelAsyncAwait@PLT
+ 1921      00
+ 1922 0f5b 85C0     		testl	%eax, %eax
+ 1923 0f5d 0F85CDFE 		jne	.L249
+ 1923      FFFF
+ 1924 0f63 8B442418 		movl	24(%rsp), %eax
+ 1925 0f67 3944241C 		cmpl	%eax, 28(%rsp)
+ 1926 0f6b 758D     		jne	.L237
+ 1927 0f6d E95EFFFF 		jmp	.L234
+ 1927      FF
+ 1928              	.L253:
+ 1929 0f72 E8000000 		call	__stack_chk_fail@PLT
+ 1929      00
+ 1930              		.cfi_endproc
+ 1931              	.LFE64:
+ 1933              		.section	.text.unlikely
+ 1934              	.LCOLDE51:
+ 1935              		.text
+ 1936              	.LHOTE51:
+ 1937              		.section	.text.unlikely
+ 1938              	.LCOLDB52:
+ 1939              		.text
+ 1940              	.LHOTB52:
+ 1941 0f77 660F1F84 		.p2align 4,,15
+ 1941      00000000 
+ 1941      00
+ 1942              		.globl	flWriteLong
+ 1944              	flWriteLong:
+ 1945              	.LFB71:
+ 1946              		.cfi_startproc
+ 1947 0f80 89F8     		movl	%edi, %eax
+ 1948 0f82 40887E03 		movb	%dil, 3(%rsi)
+ 1949 0f86 C1E808   		shrl	$8, %eax
+ 1950 0f89 884602   		movb	%al, 2(%rsi)
+ 1951 0f8c 89F8     		movl	%edi, %eax
+ 1952 0f8e C1EF18   		shrl	$24, %edi
+ 1953 0f91 C1E810   		shrl	$16, %eax
+ 1954 0f94 40883E   		movb	%dil, (%rsi)
+ 1955 0f97 884601   		movb	%al, 1(%rsi)
+ 1956 0f9a C3       		ret
+ 1957              		.cfi_endproc
+ 1958              	.LFE71:
+ 1960              		.section	.text.unlikely
+ 1961              	.LCOLDE52:
+ 1962              		.text
+ 1963              	.LHOTE52:
+ 1964              		.section	.text.unlikely
+ 1965              	.LCOLDB53:
+ 1966              		.text
+ 1967              	.LHOTB53:
+ 1968 0f9b 0F1F4400 		.p2align 4,,15
+ 1968      00
+ 1969              		.globl	progGetPort
+ 1971              	progGetPort:
+ 1972              	.LFB73:
+ 1973              		.cfi_startproc
+ 1974 0fa0 4080FE02 		cmpb	$2, %sil
+ 1975 0fa4 743A     		je	.L257
+ 1976 0fa6 7620     		jbe	.L263
+ 1977 0fa8 4080FE03 		cmpb	$3, %sil
+ 1978 0fac 7412     		je	.L260
+ 1979 0fae 4080FE04 		cmpb	$4, %sil
+ 1980 0fb2 7524     		jne	.L262
+ 1981 0fb4 0FB6471D 		movzbl	29(%rdi), %eax
+ 1982 0fb8 C3       		ret
+ 1983 0fb9 0F1F8000 		.p2align 4,,10
+ 1983      000000
+ 1984              		.p2align 3
+ 1985              	.L260:
+ 1986 0fc0 0FB6471B 		movzbl	27(%rdi), %eax
+ 1987 0fc4 C3       		ret
+ 1988              		.p2align 4,,10
+ 1989 0fc5 0F1F00   		.p2align 3
+ 1990              	.L263:
+ 1991 0fc8 4080FE01 		cmpb	$1, %sil
+ 1992 0fcc 750A     		jne	.L262
+ 1993 0fce 0FB64717 		movzbl	23(%rdi), %eax
+ 1994 0fd2 C3       		ret
+ 1995              		.p2align 4,,10
+ 1996 0fd3 0F1F4400 		.p2align 3
+ 1996      00
+ 1997              	.L262:
+ 1998 0fd8 B8FFFFFF 		movl	$-1, %eax
+ 1998      FF
+ 1999 0fdd C3       		ret
+ 2000 0fde 6690     		.p2align 4,,10
+ 2001              		.p2align 3
+ 2002              	.L257:
+ 2003 0fe0 0FB64719 		movzbl	25(%rdi), %eax
+ 2004 0fe4 C3       		ret
+ 2005              		.cfi_endproc
+ 2006              	.LFE73:
+ 2008              		.section	.text.unlikely
+ 2009              	.LCOLDE53:
+ 2010              		.text
+ 2011              	.LHOTE53:
+ 2012              		.section	.text.unlikely
+ 2013              	.LCOLDB54:
+ 2014              		.text
+ 2015              	.LHOTB54:
+ 2016 0fe5 90662E0F 		.p2align 4,,15
+ 2016      1F840000 
+ 2016      000000
+ 2017              		.globl	progGetBit
+ 2019              	progGetBit:
+ 2020              	.LFB74:
+ 2021              		.cfi_startproc
+ 2022 0ff0 4080FE02 		cmpb	$2, %sil
+ 2023 0ff4 743A     		je	.L266
+ 2024 0ff6 7620     		jbe	.L272
+ 2025 0ff8 4080FE03 		cmpb	$3, %sil
+ 2026 0ffc 7412     		je	.L269
+ 2027 0ffe 4080FE04 		cmpb	$4, %sil
+ 2028 1002 7524     		jne	.L271
+ 2029 1004 0FB6471E 		movzbl	30(%rdi), %eax
+ 2030 1008 C3       		ret
+ 2031 1009 0F1F8000 		.p2align 4,,10
+ 2031      000000
+ 2032              		.p2align 3
+ 2033              	.L269:
+ 2034 1010 0FB6471C 		movzbl	28(%rdi), %eax
+ 2035 1014 C3       		ret
+ 2036              		.p2align 4,,10
+ 2037 1015 0F1F00   		.p2align 3
+ 2038              	.L272:
+ 2039 1018 4080FE01 		cmpb	$1, %sil
+ 2040 101c 750A     		jne	.L271
+ 2041 101e 0FB64718 		movzbl	24(%rdi), %eax
+ 2042 1022 C3       		ret
+ 2043              		.p2align 4,,10
+ 2044 1023 0F1F4400 		.p2align 3
+ 2044      00
+ 2045              	.L271:
+ 2046 1028 B8FFFFFF 		movl	$-1, %eax
+ 2046      FF
+ 2047 102d C3       		ret
+ 2048 102e 6690     		.p2align 4,,10
+ 2049              		.p2align 3
+ 2050              	.L266:
+ 2051 1030 0FB6471A 		movzbl	26(%rdi), %eax
+ 2052 1034 C3       		ret
+ 2053              		.cfi_endproc
+ 2054              	.LFE74:
+ 2056              		.section	.text.unlikely
+ 2057              	.LCOLDE54:
+ 2058              		.text
+ 2059              	.LHOTE54:
+ 2060              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+ 2061              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 libfpgalink.c
+     /tmp/cciiziHi.s:11     .text:0000000000000000 bufferAppend
+     /tmp/cciiziHi.s:211    .text:0000000000000210 flInitialise
+     /tmp/cciiziHi.s:245    .text:0000000000000240 flFreeError
+     /tmp/cciiziHi.s:266    .text:0000000000000250 flIsDeviceAvailable
+     /tmp/cciiziHi.s:338    .text:00000000000002c0 flOpen
+     /tmp/cciiziHi.s:526    .text:00000000000004c0 flIsNeroCapable
+     /tmp/cciiziHi.s:545    .text:00000000000004d0 flIsCommCapable
+     /tmp/cciiziHi.s:564    .text:00000000000004e0 flGetFirmwareID
+     /tmp/cciiziHi.s:583    .text:00000000000004f0 flGetFirmwareVersion
+     /tmp/cciiziHi.s:605    .text:0000000000000500 flSelectConduit
+     /tmp/cciiziHi.s:660    .text:0000000000000550 flIsFPGARunning
+     /tmp/cciiziHi.s:751    .text:0000000000000610 flSetAsyncWriteChunkSize
+     /tmp/cciiziHi.s:802    .text:0000000000000660 flFlushAsyncWrites
+     /tmp/cciiziHi.s:884    .text:0000000000000700 flClose
+     /tmp/cciiziHi.s:980    .text:00000000000007a0 flAwaitAsyncWrites
+     /tmp/cciiziHi.s:1103   .text:0000000000000870 flReadChannelAsyncAwait
+     /tmp/cciiziHi.s:1212   .text:0000000000000920 flResetToggle
+     /tmp/cciiziHi.s:1260   .text:0000000000000970 flReadWord
+     /tmp/cciiziHi.s:1282   .text:0000000000000980 flReadLong
+     /tmp/cciiziHi.s:1309   .text:00000000000009a0 flWriteWord
+     /tmp/cciiziHi.s:1340   .text:00000000000009b0 flWriteChannelAsync
+     /tmp/cciiziHi.s:1486   .text:0000000000000b20 flWriteChannel
+     /tmp/cciiziHi.s:1560   .text:0000000000000b70 flReadChannelAsyncSubmit
+     /tmp/cciiziHi.s:1747   .text:0000000000000d30 flReadChannel
+     /tmp/cciiziHi.s:1944   .text:0000000000000f80 flWriteLong
+     /tmp/cciiziHi.s:1971   .text:0000000000000fa0 progGetPort
+     /tmp/cciiziHi.s:2019   .text:0000000000000ff0 progGetBit
+     /tmp/cciiziHi.s:3      .rodata.str1.1:0000000000000000 .LC0
+     /tmp/cciiziHi.s:202    .rodata.str1.1:000000000000000f .LC2
+     /tmp/cciiziHi.s:257    .rodata.str1.1:000000000000001e .LC5
+     /tmp/cciiziHi.s:320    .rodata.str1.1:0000000000000034 .LC7
+     /tmp/cciiziHi.s:326    .rodata.str1.8:0000000000000000 .LC9
+     /tmp/cciiziHi.s:322    .rodata.str1.1:000000000000003d .LC8
+     /tmp/cciiziHi.s:329    .rodata.str1.8:0000000000000028 .LC10
+     /tmp/cciiziHi.s:596    .rodata.str1.1:0000000000000049 .LC16
+     /tmp/cciiziHi.s:648    .rodata.str1.8:0000000000000068 .LC18
+     /tmp/cciiziHi.s:651    .rodata.str1.1:000000000000005b .LC19
+     /tmp/cciiziHi.s:742    .rodata.str1.8:00000000000000a8 .LC21
+     /tmp/cciiziHi.s:790    .rodata.str1.8:0000000000000100 .LC23
+     /tmp/cciiziHi.s:793    .rodata.str1.1:000000000000006d .LC24
+     /tmp/cciiziHi.s:967    .rodata.str1.1:0000000000000082 .LC27
+     /tmp/cciiziHi.s:971    .rodata.str1.8:0000000000000140 .LC28
+     /tmp/cciiziHi.s:1094   .rodata.str1.1:0000000000000097 .LC30
+     /tmp/cciiziHi.s:1203   .rodata.str1.1:00000000000000b1 .LC32
+     /tmp/cciiziHi.s:1331   .rodata.str1.1:00000000000000c1 .LC39
+     /tmp/cciiziHi.s:1328   .rodata.str1.8:00000000000001b0 .LC38
+     /tmp/cciiziHi.s:1325   .rodata.str1.8:0000000000000178 .LC37
+     /tmp/cciiziHi.s:1477   .rodata.str1.1:00000000000000d7 .LC41
+     /tmp/cciiziHi.s:1545   .rodata.str1.8:0000000000000238 .LC44
+     /tmp/cciiziHi.s:1542   .rodata.str1.8:00000000000001f0 .LC43
+     /tmp/cciiziHi.s:1548   .rodata.str1.8:0000000000000278 .LC45
+     /tmp/cciiziHi.s:1551   .rodata.str1.1:00000000000000e8 .LC46
+     /tmp/cciiziHi.s:1738   .rodata.str1.1:0000000000000103 .LC50
+     /tmp/cciiziHi.s:1735   .rodata.str1.8:00000000000002e8 .LC49
+     /tmp/cciiziHi.s:1732   .rodata.str1.8:00000000000002b8 .LC48
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+usbNumOutstandingRequests
+usbBulkAwaitCompletion
+errPrefix
+memcpy
+usbBulkWriteAsyncSubmit
+usbBulkWriteAsyncPrepare
+usbInitialise
+errFree
+usbIsDeviceAvailable
+__stack_chk_fail
+calloc
+usbOpenDevice
+usbCloseDevice
+free
+usbControlRead
+errRender
+usbControlWrite
+usbBulkReadAsync

@@ -1,0 +1,1 @@
+-L${ROOT}/libs/libbuffer/lin.x86/dbg -lbuffer

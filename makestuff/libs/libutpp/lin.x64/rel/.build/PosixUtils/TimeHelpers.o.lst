@@ -1,0 +1,146 @@
+   1              		.file	"TimeHelpers.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZN8UnitTest5TimerC2Ev
+  11              	_ZN8UnitTest5TimerC2Ev:
+  12              	.LFB14:
+  13              		.cfi_startproc
+  14 0000 48C70700 		movq	$0, (%rdi)
+  14      000000
+  15 0007 48C74708 		movq	$0, 8(%rdi)
+  15      00000000 
+  16 000f C3       		ret
+  17              		.cfi_endproc
+  18              	.LFE14:
+  20              		.section	.text.unlikely
+  21              	.LCOLDE0:
+  22              		.text
+  23              	.LHOTE0:
+  24              		.globl	_ZN8UnitTest5TimerC1Ev
+  25              		.set	_ZN8UnitTest5TimerC1Ev,_ZN8UnitTest5TimerC2Ev
+  26              		.section	.text.unlikely
+  27              		.align 2
+  28              	.LCOLDB1:
+  29              		.text
+  30              	.LHOTB1:
+  31              		.align 2
+  32              		.p2align 4,,15
+  33              		.globl	_ZN8UnitTest5Timer5StartEv
+  35              	_ZN8UnitTest5Timer5StartEv:
+  36              	.LFB16:
+  37              		.cfi_startproc
+  38 0010 31F6     		xorl	%esi, %esi
+  39 0012 E9000000 		jmp	gettimeofday@PLT
+  39      00
+  40              		.cfi_endproc
+  41              	.LFE16:
+  43              		.section	.text.unlikely
+  44              	.LCOLDE1:
+  45              		.text
+  46              	.LHOTE1:
+  47              		.section	.text.unlikely
+  48              		.align 2
+  49              	.LCOLDB2:
+  50              		.text
+  51              	.LHOTB2:
+  52 0017 90       		.align 2
+  53 0018 0F1F8400 		.p2align 4,,15
+  53      00000000 
+  54              		.globl	_ZNK8UnitTest5Timer11GetTimeInMsEv
+  56              	_ZNK8UnitTest5Timer11GetTimeInMsEv:
+  57              	.LFB17:
+  58              		.cfi_startproc
+  59 0020 53       		pushq	%rbx
+  60              		.cfi_def_cfa_offset 16
+  61              		.cfi_offset 3, -16
+  62 0021 31F6     		xorl	%esi, %esi
+  63 0023 4889FB   		movq	%rdi, %rbx
+  64 0026 4883EC20 		subq	$32, %rsp
+  65              		.cfi_def_cfa_offset 48
+  66 002a 4889E7   		movq	%rsp, %rdi
+  67 002d 64488B04 		movq	%fs:40, %rax
+  67      25280000 
+  67      00
+  68 0036 48894424 		movq	%rax, 24(%rsp)
+  68      18
+  69 003b 31C0     		xorl	%eax, %eax
+  70 003d E8000000 		call	gettimeofday@PLT
+  70      00
+  71 0042 488B0424 		movq	(%rsp), %rax
+  72 0046 488B4C24 		movq	8(%rsp), %rcx
+  72      08
+  73 004b BAD34D62 		movl	$274877907, %edx
+  73      10
+  74 0050 2B03     		subl	(%rbx), %eax
+  75 0052 2B4B08   		subl	8(%rbx), %ecx
+  76 0055 69F0E803 		imull	$1000, %eax, %esi
+  76      0000
+  77 005b 89C8     		movl	%ecx, %eax
+  78 005d C1F91F   		sarl	$31, %ecx
+  79 0060 F7EA     		imull	%edx
+  80 0062 C1FA06   		sarl	$6, %edx
+  81 0065 29CA     		subl	%ecx, %edx
+  82 0067 8D0416   		leal	(%rsi,%rdx), %eax
+  83 006a 488B7424 		movq	24(%rsp), %rsi
+  83      18
+  84 006f 64483334 		xorq	%fs:40, %rsi
+  84      25280000 
+  84      00
+  85 0078 7506     		jne	.L7
+  86 007a 4883C420 		addq	$32, %rsp
+  87              		.cfi_remember_state
+  88              		.cfi_def_cfa_offset 16
+  89 007e 5B       		popq	%rbx
+  90              		.cfi_def_cfa_offset 8
+  91 007f C3       		ret
+  92              	.L7:
+  93              		.cfi_restore_state
+  94 0080 E8000000 		call	__stack_chk_fail@PLT
+  94      00
+  95              		.cfi_endproc
+  96              	.LFE17:
+  98              		.section	.text.unlikely
+  99              	.LCOLDE2:
+ 100              		.text
+ 101              	.LHOTE2:
+ 102              		.section	.text.unlikely
+ 103              	.LCOLDB3:
+ 104              		.text
+ 105              	.LHOTB3:
+ 106 0085 90662E0F 		.p2align 4,,15
+ 106      1F840000 
+ 106      000000
+ 107              		.globl	_ZN8UnitTest11TimeHelpers7SleepMsEi
+ 109              	_ZN8UnitTest11TimeHelpers7SleepMsEi:
+ 110              	.LFB18:
+ 111              		.cfi_startproc
+ 112 0090 69FFE803 		imull	$1000, %edi, %edi
+ 112      0000
+ 113 0096 E9000000 		jmp	usleep@PLT
+ 113      00
+ 114              		.cfi_endproc
+ 115              	.LFE18:
+ 117              		.section	.text.unlikely
+ 118              	.LCOLDE3:
+ 119              		.text
+ 120              	.LHOTE3:
+ 121              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 122              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 TimeHelpers.cpp
+     /tmp/ccZz99KJ.s:11     .text:0000000000000000 _ZN8UnitTest5TimerC2Ev
+     /tmp/ccZz99KJ.s:11     .text:0000000000000000 _ZN8UnitTest5TimerC1Ev
+     /tmp/ccZz99KJ.s:35     .text:0000000000000010 _ZN8UnitTest5Timer5StartEv
+     /tmp/ccZz99KJ.s:56     .text:0000000000000020 _ZNK8UnitTest5Timer11GetTimeInMsEv
+     /tmp/ccZz99KJ.s:109    .text:0000000000000090 _ZN8UnitTest11TimeHelpers7SleepMsEi
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+gettimeofday
+__stack_chk_fail
+usleep

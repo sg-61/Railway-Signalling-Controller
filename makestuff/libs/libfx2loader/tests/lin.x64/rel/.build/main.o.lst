@@ -1,0 +1,26 @@
+   1              		.file	"main.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              	.LCOLDB0:
+   4              		.section	.text.startup,"ax",@progbits
+   5              	.LHOTB0:
+   6              		.p2align 4,,15
+   7              		.globl	main
+   9              	main:
+  10              	.LFB1099:
+  11              		.cfi_startproc
+  12 0000 E9000000 		jmp	_ZN8UnitTest11RunAllTestsEv
+  12      00
+  13              		.cfi_endproc
+  14              	.LFE1099:
+  16              		.section	.text.unlikely
+  17              	.LCOLDE0:
+  18              		.section	.text.startup
+  19              	.LHOTE0:
+  20              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  21              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/ccjtG8hI.s:9      .text.startup:0000000000000000 main
+
+UNDEFINED SYMBOLS
+_ZN8UnitTest11RunAllTestsEv

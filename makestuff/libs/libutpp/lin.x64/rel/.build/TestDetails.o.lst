@@ -1,0 +1,62 @@
+   1              		.file	"TestDetails.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZN8UnitTest11TestDetailsC2EPKcS2_S2_i
+  11              	_ZN8UnitTest11TestDetailsC2EPKcS2_S2_i:
+  12              	.LFB1:
+  13              		.cfi_startproc
+  14 0000 488917   		movq	%rdx, (%rdi)
+  15 0003 48897708 		movq	%rsi, 8(%rdi)
+  16 0007 48894F10 		movq	%rcx, 16(%rdi)
+  17 000b 44894718 		movl	%r8d, 24(%rdi)
+  18 000f C3       		ret
+  19              		.cfi_endproc
+  20              	.LFE1:
+  22              		.section	.text.unlikely
+  23              	.LCOLDE0:
+  24              		.text
+  25              	.LHOTE0:
+  26              		.globl	_ZN8UnitTest11TestDetailsC1EPKcS2_S2_i
+  27              		.set	_ZN8UnitTest11TestDetailsC1EPKcS2_S2_i,_ZN8UnitTest11TestDetailsC2EPKcS2_S2_i
+  28              		.section	.text.unlikely
+  29              		.align 2
+  30              	.LCOLDB1:
+  31              		.text
+  32              	.LHOTB1:
+  33              		.align 2
+  34              		.p2align 4,,15
+  35              		.globl	_ZN8UnitTest11TestDetailsC2ERKS0_i
+  37              	_ZN8UnitTest11TestDetailsC2ERKS0_i:
+  38              	.LFB4:
+  39              		.cfi_startproc
+  40 0010 488B06   		movq	(%rsi), %rax
+  41 0013 488907   		movq	%rax, (%rdi)
+  42 0016 488B4608 		movq	8(%rsi), %rax
+  43 001a 48894708 		movq	%rax, 8(%rdi)
+  44 001e 488B4610 		movq	16(%rsi), %rax
+  45 0022 895718   		movl	%edx, 24(%rdi)
+  46 0025 48894710 		movq	%rax, 16(%rdi)
+  47 0029 C3       		ret
+  48              		.cfi_endproc
+  49              	.LFE4:
+  51              		.section	.text.unlikely
+  52              	.LCOLDE1:
+  53              		.text
+  54              	.LHOTE1:
+  55              		.globl	_ZN8UnitTest11TestDetailsC1ERKS0_i
+  56              		.set	_ZN8UnitTest11TestDetailsC1ERKS0_i,_ZN8UnitTest11TestDetailsC2ERKS0_i
+  57              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  58              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 TestDetails.cpp
+     /tmp/cc7jfI62.s:11     .text:0000000000000000 _ZN8UnitTest11TestDetailsC2EPKcS2_S2_i
+     /tmp/cc7jfI62.s:11     .text:0000000000000000 _ZN8UnitTest11TestDetailsC1EPKcS2_S2_i
+     /tmp/cc7jfI62.s:37     .text:0000000000000010 _ZN8UnitTest11TestDetailsC2ERKS0_i
+     /tmp/cc7jfI62.s:37     .text:0000000000000010 _ZN8UnitTest11TestDetailsC1ERKS0_i
+
+NO UNDEFINED SYMBOLS

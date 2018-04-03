@@ -1,0 +1,105 @@
+   1              		.file	"TestReporter.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZN8UnitTest12TestReporterD2Ev
+  11              	_ZN8UnitTest12TestReporterD2Ev:
+  12              	.LFB1:
+  13              		.cfi_startproc
+  14 0000 F3C3     		rep ret
+  15              		.cfi_endproc
+  16              	.LFE1:
+  18              		.section	.text.unlikely
+  19              	.LCOLDE0:
+  20              		.text
+  21              	.LHOTE0:
+  22              		.globl	_ZN8UnitTest12TestReporterD1Ev
+  23              		.set	_ZN8UnitTest12TestReporterD1Ev,_ZN8UnitTest12TestReporterD2Ev
+  24              		.section	.text.unlikely
+  25              		.align 2
+  26              	.LCOLDB1:
+  27              		.text
+  28              	.LHOTB1:
+  29              		.align 2
+  30 0002 0F1F4000 		.p2align 4,,15
+  30      662E0F1F 
+  30      84000000 
+  30      0000
+  31              		.globl	_ZN8UnitTest12TestReporterD0Ev
+  33              	_ZN8UnitTest12TestReporterD0Ev:
+  34              	.LFB3:
+  35              		.cfi_startproc
+  36 0010 53       		pushq	%rbx
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39 0011 4889FB   		movq	%rdi, %rbx
+  40 0014 E8000000 		call	_ZN8UnitTest12TestReporterD1Ev@PLT
+  40      00
+  41 0019 4889DF   		movq	%rbx, %rdi
+  42 001c 5B       		popq	%rbx
+  43              		.cfi_def_cfa_offset 8
+  44 001d E9000000 		jmp	_ZdlPv@PLT
+  44      00
+  45              		.cfi_endproc
+  46              	.LFE3:
+  48              		.section	.text.unlikely
+  49              	.LCOLDE1:
+  50              		.text
+  51              	.LHOTE1:
+  52              		.weak	_ZTSN8UnitTest12TestReporterE
+  53              		.section	.rodata._ZTSN8UnitTest12TestReporterE,"aG",@progbits,_ZTSN8UnitTest12TestReporterE,comdat
+  54              		.align 16
+  57              	_ZTSN8UnitTest12TestReporterE:
+  58 0000 4E38556E 		.string	"N8UnitTest12TestReporterE"
+  58      69745465 
+  58      73743132 
+  58      54657374 
+  58      5265706F 
+  59              		.weak	_ZTIN8UnitTest12TestReporterE
+  60              		.section	.data.rel.ro._ZTIN8UnitTest12TestReporterE,"awG",@progbits,_ZTIN8UnitTest12TestReporterE,
+  61              		.align 8
+  64              	_ZTIN8UnitTest12TestReporterE:
+  65 0000 00000000 		.quad	_ZTVN10__cxxabiv117__class_type_infoE+16
+  65      00000000 
+  66 0008 00000000 		.quad	_ZTSN8UnitTest12TestReporterE
+  66      00000000 
+  67              		.weak	_ZTVN8UnitTest12TestReporterE
+  68              		.section	.data.rel.ro._ZTVN8UnitTest12TestReporterE,"awG",@progbits,_ZTVN8UnitTest12TestReporterE,
+  69              		.align 8
+  72              	_ZTVN8UnitTest12TestReporterE:
+  73 0000 00000000 		.quad	0
+  73      00000000 
+  74 0008 00000000 		.quad	_ZTIN8UnitTest12TestReporterE
+  74      00000000 
+  75 0010 00000000 		.quad	0
+  75      00000000 
+  76 0018 00000000 		.quad	0
+  76      00000000 
+  77 0020 00000000 		.quad	__cxa_pure_virtual
+  77      00000000 
+  78 0028 00000000 		.quad	__cxa_pure_virtual
+  78      00000000 
+  79 0030 00000000 		.quad	__cxa_pure_virtual
+  79      00000000 
+  80 0038 00000000 		.quad	__cxa_pure_virtual
+  80      00000000 
+  81              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  82              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 TestReporter.cpp
+     /tmp/ccxVHTMl.s:11     .text:0000000000000000 _ZN8UnitTest12TestReporterD2Ev
+     /tmp/ccxVHTMl.s:11     .text:0000000000000000 _ZN8UnitTest12TestReporterD1Ev
+     /tmp/ccxVHTMl.s:33     .text:0000000000000010 _ZN8UnitTest12TestReporterD0Ev
+     /tmp/ccxVHTMl.s:57     .rodata._ZTSN8UnitTest12TestReporterE:0000000000000000 _ZTSN8UnitTest12TestReporterE
+     /tmp/ccxVHTMl.s:64     .data.rel.ro._ZTIN8UnitTest12TestReporterE:0000000000000000 _ZTIN8UnitTest12TestReporterE
+     /tmp/ccxVHTMl.s:72     .data.rel.ro._ZTVN8UnitTest12TestReporterE:0000000000000000 _ZTVN8UnitTest12TestReporterE
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+_ZdlPv
+_ZTVN10__cxxabiv117__class_type_infoE
+__cxa_pure_virtual

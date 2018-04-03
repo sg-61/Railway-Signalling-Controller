@@ -1,0 +1,119 @@
+   1              		.file	"sig.c"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              	.LCOLDB0:
+   4              		.text
+   5              	.LHOTB0:
+   6              		.p2align 4,,15
+   8              	sigHandler:
+   9              	.LFB8:
+  10              		.cfi_startproc
+  11 0000 C6050000 		movb	$1, m_sigint(%rip)
+  11      000001
+  12 0007 C3       		ret
+  13              		.cfi_endproc
+  14              	.LFE8:
+  16              		.section	.text.unlikely
+  17              	.LCOLDE0:
+  18              		.text
+  19              	.LHOTE0:
+  20              		.section	.text.unlikely
+  21              	.LCOLDB1:
+  22              		.text
+  23              	.LHOTB1:
+  24 0008 0F1F8400 		.p2align 4,,15
+  24      00000000 
+  25              		.globl	sigIsRaised
+  27              	sigIsRaised:
+  28              	.LFB7:
+  29              		.cfi_startproc
+  30 0010 0FB60500 		movzbl	m_sigint(%rip), %eax
+  30      000000
+  31 0017 C3       		ret
+  32              		.cfi_endproc
+  33              	.LFE7:
+  35              		.section	.text.unlikely
+  36              	.LCOLDE1:
+  37              		.text
+  38              	.LHOTE1:
+  39              		.section	.text.unlikely
+  40              	.LCOLDB2:
+  41              		.text
+  42              	.LHOTB2:
+  43 0018 0F1F8400 		.p2align 4,,15
+  43      00000000 
+  44              		.globl	sigRegisterHandler
+  46              	sigRegisterHandler:
+  47              	.LFB9:
+  48              		.cfi_startproc
+  49 0020 4881EC48 		subq	$328, %rsp
+  49      010000
+  50              		.cfi_def_cfa_offset 336
+  51 0027 488D7C24 		leaq	8(%rsp), %rdi
+  51      08
+  52 002c 48C70424 		movq	$sigHandler, (%rsp)
+  52      00000000 
+  53 0034 64488B04 		movq	%fs:40, %rax
+  53      25280000 
+  53      00
+  54 003d 48898424 		movq	%rax, 312(%rsp)
+  54      38010000 
+  55 0045 31C0     		xorl	%eax, %eax
+  56 0047 E8000000 		call	sigemptyset
+  56      00
+  57 004c 488D9424 		leaq	160(%rsp), %rdx
+  57      A0000000 
+  58 0054 31F6     		xorl	%esi, %esi
+  59 0056 BF020000 		movl	$2, %edi
+  59      00
+  60 005b C7842488 		movl	$0, 136(%rsp)
+  60      00000000 
+  60      000000
+  61 0066 E8000000 		call	sigaction
+  61      00
+  62 006b 4883BC24 		cmpq	$1, 160(%rsp)
+  62      A0000000 
+  62      01
+  63 0074 740F     		je	.L3
+  64 0076 31D2     		xorl	%edx, %edx
+  65 0078 4889E6   		movq	%rsp, %rsi
+  66 007b BF020000 		movl	$2, %edi
+  66      00
+  67 0080 E8000000 		call	sigaction
+  67      00
+  68              	.L3:
+  69 0085 488B8424 		movq	312(%rsp), %rax
+  69      38010000 
+  70 008d 64483304 		xorq	%fs:40, %rax
+  70      25280000 
+  70      00
+  71 0096 7508     		jne	.L8
+  72 0098 4881C448 		addq	$328, %rsp
+  72      010000
+  73              		.cfi_remember_state
+  74              		.cfi_def_cfa_offset 8
+  75 009f C3       		ret
+  76              	.L8:
+  77              		.cfi_restore_state
+  78 00a0 E8000000 		call	__stack_chk_fail
+  78      00
+  79              		.cfi_endproc
+  80              	.LFE9:
+  82              		.section	.text.unlikely
+  83              	.LCOLDE2:
+  84              		.text
+  85              	.LHOTE2:
+  86              		.local	m_sigint
+  87              		.comm	m_sigint,1,1
+  88              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+  89              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sig.c
+     /tmp/ccmW9XsD.s:8      .text:0000000000000000 sigHandler
+                             .bss:0000000000000000 m_sigint
+     /tmp/ccmW9XsD.s:27     .text:0000000000000010 sigIsRaised
+     /tmp/ccmW9XsD.s:46     .text:0000000000000020 sigRegisterHandler
+
+UNDEFINED SYMBOLS
+sigemptyset
+sigaction
+__stack_chk_fail

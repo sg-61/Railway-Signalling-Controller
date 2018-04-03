@@ -1,0 +1,27 @@
+   1              		.file	"misc.c"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              	.LCOLDB0:
+   4              		.text
+   5              	.LHOTB0:
+   6              		.p2align 4,,15
+   7              		.globl	fx2FreeError
+   9              	fx2FreeError:
+  10              	.LFB4:
+  11              		.cfi_startproc
+  12 0000 E9000000 		jmp	errFree@PLT
+  12      00
+  13              		.cfi_endproc
+  14              	.LFE4:
+  16              		.section	.text.unlikely
+  17              	.LCOLDE0:
+  18              		.text
+  19              	.LHOTE0:
+  20              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  21              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 misc.c
+     /tmp/ccKUcfvA.s:9      .text:0000000000000000 fx2FreeError
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+errFree

@@ -1,0 +1,175 @@
+   1              		.file	"MemoryOutStream.cpp"
+   2              		.text
+   3              	.Ltext0:
+   4              		.align 2
+   5              		.globl	_ZNK8UnitTest15MemoryOutStream7GetTextEv
+   7              	_ZNK8UnitTest15MemoryOutStream7GetTextEv:
+   8              	.LFB1057:
+   9              		.file 1 "MemoryOutStream.cpp"
+   1:MemoryOutStream.cpp **** #include "MemoryOutStream.h"
+   2:MemoryOutStream.cpp **** 
+   3:MemoryOutStream.cpp **** #ifndef UNITTEST_USE_CUSTOM_STREAMS
+   4:MemoryOutStream.cpp **** 
+   5:MemoryOutStream.cpp **** 
+   6:MemoryOutStream.cpp **** namespace UnitTest {
+   7:MemoryOutStream.cpp **** 
+   8:MemoryOutStream.cpp **** char const* MemoryOutStream::GetText() const
+   9:MemoryOutStream.cpp **** {
+  10              		.loc 1 9 0
+  11              		.cfi_startproc
+  12              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+  13              		.cfi_lsda 0x1b,.LLSDA1057
+  14 0000 55       		pushq	%rbp
+  15              		.cfi_def_cfa_offset 16
+  16              		.cfi_offset 6, -16
+  17 0001 4889E5   		movq	%rsp, %rbp
+  18              		.cfi_def_cfa_register 6
+  19 0004 53       		pushq	%rbx
+  20 0005 4883EC48 		subq	$72, %rsp
+  21              		.cfi_offset 3, -24
+  22 0009 48897DB8 		movq	%rdi, -72(%rbp)
+  23              		.loc 1 9 0
+  24 000d 64488B04 		movq	%fs:40, %rax
+  24      25280000 
+  24      00
+  25 0016 488945E8 		movq	%rax, -24(%rbp)
+  26 001a 31C0     		xorl	%eax, %eax
+  10:MemoryOutStream.cpp ****     m_text = this->str();
+  27              		.loc 1 10 0
+  28 001c 488B55B8 		movq	-72(%rbp), %rdx
+  29 0020 488D45C0 		leaq	-64(%rbp), %rax
+  30 0024 4889D6   		movq	%rdx, %rsi
+  31 0027 4889C7   		movq	%rax, %rdi
+  32              	.LEHB0:
+  33 002a E8000000 		call	_ZNKSt7__cxx1119basic_ostringstreamIcSt11char_traitsIcESaIcEE3strEv@PLT
+  33      00
+  34              	.LEHE0:
+  35 002f 488B45B8 		movq	-72(%rbp), %rax
+  36 0033 488D5070 		leaq	112(%rax), %rdx
+  37 0037 488D45C0 		leaq	-64(%rbp), %rax
+  38 003b 4889C6   		movq	%rax, %rsi
+  39 003e 4889D7   		movq	%rdx, %rdi
+  40              	.LEHB1:
+  41 0041 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEaSERKS4_@PLT
+  41      00
+  42              	.LEHE1:
+  43              		.loc 1 10 0 is_stmt 0 discriminator 2
+  44 0046 488D45C0 		leaq	-64(%rbp), %rax
+  45 004a 4889C7   		movq	%rax, %rdi
+  46              	.LEHB2:
+  47 004d E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@PLT
+  47      00
+  11:MemoryOutStream.cpp ****     return m_text.c_str();
+  48              		.loc 1 11 0 is_stmt 1 discriminator 2
+  49 0052 488B45B8 		movq	-72(%rbp), %rax
+  50 0056 4883C070 		addq	$112, %rax
+  51 005a 4889C7   		movq	%rax, %rdi
+  52 005d E8000000 		call	_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv@PLT
+  52      00
+  53              	.LEHE2:
+  12:MemoryOutStream.cpp **** }
+  54              		.loc 1 12 0 discriminator 2
+  55 0062 488B4DE8 		movq	-24(%rbp), %rcx
+  56 0066 6448330C 		xorq	%fs:40, %rcx
+  56      25280000 
+  56      00
+  57 006f 7421     		je	.L4
+  58 0071 EB1A     		jmp	.L6
+  59              	.L5:
+  60 0073 4889C3   		movq	%rax, %rbx
+  10:MemoryOutStream.cpp ****     m_text = this->str();
+  61              		.loc 1 10 0
+  62 0076 488D45C0 		leaq	-64(%rbp), %rax
+  63 007a 4889C7   		movq	%rax, %rdi
+  64 007d E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@PLT
+  64      00
+  65 0082 4889D8   		movq	%rbx, %rax
+  66 0085 4889C7   		movq	%rax, %rdi
+  67              	.LEHB3:
+  68 0088 E8000000 		call	_Unwind_Resume@PLT
+  68      00
+  69              	.LEHE3:
+  70              	.L6:
+  71              		.loc 1 12 0
+  72 008d E8000000 		call	__stack_chk_fail@PLT
+  72      00
+  73              	.L4:
+  74 0092 4883C448 		addq	$72, %rsp
+  75 0096 5B       		popq	%rbx
+  76 0097 5D       		popq	%rbp
+  77              		.cfi_def_cfa 7, 8
+  78 0098 C3       		ret
+  79              		.cfi_endproc
+  80              	.LFE1057:
+  81              		.globl	__gxx_personality_v0
+  82              		.section	.gcc_except_table,"a",@progbits
+  83              	.LLSDA1057:
+  84 0000 FF       		.byte	0xff
+  85 0001 FF       		.byte	0xff
+  86 0002 01       		.byte	0x1
+  87 0003 11       		.uleb128 .LLSDACSE1057-.LLSDACSB1057
+  88              	.LLSDACSB1057:
+  89 0004 2A       		.uleb128 .LEHB0-.LFB1057
+  90 0005 05       		.uleb128 .LEHE0-.LEHB0
+  91 0006 00       		.uleb128 0
+  92 0007 00       		.uleb128 0
+  93 0008 41       		.uleb128 .LEHB1-.LFB1057
+  94 0009 05       		.uleb128 .LEHE1-.LEHB1
+  95 000a 73       		.uleb128 .L5-.LFB1057
+  96 000b 00       		.uleb128 0
+  97 000c 4D       		.uleb128 .LEHB2-.LFB1057
+  98 000d 15       		.uleb128 .LEHE2-.LEHB2
+  99 000e 00       		.uleb128 0
+ 100 000f 00       		.uleb128 0
+ 101 0010 8801     		.uleb128 .LEHB3-.LFB1057
+ 102 0012 05       		.uleb128 .LEHE3-.LEHB3
+ 103 0013 00       		.uleb128 0
+ 104 0014 00       		.uleb128 0
+ 105              	.LLSDACSE1057:
+ 106              		.text
+ 108              	.Letext0:
+ 109              		.file 2 "/usr/include/c++/5/bits/basic_string.h"
+ 110              		.file 3 "/usr/include/c++/5/bits/basic_string.tcc"
+ 111              		.file 4 "/usr/include/c++/5/bits/stringfwd.h"
+ 112              		.file 5 "/usr/include/c++/5/cwchar"
+ 113              		.file 6 "/usr/include/c++/5/bits/char_traits.h"
+ 114              		.file 7 "/usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h"
+ 115              		.file 8 "/usr/include/c++/5/clocale"
+ 116              		.file 9 "/usr/include/c++/5/bits/allocator.h"
+ 117              		.file 10 "/usr/include/c++/5/cwctype"
+ 118              		.file 11 "/usr/include/c++/5/bits/stl_iterator_base_types.h"
+ 119              		.file 12 "/usr/include/c++/5/debug/debug.h"
+ 120              		.file 13 "/usr/include/c++/5/bits/predefined_ops.h"
+ 121              		.file 14 "/usr/include/c++/5/ext/new_allocator.h"
+ 122              		.file 15 "/usr/include/c++/5/ext/numeric_traits.h"
+ 123              		.file 16 "/usr/include/c++/5/ext/alloc_traits.h"
+ 124              		.file 17 "/usr/include/c++/5/bits/stl_iterator.h"
+ 125              		.file 18 "/usr/include/stdio.h"
+ 126              		.file 19 "<built-in>"
+ 127              		.file 20 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 128              		.file 21 "/usr/include/wchar.h"
+ 129              		.file 22 "/usr/include/time.h"
+ 130              		.file 23 "/usr/include/locale.h"
+ 131              		.file 24 "/usr/include/x86_64-linux-gnu/bits/types.h"
+ 132              		.file 25 "/usr/include/wctype.h"
+ 133              		.file 26 "MemoryOutStream.h"
+ 7867              		.align 8
+ 7870              	DW.ref.__gxx_personality_v0:
+ 7871 0000 00000000 		.quad	__gxx_personality_v0
+ 7871      00000000 
+ 7872              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 7873              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 MemoryOutStream.cpp
+     /tmp/ccGth8FE.s:7      .text:0000000000000000 _ZNK8UnitTest15MemoryOutStream7GetTextEv
+     /tmp/ccGth8FE.s:7870   .data.DW.ref.__gxx_personality_v0:0000000000000000 DW.ref.__gxx_personality_v0
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+_ZNKSt7__cxx1119basic_ostringstreamIcSt11char_traitsIcESaIcEE3strEv
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEaSERKS4_
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv
+_Unwind_Resume
+__stack_chk_fail
+__gxx_personality_v0

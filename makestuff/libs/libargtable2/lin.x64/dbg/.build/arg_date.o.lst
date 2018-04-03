@@ -1,0 +1,911 @@
+   1              		.file	"arg_date.c"
+   2              		.text
+   3              	.Ltext0:
+   5              	resetfn:
+   6              	.LFB0:
+   7              		.file 1 "arg_date.c"
+   1:arg_date.c    **** /*********************************************************************
+   2:arg_date.c    **** This file is part of the argtable2 library.
+   3:arg_date.c    **** Copyright (C) 1998-2001,2003-2011 Stewart Heitmann
+   4:arg_date.c    **** sheitmann@users.sourceforge.net
+   5:arg_date.c    **** 
+   6:arg_date.c    **** The argtable2 library is free software; you can redistribute it and/or
+   7:arg_date.c    **** modify it under the terms of the GNU Library General Public License as
+   8:arg_date.c    **** published by the Free Software Foundation; either version 2 of the
+   9:arg_date.c    **** License, or (at your option) any later version.
+  10:arg_date.c    **** 
+  11:arg_date.c    **** This software is distributed in the hope that it will be useful,
+  12:arg_date.c    **** but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:arg_date.c    **** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  14:arg_date.c    **** Library General Public License for more details.
+  15:arg_date.c    **** 
+  16:arg_date.c    **** You should have received a copy of the GNU Library General Public
+  17:arg_date.c    **** License along with this library; if not, write to the Free Software
+  18:arg_date.c    **** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+  19:arg_date.c    **** USA.
+  20:arg_date.c    **** **********************************************************************/
+  21:arg_date.c    **** /* glibc2 needs this for strptime */
+  22:arg_date.c    **** #define _XOPEN_SOURCE 
+  23:arg_date.c    **** 
+  24:arg_date.c    **** /* SunOS also requires this for strptime */
+  25:arg_date.c    **** #define _XOPEN_VERSION 4 
+  26:arg_date.c    **** 
+  27:arg_date.c    **** /* config.h must be included before anything else */
+  28:arg_date.c    **** #ifdef HAVE_CONFIG_H
+  29:arg_date.c    **** #include "config.h"
+  30:arg_date.c    **** #endif
+  31:arg_date.c    **** 
+  32:arg_date.c    **** #ifdef HAVE_STDLIB_H
+  33:arg_date.c    **** #include <stdlib.h>
+  34:arg_date.c    **** #endif
+  35:arg_date.c    **** 
+  36:arg_date.c    **** #ifdef HAVE_STRINGS_H
+  37:arg_date.c    **** #include <strings.h>
+  38:arg_date.c    **** #endif
+  39:arg_date.c    **** 
+  40:arg_date.c    **** #include "argtable2.h"
+  41:arg_date.c    **** 
+  42:arg_date.c    **** /* local error codes  */
+  43:arg_date.c    **** enum {EMINCOUNT=1,EMAXCOUNT,EBADDATE};
+  44:arg_date.c    **** 
+  45:arg_date.c    **** static void resetfn(struct arg_date *parent)
+  46:arg_date.c    ****     {
+   8              		.loc 1 46 0
+   9              		.cfi_startproc
+  10 0000 55       		pushq	%rbp
+  11              		.cfi_def_cfa_offset 16
+  12              		.cfi_offset 6, -16
+  13 0001 4889E5   		movq	%rsp, %rbp
+  14              		.cfi_def_cfa_register 6
+  15 0004 48897DF8 		movq	%rdi, -8(%rbp)
+  47:arg_date.c    ****     /*printf("%s:resetfn(%p)\n",__FILE__,parent);*/
+  48:arg_date.c    ****     parent->count=0;
+  16              		.loc 1 48 0
+  17 0008 488B45F8 		movq	-8(%rbp), %rax
+  18 000c C7406800 		movl	$0, 104(%rax)
+  18      000000
+  49:arg_date.c    ****     }
+  19              		.loc 1 49 0
+  20 0013 90       		nop
+  21 0014 5D       		popq	%rbp
+  22              		.cfi_def_cfa 7, 8
+  23 0015 C3       		ret
+  24              		.cfi_endproc
+  25              	.LFE0:
+  28              	scanfn:
+  29              	.LFB1:
+  50:arg_date.c    **** 
+  51:arg_date.c    **** static int scanfn(struct arg_date *parent, const char *argval)
+  52:arg_date.c    ****     {
+  30              		.loc 1 52 0
+  31              		.cfi_startproc
+  32 0016 55       		pushq	%rbp
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 6, -16
+  35 0017 4889E5   		movq	%rsp, %rbp
+  36              		.cfi_def_cfa_register 6
+  37 001a 4883EC60 		subq	$96, %rsp
+  38 001e 48897DA8 		movq	%rdi, -88(%rbp)
+  39 0022 488975A0 		movq	%rsi, -96(%rbp)
+  40              		.loc 1 52 0
+  41 0026 64488B04 		movq	%fs:40, %rax
+  41      25280000 
+  41      00
+  42 002f 488945F8 		movq	%rax, -8(%rbp)
+  43 0033 31C0     		xorl	%eax, %eax
+  53:arg_date.c    ****     int errorcode = 0;
+  44              		.loc 1 53 0
+  45 0035 C745B400 		movl	$0, -76(%rbp)
+  45      000000
+  54:arg_date.c    **** 
+  55:arg_date.c    ****     if (parent->count == parent->hdr.maxcount )
+  46              		.loc 1 55 0
+  47 003c 488B45A8 		movq	-88(%rbp), %rax
+  48 0040 8B5068   		movl	104(%rax), %edx
+  49 0043 488B45A8 		movq	-88(%rbp), %rax
+  50 0047 8B402C   		movl	44(%rax), %eax
+  51 004a 39C2     		cmpl	%eax, %edx
+  52 004c 750C     		jne	.L3
+  56:arg_date.c    ****         errorcode = EMAXCOUNT;
+  53              		.loc 1 56 0
+  54 004e C745B402 		movl	$2, -76(%rbp)
+  54      000000
+  55 0055 E91B0100 		jmp	.L4
+  55      00
+  56              	.L3:
+  57:arg_date.c    ****     else if (!argval)
+  57              		.loc 1 57 0
+  58 005a 48837DA0 		cmpq	$0, -96(%rbp)
+  58      00
+  59 005f 7516     		jne	.L5
+  58:arg_date.c    ****         {
+  59:arg_date.c    ****         /* no argument value was given, leave parent->tmval[] unaltered but still count it */
+  60:arg_date.c    ****         parent->count++;
+  60              		.loc 1 60 0
+  61 0061 488B45A8 		movq	-88(%rbp), %rax
+  62 0065 8B4068   		movl	104(%rax), %eax
+  63 0068 8D5001   		leal	1(%rax), %edx
+  64 006b 488B45A8 		movq	-88(%rbp), %rax
+  65 006f 895068   		movl	%edx, 104(%rax)
+  66 0072 E9FE0000 		jmp	.L4
+  66      00
+  67              	.L5:
+  68              	.LBB2:
+  61:arg_date.c    ****         }
+  62:arg_date.c    ****     else 
+  63:arg_date.c    ****         {
+  64:arg_date.c    ****         const char *pend;
+  65:arg_date.c    ****         struct tm tm = parent->tmval[parent->count];
+  69              		.loc 1 65 0
+  70 0077 488B45A8 		movq	-88(%rbp), %rax
+  71 007b 488B5070 		movq	112(%rax), %rdx
+  72 007f 488B45A8 		movq	-88(%rbp), %rax
+  73 0083 8B4068   		movl	104(%rax), %eax
+  74 0086 4898     		cltq
+  75 0088 48C1E003 		salq	$3, %rax
+  76 008c 488D0CC5 		leaq	0(,%rax,8), %rcx
+  76      00000000 
+  77 0094 4829C1   		subq	%rax, %rcx
+  78 0097 4889C8   		movq	%rcx, %rax
+  79 009a 4801D0   		addq	%rdx, %rax
+  80 009d 488B10   		movq	(%rax), %rdx
+  81 00a0 488955C0 		movq	%rdx, -64(%rbp)
+  82 00a4 488B5008 		movq	8(%rax), %rdx
+  83 00a8 488955C8 		movq	%rdx, -56(%rbp)
+  84 00ac 488B5010 		movq	16(%rax), %rdx
+  85 00b0 488955D0 		movq	%rdx, -48(%rbp)
+  86 00b4 488B5018 		movq	24(%rax), %rdx
+  87 00b8 488955D8 		movq	%rdx, -40(%rbp)
+  88 00bc 488B5020 		movq	32(%rax), %rdx
+  89 00c0 488955E0 		movq	%rdx, -32(%rbp)
+  90 00c4 488B5028 		movq	40(%rax), %rdx
+  91 00c8 488955E8 		movq	%rdx, -24(%rbp)
+  92 00cc 488B4030 		movq	48(%rax), %rax
+  93 00d0 488945F0 		movq	%rax, -16(%rbp)
+  66:arg_date.c    **** 
+  67:arg_date.c    ****         /* parse the given argument value, store result in parent->tmval[] */
+  68:arg_date.c    ****         pend = strptime(argval, parent->format, &tm);
+  94              		.loc 1 68 0
+  95 00d4 488B45A8 		movq	-88(%rbp), %rax
+  96 00d8 488B4860 		movq	96(%rax), %rcx
+  97 00dc 488D55C0 		leaq	-64(%rbp), %rdx
+  98 00e0 488B45A0 		movq	-96(%rbp), %rax
+  99 00e4 4889CE   		movq	%rcx, %rsi
+ 100 00e7 4889C7   		movq	%rax, %rdi
+ 101 00ea E8000000 		call	strptime@PLT
+ 101      00
+ 102 00ef 488945B8 		movq	%rax, -72(%rbp)
+  69:arg_date.c    ****         if (pend && pend[0]=='\0')
+ 103              		.loc 1 69 0
+ 104 00f3 48837DB8 		cmpq	$0, -72(%rbp)
+ 104      00
+ 105 00f8 7474     		je	.L6
+ 106              		.loc 1 69 0 is_stmt 0 discriminator 1
+ 107 00fa 488B45B8 		movq	-72(%rbp), %rax
+ 108 00fe 0FB600   		movzbl	(%rax), %eax
+ 109 0101 84C0     		testb	%al, %al
+ 110 0103 7569     		jne	.L6
+  70:arg_date.c    ****             parent->tmval[parent->count++] = tm;
+ 111              		.loc 1 70 0 is_stmt 1
+ 112 0105 488B45A8 		movq	-88(%rbp), %rax
+ 113 0109 488B7070 		movq	112(%rax), %rsi
+ 114 010d 488B45A8 		movq	-88(%rbp), %rax
+ 115 0111 8B4068   		movl	104(%rax), %eax
+ 116 0114 8D4801   		leal	1(%rax), %ecx
+ 117 0117 488B55A8 		movq	-88(%rbp), %rdx
+ 118 011b 894A68   		movl	%ecx, 104(%rdx)
+ 119 011e 4898     		cltq
+ 120 0120 48C1E003 		salq	$3, %rax
+ 121 0124 488D14C5 		leaq	0(,%rax,8), %rdx
+ 121      00000000 
+ 122 012c 4829C2   		subq	%rax, %rdx
+ 123 012f 4889D0   		movq	%rdx, %rax
+ 124 0132 4801F0   		addq	%rsi, %rax
+ 125 0135 488B55C0 		movq	-64(%rbp), %rdx
+ 126 0139 488910   		movq	%rdx, (%rax)
+ 127 013c 488B55C8 		movq	-56(%rbp), %rdx
+ 128 0140 48895008 		movq	%rdx, 8(%rax)
+ 129 0144 488B55D0 		movq	-48(%rbp), %rdx
+ 130 0148 48895010 		movq	%rdx, 16(%rax)
+ 131 014c 488B55D8 		movq	-40(%rbp), %rdx
+ 132 0150 48895018 		movq	%rdx, 24(%rax)
+ 133 0154 488B55E0 		movq	-32(%rbp), %rdx
+ 134 0158 48895020 		movq	%rdx, 32(%rax)
+ 135 015c 488B55E8 		movq	-24(%rbp), %rdx
+ 136 0160 48895028 		movq	%rdx, 40(%rax)
+ 137 0164 488B55F0 		movq	-16(%rbp), %rdx
+ 138 0168 48895030 		movq	%rdx, 48(%rax)
+ 139 016c EB07     		jmp	.L4
+ 140              	.L6:
+  71:arg_date.c    ****         else
+  72:arg_date.c    ****             errorcode = EBADDATE;
+ 141              		.loc 1 72 0
+ 142 016e C745B403 		movl	$3, -76(%rbp)
+ 142      000000
+ 143              	.L4:
+ 144              	.LBE2:
+  73:arg_date.c    ****         }
+  74:arg_date.c    **** 
+  75:arg_date.c    ****     /*printf("%s:scanfn(%p) returns %d\n",__FILE__,parent,errorcode);*/
+  76:arg_date.c    ****     return errorcode;
+ 145              		.loc 1 76 0
+ 146 0175 8B45B4   		movl	-76(%rbp), %eax
+  77:arg_date.c    ****     }
+ 147              		.loc 1 77 0
+ 148 0178 488B7DF8 		movq	-8(%rbp), %rdi
+ 149 017c 6448333C 		xorq	%fs:40, %rdi
+ 149      25280000 
+ 149      00
+ 150 0185 7405     		je	.L9
+ 151 0187 E8000000 		call	__stack_chk_fail@PLT
+ 151      00
+ 152              	.L9:
+ 153 018c C9       		leave
+ 154              		.cfi_def_cfa 7, 8
+ 155 018d C3       		ret
+ 156              		.cfi_endproc
+ 157              	.LFE1:
+ 160              	checkfn:
+ 161              	.LFB2:
+  78:arg_date.c    **** 
+  79:arg_date.c    **** static int checkfn(struct arg_date *parent)
+  80:arg_date.c    ****     {
+ 162              		.loc 1 80 0
+ 163              		.cfi_startproc
+ 164 018e 55       		pushq	%rbp
+ 165              		.cfi_def_cfa_offset 16
+ 166              		.cfi_offset 6, -16
+ 167 018f 4889E5   		movq	%rsp, %rbp
+ 168              		.cfi_def_cfa_register 6
+ 169 0192 48897DE8 		movq	%rdi, -24(%rbp)
+  81:arg_date.c    ****     int errorcode = (parent->count < parent->hdr.mincount) ? EMINCOUNT : 0;
+ 170              		.loc 1 81 0
+ 171 0196 488B45E8 		movq	-24(%rbp), %rax
+ 172 019a 8B5068   		movl	104(%rax), %edx
+ 173 019d 488B45E8 		movq	-24(%rbp), %rax
+ 174 01a1 8B4028   		movl	40(%rax), %eax
+ 175 01a4 39C2     		cmpl	%eax, %edx
+ 176 01a6 0F9CC0   		setl	%al
+ 177 01a9 0FB6C0   		movzbl	%al, %eax
+ 178 01ac 8945FC   		movl	%eax, -4(%rbp)
+  82:arg_date.c    ****      
+  83:arg_date.c    ****     /*printf("%s:checkfn(%p) returns %d\n",__FILE__,parent,errorcode);*/
+  84:arg_date.c    ****     return errorcode;
+ 179              		.loc 1 84 0
+ 180 01af 8B45FC   		movl	-4(%rbp), %eax
+  85:arg_date.c    ****     }
+ 181              		.loc 1 85 0
+ 182 01b2 5D       		popq	%rbp
+ 183              		.cfi_def_cfa 7, 8
+ 184 01b3 C3       		ret
+ 185              		.cfi_endproc
+ 186              	.LFE2:
+ 188              		.section	.rodata
+ 189              	.LC0:
+ 190 0000 00       		.string	""
+ 191              	.LC1:
+ 192 0001 25733A20 		.string	"%s: "
+ 192      00
+ 193              	.LC2:
+ 194 0006 6D697373 		.string	"missing option "
+ 194      696E6720 
+ 194      6F707469 
+ 194      6F6E2000 
+ 195              	.LC3:
+ 196 0016 0A00     		.string	"\n"
+ 197              	.LC4:
+ 198 0018 65786365 		.string	"excess option "
+ 198      7373206F 
+ 198      7074696F 
+ 198      6E2000
+ 199 0027 00       		.align 8
+ 200              	.LC5:
+ 201 0028 696C6C65 		.string	"illegal timestamp format \"%s\"\n"
+ 201      67616C20 
+ 201      74696D65 
+ 201      7374616D 
+ 201      7020666F 
+ 202              	.LC6:
+ 203 0047 25462025 		.string	"%F %H:%M:%S"
+ 203      483A254D 
+ 203      3A255300 
+ 204              	.LC7:
+ 205 0053 31393939 		.string	"1999-12-31 23:59:59"
+ 205      2D31322D 
+ 205      33312032 
+ 205      333A3539 
+ 205      3A353900 
+ 206              	.LC8:
+ 207 0067 636F7272 		.string	"correct format is \"%s\"\n"
+ 207      65637420 
+ 207      666F726D 
+ 207      61742069 
+ 207      73202225 
+ 208              		.text
+ 210              	errorfn:
+ 211              	.LFB3:
+  86:arg_date.c    **** 
+  87:arg_date.c    **** static void errorfn(struct arg_date *parent, FILE *fp, int errorcode, const char *argval, const cha
+  88:arg_date.c    ****     {
+ 212              		.loc 1 88 0
+ 213              		.cfi_startproc
+ 214 01b4 55       		pushq	%rbp
+ 215              		.cfi_def_cfa_offset 16
+ 216              		.cfi_offset 6, -16
+ 217 01b5 4889E5   		movq	%rsp, %rbp
+ 218              		.cfi_def_cfa_register 6
+ 219 01b8 4881EC60 		subq	$352, %rsp
+ 219      010000
+ 220 01bf 4889BDC8 		movq	%rdi, -312(%rbp)
+ 220      FEFFFF
+ 221 01c6 4889B5C0 		movq	%rsi, -320(%rbp)
+ 221      FEFFFF
+ 222 01cd 8995BCFE 		movl	%edx, -324(%rbp)
+ 222      FFFF
+ 223 01d3 48898DB0 		movq	%rcx, -336(%rbp)
+ 223      FEFFFF
+ 224 01da 4C8985A8 		movq	%r8, -344(%rbp)
+ 224      FEFFFF
+ 225              		.loc 1 88 0
+ 226 01e1 64488B04 		movq	%fs:40, %rax
+ 226      25280000 
+ 226      00
+ 227 01ea 488945F8 		movq	%rax, -8(%rbp)
+ 228 01ee 31C0     		xorl	%eax, %eax
+  89:arg_date.c    ****     const char *shortopts = parent->hdr.shortopts;
+ 229              		.loc 1 89 0
+ 230 01f0 488B85C8 		movq	-312(%rbp), %rax
+ 230      FEFFFF
+ 231 01f7 488B4008 		movq	8(%rax), %rax
+ 232 01fb 488985D8 		movq	%rax, -296(%rbp)
+ 232      FEFFFF
+  90:arg_date.c    ****     const char *longopts  = parent->hdr.longopts;
+ 233              		.loc 1 90 0
+ 234 0202 488B85C8 		movq	-312(%rbp), %rax
+ 234      FEFFFF
+ 235 0209 488B4010 		movq	16(%rax), %rax
+ 236 020d 488985E0 		movq	%rax, -288(%rbp)
+ 236      FEFFFF
+  91:arg_date.c    ****     const char *datatype  = parent->hdr.datatype;
+ 237              		.loc 1 91 0
+ 238 0214 488B85C8 		movq	-312(%rbp), %rax
+ 238      FEFFFF
+ 239 021b 488B4018 		movq	24(%rax), %rax
+ 240 021f 488985E8 		movq	%rax, -280(%rbp)
+ 240      FEFFFF
+  92:arg_date.c    **** 
+  93:arg_date.c    ****     /* make argval NULL safe */
+  94:arg_date.c    ****     argval = argval ? argval : "";
+ 241              		.loc 1 94 0
+ 242 0226 4883BDB0 		cmpq	$0, -336(%rbp)
+ 242      FEFFFF00 
+ 243 022e 7409     		je	.L13
+ 244              		.loc 1 94 0 is_stmt 0 discriminator 1
+ 245 0230 488B85B0 		movq	-336(%rbp), %rax
+ 245      FEFFFF
+ 246 0237 EB07     		jmp	.L14
+ 247              	.L13:
+ 248              		.loc 1 94 0 discriminator 2
+ 249 0239 488D0500 		leaq	.LC0(%rip), %rax
+ 249      000000
+ 250              	.L14:
+ 251              		.loc 1 94 0 discriminator 4
+ 252 0240 488985B0 		movq	%rax, -336(%rbp)
+ 252      FEFFFF
+  95:arg_date.c    **** 
+  96:arg_date.c    ****     fprintf(fp,"%s: ",progname);
+ 253              		.loc 1 96 0 is_stmt 1 discriminator 4
+ 254 0247 488B95A8 		movq	-344(%rbp), %rdx
+ 254      FEFFFF
+ 255 024e 488B85C0 		movq	-320(%rbp), %rax
+ 255      FEFFFF
+ 256 0255 488D3500 		leaq	.LC1(%rip), %rsi
+ 256      000000
+ 257 025c 4889C7   		movq	%rax, %rdi
+ 258 025f B8000000 		movl	$0, %eax
+ 258      00
+ 259 0264 E8000000 		call	fprintf@PLT
+ 259      00
+  97:arg_date.c    ****     switch(errorcode)
+ 260              		.loc 1 97 0 discriminator 4
+ 261 0269 8B85BCFE 		movl	-324(%rbp), %eax
+ 261      FFFF
+ 262 026f 83F802   		cmpl	$2, %eax
+ 263 0272 7463     		je	.L16
+ 264 0274 83F803   		cmpl	$3, %eax
+ 265 0277 0F84AA00 		je	.L17
+ 265      0000
+ 266 027d 83F801   		cmpl	$1, %eax
+ 267 0280 7405     		je	.L18
+  98:arg_date.c    ****         {
+  99:arg_date.c    ****         case EMINCOUNT:
+ 100:arg_date.c    ****             fputs("missing option ",fp);
+ 101:arg_date.c    ****             arg_print_option(fp,shortopts,longopts,datatype,"\n");
+ 102:arg_date.c    ****             break;
+ 103:arg_date.c    **** 
+ 104:arg_date.c    ****         case EMAXCOUNT:
+ 105:arg_date.c    ****             fputs("excess option ",fp);
+ 106:arg_date.c    ****             arg_print_option(fp,shortopts,longopts,argval,"\n");
+ 107:arg_date.c    ****             break;
+ 108:arg_date.c    **** 
+ 109:arg_date.c    ****         case EBADDATE:
+ 110:arg_date.c    ****             {
+ 111:arg_date.c    ****             struct tm tm;
+ 112:arg_date.c    ****             char buff[200];           
+ 113:arg_date.c    **** 
+ 114:arg_date.c    ****             fprintf(fp,"illegal timestamp format \"%s\"\n",argval);
+ 115:arg_date.c    ****             bzero(&tm,sizeof(tm));
+ 116:arg_date.c    ****             strptime("1999-12-31 23:59:59","%F %H:%M:%S",&tm);
+ 117:arg_date.c    ****             strftime(buff, sizeof(buff), parent->format, &tm);
+ 118:arg_date.c    ****             printf("correct format is \"%s\"\n", buff);                        
+ 119:arg_date.c    ****             break;
+ 120:arg_date.c    ****             }
+ 121:arg_date.c    ****         }
+ 122:arg_date.c    ****     }
+ 268              		.loc 1 122 0 discriminator 4
+ 269 0282 E9350100 		jmp	.L20
+ 269      00
+ 270              	.L18:
+ 100:arg_date.c    ****             arg_print_option(fp,shortopts,longopts,datatype,"\n");
+ 271              		.loc 1 100 0
+ 272 0287 488B85C0 		movq	-320(%rbp), %rax
+ 272      FEFFFF
+ 273 028e 4889C1   		movq	%rax, %rcx
+ 274 0291 BA0F0000 		movl	$15, %edx
+ 274      00
+ 275 0296 BE010000 		movl	$1, %esi
+ 275      00
+ 276 029b 488D3D00 		leaq	.LC2(%rip), %rdi
+ 276      000000
+ 277 02a2 E8000000 		call	fwrite@PLT
+ 277      00
+ 101:arg_date.c    ****             break;
+ 278              		.loc 1 101 0
+ 279 02a7 488B8DE8 		movq	-280(%rbp), %rcx
+ 279      FEFFFF
+ 280 02ae 488B95E0 		movq	-288(%rbp), %rdx
+ 280      FEFFFF
+ 281 02b5 488BB5D8 		movq	-296(%rbp), %rsi
+ 281      FEFFFF
+ 282 02bc 488B85C0 		movq	-320(%rbp), %rax
+ 282      FEFFFF
+ 283 02c3 4C8D0500 		leaq	.LC3(%rip), %r8
+ 283      000000
+ 284 02ca 4889C7   		movq	%rax, %rdi
+ 285 02cd E8000000 		call	arg_print_option@PLT
+ 285      00
+ 102:arg_date.c    **** 
+ 286              		.loc 1 102 0
+ 287 02d2 E9E50000 		jmp	.L15
+ 287      00
+ 288              	.L16:
+ 105:arg_date.c    ****             arg_print_option(fp,shortopts,longopts,argval,"\n");
+ 289              		.loc 1 105 0
+ 290 02d7 488B85C0 		movq	-320(%rbp), %rax
+ 290      FEFFFF
+ 291 02de 4889C1   		movq	%rax, %rcx
+ 292 02e1 BA0E0000 		movl	$14, %edx
+ 292      00
+ 293 02e6 BE010000 		movl	$1, %esi
+ 293      00
+ 294 02eb 488D3D00 		leaq	.LC4(%rip), %rdi
+ 294      000000
+ 295 02f2 E8000000 		call	fwrite@PLT
+ 295      00
+ 106:arg_date.c    ****             break;
+ 296              		.loc 1 106 0
+ 297 02f7 488B8DB0 		movq	-336(%rbp), %rcx
+ 297      FEFFFF
+ 298 02fe 488B95E0 		movq	-288(%rbp), %rdx
+ 298      FEFFFF
+ 299 0305 488BB5D8 		movq	-296(%rbp), %rsi
+ 299      FEFFFF
+ 300 030c 488B85C0 		movq	-320(%rbp), %rax
+ 300      FEFFFF
+ 301 0313 4C8D0500 		leaq	.LC3(%rip), %r8
+ 301      000000
+ 302 031a 4889C7   		movq	%rax, %rdi
+ 303 031d E8000000 		call	arg_print_option@PLT
+ 303      00
+ 107:arg_date.c    **** 
+ 304              		.loc 1 107 0
+ 305 0322 E9950000 		jmp	.L15
+ 305      00
+ 306              	.L17:
+ 307              	.LBB3:
+ 114:arg_date.c    ****             bzero(&tm,sizeof(tm));
+ 308              		.loc 1 114 0
+ 309 0327 488B95B0 		movq	-336(%rbp), %rdx
+ 309      FEFFFF
+ 310 032e 488B85C0 		movq	-320(%rbp), %rax
+ 310      FEFFFF
+ 311 0335 488D3500 		leaq	.LC5(%rip), %rsi
+ 311      000000
+ 312 033c 4889C7   		movq	%rax, %rdi
+ 313 033f B8000000 		movl	$0, %eax
+ 313      00
+ 314 0344 E8000000 		call	fprintf@PLT
+ 314      00
+ 115:arg_date.c    ****             strptime("1999-12-31 23:59:59","%F %H:%M:%S",&tm);
+ 315              		.loc 1 115 0
+ 316 0349 488D85F0 		leaq	-272(%rbp), %rax
+ 316      FEFFFF
+ 317 0350 BE380000 		movl	$56, %esi
+ 317      00
+ 318 0355 4889C7   		movq	%rax, %rdi
+ 319 0358 E8000000 		call	bzero@PLT
+ 319      00
+ 116:arg_date.c    ****             strftime(buff, sizeof(buff), parent->format, &tm);
+ 320              		.loc 1 116 0
+ 321 035d 488D85F0 		leaq	-272(%rbp), %rax
+ 321      FEFFFF
+ 322 0364 4889C2   		movq	%rax, %rdx
+ 323 0367 488D3500 		leaq	.LC6(%rip), %rsi
+ 323      000000
+ 324 036e 488D3D00 		leaq	.LC7(%rip), %rdi
+ 324      000000
+ 325 0375 E8000000 		call	strptime@PLT
+ 325      00
+ 117:arg_date.c    ****             printf("correct format is \"%s\"\n", buff);                        
+ 326              		.loc 1 117 0
+ 327 037a 488B85C8 		movq	-312(%rbp), %rax
+ 327      FEFFFF
+ 328 0381 488B5060 		movq	96(%rax), %rdx
+ 329 0385 488D8DF0 		leaq	-272(%rbp), %rcx
+ 329      FEFFFF
+ 330 038c 488D8530 		leaq	-208(%rbp), %rax
+ 330      FFFFFF
+ 331 0393 BEC80000 		movl	$200, %esi
+ 331      00
+ 332 0398 4889C7   		movq	%rax, %rdi
+ 333 039b E8000000 		call	strftime@PLT
+ 333      00
+ 118:arg_date.c    ****             break;
+ 334              		.loc 1 118 0
+ 335 03a0 488D8530 		leaq	-208(%rbp), %rax
+ 335      FFFFFF
+ 336 03a7 4889C6   		movq	%rax, %rsi
+ 337 03aa 488D3D00 		leaq	.LC8(%rip), %rdi
+ 337      000000
+ 338 03b1 B8000000 		movl	$0, %eax
+ 338      00
+ 339 03b6 E8000000 		call	printf@PLT
+ 339      00
+ 119:arg_date.c    ****             }
+ 340              		.loc 1 119 0
+ 341 03bb 90       		nop
+ 342              	.L15:
+ 343              	.L20:
+ 344              	.LBE3:
+ 345              		.loc 1 122 0
+ 346 03bc 90       		nop
+ 347 03bd 488B45F8 		movq	-8(%rbp), %rax
+ 348 03c1 64483304 		xorq	%fs:40, %rax
+ 348      25280000 
+ 348      00
+ 349 03ca 7405     		je	.L19
+ 350 03cc E8000000 		call	__stack_chk_fail@PLT
+ 350      00
+ 351              	.L19:
+ 352 03d1 C9       		leave
+ 353              		.cfi_def_cfa 7, 8
+ 354 03d2 C3       		ret
+ 355              		.cfi_endproc
+ 356              	.LFE3:
+ 358              		.globl	arg_date0
+ 360              	arg_date0:
+ 361              	.LFB4:
+ 123:arg_date.c    ****  
+ 124:arg_date.c    **** 
+ 125:arg_date.c    **** struct arg_date* arg_date0(const char* shortopts,
+ 126:arg_date.c    ****                            const char* longopts,
+ 127:arg_date.c    ****                            const char* format,
+ 128:arg_date.c    ****                            const char *datatype,
+ 129:arg_date.c    ****                            const char *glossary)
+ 130:arg_date.c    ****     {
+ 362              		.loc 1 130 0
+ 363              		.cfi_startproc
+ 364 03d3 55       		pushq	%rbp
+ 365              		.cfi_def_cfa_offset 16
+ 366              		.cfi_offset 6, -16
+ 367 03d4 4889E5   		movq	%rsp, %rbp
+ 368              		.cfi_def_cfa_register 6
+ 369 03d7 4883EC30 		subq	$48, %rsp
+ 370 03db 48897DF8 		movq	%rdi, -8(%rbp)
+ 371 03df 488975F0 		movq	%rsi, -16(%rbp)
+ 372 03e3 488955E8 		movq	%rdx, -24(%rbp)
+ 373 03e7 48894DE0 		movq	%rcx, -32(%rbp)
+ 374 03eb 4C8945D8 		movq	%r8, -40(%rbp)
+ 131:arg_date.c    ****     return arg_daten(shortopts,longopts,format,datatype,0,1,glossary);
+ 375              		.loc 1 131 0
+ 376 03ef 488B4DE0 		movq	-32(%rbp), %rcx
+ 377 03f3 488B55E8 		movq	-24(%rbp), %rdx
+ 378 03f7 488B75F0 		movq	-16(%rbp), %rsi
+ 379 03fb 488B45F8 		movq	-8(%rbp), %rax
+ 380 03ff 4883EC08 		subq	$8, %rsp
+ 381 0403 FF75D8   		pushq	-40(%rbp)
+ 382 0406 41B90100 		movl	$1, %r9d
+ 382      0000
+ 383 040c 41B80000 		movl	$0, %r8d
+ 383      0000
+ 384 0412 4889C7   		movq	%rax, %rdi
+ 385 0415 E8000000 		call	arg_daten@PLT
+ 385      00
+ 386 041a 4883C410 		addq	$16, %rsp
+ 132:arg_date.c    ****     }
+ 387              		.loc 1 132 0
+ 388 041e C9       		leave
+ 389              		.cfi_def_cfa 7, 8
+ 390 041f C3       		ret
+ 391              		.cfi_endproc
+ 392              	.LFE4:
+ 394              		.globl	arg_date1
+ 396              	arg_date1:
+ 397              	.LFB5:
+ 133:arg_date.c    **** 
+ 134:arg_date.c    **** struct arg_date* arg_date1(const char* shortopts,
+ 135:arg_date.c    ****                            const char* longopts,
+ 136:arg_date.c    ****                            const char* format,
+ 137:arg_date.c    ****                            const char *datatype,
+ 138:arg_date.c    ****                            const char *glossary)
+ 139:arg_date.c    ****     {
+ 398              		.loc 1 139 0
+ 399              		.cfi_startproc
+ 400 0420 55       		pushq	%rbp
+ 401              		.cfi_def_cfa_offset 16
+ 402              		.cfi_offset 6, -16
+ 403 0421 4889E5   		movq	%rsp, %rbp
+ 404              		.cfi_def_cfa_register 6
+ 405 0424 4883EC30 		subq	$48, %rsp
+ 406 0428 48897DF8 		movq	%rdi, -8(%rbp)
+ 407 042c 488975F0 		movq	%rsi, -16(%rbp)
+ 408 0430 488955E8 		movq	%rdx, -24(%rbp)
+ 409 0434 48894DE0 		movq	%rcx, -32(%rbp)
+ 410 0438 4C8945D8 		movq	%r8, -40(%rbp)
+ 140:arg_date.c    ****     return arg_daten(shortopts,longopts,format,datatype,1,1,glossary);
+ 411              		.loc 1 140 0
+ 412 043c 488B4DE0 		movq	-32(%rbp), %rcx
+ 413 0440 488B55E8 		movq	-24(%rbp), %rdx
+ 414 0444 488B75F0 		movq	-16(%rbp), %rsi
+ 415 0448 488B45F8 		movq	-8(%rbp), %rax
+ 416 044c 4883EC08 		subq	$8, %rsp
+ 417 0450 FF75D8   		pushq	-40(%rbp)
+ 418 0453 41B90100 		movl	$1, %r9d
+ 418      0000
+ 419 0459 41B80100 		movl	$1, %r8d
+ 419      0000
+ 420 045f 4889C7   		movq	%rax, %rdi
+ 421 0462 E8000000 		call	arg_daten@PLT
+ 421      00
+ 422 0467 4883C410 		addq	$16, %rsp
+ 141:arg_date.c    ****     }
+ 423              		.loc 1 141 0
+ 424 046b C9       		leave
+ 425              		.cfi_def_cfa 7, 8
+ 426 046c C3       		ret
+ 427              		.cfi_endproc
+ 428              	.LFE5:
+ 430              		.section	.rodata
+ 431              	.LC9:
+ 432 007f 257800   		.string	"%x"
+ 433              		.text
+ 434              		.globl	arg_daten
+ 436              	arg_daten:
+ 437              	.LFB6:
+ 142:arg_date.c    **** 
+ 143:arg_date.c    **** 
+ 144:arg_date.c    **** struct arg_date* arg_daten(const char* shortopts,
+ 145:arg_date.c    ****                            const char* longopts,
+ 146:arg_date.c    ****                            const char* format,
+ 147:arg_date.c    ****                            const char *datatype,
+ 148:arg_date.c    ****                            int mincount,
+ 149:arg_date.c    ****                            int maxcount,
+ 150:arg_date.c    ****                            const char *glossary)
+ 151:arg_date.c    ****     {
+ 438              		.loc 1 151 0
+ 439              		.cfi_startproc
+ 440 046d 55       		pushq	%rbp
+ 441              		.cfi_def_cfa_offset 16
+ 442              		.cfi_offset 6, -16
+ 443 046e 4889E5   		movq	%rsp, %rbp
+ 444              		.cfi_def_cfa_register 6
+ 445 0471 4883EC40 		subq	$64, %rsp
+ 446 0475 48897DE8 		movq	%rdi, -24(%rbp)
+ 447 0479 488975E0 		movq	%rsi, -32(%rbp)
+ 448 047d 488955D8 		movq	%rdx, -40(%rbp)
+ 449 0481 48894DD0 		movq	%rcx, -48(%rbp)
+ 450 0485 448945CC 		movl	%r8d, -52(%rbp)
+ 451 0489 44894DC8 		movl	%r9d, -56(%rbp)
+ 152:arg_date.c    ****     size_t nbytes;
+ 153:arg_date.c    ****     struct arg_date *result;
+ 154:arg_date.c    **** 
+ 155:arg_date.c    **** 	/* foolproof things by ensuring maxcount is not less than mincount */
+ 156:arg_date.c    **** 	maxcount = (maxcount<mincount) ? mincount : maxcount;
+ 452              		.loc 1 156 0
+ 453 048d 8B45CC   		movl	-52(%rbp), %eax
+ 454 0490 3945C8   		cmpl	%eax, -56(%rbp)
+ 455 0493 0F4D45C8 		cmovge	-56(%rbp), %eax
+ 456 0497 8945C8   		movl	%eax, -56(%rbp)
+ 157:arg_date.c    **** 
+ 158:arg_date.c    ****     /* default time format is the national date format for the locale */
+ 159:arg_date.c    ****     if (!format)
+ 457              		.loc 1 159 0
+ 458 049a 48837DD8 		cmpq	$0, -40(%rbp)
+ 458      00
+ 459 049f 750B     		jne	.L26
+ 160:arg_date.c    ****         format = "%x";
+ 460              		.loc 1 160 0
+ 461 04a1 488D0500 		leaq	.LC9(%rip), %rax
+ 461      000000
+ 462 04a8 488945D8 		movq	%rax, -40(%rbp)
+ 463              	.L26:
+ 161:arg_date.c    **** 
+ 162:arg_date.c    ****     nbytes = sizeof(struct arg_date)         /* storage for struct arg_date */
+ 163:arg_date.c    ****            + maxcount*sizeof(struct tm);     /* storage for tmval[maxcount] array */
+ 464              		.loc 1 163 0
+ 465 04ac 8B45C8   		movl	-56(%rbp), %eax
+ 466 04af 4898     		cltq
+ 467 04b1 48C1E003 		salq	$3, %rax
+ 468 04b5 488D14C5 		leaq	0(,%rax,8), %rdx
+ 468      00000000 
+ 469 04bd 4829C2   		subq	%rax, %rdx
+ 470 04c0 4889D0   		movq	%rdx, %rax
+ 162:arg_date.c    ****            + maxcount*sizeof(struct tm);     /* storage for tmval[maxcount] array */
+ 471              		.loc 1 162 0
+ 472 04c3 4883C078 		addq	$120, %rax
+ 473 04c7 488945F0 		movq	%rax, -16(%rbp)
+ 164:arg_date.c    **** 
+ 165:arg_date.c    ****     /* allocate storage for the arg_date struct + tmval[] array.    */
+ 166:arg_date.c    ****     /* we use calloc because we want the tmval[] array zero filled. */
+ 167:arg_date.c    ****     result = (struct arg_date*)calloc(1,nbytes);
+ 474              		.loc 1 167 0
+ 475 04cb 488B45F0 		movq	-16(%rbp), %rax
+ 476 04cf 4889C6   		movq	%rax, %rsi
+ 477 04d2 BF010000 		movl	$1, %edi
+ 477      00
+ 478 04d7 E8000000 		call	calloc@PLT
+ 478      00
+ 479 04dc 488945F8 		movq	%rax, -8(%rbp)
+ 168:arg_date.c    ****     if (result)
+ 480              		.loc 1 168 0
+ 481 04e0 48837DF8 		cmpq	$0, -8(%rbp)
+ 481      00
+ 482 04e5 0F84C700 		je	.L27
+ 482      0000
+ 169:arg_date.c    ****         {
+ 170:arg_date.c    ****         /* init the arg_hdr struct */
+ 171:arg_date.c    ****         result->hdr.flag      = ARG_HASVALUE;
+ 483              		.loc 1 171 0
+ 484 04eb 488B45F8 		movq	-8(%rbp), %rax
+ 485 04ef C60002   		movb	$2, (%rax)
+ 172:arg_date.c    ****         result->hdr.shortopts = shortopts;
+ 486              		.loc 1 172 0
+ 487 04f2 488B45F8 		movq	-8(%rbp), %rax
+ 488 04f6 488B55E8 		movq	-24(%rbp), %rdx
+ 489 04fa 48895008 		movq	%rdx, 8(%rax)
+ 173:arg_date.c    ****         result->hdr.longopts  = longopts;
+ 490              		.loc 1 173 0
+ 491 04fe 488B45F8 		movq	-8(%rbp), %rax
+ 492 0502 488B55E0 		movq	-32(%rbp), %rdx
+ 493 0506 48895010 		movq	%rdx, 16(%rax)
+ 174:arg_date.c    ****         result->hdr.datatype  = datatype ? datatype : format;
+ 494              		.loc 1 174 0
+ 495 050a 48837DD0 		cmpq	$0, -48(%rbp)
+ 495      00
+ 496 050f 7406     		je	.L28
+ 497              		.loc 1 174 0 is_stmt 0 discriminator 1
+ 498 0511 488B45D0 		movq	-48(%rbp), %rax
+ 499 0515 EB04     		jmp	.L29
+ 500              	.L28:
+ 501              		.loc 1 174 0 discriminator 2
+ 502 0517 488B45D8 		movq	-40(%rbp), %rax
+ 503              	.L29:
+ 504              		.loc 1 174 0 discriminator 4
+ 505 051b 488B55F8 		movq	-8(%rbp), %rdx
+ 506 051f 48894218 		movq	%rax, 24(%rdx)
+ 175:arg_date.c    ****         result->hdr.glossary  = glossary;
+ 507              		.loc 1 175 0 is_stmt 1 discriminator 4
+ 508 0523 488B45F8 		movq	-8(%rbp), %rax
+ 509 0527 488B5510 		movq	16(%rbp), %rdx
+ 510 052b 48895020 		movq	%rdx, 32(%rax)
+ 176:arg_date.c    ****         result->hdr.mincount  = mincount;
+ 511              		.loc 1 176 0 discriminator 4
+ 512 052f 488B45F8 		movq	-8(%rbp), %rax
+ 513 0533 8B55CC   		movl	-52(%rbp), %edx
+ 514 0536 895028   		movl	%edx, 40(%rax)
+ 177:arg_date.c    ****         result->hdr.maxcount  = maxcount;
+ 515              		.loc 1 177 0 discriminator 4
+ 516 0539 488B45F8 		movq	-8(%rbp), %rax
+ 517 053d 8B55C8   		movl	-56(%rbp), %edx
+ 518 0540 89502C   		movl	%edx, 44(%rax)
+ 178:arg_date.c    ****         result->hdr.parent    = result;
+ 519              		.loc 1 178 0 discriminator 4
+ 520 0543 488B45F8 		movq	-8(%rbp), %rax
+ 521 0547 488B55F8 		movq	-8(%rbp), %rdx
+ 522 054b 48895030 		movq	%rdx, 48(%rax)
+ 179:arg_date.c    ****         result->hdr.resetfn   = (arg_resetfn*)resetfn;
+ 523              		.loc 1 179 0 discriminator 4
+ 524 054f 488B45F8 		movq	-8(%rbp), %rax
+ 525 0553 488D15A6 		leaq	resetfn(%rip), %rdx
+ 525      FAFFFF
+ 526 055a 48895038 		movq	%rdx, 56(%rax)
+ 180:arg_date.c    ****         result->hdr.scanfn    = (arg_scanfn*)scanfn;
+ 527              		.loc 1 180 0 discriminator 4
+ 528 055e 488B45F8 		movq	-8(%rbp), %rax
+ 529 0562 488D15AD 		leaq	scanfn(%rip), %rdx
+ 529      FAFFFF
+ 530 0569 48895040 		movq	%rdx, 64(%rax)
+ 181:arg_date.c    ****         result->hdr.checkfn   = (arg_checkfn*)checkfn;
+ 531              		.loc 1 181 0 discriminator 4
+ 532 056d 488B45F8 		movq	-8(%rbp), %rax
+ 533 0571 488D1516 		leaq	checkfn(%rip), %rdx
+ 533      FCFFFF
+ 534 0578 48895048 		movq	%rdx, 72(%rax)
+ 182:arg_date.c    ****         result->hdr.errorfn   = (arg_errorfn*)errorfn;
+ 535              		.loc 1 182 0 discriminator 4
+ 536 057c 488B45F8 		movq	-8(%rbp), %rax
+ 537 0580 488D152D 		leaq	errorfn(%rip), %rdx
+ 537      FCFFFF
+ 538 0587 48895050 		movq	%rdx, 80(%rax)
+ 183:arg_date.c    **** 
+ 184:arg_date.c    ****         /* store the tmval[maxcount] array immediately after the arg_date struct */
+ 185:arg_date.c    ****         result->tmval  = (struct tm*)(result+1);
+ 539              		.loc 1 185 0 discriminator 4
+ 540 058b 488B45F8 		movq	-8(%rbp), %rax
+ 541 058f 488D5078 		leaq	120(%rax), %rdx
+ 542 0593 488B45F8 		movq	-8(%rbp), %rax
+ 543 0597 48895070 		movq	%rdx, 112(%rax)
+ 186:arg_date.c    **** 
+ 187:arg_date.c    ****         /* init the remaining arg_date member variables */
+ 188:arg_date.c    ****         result->count = 0;
+ 544              		.loc 1 188 0 discriminator 4
+ 545 059b 488B45F8 		movq	-8(%rbp), %rax
+ 546 059f C7406800 		movl	$0, 104(%rax)
+ 546      000000
+ 189:arg_date.c    ****         result->format = format;
+ 547              		.loc 1 189 0 discriminator 4
+ 548 05a6 488B45F8 		movq	-8(%rbp), %rax
+ 549 05aa 488B55D8 		movq	-40(%rbp), %rdx
+ 550 05ae 48895060 		movq	%rdx, 96(%rax)
+ 551              	.L27:
+ 190:arg_date.c    ****         }
+ 191:arg_date.c    **** 
+ 192:arg_date.c    ****     /*printf("arg_daten() returns %p\n",result);*/
+ 193:arg_date.c    ****     return result;
+ 552              		.loc 1 193 0
+ 553 05b2 488B45F8 		movq	-8(%rbp), %rax
+ 194:arg_date.c    ****     }
+ 554              		.loc 1 194 0
+ 555 05b6 C9       		leave
+ 556              		.cfi_def_cfa 7, 8
+ 557 05b7 C3       		ret
+ 558              		.cfi_endproc
+ 559              	.LFE6:
+ 561              	.Letext0:
+ 562              		.file 2 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 563              		.file 3 "/usr/include/x86_64-linux-gnu/bits/types.h"
+ 564              		.file 4 "/usr/include/stdio.h"
+ 565              		.file 5 "/usr/include/libio.h"
+ 566              		.file 6 "/usr/include/time.h"
+ 567              		.file 7 "argtable2.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 arg_date.c
+     /tmp/cch2yZAC.s:5      .text:0000000000000000 resetfn
+     /tmp/cch2yZAC.s:28     .text:0000000000000016 scanfn
+     /tmp/cch2yZAC.s:160    .text:000000000000018e checkfn
+     /tmp/cch2yZAC.s:210    .text:00000000000001b4 errorfn
+     /tmp/cch2yZAC.s:360    .text:00000000000003d3 arg_date0
+     /tmp/cch2yZAC.s:436    .text:000000000000046d arg_daten
+     /tmp/cch2yZAC.s:396    .text:0000000000000420 arg_date1
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+strptime
+__stack_chk_fail
+fprintf
+fwrite
+arg_print_option
+bzero
+strftime
+printf
+calloc

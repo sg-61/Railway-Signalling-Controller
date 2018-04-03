@@ -1,0 +1,473 @@
+   1              		.file	"libdump.c"
+   2              		.text
+   3              	.Ltext0:
+   4              		.section	.rodata
+   5              	.LC0:
+   6 0000 25303458 		.string	"%04X "
+   6      2000
+   7              		.text
+   9              	printAddr16:
+  10              	.LFB4:
+  11              		.file 1 "libdump.c"
+   1:libdump.c     **** /*
+   2:libdump.c     ****  * Copyright (C) 2009-2012 Chris McClelland
+   3:libdump.c     ****  *
+   4:libdump.c     ****  * This program is free software: you can redistribute it and/or modify
+   5:libdump.c     ****  * it under the terms of the GNU Lesser General Public License as published by
+   6:libdump.c     ****  * the Free Software Foundation, either version 3 of the License, or
+   7:libdump.c     ****  * (at your option) any later version.
+   8:libdump.c     ****  *
+   9:libdump.c     ****  * This program is distributed in the hope that it will be useful,
+  10:libdump.c     ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  11:libdump.c     ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  12:libdump.c     ****  * GNU Lesser General Public License for more details.
+  13:libdump.c     ****  *
+  14:libdump.c     ****  * You should have received a copy of the GNU Lesser General Public License
+  15:libdump.c     ****  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  16:libdump.c     ****  */
+  17:libdump.c     **** #include <stdio.h>
+  18:libdump.c     **** #include <makestuff.h>
+  19:libdump.c     **** #include "libdump.h"
+  20:libdump.c     **** 
+  21:libdump.c     **** static void printAddr16(size_t address) {
+  12              		.loc 1 21 0
+  13              		.cfi_startproc
+  14 0000 55       		pushq	%rbp
+  15              		.cfi_def_cfa_offset 16
+  16              		.cfi_offset 6, -16
+  17 0001 4889E5   		movq	%rsp, %rbp
+  18              		.cfi_def_cfa_register 6
+  19 0004 4883EC10 		subq	$16, %rsp
+  20 0008 48897DF8 		movq	%rdi, -8(%rbp)
+  22:libdump.c     **** 	printf("%04X ", (uint32)address);
+  21              		.loc 1 22 0
+  22 000c 488B45F8 		movq	-8(%rbp), %rax
+  23 0010 89C6     		movl	%eax, %esi
+  24 0012 488D3D00 		leaq	.LC0(%rip), %rdi
+  24      000000
+  25 0019 B8000000 		movl	$0, %eax
+  25      00
+  26 001e E8000000 		call	printf@PLT
+  26      00
+  23:libdump.c     **** }
+  27              		.loc 1 23 0
+  28 0023 90       		nop
+  29 0024 C9       		leave
+  30              		.cfi_def_cfa 7, 8
+  31 0025 C3       		ret
+  32              		.cfi_endproc
+  33              	.LFE4:
+  35              		.section	.rodata
+  36              	.LC1:
+  37 0006 25303858 		.string	"%08X "
+  37      2000
+  38              		.text
+  40              	printAddr32:
+  41              	.LFB5:
+  24:libdump.c     **** static void printAddr32(size_t address) {
+  42              		.loc 1 24 0
+  43              		.cfi_startproc
+  44 0026 55       		pushq	%rbp
+  45              		.cfi_def_cfa_offset 16
+  46              		.cfi_offset 6, -16
+  47 0027 4889E5   		movq	%rsp, %rbp
+  48              		.cfi_def_cfa_register 6
+  49 002a 4883EC10 		subq	$16, %rsp
+  50 002e 48897DF8 		movq	%rdi, -8(%rbp)
+  25:libdump.c     **** 	printf("%08X ", (uint32)address);
+  51              		.loc 1 25 0
+  52 0032 488B45F8 		movq	-8(%rbp), %rax
+  53 0036 89C6     		movl	%eax, %esi
+  54 0038 488D3D00 		leaq	.LC1(%rip), %rdi
+  54      000000
+  55 003f B8000000 		movl	$0, %eax
+  55      00
+  56 0044 E8000000 		call	printf@PLT
+  56      00
+  26:libdump.c     **** }
+  57              		.loc 1 26 0
+  58 0049 90       		nop
+  59 004a C9       		leave
+  60              		.cfi_def_cfa 7, 8
+  61 004b C3       		ret
+  62              		.cfi_endproc
+  63              	.LFE5:
+  65              		.section	.rodata
+  66              	.LC2:
+  67 000c 25303136 		.string	"%016zX "
+  67      7A582000 
+  68              		.text
+  70              	printAddr64:
+  71              	.LFB6:
+  27:libdump.c     **** static void printAddr64(size_t address) {
+  72              		.loc 1 27 0
+  73              		.cfi_startproc
+  74 004c 55       		pushq	%rbp
+  75              		.cfi_def_cfa_offset 16
+  76              		.cfi_offset 6, -16
+  77 004d 4889E5   		movq	%rsp, %rbp
+  78              		.cfi_def_cfa_register 6
+  79 0050 4883EC10 		subq	$16, %rsp
+  80 0054 48897DF8 		movq	%rdi, -8(%rbp)
+  28:libdump.c     **** 	printf(PFSZH" ", address);
+  81              		.loc 1 28 0
+  82 0058 488B45F8 		movq	-8(%rbp), %rax
+  83 005c 4889C6   		movq	%rax, %rsi
+  84 005f 488D3D00 		leaq	.LC2(%rip), %rdi
+  84      000000
+  85 0066 B8000000 		movl	$0, %eax
+  85      00
+  86 006b E8000000 		call	printf@PLT
+  86      00
+  29:libdump.c     **** }
+  87              		.loc 1 29 0
+  88 0070 90       		nop
+  89 0071 C9       		leave
+  90              		.cfi_def_cfa 7, 8
+  91 0072 C3       		ret
+  92              		.cfi_endproc
+  93              	.LFE6:
+  95              		.section	.rodata
+  96              	.LC3:
+  97 0014 20202020 		.string	"                "
+  97      20202020 
+  97      20202020 
+  97      20202020 
+  97      00
+  98              	.LC4:
+  99 0025 20202020 		.string	"        "
+  99      20202020 
+  99      00
+ 100              	.LC5:
+ 101 002e 20202020 		.string	"    "
+ 101      00
+ 102 0033 00000000 		.align 8
+ 102      00
+ 103              	.LC6:
+ 104 0038 25732030 		.string	"%s 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n"
+ 104      30203031 
+ 104      20303220 
+ 104      30332030 
+ 104      34203035 
+ 105              	.LC7:
+ 106 006c 25303258 		.string	"%02X "
+ 106      2000
+ 107              	.LC8:
+ 108 0072 20202000 		.string	"   "
+ 109              		.text
+ 110              		.globl	dump
+ 112              	dump:
+ 113              	.LFB7:
+  30:libdump.c     **** typedef void (*FuncPtr)(size_t address);
+  31:libdump.c     **** 
+  32:libdump.c     **** void dump(size_t address, const uint8 *input, size_t length) {
+ 114              		.loc 1 32 0
+ 115              		.cfi_startproc
+ 116 0073 55       		pushq	%rbp
+ 117              		.cfi_def_cfa_offset 16
+ 118              		.cfi_offset 6, -16
+ 119 0074 4889E5   		movq	%rsp, %rbp
+ 120              		.cfi_def_cfa_register 6
+ 121 0077 4883EC50 		subq	$80, %rsp
+ 122 007b 48897DC8 		movq	%rdi, -56(%rbp)
+ 123 007f 488975C0 		movq	%rsi, -64(%rbp)
+ 124 0083 488955B8 		movq	%rdx, -72(%rbp)
+  33:libdump.c     **** 	if ( length ) {
+ 125              		.loc 1 33 0
+ 126 0087 48837DB8 		cmpq	$0, -72(%rbp)
+ 126      00
+ 127 008c 0F845E01 		je	.L19
+ 127      0000
+ 128              	.LBB2:
+  34:libdump.c     **** 		uint8 ch;
+  35:libdump.c     **** 		char x;
+  36:libdump.c     **** 		const uint8 *p;
+  37:libdump.c     **** 		FuncPtr printAddr;
+  38:libdump.c     **** 		const size_t nextAddr = address + length;
+ 129              		.loc 1 38 0
+ 130 0092 488B55C8 		movq	-56(%rbp), %rdx
+ 131 0096 488B45B8 		movq	-72(%rbp), %rax
+ 132 009a 4801D0   		addq	%rdx, %rax
+ 133 009d 488945F8 		movq	%rax, -8(%rbp)
+  39:libdump.c     **** 		const char *spaces;
+  40:libdump.c     **** 		#if WORD_LENGTH == 64
+  41:libdump.c     **** 			if ( nextAddr >= 0x100000000ULL ) {
+ 134              		.loc 1 41 0
+ 135 00a1 B8FFFFFF 		movl	$4294967295, %eax
+ 135      FF
+ 136 00a6 483945F8 		cmpq	%rax, -8(%rbp)
+ 137 00aa 7618     		jbe	.L6
+  42:libdump.c     **** 				printAddr = printAddr64;
+ 138              		.loc 1 42 0
+ 139 00ac 488D0599 		leaq	printAddr64(%rip), %rax
+ 139      FFFFFF
+ 140 00b3 488945E8 		movq	%rax, -24(%rbp)
+  43:libdump.c     **** 				spaces = "                ";
+ 141              		.loc 1 43 0
+ 142 00b7 488D0500 		leaq	.LC3(%rip), %rax
+ 142      000000
+ 143 00be 488945F0 		movq	%rax, -16(%rbp)
+ 144 00c2 EB38     		jmp	.L7
+ 145              	.L6:
+  44:libdump.c     **** 			} else
+  45:libdump.c     **** 		#endif
+  46:libdump.c     **** 		if ( nextAddr >= 0x10000 ) {
+ 146              		.loc 1 46 0
+ 147 00c4 48817DF8 		cmpq	$65535, -8(%rbp)
+ 147      FFFF0000 
+ 148 00cc 7618     		jbe	.L8
+  47:libdump.c     **** 			printAddr = printAddr32;
+ 149              		.loc 1 47 0
+ 150 00ce 488D0551 		leaq	printAddr32(%rip), %rax
+ 150      FFFFFF
+ 151 00d5 488945E8 		movq	%rax, -24(%rbp)
+  48:libdump.c     **** 			spaces = "        ";
+ 152              		.loc 1 48 0
+ 153 00d9 488D0500 		leaq	.LC4(%rip), %rax
+ 153      000000
+ 154 00e0 488945F0 		movq	%rax, -16(%rbp)
+ 155 00e4 EB16     		jmp	.L7
+ 156              	.L8:
+  49:libdump.c     **** 		} else {
+  50:libdump.c     **** 			printAddr = printAddr16;
+ 157              		.loc 1 50 0
+ 158 00e6 488D0513 		leaq	printAddr16(%rip), %rax
+ 158      FFFFFF
+ 159 00ed 488945E8 		movq	%rax, -24(%rbp)
+  51:libdump.c     **** 			spaces = "    ";
+ 160              		.loc 1 51 0
+ 161 00f1 488D0500 		leaq	.LC5(%rip), %rax
+ 161      000000
+ 162 00f8 488945F0 		movq	%rax, -16(%rbp)
+ 163              	.L7:
+  52:libdump.c     **** 		}
+  53:libdump.c     **** 		printf("%s 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n", spaces);
+ 164              		.loc 1 53 0
+ 165 00fc 488B45F0 		movq	-16(%rbp), %rax
+ 166 0100 4889C6   		movq	%rax, %rsi
+ 167 0103 488D3D00 		leaq	.LC6(%rip), %rdi
+ 167      000000
+ 168 010a B8000000 		movl	$0, %eax
+ 168      00
+ 169 010f E8000000 		call	printf@PLT
+ 169      00
+  54:libdump.c     **** 		while ( length ) {
+ 170              		.loc 1 54 0
+ 171 0114 E9CC0000 		jmp	.L9
+ 171      00
+ 172              	.L18:
+  55:libdump.c     **** 			x = 0;
+ 173              		.loc 1 55 0
+ 174 0119 C645DE00 		movb	$0, -34(%rbp)
+  56:libdump.c     **** 			p = input;
+ 175              		.loc 1 56 0
+ 176 011d 488B45C0 		movq	-64(%rbp), %rax
+ 177 0121 488945E0 		movq	%rax, -32(%rbp)
+  57:libdump.c     **** 			printAddr(address);
+ 178              		.loc 1 57 0
+ 179 0125 488B55C8 		movq	-56(%rbp), %rdx
+ 180 0129 488B45E8 		movq	-24(%rbp), %rax
+ 181 012d 4889D7   		movq	%rdx, %rdi
+ 182 0130 FFD0     		call	*%rax
+ 183              	.L11:
+  58:libdump.c     **** 			do {
+  59:libdump.c     **** 				ch = *input++;
+ 184              		.loc 1 59 0 discriminator 2
+ 185 0132 488B45C0 		movq	-64(%rbp), %rax
+ 186 0136 488D5001 		leaq	1(%rax), %rdx
+ 187 013a 488955C0 		movq	%rdx, -64(%rbp)
+ 188 013e 0FB600   		movzbl	(%rax), %eax
+ 189 0141 8845DF   		movb	%al, -33(%rbp)
+  60:libdump.c     **** 				printf("%02X ", ch);
+ 190              		.loc 1 60 0 discriminator 2
+ 191 0144 0FB645DF 		movzbl	-33(%rbp), %eax
+ 192 0148 89C6     		movl	%eax, %esi
+ 193 014a 488D3D00 		leaq	.LC7(%rip), %rdi
+ 193      000000
+ 194 0151 B8000000 		movl	$0, %eax
+ 194      00
+ 195 0156 E8000000 		call	printf@PLT
+ 195      00
+  61:libdump.c     **** 				--length;
+ 196              		.loc 1 61 0 discriminator 2
+ 197 015b 48836DB8 		subq	$1, -72(%rbp)
+ 197      01
+  62:libdump.c     **** 				x++;
+ 198              		.loc 1 62 0 discriminator 2
+ 199 0160 0FB645DE 		movzbl	-34(%rbp), %eax
+ 200 0164 83C001   		addl	$1, %eax
+ 201 0167 8845DE   		movb	%al, -34(%rbp)
+  63:libdump.c     **** 				address++;
+ 202              		.loc 1 63 0 discriminator 2
+ 203 016a 488345C8 		addq	$1, -56(%rbp)
+ 203      01
+  64:libdump.c     **** 			} while ( x < 16 && length );
+ 204              		.loc 1 64 0 discriminator 2
+ 205 016f 807DDE0F 		cmpb	$15, -34(%rbp)
+ 206 0173 7F1A     		jg	.L12
+ 207              		.loc 1 64 0 is_stmt 0 discriminator 1
+ 208 0175 48837DB8 		cmpq	$0, -72(%rbp)
+ 208      00
+ 209 017a 75B6     		jne	.L11
+  65:libdump.c     **** 			while ( x++ < 16 ) {
+ 210              		.loc 1 65 0 is_stmt 1
+ 211 017c EB11     		jmp	.L12
+ 212              	.L13:
+  66:libdump.c     **** 				printf("   ");
+ 213              		.loc 1 66 0
+ 214 017e 488D3D00 		leaq	.LC8(%rip), %rdi
+ 214      000000
+ 215 0185 B8000000 		movl	$0, %eax
+ 215      00
+ 216 018a E8000000 		call	printf@PLT
+ 216      00
+ 217              	.L12:
+  65:libdump.c     **** 			while ( x++ < 16 ) {
+ 218              		.loc 1 65 0
+ 219 018f 0FB645DE 		movzbl	-34(%rbp), %eax
+ 220 0193 89C2     		movl	%eax, %edx
+ 221 0195 83C201   		addl	$1, %edx
+ 222 0198 8855DE   		movb	%dl, -34(%rbp)
+ 223 019b 3C0F     		cmpb	$15, %al
+ 224 019d 7EDF     		jle	.L13
+  67:libdump.c     **** 			}
+  68:libdump.c     **** 			while ( p < input ) {
+ 225              		.loc 1 68 0
+ 226 019f EB30     		jmp	.L14
+ 227              	.L17:
+  69:libdump.c     **** 				ch = *p++;
+ 228              		.loc 1 69 0
+ 229 01a1 488B45E0 		movq	-32(%rbp), %rax
+ 230 01a5 488D5001 		leaq	1(%rax), %rdx
+ 231 01a9 488955E0 		movq	%rdx, -32(%rbp)
+ 232 01ad 0FB600   		movzbl	(%rax), %eax
+ 233 01b0 8845DF   		movb	%al, -33(%rbp)
+  70:libdump.c     **** 				printf("%c", (ch >= 32 && ch <=126) ? ch : '.');
+ 234              		.loc 1 70 0
+ 235 01b3 807DDF1F 		cmpb	$31, -33(%rbp)
+ 236 01b7 760C     		jbe	.L15
+ 237              		.loc 1 70 0 is_stmt 0 discriminator 1
+ 238 01b9 807DDF7E 		cmpb	$126, -33(%rbp)
+ 239 01bd 7706     		ja	.L15
+ 240              		.loc 1 70 0 discriminator 3
+ 241 01bf 0FB645DF 		movzbl	-33(%rbp), %eax
+ 242 01c3 EB05     		jmp	.L16
+ 243              	.L15:
+ 244              		.loc 1 70 0 discriminator 4
+ 245 01c5 B82E0000 		movl	$46, %eax
+ 245      00
+ 246              	.L16:
+ 247              		.loc 1 70 0 discriminator 6
+ 248 01ca 89C7     		movl	%eax, %edi
+ 249 01cc E8000000 		call	putchar@PLT
+ 249      00
+ 250              	.L14:
+  68:libdump.c     **** 				ch = *p++;
+ 251              		.loc 1 68 0 is_stmt 1
+ 252 01d1 488B45E0 		movq	-32(%rbp), %rax
+ 253 01d5 483B45C0 		cmpq	-64(%rbp), %rax
+ 254 01d9 72C6     		jb	.L17
+  71:libdump.c     **** 			}
+  72:libdump.c     **** 			printf("\n");
+ 255              		.loc 1 72 0
+ 256 01db BF0A0000 		movl	$10, %edi
+ 256      00
+ 257 01e0 E8000000 		call	putchar@PLT
+ 257      00
+ 258              	.L9:
+  54:libdump.c     **** 			x = 0;
+ 259              		.loc 1 54 0
+ 260 01e5 48837DB8 		cmpq	$0, -72(%rbp)
+ 260      00
+ 261 01ea 0F8529FF 		jne	.L18
+ 261      FFFF
+ 262              	.L19:
+ 263              	.LBE2:
+  73:libdump.c     **** 		}
+  74:libdump.c     **** 	}
+  75:libdump.c     **** }
+ 264              		.loc 1 75 0
+ 265 01f0 90       		nop
+ 266 01f1 C9       		leave
+ 267              		.cfi_def_cfa 7, 8
+ 268 01f2 C3       		ret
+ 269              		.cfi_endproc
+ 270              	.LFE7:
+ 272              		.section	.rodata
+ 273              	.LC9:
+ 274 0076 20253032 		.string	" %02X"
+ 274      5800
+ 275              		.text
+ 276              		.globl	dumpSimple
+ 278              	dumpSimple:
+ 279              	.LFB8:
+  76:libdump.c     **** 
+  77:libdump.c     **** void dumpSimple(const uint8 *input, size_t length) {
+ 280              		.loc 1 77 0
+ 281              		.cfi_startproc
+ 282 01f3 55       		pushq	%rbp
+ 283              		.cfi_def_cfa_offset 16
+ 284              		.cfi_offset 6, -16
+ 285 01f4 4889E5   		movq	%rsp, %rbp
+ 286              		.cfi_def_cfa_register 6
+ 287 01f7 4883EC10 		subq	$16, %rsp
+ 288 01fb 48897DF8 		movq	%rdi, -8(%rbp)
+ 289 01ff 488975F0 		movq	%rsi, -16(%rbp)
+  78:libdump.c     **** 	while ( length ) {
+ 290              		.loc 1 78 0
+ 291 0203 EB2A     		jmp	.L21
+ 292              	.L22:
+  79:libdump.c     **** 		printf(" %02X", *input++);
+ 293              		.loc 1 79 0
+ 294 0205 488B45F8 		movq	-8(%rbp), %rax
+ 295 0209 488D5001 		leaq	1(%rax), %rdx
+ 296 020d 488955F8 		movq	%rdx, -8(%rbp)
+ 297 0211 0FB600   		movzbl	(%rax), %eax
+ 298 0214 0FB6C0   		movzbl	%al, %eax
+ 299 0217 89C6     		movl	%eax, %esi
+ 300 0219 488D3D00 		leaq	.LC9(%rip), %rdi
+ 300      000000
+ 301 0220 B8000000 		movl	$0, %eax
+ 301      00
+ 302 0225 E8000000 		call	printf@PLT
+ 302      00
+  80:libdump.c     **** 		--length;
+ 303              		.loc 1 80 0
+ 304 022a 48836DF0 		subq	$1, -16(%rbp)
+ 304      01
+ 305              	.L21:
+  78:libdump.c     **** 	while ( length ) {
+ 306              		.loc 1 78 0
+ 307 022f 48837DF0 		cmpq	$0, -16(%rbp)
+ 307      00
+ 308 0234 75CF     		jne	.L22
+  81:libdump.c     **** 	}
+  82:libdump.c     **** 	printf("\n");
+ 309              		.loc 1 82 0
+ 310 0236 BF0A0000 		movl	$10, %edi
+ 310      00
+ 311 023b E8000000 		call	putchar@PLT
+ 311      00
+  83:libdump.c     **** }
+ 312              		.loc 1 83 0
+ 313 0240 90       		nop
+ 314 0241 C9       		leave
+ 315              		.cfi_def_cfa 7, 8
+ 316 0242 C3       		ret
+ 317              		.cfi_endproc
+ 318              	.LFE8:
+ 320              	.Letext0:
+ 321              		.file 2 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 322              		.file 3 "/home/shubham/20140524/makestuff/common/makestuff.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 libdump.c
+     /tmp/ccGCyAtO.s:9      .text:0000000000000000 printAddr16
+     /tmp/ccGCyAtO.s:40     .text:0000000000000026 printAddr32
+     /tmp/ccGCyAtO.s:70     .text:000000000000004c printAddr64
+     /tmp/ccGCyAtO.s:112    .text:0000000000000073 dump
+     /tmp/ccGCyAtO.s:278    .text:00000000000001f3 dumpSimple
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+printf
+putchar

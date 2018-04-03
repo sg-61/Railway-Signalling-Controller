@@ -1,0 +1,1096 @@
+   1              		.file	"arg_rex.c"
+   2              		.text
+   3              	.Ltext0:
+   5              	resetfn:
+   6              	.LFB0:
+   7              		.file 1 "arg_rex.c"
+   1:arg_rex.c     **** /*********************************************************************
+   2:arg_rex.c     **** This file is part of the argtable2 library.
+   3:arg_rex.c     **** Copyright (C) 1998-2001,2003-2011 Stewart Heitmann
+   4:arg_rex.c     **** sheitmann@users.sourceforge.net
+   5:arg_rex.c     **** 
+   6:arg_rex.c     **** The argtable2 library is free software; you can redistribute it and/or
+   7:arg_rex.c     **** modify it under the terms of the GNU Library General Public License as
+   8:arg_rex.c     **** published by the Free Software Foundation; either version 2 of the
+   9:arg_rex.c     **** License, or (at your option) any later version.
+  10:arg_rex.c     **** 
+  11:arg_rex.c     **** This software is distributed in the hope that it will be useful,
+  12:arg_rex.c     **** but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:arg_rex.c     **** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  14:arg_rex.c     **** Library General Public License for more details.
+  15:arg_rex.c     **** 
+  16:arg_rex.c     **** You should have received a copy of the GNU Library General Public
+  17:arg_rex.c     **** License along with this library; if not, write to the Free Software
+  18:arg_rex.c     **** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+  19:arg_rex.c     **** USA.
+  20:arg_rex.c     **** **********************************************************************/
+  21:arg_rex.c     **** 
+  22:arg_rex.c     **** /* config.h must be included before anything else */
+  23:arg_rex.c     **** #ifdef HAVE_CONFIG_H
+  24:arg_rex.c     **** #include "config.h"
+  25:arg_rex.c     **** #endif
+  26:arg_rex.c     **** 
+  27:arg_rex.c     **** #ifdef HAVE_STDLIB_H
+  28:arg_rex.c     **** #include <stdlib.h>
+  29:arg_rex.c     **** #endif
+  30:arg_rex.c     **** 
+  31:arg_rex.c     **** #include "argtable2.h"
+  32:arg_rex.c     **** #include <sys/types.h>
+  33:arg_rex.c     **** #include <regex.h>
+  34:arg_rex.c     **** 
+  35:arg_rex.c     **** 
+  36:arg_rex.c     **** /* local error codes (these must not conflict with reg_error codes) */
+  37:arg_rex.c     **** enum {EMINCOUNT=200,EMAXCOUNT=201};
+  38:arg_rex.c     **** 
+  39:arg_rex.c     **** struct privhdr
+  40:arg_rex.c     ****     {
+  41:arg_rex.c     ****     const char *pattern;
+  42:arg_rex.c     ****     int flags;
+  43:arg_rex.c     ****     regex_t regex;
+  44:arg_rex.c     ****     };
+  45:arg_rex.c     **** 
+  46:arg_rex.c     **** 
+  47:arg_rex.c     **** static void resetfn(struct arg_rex *parent)
+  48:arg_rex.c     ****     {
+   8              		.loc 1 48 0
+   9              		.cfi_startproc
+  10 0000 55       		pushq	%rbp
+  11              		.cfi_def_cfa_offset 16
+  12              		.cfi_offset 6, -16
+  13 0001 4889E5   		movq	%rsp, %rbp
+  14              		.cfi_def_cfa_register 6
+  15 0004 4883EC20 		subq	$32, %rsp
+  16 0008 48897DE8 		movq	%rdi, -24(%rbp)
+  49:arg_rex.c     ****     struct privhdr *priv = (struct privhdr*)(parent->hdr.priv);
+  17              		.loc 1 49 0
+  18 000c 488B45E8 		movq	-24(%rbp), %rax
+  19 0010 488B4058 		movq	88(%rax), %rax
+  20 0014 488945F8 		movq	%rax, -8(%rbp)
+  50:arg_rex.c     **** 
+  51:arg_rex.c     ****     /*printf("%s:resetfn(%p)\n",__FILE__,parent);*/
+  52:arg_rex.c     ****     parent->count=0;
+  21              		.loc 1 52 0
+  22 0018 488B45E8 		movq	-24(%rbp), %rax
+  23 001c C7406000 		movl	$0, 96(%rax)
+  23      000000
+  53:arg_rex.c     **** 
+  54:arg_rex.c     ****     /* construct the regex representation of the given pattern string. */
+  55:arg_rex.c     ****     /* Dont bother checking for errors as we already did that earlier (in the constructor) */
+  56:arg_rex.c     ****     regcomp(&(priv->regex), priv->pattern, priv->flags);
+  24              		.loc 1 56 0
+  25 0023 488B45F8 		movq	-8(%rbp), %rax
+  26 0027 8B5008   		movl	8(%rax), %edx
+  27 002a 488B45F8 		movq	-8(%rbp), %rax
+  28 002e 488B00   		movq	(%rax), %rax
+  29 0031 488B4DF8 		movq	-8(%rbp), %rcx
+  30 0035 4883C110 		addq	$16, %rcx
+  31 0039 4889C6   		movq	%rax, %rsi
+  32 003c 4889CF   		movq	%rcx, %rdi
+  33 003f E8000000 		call	regcomp@PLT
+  33      00
+  57:arg_rex.c     ****     }
+  34              		.loc 1 57 0
+  35 0044 90       		nop
+  36 0045 C9       		leave
+  37              		.cfi_def_cfa 7, 8
+  38 0046 C3       		ret
+  39              		.cfi_endproc
+  40              	.LFE0:
+  43              	scanfn:
+  44              	.LFB1:
+  58:arg_rex.c     **** 
+  59:arg_rex.c     **** static int scanfn(struct arg_rex *parent, const char *argval)
+  60:arg_rex.c     ****     {
+  45              		.loc 1 60 0
+  46              		.cfi_startproc
+  47 0047 55       		pushq	%rbp
+  48              		.cfi_def_cfa_offset 16
+  49              		.cfi_offset 6, -16
+  50 0048 4889E5   		movq	%rsp, %rbp
+  51              		.cfi_def_cfa_register 6
+  52 004b 4883EC20 		subq	$32, %rsp
+  53 004f 48897DE8 		movq	%rdi, -24(%rbp)
+  54 0053 488975E0 		movq	%rsi, -32(%rbp)
+  61:arg_rex.c     ****     int errorcode = 0;
+  55              		.loc 1 61 0
+  56 0057 C745F400 		movl	$0, -12(%rbp)
+  56      000000
+  62:arg_rex.c     **** 
+  63:arg_rex.c     ****     if (parent->count == parent->hdr.maxcount )
+  57              		.loc 1 63 0
+  58 005e 488B45E8 		movq	-24(%rbp), %rax
+  59 0062 8B5060   		movl	96(%rax), %edx
+  60 0065 488B45E8 		movq	-24(%rbp), %rax
+  61 0069 8B402C   		movl	44(%rax), %eax
+  62 006c 39C2     		cmpl	%eax, %edx
+  63 006e 7509     		jne	.L3
+  64:arg_rex.c     ****         {
+  65:arg_rex.c     ****         /* maximum number of arguments exceeded */
+  66:arg_rex.c     ****         errorcode = EMAXCOUNT;
+  64              		.loc 1 66 0
+  65 0070 C745F4C9 		movl	$201, -12(%rbp)
+  65      000000
+  66 0077 EB7D     		jmp	.L4
+  67              	.L3:
+  67:arg_rex.c     ****         }
+  68:arg_rex.c     ****     else if (!argval)
+  68              		.loc 1 68 0
+  69 0079 48837DE0 		cmpq	$0, -32(%rbp)
+  69      00
+  70 007e 7513     		jne	.L5
+  69:arg_rex.c     ****         {
+  70:arg_rex.c     ****         /* a valid argument with no argument value was given. */
+  71:arg_rex.c     ****         /* This happens when an optional argument value was invoked. */
+  72:arg_rex.c     ****         /* leave parent arguiment value unaltered but still count the argument. */
+  73:arg_rex.c     ****         parent->count++;
+  71              		.loc 1 73 0
+  72 0080 488B45E8 		movq	-24(%rbp), %rax
+  73 0084 8B4060   		movl	96(%rax), %eax
+  74 0087 8D5001   		leal	1(%rax), %edx
+  75 008a 488B45E8 		movq	-24(%rbp), %rax
+  76 008e 895060   		movl	%edx, 96(%rax)
+  77 0091 EB63     		jmp	.L4
+  78              	.L5:
+  79              	.LBB2:
+  74:arg_rex.c     ****         }
+  75:arg_rex.c     ****     else 
+  76:arg_rex.c     ****         {
+  77:arg_rex.c     ****         struct privhdr *priv = (struct privhdr*)parent->hdr.priv;
+  80              		.loc 1 77 0
+  81 0093 488B45E8 		movq	-24(%rbp), %rax
+  82 0097 488B4058 		movq	88(%rax), %rax
+  83 009b 488945F8 		movq	%rax, -8(%rbp)
+  78:arg_rex.c     ****     
+  79:arg_rex.c     ****        /* test the current argument value for a match with the regular expression */
+  80:arg_rex.c     ****         /* if a match is detected, record the argument value in the arg_rex struct */
+  81:arg_rex.c     ****         errorcode = regexec(&(priv->regex), argval, 0, NULL, 0);
+  84              		.loc 1 81 0
+  85 009f 488B45F8 		movq	-8(%rbp), %rax
+  86 00a3 488D7810 		leaq	16(%rax), %rdi
+  87 00a7 488B45E0 		movq	-32(%rbp), %rax
+  88 00ab 41B80000 		movl	$0, %r8d
+  88      0000
+  89 00b1 B9000000 		movl	$0, %ecx
+  89      00
+  90 00b6 BA000000 		movl	$0, %edx
+  90      00
+  91 00bb 4889C6   		movq	%rax, %rsi
+  92 00be E8000000 		call	regexec@PLT
+  92      00
+  93 00c3 8945F4   		movl	%eax, -12(%rbp)
+  82:arg_rex.c     ****         if (errorcode==0)
+  94              		.loc 1 82 0
+  95 00c6 837DF400 		cmpl	$0, -12(%rbp)
+  96 00ca 752A     		jne	.L4
+  83:arg_rex.c     ****             parent->sval[parent->count++] = argval;
+  97              		.loc 1 83 0
+  98 00cc 488B45E8 		movq	-24(%rbp), %rax
+  99 00d0 488B7068 		movq	104(%rax), %rsi
+ 100 00d4 488B45E8 		movq	-24(%rbp), %rax
+ 101 00d8 8B4060   		movl	96(%rax), %eax
+ 102 00db 8D4801   		leal	1(%rax), %ecx
+ 103 00de 488B55E8 		movq	-24(%rbp), %rdx
+ 104 00e2 894A60   		movl	%ecx, 96(%rdx)
+ 105 00e5 4898     		cltq
+ 106 00e7 48C1E003 		salq	$3, %rax
+ 107 00eb 488D1406 		leaq	(%rsi,%rax), %rdx
+ 108 00ef 488B45E0 		movq	-32(%rbp), %rax
+ 109 00f3 488902   		movq	%rax, (%rdx)
+ 110              	.L4:
+ 111              	.LBE2:
+  84:arg_rex.c     ****         }
+  85:arg_rex.c     **** 
+  86:arg_rex.c     ****     /*printf("%s:scanfn(%p) returns %d\n",__FILE__,parent,errorcode);*/
+  87:arg_rex.c     ****     return errorcode;
+ 112              		.loc 1 87 0
+ 113 00f6 8B45F4   		movl	-12(%rbp), %eax
+  88:arg_rex.c     ****     }
+ 114              		.loc 1 88 0
+ 115 00f9 C9       		leave
+ 116              		.cfi_def_cfa 7, 8
+ 117 00fa C3       		ret
+ 118              		.cfi_endproc
+ 119              	.LFE1:
+ 122              	checkfn:
+ 123              	.LFB2:
+  89:arg_rex.c     **** 
+  90:arg_rex.c     **** static int checkfn(struct arg_rex *parent)
+  91:arg_rex.c     ****     {
+ 124              		.loc 1 91 0
+ 125              		.cfi_startproc
+ 126 00fb 55       		pushq	%rbp
+ 127              		.cfi_def_cfa_offset 16
+ 128              		.cfi_offset 6, -16
+ 129 00fc 4889E5   		movq	%rsp, %rbp
+ 130              		.cfi_def_cfa_register 6
+ 131 00ff 4883EC20 		subq	$32, %rsp
+ 132 0103 48897DE8 		movq	%rdi, -24(%rbp)
+  92:arg_rex.c     ****     int errorcode = (parent->count < parent->hdr.mincount) ? EMINCOUNT : 0;
+ 133              		.loc 1 92 0
+ 134 0107 488B45E8 		movq	-24(%rbp), %rax
+ 135 010b 8B5060   		movl	96(%rax), %edx
+ 136 010e 488B45E8 		movq	-24(%rbp), %rax
+ 137 0112 8B4028   		movl	40(%rax), %eax
+ 138 0115 39C2     		cmpl	%eax, %edx
+ 139 0117 7D07     		jge	.L8
+ 140              		.loc 1 92 0 is_stmt 0 discriminator 1
+ 141 0119 B8C80000 		movl	$200, %eax
+ 141      00
+ 142 011e EB05     		jmp	.L9
+ 143              	.L8:
+ 144              		.loc 1 92 0 discriminator 2
+ 145 0120 B8000000 		movl	$0, %eax
+ 145      00
+ 146              	.L9:
+ 147              		.loc 1 92 0 discriminator 4
+ 148 0125 8945F4   		movl	%eax, -12(%rbp)
+  93:arg_rex.c     ****     struct privhdr *priv = (struct privhdr*)parent->hdr.priv;
+ 149              		.loc 1 93 0 is_stmt 1 discriminator 4
+ 150 0128 488B45E8 		movq	-24(%rbp), %rax
+ 151 012c 488B4058 		movq	88(%rax), %rax
+ 152 0130 488945F8 		movq	%rax, -8(%rbp)
+  94:arg_rex.c     ****      
+  95:arg_rex.c     ****     /* free the regex "program" we constructed in resetfn */
+  96:arg_rex.c     ****     regfree(&(priv->regex));
+ 153              		.loc 1 96 0 discriminator 4
+ 154 0134 488B45F8 		movq	-8(%rbp), %rax
+ 155 0138 4883C010 		addq	$16, %rax
+ 156 013c 4889C7   		movq	%rax, %rdi
+ 157 013f E8000000 		call	regfree@PLT
+ 157      00
+  97:arg_rex.c     **** 
+  98:arg_rex.c     ****     /*printf("%s:checkfn(%p) returns %d\n",__FILE__,parent,errorcode);*/
+  99:arg_rex.c     ****     return errorcode;
+ 158              		.loc 1 99 0 discriminator 4
+ 159 0144 8B45F4   		movl	-12(%rbp), %eax
+ 100:arg_rex.c     ****     }
+ 160              		.loc 1 100 0 discriminator 4
+ 161 0147 C9       		leave
+ 162              		.cfi_def_cfa 7, 8
+ 163 0148 C3       		ret
+ 164              		.cfi_endproc
+ 165              	.LFE2:
+ 167              		.section	.rodata
+ 168              	.LC0:
+ 169 0000 00       		.string	""
+ 170              	.LC1:
+ 171 0001 25733A20 		.string	"%s: "
+ 171      00
+ 172              	.LC2:
+ 173 0006 6D697373 		.string	"missing option "
+ 173      696E6720 
+ 173      6F707469 
+ 173      6F6E2000 
+ 174              	.LC3:
+ 175 0016 0A00     		.string	"\n"
+ 176              	.LC4:
+ 177 0018 65786365 		.string	"excess option "
+ 177      7373206F 
+ 177      7074696F 
+ 177      6E2000
+ 178              	.LC5:
+ 179 0027 696C6C65 		.string	"illegal value  "
+ 179      67616C20 
+ 179      76616C75 
+ 179      65202000 
+ 180              		.text
+ 182              	errorfn:
+ 183              	.LFB3:
+ 101:arg_rex.c     **** 
+ 102:arg_rex.c     **** static void errorfn(struct arg_rex *parent, FILE *fp, int errorcode, const char *argval, const char
+ 103:arg_rex.c     ****     {
+ 184              		.loc 1 103 0
+ 185              		.cfi_startproc
+ 186 0149 55       		pushq	%rbp
+ 187              		.cfi_def_cfa_offset 16
+ 188              		.cfi_offset 6, -16
+ 189 014a 4889E5   		movq	%rsp, %rbp
+ 190              		.cfi_def_cfa_register 6
+ 191 014d 4881EC60 		subq	$352, %rsp
+ 191      010000
+ 192 0154 4889BDC8 		movq	%rdi, -312(%rbp)
+ 192      FEFFFF
+ 193 015b 4889B5C0 		movq	%rsi, -320(%rbp)
+ 193      FEFFFF
+ 194 0162 8995BCFE 		movl	%edx, -324(%rbp)
+ 194      FFFF
+ 195 0168 48898DB0 		movq	%rcx, -336(%rbp)
+ 195      FEFFFF
+ 196 016f 4C8985A8 		movq	%r8, -344(%rbp)
+ 196      FEFFFF
+ 197              		.loc 1 103 0
+ 198 0176 64488B04 		movq	%fs:40, %rax
+ 198      25280000 
+ 198      00
+ 199 017f 488945F8 		movq	%rax, -8(%rbp)
+ 200 0183 31C0     		xorl	%eax, %eax
+ 104:arg_rex.c     ****     const char *shortopts = parent->hdr.shortopts;
+ 201              		.loc 1 104 0
+ 202 0185 488B85C8 		movq	-312(%rbp), %rax
+ 202      FEFFFF
+ 203 018c 488B4008 		movq	8(%rax), %rax
+ 204 0190 488985D8 		movq	%rax, -296(%rbp)
+ 204      FEFFFF
+ 105:arg_rex.c     ****     const char *longopts  = parent->hdr.longopts;
+ 205              		.loc 1 105 0
+ 206 0197 488B85C8 		movq	-312(%rbp), %rax
+ 206      FEFFFF
+ 207 019e 488B4010 		movq	16(%rax), %rax
+ 208 01a2 488985E0 		movq	%rax, -288(%rbp)
+ 208      FEFFFF
+ 106:arg_rex.c     ****     const char *datatype  = parent->hdr.datatype;
+ 209              		.loc 1 106 0
+ 210 01a9 488B85C8 		movq	-312(%rbp), %rax
+ 210      FEFFFF
+ 211 01b0 488B4018 		movq	24(%rax), %rax
+ 212 01b4 488985E8 		movq	%rax, -280(%rbp)
+ 212      FEFFFF
+ 107:arg_rex.c     **** 
+ 108:arg_rex.c     ****     /* make argval NULL safe */
+ 109:arg_rex.c     ****     argval = argval ? argval : "";
+ 213              		.loc 1 109 0
+ 214 01bb 4883BDB0 		cmpq	$0, -336(%rbp)
+ 214      FEFFFF00 
+ 215 01c3 7409     		je	.L12
+ 216              		.loc 1 109 0 is_stmt 0 discriminator 1
+ 217 01c5 488B85B0 		movq	-336(%rbp), %rax
+ 217      FEFFFF
+ 218 01cc EB07     		jmp	.L13
+ 219              	.L12:
+ 220              		.loc 1 109 0 discriminator 2
+ 221 01ce 488D0500 		leaq	.LC0(%rip), %rax
+ 221      000000
+ 222              	.L13:
+ 223              		.loc 1 109 0 discriminator 4
+ 224 01d5 488985B0 		movq	%rax, -336(%rbp)
+ 224      FEFFFF
+ 110:arg_rex.c     **** 
+ 111:arg_rex.c     ****     fprintf(fp,"%s: ",progname);
+ 225              		.loc 1 111 0 is_stmt 1 discriminator 4
+ 226 01dc 488B95A8 		movq	-344(%rbp), %rdx
+ 226      FEFFFF
+ 227 01e3 488B85C0 		movq	-320(%rbp), %rax
+ 227      FEFFFF
+ 228 01ea 488D3500 		leaq	.LC1(%rip), %rsi
+ 228      000000
+ 229 01f1 4889C7   		movq	%rax, %rdi
+ 230 01f4 B8000000 		movl	$0, %eax
+ 230      00
+ 231 01f9 E8000000 		call	fprintf@PLT
+ 231      00
+ 112:arg_rex.c     ****     switch(errorcode)
+ 232              		.loc 1 112 0 discriminator 4
+ 233 01fe 8B85BCFE 		movl	-324(%rbp), %eax
+ 233      FFFF
+ 234 0204 3DC80000 		cmpl	$200, %eax
+ 234      00
+ 235 0209 7415     		je	.L15
+ 236 020b 3DC90000 		cmpl	$201, %eax
+ 236      00
+ 237 0210 745E     		je	.L16
+ 238 0212 83F801   		cmpl	$1, %eax
+ 239 0215 0F84A200 		je	.L17
+ 239      0000
+ 240              		.loc 1 112 0 is_stmt 0
+ 241 021b E9EA0000 		jmp	.L20
+ 241      00
+ 242              	.L15:
+ 113:arg_rex.c     ****         {
+ 114:arg_rex.c     ****         case EMINCOUNT:
+ 115:arg_rex.c     ****             fputs("missing option ",fp);
+ 243              		.loc 1 115 0 is_stmt 1
+ 244 0220 488B85C0 		movq	-320(%rbp), %rax
+ 244      FEFFFF
+ 245 0227 4889C1   		movq	%rax, %rcx
+ 246 022a BA0F0000 		movl	$15, %edx
+ 246      00
+ 247 022f BE010000 		movl	$1, %esi
+ 247      00
+ 248 0234 488D3D00 		leaq	.LC2(%rip), %rdi
+ 248      000000
+ 249 023b E8000000 		call	fwrite@PLT
+ 249      00
+ 116:arg_rex.c     ****             arg_print_option(fp,shortopts,longopts,datatype,"\n");
+ 250              		.loc 1 116 0
+ 251 0240 488B8DE8 		movq	-280(%rbp), %rcx
+ 251      FEFFFF
+ 252 0247 488B95E0 		movq	-288(%rbp), %rdx
+ 252      FEFFFF
+ 253 024e 488BB5D8 		movq	-296(%rbp), %rsi
+ 253      FEFFFF
+ 254 0255 488B85C0 		movq	-320(%rbp), %rax
+ 254      FEFFFF
+ 255 025c 4C8D0500 		leaq	.LC3(%rip), %r8
+ 255      000000
+ 256 0263 4889C7   		movq	%rax, %rdi
+ 257 0266 E8000000 		call	arg_print_option@PLT
+ 257      00
+ 117:arg_rex.c     ****             break;
+ 258              		.loc 1 117 0
+ 259 026b E9C80000 		jmp	.L18
+ 259      00
+ 260              	.L16:
+ 118:arg_rex.c     **** 
+ 119:arg_rex.c     ****         case EMAXCOUNT:
+ 120:arg_rex.c     ****             fputs("excess option ",fp);
+ 261              		.loc 1 120 0
+ 262 0270 488B85C0 		movq	-320(%rbp), %rax
+ 262      FEFFFF
+ 263 0277 4889C1   		movq	%rax, %rcx
+ 264 027a BA0E0000 		movl	$14, %edx
+ 264      00
+ 265 027f BE010000 		movl	$1, %esi
+ 265      00
+ 266 0284 488D3D00 		leaq	.LC4(%rip), %rdi
+ 266      000000
+ 267 028b E8000000 		call	fwrite@PLT
+ 267      00
+ 121:arg_rex.c     ****             arg_print_option(fp,shortopts,longopts,argval,"\n");
+ 268              		.loc 1 121 0
+ 269 0290 488B8DB0 		movq	-336(%rbp), %rcx
+ 269      FEFFFF
+ 270 0297 488B95E0 		movq	-288(%rbp), %rdx
+ 270      FEFFFF
+ 271 029e 488BB5D8 		movq	-296(%rbp), %rsi
+ 271      FEFFFF
+ 272 02a5 488B85C0 		movq	-320(%rbp), %rax
+ 272      FEFFFF
+ 273 02ac 4C8D0500 		leaq	.LC3(%rip), %r8
+ 273      000000
+ 274 02b3 4889C7   		movq	%rax, %rdi
+ 275 02b6 E8000000 		call	arg_print_option@PLT
+ 275      00
+ 122:arg_rex.c     ****             break;
+ 276              		.loc 1 122 0
+ 277 02bb EB7B     		jmp	.L18
+ 278              	.L17:
+ 123:arg_rex.c     **** 
+ 124:arg_rex.c     ****         case REG_NOMATCH:
+ 125:arg_rex.c     ****             fputs("illegal value  ",fp);
+ 279              		.loc 1 125 0
+ 280 02bd 488B85C0 		movq	-320(%rbp), %rax
+ 280      FEFFFF
+ 281 02c4 4889C1   		movq	%rax, %rcx
+ 282 02c7 BA0F0000 		movl	$15, %edx
+ 282      00
+ 283 02cc BE010000 		movl	$1, %esi
+ 283      00
+ 284 02d1 488D3D00 		leaq	.LC5(%rip), %rdi
+ 284      000000
+ 285 02d8 E8000000 		call	fwrite@PLT
+ 285      00
+ 126:arg_rex.c     ****             arg_print_option(fp,shortopts,longopts,argval,"\n");
+ 286              		.loc 1 126 0
+ 287 02dd 488B8DB0 		movq	-336(%rbp), %rcx
+ 287      FEFFFF
+ 288 02e4 488B95E0 		movq	-288(%rbp), %rdx
+ 288      FEFFFF
+ 289 02eb 488BB5D8 		movq	-296(%rbp), %rsi
+ 289      FEFFFF
+ 290 02f2 488B85C0 		movq	-320(%rbp), %rax
+ 290      FEFFFF
+ 291 02f9 4C8D0500 		leaq	.LC3(%rip), %r8
+ 291      000000
+ 292 0300 4889C7   		movq	%rax, %rdi
+ 293 0303 E8000000 		call	arg_print_option@PLT
+ 293      00
+ 127:arg_rex.c     ****             break;
+ 294              		.loc 1 127 0
+ 295 0308 EB2E     		jmp	.L18
+ 296              	.L20:
+ 297              	.LBB3:
+ 128:arg_rex.c     ****         
+ 129:arg_rex.c     ****         default:
+ 130:arg_rex.c     ****             {
+ 131:arg_rex.c     ****             char errbuff[256];
+ 132:arg_rex.c     ****             regerror(errorcode, NULL, errbuff, sizeof(errbuff));
+ 298              		.loc 1 132 0
+ 299 030a 488D95F0 		leaq	-272(%rbp), %rdx
+ 299      FEFFFF
+ 300 0311 8B85BCFE 		movl	-324(%rbp), %eax
+ 300      FFFF
+ 301 0317 B9000100 		movl	$256, %ecx
+ 301      00
+ 302 031c BE000000 		movl	$0, %esi
+ 302      00
+ 303 0321 89C7     		movl	%eax, %edi
+ 304 0323 E8000000 		call	regerror@PLT
+ 304      00
+ 133:arg_rex.c     ****             printf("%s\n", errbuff);
+ 305              		.loc 1 133 0
+ 306 0328 488D85F0 		leaq	-272(%rbp), %rax
+ 306      FEFFFF
+ 307 032f 4889C7   		movq	%rax, %rdi
+ 308 0332 E8000000 		call	puts@PLT
+ 308      00
+ 309              	.LBE3:
+ 134:arg_rex.c     ****             }
+ 135:arg_rex.c     ****             break;
+ 310              		.loc 1 135 0
+ 311 0337 90       		nop
+ 312              	.L18:
+ 136:arg_rex.c     ****         }
+ 137:arg_rex.c     ****     }
+ 313              		.loc 1 137 0
+ 314 0338 90       		nop
+ 315 0339 488B45F8 		movq	-8(%rbp), %rax
+ 316 033d 64483304 		xorq	%fs:40, %rax
+ 316      25280000 
+ 316      00
+ 317 0346 7405     		je	.L19
+ 318 0348 E8000000 		call	__stack_chk_fail@PLT
+ 318      00
+ 319              	.L19:
+ 320 034d C9       		leave
+ 321              		.cfi_def_cfa 7, 8
+ 322 034e C3       		ret
+ 323              		.cfi_endproc
+ 324              	.LFE3:
+ 326              		.globl	arg_rex0
+ 328              	arg_rex0:
+ 329              	.LFB4:
+ 138:arg_rex.c     **** 
+ 139:arg_rex.c     **** 
+ 140:arg_rex.c     **** struct arg_rex* arg_rex0(const char* shortopts,
+ 141:arg_rex.c     ****                          const char* longopts,
+ 142:arg_rex.c     ****                          const char* pattern,
+ 143:arg_rex.c     ****                          const char *datatype,
+ 144:arg_rex.c     ****                          int flags,
+ 145:arg_rex.c     ****                          const char *glossary)
+ 146:arg_rex.c     ****     {
+ 330              		.loc 1 146 0
+ 331              		.cfi_startproc
+ 332 034f 55       		pushq	%rbp
+ 333              		.cfi_def_cfa_offset 16
+ 334              		.cfi_offset 6, -16
+ 335 0350 4889E5   		movq	%rsp, %rbp
+ 336              		.cfi_def_cfa_register 6
+ 337 0353 4883EC30 		subq	$48, %rsp
+ 338 0357 48897DF8 		movq	%rdi, -8(%rbp)
+ 339 035b 488975F0 		movq	%rsi, -16(%rbp)
+ 340 035f 488955E8 		movq	%rdx, -24(%rbp)
+ 341 0363 48894DE0 		movq	%rcx, -32(%rbp)
+ 342 0367 448945DC 		movl	%r8d, -36(%rbp)
+ 343 036b 4C894DD0 		movq	%r9, -48(%rbp)
+ 147:arg_rex.c     ****     return arg_rexn(shortopts,longopts,pattern,datatype,0,1,flags,glossary);
+ 344              		.loc 1 147 0
+ 345 036f 488B4DE0 		movq	-32(%rbp), %rcx
+ 346 0373 488B55E8 		movq	-24(%rbp), %rdx
+ 347 0377 488B75F0 		movq	-16(%rbp), %rsi
+ 348 037b 488B45F8 		movq	-8(%rbp), %rax
+ 349 037f FF75D0   		pushq	-48(%rbp)
+ 350 0382 8B7DDC   		movl	-36(%rbp), %edi
+ 351 0385 57       		pushq	%rdi
+ 352 0386 41B90100 		movl	$1, %r9d
+ 352      0000
+ 353 038c 41B80000 		movl	$0, %r8d
+ 353      0000
+ 354 0392 4889C7   		movq	%rax, %rdi
+ 355 0395 E8000000 		call	arg_rexn@PLT
+ 355      00
+ 356 039a 4883C410 		addq	$16, %rsp
+ 148:arg_rex.c     ****     }
+ 357              		.loc 1 148 0
+ 358 039e C9       		leave
+ 359              		.cfi_def_cfa 7, 8
+ 360 039f C3       		ret
+ 361              		.cfi_endproc
+ 362              	.LFE4:
+ 364              		.globl	arg_rex1
+ 366              	arg_rex1:
+ 367              	.LFB5:
+ 149:arg_rex.c     **** 
+ 150:arg_rex.c     **** struct arg_rex* arg_rex1(const char* shortopts,
+ 151:arg_rex.c     ****                          const char* longopts,
+ 152:arg_rex.c     ****                          const char* pattern,
+ 153:arg_rex.c     ****                          const char *datatype,
+ 154:arg_rex.c     ****                          int flags,
+ 155:arg_rex.c     ****                          const char *glossary)
+ 156:arg_rex.c     ****     {
+ 368              		.loc 1 156 0
+ 369              		.cfi_startproc
+ 370 03a0 55       		pushq	%rbp
+ 371              		.cfi_def_cfa_offset 16
+ 372              		.cfi_offset 6, -16
+ 373 03a1 4889E5   		movq	%rsp, %rbp
+ 374              		.cfi_def_cfa_register 6
+ 375 03a4 4883EC30 		subq	$48, %rsp
+ 376 03a8 48897DF8 		movq	%rdi, -8(%rbp)
+ 377 03ac 488975F0 		movq	%rsi, -16(%rbp)
+ 378 03b0 488955E8 		movq	%rdx, -24(%rbp)
+ 379 03b4 48894DE0 		movq	%rcx, -32(%rbp)
+ 380 03b8 448945DC 		movl	%r8d, -36(%rbp)
+ 381 03bc 4C894DD0 		movq	%r9, -48(%rbp)
+ 157:arg_rex.c     ****     return arg_rexn(shortopts,longopts,pattern,datatype,1,1,flags,glossary);
+ 382              		.loc 1 157 0
+ 383 03c0 488B4DE0 		movq	-32(%rbp), %rcx
+ 384 03c4 488B55E8 		movq	-24(%rbp), %rdx
+ 385 03c8 488B75F0 		movq	-16(%rbp), %rsi
+ 386 03cc 488B45F8 		movq	-8(%rbp), %rax
+ 387 03d0 FF75D0   		pushq	-48(%rbp)
+ 388 03d3 8B7DDC   		movl	-36(%rbp), %edi
+ 389 03d6 57       		pushq	%rdi
+ 390 03d7 41B90100 		movl	$1, %r9d
+ 390      0000
+ 391 03dd 41B80100 		movl	$1, %r8d
+ 391      0000
+ 392 03e3 4889C7   		movq	%rax, %rdi
+ 393 03e6 E8000000 		call	arg_rexn@PLT
+ 393      00
+ 394 03eb 4883C410 		addq	$16, %rsp
+ 158:arg_rex.c     ****     }
+ 395              		.loc 1 158 0
+ 396 03ef C9       		leave
+ 397              		.cfi_def_cfa 7, 8
+ 398 03f0 C3       		ret
+ 399              		.cfi_endproc
+ 400              	.LFE5:
+ 402              		.section	.rodata
+ 403 0037 00       		.align 8
+ 404              	.LC6:
+ 405 0038 61726774 		.string	"argtable: ERROR - illegal regular expression pattern \"(NULL)\""
+ 405      61626C65 
+ 405      3A204552 
+ 405      524F5220 
+ 405      2D20696C 
+ 406              	.LC7:
+ 407 0076 61726774 		.string	"argtable: Bad argument table."
+ 407      61626C65 
+ 407      3A204261 
+ 407      64206172 
+ 407      67756D65 
+ 408              	.LC8:
+ 409 0094 61726774 		.string	"argtable: %s \"%s\"\n"
+ 409      61626C65 
+ 409      3A202573 
+ 409      20222573 
+ 409      220A00
+ 410              		.text
+ 411              		.globl	arg_rexn
+ 413              	arg_rexn:
+ 414              	.LFB6:
+ 159:arg_rex.c     **** 
+ 160:arg_rex.c     **** 
+ 161:arg_rex.c     **** struct arg_rex* arg_rexn(const char* shortopts,
+ 162:arg_rex.c     ****                          const char* longopts,
+ 163:arg_rex.c     ****                          const char* pattern,
+ 164:arg_rex.c     ****                          const char *datatype,
+ 165:arg_rex.c     ****                          int mincount,
+ 166:arg_rex.c     ****                          int maxcount,
+ 167:arg_rex.c     ****                          int flags,
+ 168:arg_rex.c     ****                          const char *glossary)
+ 169:arg_rex.c     ****     {
+ 415              		.loc 1 169 0
+ 416              		.cfi_startproc
+ 417 03f1 55       		pushq	%rbp
+ 418              		.cfi_def_cfa_offset 16
+ 419              		.cfi_offset 6, -16
+ 420 03f2 4889E5   		movq	%rsp, %rbp
+ 421              		.cfi_def_cfa_register 6
+ 422 03f5 4881EC60 		subq	$352, %rsp
+ 422      010000
+ 423 03fc 4889BDC8 		movq	%rdi, -312(%rbp)
+ 423      FEFFFF
+ 424 0403 4889B5C0 		movq	%rsi, -320(%rbp)
+ 424      FEFFFF
+ 425 040a 488995B8 		movq	%rdx, -328(%rbp)
+ 425      FEFFFF
+ 426 0411 48898DB0 		movq	%rcx, -336(%rbp)
+ 426      FEFFFF
+ 427 0418 448985AC 		movl	%r8d, -340(%rbp)
+ 427      FEFFFF
+ 428 041f 44898DA8 		movl	%r9d, -344(%rbp)
+ 428      FEFFFF
+ 429 0426 488B4518 		movq	24(%rbp), %rax
+ 430 042a 488985A0 		movq	%rax, -352(%rbp)
+ 430      FEFFFF
+ 431              		.loc 1 169 0
+ 432 0431 64488B04 		movq	%fs:40, %rax
+ 432      25280000 
+ 432      00
+ 433 043a 488945F8 		movq	%rax, -8(%rbp)
+ 434 043e 31C0     		xorl	%eax, %eax
+ 170:arg_rex.c     ****     size_t nbytes;
+ 171:arg_rex.c     ****     struct arg_rex *result;
+ 172:arg_rex.c     ****     struct privhdr *priv;
+ 173:arg_rex.c     **** 
+ 174:arg_rex.c     ****     if (!pattern)
+ 435              		.loc 1 174 0
+ 436 0440 4883BDB8 		cmpq	$0, -328(%rbp)
+ 436      FEFFFF00 
+ 437 0448 7522     		jne	.L26
+ 175:arg_rex.c     ****         {
+ 176:arg_rex.c     ****         printf("argtable: ERROR - illegal regular expression pattern \"(NULL)\"\n");
+ 438              		.loc 1 176 0
+ 439 044a 488D3D00 		leaq	.LC6(%rip), %rdi
+ 439      000000
+ 440 0451 E8000000 		call	puts@PLT
+ 440      00
+ 177:arg_rex.c     ****         printf("argtable: Bad argument table.\n");
+ 441              		.loc 1 177 0
+ 442 0456 488D3D00 		leaq	.LC7(%rip), %rdi
+ 442      000000
+ 443 045d E8000000 		call	puts@PLT
+ 443      00
+ 178:arg_rex.c     ****         return NULL;
+ 444              		.loc 1 178 0
+ 445 0462 B8000000 		movl	$0, %eax
+ 445      00
+ 446 0467 E9920200 		jmp	.L27
+ 446      00
+ 447              	.L26:
+ 179:arg_rex.c     ****         }
+ 180:arg_rex.c     **** 
+ 181:arg_rex.c     **** 	/* foolproof things by ensuring maxcount is not less than mincount */
+ 182:arg_rex.c     **** 	maxcount = (maxcount<mincount) ? mincount : maxcount;
+ 448              		.loc 1 182 0
+ 449 046c 8B85ACFE 		movl	-340(%rbp), %eax
+ 449      FFFF
+ 450 0472 3985A8FE 		cmpl	%eax, -344(%rbp)
+ 450      FFFF
+ 451 0478 0F4D85A8 		cmovge	-344(%rbp), %eax
+ 451      FEFFFF
+ 452 047f 8985A8FE 		movl	%eax, -344(%rbp)
+ 452      FFFF
+ 183:arg_rex.c     **** 
+ 184:arg_rex.c     ****     nbytes = sizeof(struct arg_rex)       /* storage for struct arg_rex */
+ 185:arg_rex.c     ****            + sizeof(struct privhdr)       /* storage for private arg_rex data */
+ 186:arg_rex.c     ****            + maxcount * sizeof(char*);    /* storage for sval[maxcount] array */
+ 453              		.loc 1 186 0
+ 454 0485 8B85A8FE 		movl	-344(%rbp), %eax
+ 454      FFFF
+ 455 048b 4898     		cltq
+ 456 048d 4883C018 		addq	$24, %rax
+ 184:arg_rex.c     ****            + sizeof(struct privhdr)       /* storage for private arg_rex data */
+ 457              		.loc 1 184 0
+ 458 0491 48C1E003 		salq	$3, %rax
+ 459 0495 488985D8 		movq	%rax, -296(%rbp)
+ 459      FEFFFF
+ 187:arg_rex.c     **** 
+ 188:arg_rex.c     ****     result = (struct arg_rex*)malloc(nbytes);
+ 460              		.loc 1 188 0
+ 461 049c 488B85D8 		movq	-296(%rbp), %rax
+ 461      FEFFFF
+ 462 04a3 4889C7   		movq	%rax, %rdi
+ 463 04a6 E8000000 		call	malloc@PLT
+ 463      00
+ 464 04ab 488985E0 		movq	%rax, -288(%rbp)
+ 464      FEFFFF
+ 189:arg_rex.c     ****     if (result)
+ 465              		.loc 1 189 0
+ 466 04b2 4883BDE0 		cmpq	$0, -288(%rbp)
+ 466      FEFFFF00 
+ 467 04ba 0F843702 		je	.L28
+ 467      0000
+ 468              	.LBB4:
+ 190:arg_rex.c     ****         {
+ 191:arg_rex.c     ****         int errorcode, i;
+ 192:arg_rex.c     **** 
+ 193:arg_rex.c     ****         /* init the arg_hdr struct */
+ 194:arg_rex.c     ****         result->hdr.flag      = ARG_HASVALUE;
+ 469              		.loc 1 194 0
+ 470 04c0 488B85E0 		movq	-288(%rbp), %rax
+ 470      FEFFFF
+ 471 04c7 C60002   		movb	$2, (%rax)
+ 195:arg_rex.c     ****         result->hdr.shortopts = shortopts;
+ 472              		.loc 1 195 0
+ 473 04ca 488B85E0 		movq	-288(%rbp), %rax
+ 473      FEFFFF
+ 474 04d1 488B95C8 		movq	-312(%rbp), %rdx
+ 474      FEFFFF
+ 475 04d8 48895008 		movq	%rdx, 8(%rax)
+ 196:arg_rex.c     ****         result->hdr.longopts  = longopts;
+ 476              		.loc 1 196 0
+ 477 04dc 488B85E0 		movq	-288(%rbp), %rax
+ 477      FEFFFF
+ 478 04e3 488B95C0 		movq	-320(%rbp), %rdx
+ 478      FEFFFF
+ 479 04ea 48895010 		movq	%rdx, 16(%rax)
+ 197:arg_rex.c     ****         result->hdr.datatype  = datatype ? datatype : pattern;
+ 480              		.loc 1 197 0
+ 481 04ee 4883BDB0 		cmpq	$0, -336(%rbp)
+ 481      FEFFFF00 
+ 482 04f6 7409     		je	.L29
+ 483              		.loc 1 197 0 is_stmt 0 discriminator 1
+ 484 04f8 488B85B0 		movq	-336(%rbp), %rax
+ 484      FEFFFF
+ 485 04ff EB07     		jmp	.L30
+ 486              	.L29:
+ 487              		.loc 1 197 0 discriminator 2
+ 488 0501 488B85B8 		movq	-328(%rbp), %rax
+ 488      FEFFFF
+ 489              	.L30:
+ 490              		.loc 1 197 0 discriminator 4
+ 491 0508 488B95E0 		movq	-288(%rbp), %rdx
+ 491      FEFFFF
+ 492 050f 48894218 		movq	%rax, 24(%rdx)
+ 198:arg_rex.c     ****         result->hdr.glossary  = glossary;
+ 493              		.loc 1 198 0 is_stmt 1 discriminator 4
+ 494 0513 488B85E0 		movq	-288(%rbp), %rax
+ 494      FEFFFF
+ 495 051a 488B95A0 		movq	-352(%rbp), %rdx
+ 495      FEFFFF
+ 496 0521 48895020 		movq	%rdx, 32(%rax)
+ 199:arg_rex.c     ****         result->hdr.mincount  = mincount;
+ 497              		.loc 1 199 0 discriminator 4
+ 498 0525 488B85E0 		movq	-288(%rbp), %rax
+ 498      FEFFFF
+ 499 052c 8B95ACFE 		movl	-340(%rbp), %edx
+ 499      FFFF
+ 500 0532 895028   		movl	%edx, 40(%rax)
+ 200:arg_rex.c     ****         result->hdr.maxcount  = maxcount;
+ 501              		.loc 1 200 0 discriminator 4
+ 502 0535 488B85E0 		movq	-288(%rbp), %rax
+ 502      FEFFFF
+ 503 053c 8B95A8FE 		movl	-344(%rbp), %edx
+ 503      FFFF
+ 504 0542 89502C   		movl	%edx, 44(%rax)
+ 201:arg_rex.c     ****         result->hdr.parent    = result;
+ 505              		.loc 1 201 0 discriminator 4
+ 506 0545 488B85E0 		movq	-288(%rbp), %rax
+ 506      FEFFFF
+ 507 054c 488B95E0 		movq	-288(%rbp), %rdx
+ 507      FEFFFF
+ 508 0553 48895030 		movq	%rdx, 48(%rax)
+ 202:arg_rex.c     ****         result->hdr.resetfn   = (arg_resetfn*)resetfn;
+ 509              		.loc 1 202 0 discriminator 4
+ 510 0557 488B85E0 		movq	-288(%rbp), %rax
+ 510      FEFFFF
+ 511 055e 488D159B 		leaq	resetfn(%rip), %rdx
+ 511      FAFFFF
+ 512 0565 48895038 		movq	%rdx, 56(%rax)
+ 203:arg_rex.c     ****         result->hdr.scanfn    = (arg_scanfn*)scanfn;
+ 513              		.loc 1 203 0 discriminator 4
+ 514 0569 488B85E0 		movq	-288(%rbp), %rax
+ 514      FEFFFF
+ 515 0570 488D15D0 		leaq	scanfn(%rip), %rdx
+ 515      FAFFFF
+ 516 0577 48895040 		movq	%rdx, 64(%rax)
+ 204:arg_rex.c     ****         result->hdr.checkfn   = (arg_checkfn*)checkfn;
+ 517              		.loc 1 204 0 discriminator 4
+ 518 057b 488B85E0 		movq	-288(%rbp), %rax
+ 518      FEFFFF
+ 519 0582 488D1572 		leaq	checkfn(%rip), %rdx
+ 519      FBFFFF
+ 520 0589 48895048 		movq	%rdx, 72(%rax)
+ 205:arg_rex.c     ****         result->hdr.errorfn   = (arg_errorfn*)errorfn;
+ 521              		.loc 1 205 0 discriminator 4
+ 522 058d 488B85E0 		movq	-288(%rbp), %rax
+ 522      FEFFFF
+ 523 0594 488D15AE 		leaq	errorfn(%rip), %rdx
+ 523      FBFFFF
+ 524 059b 48895050 		movq	%rdx, 80(%rax)
+ 206:arg_rex.c     **** 
+ 207:arg_rex.c     ****         /* store the arg_rex_priv struct immediately after the arg_rex struct */
+ 208:arg_rex.c     ****         result->hdr.priv  = (const char**)(result+1);
+ 525              		.loc 1 208 0 discriminator 4
+ 526 059f 488B85E0 		movq	-288(%rbp), %rax
+ 526      FEFFFF
+ 527 05a6 488D5070 		leaq	112(%rax), %rdx
+ 528 05aa 488B85E0 		movq	-288(%rbp), %rax
+ 528      FEFFFF
+ 529 05b1 48895058 		movq	%rdx, 88(%rax)
+ 209:arg_rex.c     ****         priv = (struct privhdr*)(result->hdr.priv);
+ 530              		.loc 1 209 0 discriminator 4
+ 531 05b5 488B85E0 		movq	-288(%rbp), %rax
+ 531      FEFFFF
+ 532 05bc 488B4058 		movq	88(%rax), %rax
+ 533 05c0 488985E8 		movq	%rax, -280(%rbp)
+ 533      FEFFFF
+ 210:arg_rex.c     ****         priv->pattern = pattern;
+ 534              		.loc 1 210 0 discriminator 4
+ 535 05c7 488B85E8 		movq	-280(%rbp), %rax
+ 535      FEFFFF
+ 536 05ce 488B95B8 		movq	-328(%rbp), %rdx
+ 536      FEFFFF
+ 537 05d5 488910   		movq	%rdx, (%rax)
+ 211:arg_rex.c     ****         priv->flags = flags | REG_NOSUB;
+ 538              		.loc 1 211 0 discriminator 4
+ 539 05d8 8B4510   		movl	16(%rbp), %eax
+ 540 05db 83C808   		orl	$8, %eax
+ 541 05de 89C2     		movl	%eax, %edx
+ 542 05e0 488B85E8 		movq	-280(%rbp), %rax
+ 542      FEFFFF
+ 543 05e7 895008   		movl	%edx, 8(%rax)
+ 212:arg_rex.c     **** 
+ 213:arg_rex.c     ****         /* store the sval[maxcount] array immediately after the arg_rex_priv struct */
+ 214:arg_rex.c     ****         result->sval  = (const char**)(priv+1);
+ 544              		.loc 1 214 0 discriminator 4
+ 545 05ea 488B85E8 		movq	-280(%rbp), %rax
+ 545      FEFFFF
+ 546 05f1 488D5050 		leaq	80(%rax), %rdx
+ 547 05f5 488B85E0 		movq	-288(%rbp), %rax
+ 547      FEFFFF
+ 548 05fc 48895068 		movq	%rdx, 104(%rax)
+ 215:arg_rex.c     ****         result->count = 0;
+ 549              		.loc 1 215 0 discriminator 4
+ 550 0600 488B85E0 		movq	-288(%rbp), %rax
+ 550      FEFFFF
+ 551 0607 C7406000 		movl	$0, 96(%rax)
+ 551      000000
+ 216:arg_rex.c     **** 
+ 217:arg_rex.c     ****         /* foolproof the string pointers by initialising them to reference empty strings */
+ 218:arg_rex.c     ****         for (i=0; i<maxcount; i++)
+ 552              		.loc 1 218 0 discriminator 4
+ 553 060e C785D0FE 		movl	$0, -304(%rbp)
+ 553      FFFF0000 
+ 553      0000
+ 554 0618 EB2C     		jmp	.L31
+ 555              	.L32:
+ 219:arg_rex.c     ****             { result->sval[i] = ""; }
+ 556              		.loc 1 219 0 discriminator 3
+ 557 061a 488B85E0 		movq	-288(%rbp), %rax
+ 557      FEFFFF
+ 558 0621 488B4068 		movq	104(%rax), %rax
+ 559 0625 8B95D0FE 		movl	-304(%rbp), %edx
+ 559      FFFF
+ 560 062b 4863D2   		movslq	%edx, %rdx
+ 561 062e 48C1E203 		salq	$3, %rdx
+ 562 0632 4801C2   		addq	%rax, %rdx
+ 563 0635 488D0500 		leaq	.LC0(%rip), %rax
+ 563      000000
+ 564 063c 488902   		movq	%rax, (%rdx)
+ 218:arg_rex.c     ****             { result->sval[i] = ""; }
+ 565              		.loc 1 218 0 discriminator 3
+ 566 063f 8385D0FE 		addl	$1, -304(%rbp)
+ 566      FFFF01
+ 567              	.L31:
+ 218:arg_rex.c     ****             { result->sval[i] = ""; }
+ 568              		.loc 1 218 0 is_stmt 0 discriminator 1
+ 569 0646 8B85D0FE 		movl	-304(%rbp), %eax
+ 569      FFFF
+ 570 064c 3B85A8FE 		cmpl	-344(%rbp), %eax
+ 570      FFFF
+ 571 0652 7CC6     		jl	.L32
+ 220:arg_rex.c     **** 
+ 221:arg_rex.c     ****         /* here we construct and destroy a regex representation of the regular expression
+ 222:arg_rex.c     ****            for no other reason than to force any regex errors to be trapped now rather
+ 223:arg_rex.c     ****            than later. If we dont, then errors may go undetected until an argument is
+ 224:arg_rex.c     ****            actually parsed. */
+ 225:arg_rex.c     ****         errorcode = regcomp(&(priv->regex), priv->pattern, priv->flags);
+ 572              		.loc 1 225 0 is_stmt 1
+ 573 0654 488B85E8 		movq	-280(%rbp), %rax
+ 573      FEFFFF
+ 574 065b 8B5008   		movl	8(%rax), %edx
+ 575 065e 488B85E8 		movq	-280(%rbp), %rax
+ 575      FEFFFF
+ 576 0665 488B00   		movq	(%rax), %rax
+ 577 0668 488B8DE8 		movq	-280(%rbp), %rcx
+ 577      FEFFFF
+ 578 066f 4883C110 		addq	$16, %rcx
+ 579 0673 4889C6   		movq	%rax, %rsi
+ 580 0676 4889CF   		movq	%rcx, %rdi
+ 581 0679 E8000000 		call	regcomp@PLT
+ 581      00
+ 582 067e 8985D4FE 		movl	%eax, -300(%rbp)
+ 582      FFFF
+ 226:arg_rex.c     ****         if (errorcode)
+ 583              		.loc 1 226 0
+ 584 0684 83BDD4FE 		cmpl	$0, -300(%rbp)
+ 584      FFFF00
+ 585 068b 7457     		je	.L33
+ 586              	.LBB5:
+ 227:arg_rex.c     ****             {
+ 228:arg_rex.c     ****             char errbuff[256];
+ 229:arg_rex.c     ****             regerror(errorcode, &(priv->regex), errbuff, sizeof(errbuff));
+ 587              		.loc 1 229 0
+ 588 068d 488B85E8 		movq	-280(%rbp), %rax
+ 588      FEFFFF
+ 589 0694 488D7010 		leaq	16(%rax), %rsi
+ 590 0698 488D95F0 		leaq	-272(%rbp), %rdx
+ 590      FEFFFF
+ 591 069f 8B85D4FE 		movl	-300(%rbp), %eax
+ 591      FFFF
+ 592 06a5 B9000100 		movl	$256, %ecx
+ 592      00
+ 593 06aa 89C7     		movl	%eax, %edi
+ 594 06ac E8000000 		call	regerror@PLT
+ 594      00
+ 230:arg_rex.c     ****             printf("argtable: %s \"%s\"\n", errbuff, priv->pattern);
+ 595              		.loc 1 230 0
+ 596 06b1 488B85E8 		movq	-280(%rbp), %rax
+ 596      FEFFFF
+ 597 06b8 488B10   		movq	(%rax), %rdx
+ 598 06bb 488D85F0 		leaq	-272(%rbp), %rax
+ 598      FEFFFF
+ 599 06c2 4889C6   		movq	%rax, %rsi
+ 600 06c5 488D3D00 		leaq	.LC8(%rip), %rdi
+ 600      000000
+ 601 06cc B8000000 		movl	$0, %eax
+ 601      00
+ 602 06d1 E8000000 		call	printf@PLT
+ 602      00
+ 231:arg_rex.c     ****             printf("argtable: Bad argument table.\n");
+ 603              		.loc 1 231 0
+ 604 06d6 488D3D00 		leaq	.LC7(%rip), %rdi
+ 604      000000
+ 605 06dd E8000000 		call	puts@PLT
+ 605      00
+ 606              	.LBE5:
+ 607 06e2 EB13     		jmp	.L28
+ 608              	.L33:
+ 232:arg_rex.c     ****             }
+ 233:arg_rex.c     ****         else
+ 234:arg_rex.c     ****             regfree(&(priv->regex)); 
+ 609              		.loc 1 234 0
+ 610 06e4 488B85E8 		movq	-280(%rbp), %rax
+ 610      FEFFFF
+ 611 06eb 4883C010 		addq	$16, %rax
+ 612 06ef 4889C7   		movq	%rax, %rdi
+ 613 06f2 E8000000 		call	regfree@PLT
+ 613      00
+ 614              	.L28:
+ 615              	.LBE4:
+ 235:arg_rex.c     ****         }
+ 236:arg_rex.c     **** 
+ 237:arg_rex.c     ****     /*printf("arg_rexn() returns %p\n",result);*/
+ 238:arg_rex.c     ****     return result;
+ 616              		.loc 1 238 0
+ 617 06f7 488B85E0 		movq	-288(%rbp), %rax
+ 617      FEFFFF
+ 618              	.L27:
+ 239:arg_rex.c     ****     }
+ 619              		.loc 1 239 0
+ 620 06fe 488B4DF8 		movq	-8(%rbp), %rcx
+ 621 0702 6448330C 		xorq	%fs:40, %rcx
+ 621      25280000 
+ 621      00
+ 622 070b 7405     		je	.L34
+ 623 070d E8000000 		call	__stack_chk_fail@PLT
+ 623      00
+ 624              	.L34:
+ 625 0712 C9       		leave
+ 626              		.cfi_def_cfa 7, 8
+ 627 0713 C3       		ret
+ 628              		.cfi_endproc
+ 629              	.LFE6:
+ 631              	.Letext0:
+ 632              		.file 2 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 633              		.file 3 "/usr/include/x86_64-linux-gnu/bits/types.h"
+ 634              		.file 4 "/usr/include/stdio.h"
+ 635              		.file 5 "/usr/include/libio.h"
+ 636              		.file 6 "argtable2.h"
+ 637              		.file 7 "/usr/include/regex.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 arg_rex.c
+     /tmp/cckER9Un.s:5      .text:0000000000000000 resetfn
+     /tmp/cckER9Un.s:43     .text:0000000000000047 scanfn
+     /tmp/cckER9Un.s:122    .text:00000000000000fb checkfn
+     /tmp/cckER9Un.s:182    .text:0000000000000149 errorfn
+     /tmp/cckER9Un.s:328    .text:000000000000034f arg_rex0
+     /tmp/cckER9Un.s:413    .text:00000000000003f1 arg_rexn
+     /tmp/cckER9Un.s:366    .text:00000000000003a0 arg_rex1
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+regcomp
+regexec
+regfree
+fprintf
+fwrite
+arg_print_option
+regerror
+puts
+__stack_chk_fail
+malloc
+printf

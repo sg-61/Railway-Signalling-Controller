@@ -1,0 +1,107 @@
+   1              		.file	"ReportAssert.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              	.LCOLDB0:
+   4              		.text
+   5              	.LHOTB0:
+   6              		.p2align 4,,15
+   7              		.globl	_ZN8UnitTest12ReportAssertEPKcS1_i
+   9              	_ZN8UnitTest12ReportAssertEPKcS1_i:
+  10              	.LFB6:
+  11              		.cfi_startproc
+  12              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+  13              		.cfi_lsda 0x1b,.LLSDA6
+  14 0000 4155     		pushq	%r13
+  15              		.cfi_def_cfa_offset 16
+  16              		.cfi_offset 13, -16
+  17 0002 4154     		pushq	%r12
+  18              		.cfi_def_cfa_offset 24
+  19              		.cfi_offset 12, -24
+  20 0004 4189D5   		movl	%edx, %r13d
+  21 0007 55       		pushq	%rbp
+  22              		.cfi_def_cfa_offset 32
+  23              		.cfi_offset 6, -32
+  24 0008 53       		pushq	%rbx
+  25              		.cfi_def_cfa_offset 40
+  26              		.cfi_offset 3, -40
+  27 0009 4989F4   		movq	%rsi, %r12
+  28 000c 4889FD   		movq	%rdi, %rbp
+  29 000f BF100300 		movl	$784, %edi
+  29      00
+  30 0014 4883EC08 		subq	$8, %rsp
+  31              		.cfi_def_cfa_offset 48
+  32 0018 E8000000 		call	__cxa_allocate_exception@PLT
+  32      00
+  33 001d 4489E9   		movl	%r13d, %ecx
+  34 0020 4C89E2   		movq	%r12, %rdx
+  35 0023 4889EE   		movq	%rbp, %rsi
+  36 0026 4889C7   		movq	%rax, %rdi
+  37 0029 4889C3   		movq	%rax, %rbx
+  38              	.LEHB0:
+  39 002c E8000000 		call	_ZN8UnitTest15AssertExceptionC1EPKcS2_i@PLT
+  39      00
+  40              	.LEHE0:
+  41 0031 488B1500 		movq	_ZN8UnitTest15AssertExceptionD1Ev@GOTPCREL(%rip), %rdx
+  41      000000
+  42 0038 488B3500 		movq	_ZTIN8UnitTest15AssertExceptionE@GOTPCREL(%rip), %rsi
+  42      000000
+  43 003f 4889DF   		movq	%rbx, %rdi
+  44              	.LEHB1:
+  45 0042 E8000000 		call	__cxa_throw@PLT
+  45      00
+  46              	.L3:
+  47 0047 4889C5   		movq	%rax, %rbp
+  48 004a 4889DF   		movq	%rbx, %rdi
+  49 004d E8000000 		call	__cxa_free_exception@PLT
+  49      00
+  50 0052 4889EF   		movq	%rbp, %rdi
+  51 0055 E8000000 		call	_Unwind_Resume@PLT
+  51      00
+  52              	.LEHE1:
+  53              		.cfi_endproc
+  54              	.LFE6:
+  55              		.globl	__gxx_personality_v0
+  56              		.section	.gcc_except_table,"a",@progbits
+  57              	.LLSDA6:
+  58 0000 FF       		.byte	0xff
+  59 0001 FF       		.byte	0xff
+  60 0002 01       		.byte	0x1
+  61 0003 08       		.uleb128 .LLSDACSE6-.LLSDACSB6
+  62              	.LLSDACSB6:
+  63 0004 2C       		.uleb128 .LEHB0-.LFB6
+  64 0005 05       		.uleb128 .LEHE0-.LEHB0
+  65 0006 47       		.uleb128 .L3-.LFB6
+  66 0007 00       		.uleb128 0
+  67 0008 42       		.uleb128 .LEHB1-.LFB6
+  68 0009 18       		.uleb128 .LEHE1-.LEHB1
+  69 000a 00       		.uleb128 0
+  70 000b 00       		.uleb128 0
+  71              	.LLSDACSE6:
+  72              		.text
+  74              		.section	.text.unlikely
+  75              	.LCOLDE0:
+  76              		.text
+  77              	.LHOTE0:
+  78              		.hidden	DW.ref.__gxx_personality_v0
+  79              		.weak	DW.ref.__gxx_personality_v0
+  80              		.section	.data.DW.ref.__gxx_personality_v0,"awG",@progbits,DW.ref.__gxx_personality_v0,comdat
+  81              		.align 8
+  84              	DW.ref.__gxx_personality_v0:
+  85 0000 00000000 		.quad	__gxx_personality_v0
+  85      00000000 
+  86              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  87              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ReportAssert.cpp
+     /tmp/ccE5wFWe.s:9      .text:0000000000000000 _ZN8UnitTest12ReportAssertEPKcS1_i
+     /tmp/ccE5wFWe.s:84     .data.DW.ref.__gxx_personality_v0:0000000000000000 DW.ref.__gxx_personality_v0
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+__cxa_allocate_exception
+_ZN8UnitTest15AssertExceptionC1EPKcS2_i
+_ZN8UnitTest15AssertExceptionD1Ev
+_ZTIN8UnitTest15AssertExceptionE
+__cxa_throw
+__cxa_free_exception
+_Unwind_Resume
+__gxx_personality_v0

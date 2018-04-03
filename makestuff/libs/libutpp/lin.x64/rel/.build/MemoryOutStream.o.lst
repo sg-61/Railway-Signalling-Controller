@@ -1,0 +1,403 @@
+   1              		.file	"MemoryOutStream.cpp"
+   2              		.section	.rodata.str1.8,"aMS",@progbits,1
+   3              		.align 8
+   4              	.LC0:
+   5 0000 62617369 		.string	"basic_string::_M_construct null not valid"
+   5      635F7374 
+   5      72696E67 
+   5      3A3A5F4D 
+   5      5F636F6E 
+   6              		.section	.text.unlikely,"ax",@progbits
+   7              		.align 2
+   8              	.LCOLDB1:
+   9              		.text
+  10              	.LHOTB1:
+  11              		.align 2
+  12              		.p2align 4,,15
+  13              		.globl	_ZNK8UnitTest15MemoryOutStream7GetTextEv
+  15              	_ZNK8UnitTest15MemoryOutStream7GetTextEv:
+  16              	.LFB1084:
+  17              		.cfi_startproc
+  18              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+  19              		.cfi_lsda 0x1b,.LLSDA1084
+  20 0000 4156     		pushq	%r14
+  21              		.cfi_def_cfa_offset 16
+  22              		.cfi_offset 14, -16
+  23 0002 4155     		pushq	%r13
+  24              		.cfi_def_cfa_offset 24
+  25              		.cfi_offset 13, -24
+  26 0004 4154     		pushq	%r12
+  27              		.cfi_def_cfa_offset 32
+  28              		.cfi_offset 12, -32
+  29 0006 55       		pushq	%rbp
+  30              		.cfi_def_cfa_offset 40
+  31              		.cfi_offset 6, -40
+  32 0007 4989FC   		movq	%rdi, %r12
+  33 000a 53       		pushq	%rbx
+  34              		.cfi_def_cfa_offset 48
+  35              		.cfi_offset 3, -48
+  36 000b 4883C480 		addq	$-128, %rsp
+  37              		.cfi_def_cfa_offset 176
+  38 000f 488B5730 		movq	48(%rdi), %rdx
+  39 0013 488D5C24 		leaq	16(%rsp), %rbx
+  39      10
+  40 0018 48C74424 		movq	$0, 24(%rsp)
+  40      18000000 
+  40      00
+  41 0021 C6442420 		movb	$0, 32(%rsp)
+  41      00
+  42 0026 64488B04 		movq	%fs:40, %rax
+  42      25280000 
+  42      00
+  43 002f 48894424 		movq	%rax, 120(%rsp)
+  43      78
+  44 0034 31C0     		xorl	%eax, %eax
+  45 0036 488D4310 		leaq	16(%rbx), %rax
+  46 003a 4885D2   		testq	%rdx, %rdx
+  47 003d 48894424 		movq	%rax, 16(%rsp)
+  47      10
+  48 0042 0F84F801 		je	.L2
+  48      0000
+  49 0048 488B6F20 		movq	32(%rdi), %rbp
+  50 004c 4C8B7728 		movq	40(%rdi), %r14
+  51 0050 4839EA   		cmpq	%rbp, %rdx
+  52 0053 772B     		ja	.L59
+  53 0055 4C8D6C24 		leaq	48(%rsp), %r13
+  53      30
+  54 005a 4D85F6   		testq	%r14, %r14
+  55 005d 498D4510 		leaq	16(%r13), %rax
+  56 0061 48894424 		movq	%rax, 48(%rsp)
+  56      30
+  57 0066 7540     		jne	.L13
+  58 0068 4885ED   		testq	%rbp, %rbp
+  59 006b 743B     		je	.L13
+  60 006d 488D3D00 		leaq	.LC0(%rip), %rdi
+  60      000000
+  61              	.LEHB0:
+  62 0074 E8000000 		call	_ZSt19__throw_logic_errorPKc@PLT
+  62      00
+  63 0079 0F1F8000 		.p2align 4,,10
+  63      000000
+  64              		.p2align 3
+  65              	.L59:
+  66 0080 4C8D6C24 		leaq	80(%rsp), %r13
+  66      50
+  67 0085 4D85F6   		testq	%r14, %r14
+  68 0088 498D4510 		leaq	16(%r13), %rax
+  69 008c 48894424 		movq	%rax, 80(%rsp)
+  69      50
+  70 0091 0F85A900 		jne	.L60
+  70      0000
+  71 0097 488D3D00 		leaq	.LC0(%rip), %rdi
+  71      000000
+  72 009e E8000000 		call	_ZSt19__throw_logic_errorPKc@PLT
+  72      00
+  73              	.LEHE0:
+  74              		.p2align 4,,10
+  75 00a3 0F1F4400 		.p2align 3
+  75      00
+  76              	.L13:
+  77 00a8 4C29F5   		subq	%r14, %rbp
+  78 00ab 4883FD0F 		cmpq	$15, %rbp
+  79 00af 48896C24 		movq	%rbp, 8(%rsp)
+  79      08
+  80 00b4 0F871601 		ja	.L61
+  80      0000
+  81 00ba 4883FD01 		cmpq	$1, %rbp
+  82 00be 0F844C01 		je	.L62
+  82      0000
+  83 00c4 4885ED   		testq	%rbp, %rbp
+  84 00c7 498D4510 		leaq	16(%r13), %rax
+  85 00cb 0F859F01 		jne	.L63
+  85      0000
+  86              	.L16:
+  87 00d1 48896C24 		movq	%rbp, 56(%rsp)
+  87      38
+  88 00d6 4C89EE   		movq	%r13, %rsi
+  89 00d9 C6042800 		movb	$0, (%rax,%rbp)
+  90 00dd 4889DF   		movq	%rbx, %rdi
+  91              	.LEHB1:
+  92 00e0 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_@PLT
+  92      00
+  93              	.LEHE1:
+  94 00e5 488B7C24 		movq	48(%rsp), %rdi
+  94      30
+  95 00ea 4983C510 		addq	$16, %r13
+  96 00ee 4C39EF   		cmpq	%r13, %rdi
+  97 00f1 7405     		je	.L10
+  98              	.L49:
+  99 00f3 E8000000 		call	_ZdlPv@PLT
+  99      00
+ 100              	.L10:
+ 101 00f8 498D7C24 		leaq	112(%r12), %rdi
+ 101      70
+ 102 00fd 4889DE   		movq	%rbx, %rsi
+ 103              	.LEHB2:
+ 104 0100 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_@PLT
+ 104      00
+ 105              	.LEHE2:
+ 106 0105 488B7C24 		movq	16(%rsp), %rdi
+ 106      10
+ 107 010a 4883C310 		addq	$16, %rbx
+ 108 010e 4839DF   		cmpq	%rbx, %rdi
+ 109 0111 7405     		je	.L24
+ 110 0113 E8000000 		call	_ZdlPv@PLT
+ 110      00
+ 111              	.L24:
+ 112 0118 488B4C24 		movq	120(%rsp), %rcx
+ 112      78
+ 113 011d 6448330C 		xorq	%fs:40, %rcx
+ 113      25280000 
+ 113      00
+ 114 0126 498B4424 		movq	112(%r12), %rax
+ 114      70
+ 115 012b 0F855701 		jne	.L64
+ 115      0000
+ 116 0131 4883EC80 		subq	$-128, %rsp
+ 117              		.cfi_remember_state
+ 118              		.cfi_def_cfa_offset 48
+ 119 0135 5B       		popq	%rbx
+ 120              		.cfi_def_cfa_offset 40
+ 121 0136 5D       		popq	%rbp
+ 122              		.cfi_def_cfa_offset 32
+ 123 0137 415C     		popq	%r12
+ 124              		.cfi_def_cfa_offset 24
+ 125 0139 415D     		popq	%r13
+ 126              		.cfi_def_cfa_offset 16
+ 127 013b 415E     		popq	%r14
+ 128              		.cfi_def_cfa_offset 8
+ 129 013d C3       		ret
+ 130 013e 6690     		.p2align 4,,10
+ 131              		.p2align 3
+ 132              	.L60:
+ 133              		.cfi_restore_state
+ 134 0140 4C29F2   		subq	%r14, %rdx
+ 135 0143 4883FA0F 		cmpq	$15, %rdx
+ 136 0147 4889D5   		movq	%rdx, %rbp
+ 137 014a 48891424 		movq	%rdx, (%rsp)
+ 138 014e 7748     		ja	.L65
+ 139 0150 4883FD01 		cmpq	$1, %rbp
+ 140 0154 0F84CE00 		je	.L66
+ 140      0000
+ 141 015a 4885ED   		testq	%rbp, %rbp
+ 142 015d 4889C2   		movq	%rax, %rdx
+ 143 0160 0F851A01 		jne	.L67
+ 143      0000
+ 144              	.L8:
+ 145 0166 48896C24 		movq	%rbp, 88(%rsp)
+ 145      58
+ 146 016b 4C89EE   		movq	%r13, %rsi
+ 147 016e C6042A00 		movb	$0, (%rdx,%rbp)
+ 148 0172 4889DF   		movq	%rbx, %rdi
+ 149              	.LEHB3:
+ 150 0175 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_@PLT
+ 150      00
+ 151              	.LEHE3:
+ 152 017a 488B7C24 		movq	80(%rsp), %rdi
+ 152      50
+ 153 017f 4983C510 		addq	$16, %r13
+ 154 0183 4C39EF   		cmpq	%r13, %rdi
+ 155 0186 0F8567FF 		jne	.L49
+ 155      FFFF
+ 156 018c E967FFFF 		jmp	.L10
+ 156      FF
+ 157              		.p2align 4,,10
+ 158 0191 0F1F8000 		.p2align 3
+ 158      000000
+ 159              	.L65:
+ 160 0198 4889E6   		movq	%rsp, %rsi
+ 161 019b 31D2     		xorl	%edx, %edx
+ 162 019d 4C89EF   		movq	%r13, %rdi
+ 163              	.LEHB4:
+ 164 01a0 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm@PLT
+ 164      00
+ 165 01a5 4889C7   		movq	%rax, %rdi
+ 166 01a8 48894424 		movq	%rax, 80(%rsp)
+ 166      50
+ 167 01ad 488B0424 		movq	(%rsp), %rax
+ 168 01b1 48894424 		movq	%rax, 96(%rsp)
+ 168      60
+ 169              	.L6:
+ 170 01b6 4889EA   		movq	%rbp, %rdx
+ 171 01b9 4C89F6   		movq	%r14, %rsi
+ 172 01bc E8000000 		call	memcpy@PLT
+ 172      00
+ 173 01c1 488B2C24 		movq	(%rsp), %rbp
+ 174 01c5 488B5424 		movq	80(%rsp), %rdx
+ 174      50
+ 175 01ca EB9A     		jmp	.L8
+ 176 01cc 0F1F4000 		.p2align 4,,10
+ 177              		.p2align 3
+ 178              	.L61:
+ 179 01d0 488D7424 		leaq	8(%rsp), %rsi
+ 179      08
+ 180 01d5 31D2     		xorl	%edx, %edx
+ 181 01d7 4C89EF   		movq	%r13, %rdi
+ 182 01da E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm@PLT
+ 182      00
+ 183 01df 4889C7   		movq	%rax, %rdi
+ 184 01e2 48894424 		movq	%rax, 48(%rsp)
+ 184      30
+ 185 01e7 488B4424 		movq	8(%rsp), %rax
+ 185      08
+ 186 01ec 48894424 		movq	%rax, 64(%rsp)
+ 186      40
+ 187              	.L14:
+ 188 01f1 4889EA   		movq	%rbp, %rdx
+ 189 01f4 4C89F6   		movq	%r14, %rsi
+ 190 01f7 E8000000 		call	memcpy@PLT
+ 190      00
+ 191 01fc 488B6C24 		movq	8(%rsp), %rbp
+ 191      08
+ 192 0201 488B4424 		movq	48(%rsp), %rax
+ 192      30
+ 193 0206 E9C6FEFF 		jmp	.L16
+ 193      FF
+ 194 020b 0F1F4400 		.p2align 4,,10
+ 194      00
+ 195              		.p2align 3
+ 196              	.L62:
+ 197 0210 410FB606 		movzbl	(%r14), %eax
+ 198 0214 88442440 		movb	%al, 64(%rsp)
+ 199 0218 498D4510 		leaq	16(%r13), %rax
+ 200 021c E9B0FEFF 		jmp	.L16
+ 200      FF
+ 201              		.p2align 4,,10
+ 202 0221 0F1F8000 		.p2align 3
+ 202      000000
+ 203              	.L66:
+ 204 0228 410FB616 		movzbl	(%r14), %edx
+ 205 022c 88542460 		movb	%dl, 96(%rsp)
+ 206 0230 4889C2   		movq	%rax, %rdx
+ 207 0233 E92EFFFF 		jmp	.L8
+ 207      FF
+ 208 0238 0F1F8400 		.p2align 4,,10
+ 208      00000000 
+ 209              		.p2align 3
+ 210              	.L2:
+ 211 0240 488D7750 		leaq	80(%rdi), %rsi
+ 212 0244 4889DF   		movq	%rbx, %rdi
+ 213 0247 E8000000 		call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_@PLT
+ 213      00
+ 214              	.LEHE4:
+ 215 024c E9A7FEFF 		jmp	.L10
+ 215      FF
+ 216              	.L35:
+ 217              	.L53:
+ 218 0251 4889C5   		movq	%rax, %rbp
+ 219              	.L52:
+ 220 0254 488B7C24 		movq	16(%rsp), %rdi
+ 220      10
+ 221 0259 4883C310 		addq	$16, %rbx
+ 222 025d 4839DF   		cmpq	%rbx, %rdi
+ 223 0260 7405     		je	.L26
+ 224 0262 E8000000 		call	_ZdlPv@PLT
+ 224      00
+ 225              	.L26:
+ 226 0267 4889EF   		movq	%rbp, %rdi
+ 227              	.LEHB5:
+ 228 026a E8000000 		call	_Unwind_Resume@PLT
+ 228      00
+ 229              	.LEHE5:
+ 230 026f 90       		.p2align 4,,10
+ 231              		.p2align 3
+ 232              	.L63:
+ 233 0270 4889C7   		movq	%rax, %rdi
+ 234 0273 E979FFFF 		jmp	.L14
+ 234      FF
+ 235 0278 0F1F8400 		.p2align 4,,10
+ 235      00000000 
+ 236              		.p2align 3
+ 237              	.L67:
+ 238 0280 4889C7   		movq	%rax, %rdi
+ 239 0283 E92EFFFF 		jmp	.L6
+ 239      FF
+ 240              	.L64:
+ 241 0288 E8000000 		call	__stack_chk_fail@PLT
+ 241      00
+ 242              	.L34:
+ 243 028d EBC2     		jmp	.L53
+ 244              	.L36:
+ 245 028f 488B7C24 		movq	48(%rsp), %rdi
+ 245      30
+ 246 0294 4983C510 		addq	$16, %r13
+ 247 0298 4889C5   		movq	%rax, %rbp
+ 248 029b 4C39EF   		cmpq	%r13, %rdi
+ 249 029e 74B4     		je	.L52
+ 250              	.L48:
+ 251 02a0 E8000000 		call	_ZdlPv@PLT
+ 251      00
+ 252 02a5 EBAD     		jmp	.L52
+ 253              	.L37:
+ 254 02a7 488B7C24 		movq	80(%rsp), %rdi
+ 254      50
+ 255 02ac 4983C510 		addq	$16, %r13
+ 256 02b0 4889C5   		movq	%rax, %rbp
+ 257 02b3 4C39EF   		cmpq	%r13, %rdi
+ 258 02b6 75E8     		jne	.L48
+ 259 02b8 EB9A     		jmp	.L52
+ 260              		.cfi_endproc
+ 261              	.LFE1084:
+ 262              		.globl	__gxx_personality_v0
+ 263              		.section	.gcc_except_table,"a",@progbits
+ 264              	.LLSDA1084:
+ 265 0000 FF       		.byte	0xff
+ 266 0001 FF       		.byte	0xff
+ 267 0002 01       		.byte	0x1
+ 268 0003 23       		.uleb128 .LLSDACSE1084-.LLSDACSB1084
+ 269              	.LLSDACSB1084:
+ 270 0004 74       		.uleb128 .LEHB0-.LFB1084
+ 271 0005 2F       		.uleb128 .LEHE0-.LEHB0
+ 272 0006 D104     		.uleb128 .L35-.LFB1084
+ 273 0008 00       		.uleb128 0
+ 274 0009 E001     		.uleb128 .LEHB1-.LFB1084
+ 275 000b 05       		.uleb128 .LEHE1-.LEHB1
+ 276 000c 8F05     		.uleb128 .L36-.LFB1084
+ 277 000e 00       		.uleb128 0
+ 278 000f 8002     		.uleb128 .LEHB2-.LFB1084
+ 279 0011 05       		.uleb128 .LEHE2-.LEHB2
+ 280 0012 8D05     		.uleb128 .L34-.LFB1084
+ 281 0014 00       		.uleb128 0
+ 282 0015 F502     		.uleb128 .LEHB3-.LFB1084
+ 283 0017 05       		.uleb128 .LEHE3-.LEHB3
+ 284 0018 A705     		.uleb128 .L37-.LFB1084
+ 285 001a 00       		.uleb128 0
+ 286 001b A003     		.uleb128 .LEHB4-.LFB1084
+ 287 001d AC01     		.uleb128 .LEHE4-.LEHB4
+ 288 001f D104     		.uleb128 .L35-.LFB1084
+ 289 0021 00       		.uleb128 0
+ 290 0022 EA04     		.uleb128 .LEHB5-.LFB1084
+ 291 0024 05       		.uleb128 .LEHE5-.LEHB5
+ 292 0025 00       		.uleb128 0
+ 293 0026 00       		.uleb128 0
+ 294              	.LLSDACSE1084:
+ 295              		.text
+ 297              		.section	.text.unlikely
+ 298              	.LCOLDE1:
+ 299              		.text
+ 300              	.LHOTE1:
+ 301              		.hidden	DW.ref.__gxx_personality_v0
+ 302              		.weak	DW.ref.__gxx_personality_v0
+ 303              		.section	.data.DW.ref.__gxx_personality_v0,"awG",@progbits,DW.ref.__gxx_personality_v0,comdat
+ 304              		.align 8
+ 307              	DW.ref.__gxx_personality_v0:
+ 308 0000 00000000 		.quad	__gxx_personality_v0
+ 308      00000000 
+ 309              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 310              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 MemoryOutStream.cpp
+     /tmp/ccnjDQYJ.s:15     .text:0000000000000000 _ZNK8UnitTest15MemoryOutStream7GetTextEv
+     /tmp/ccnjDQYJ.s:307    .data.DW.ref.__gxx_personality_v0:0000000000000000 DW.ref.__gxx_personality_v0
+     /tmp/ccnjDQYJ.s:4      .rodata.str1.8:0000000000000000 .LC0
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+_ZSt19__throw_logic_errorPKc
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_assignERKS4_
+_ZdlPv
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_createERmm
+memcpy
+_Unwind_Resume
+__stack_chk_fail
+__gxx_personality_v0

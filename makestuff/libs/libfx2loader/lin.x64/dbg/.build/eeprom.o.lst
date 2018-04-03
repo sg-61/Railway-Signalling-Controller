@@ -1,0 +1,434 @@
+   1              		.file	"eeprom.c"
+   2              		.text
+   3              	.Ltext0:
+   4              		.section	.rodata
+   5              		.align 8
+   6              	.LC0:
+   7 0000 66783257 		.string	"fx2WriteEEPROM(): This firmware does not seem to support EEPROM operations - try loading 
+   7      72697465 
+   7      45455052 
+   7      4F4D2829 
+   7      3A205468 
+   8              		.text
+   9              		.globl	fx2WriteEEPROM
+  11              	fx2WriteEEPROM:
+  12              	.LFB4:
+  13              		.file 1 "eeprom.c"
+   1:eeprom.c      **** /*
+   2:eeprom.c      ****  * Copyright (C) 2009-2012 Chris McClelland
+   3:eeprom.c      ****  *
+   4:eeprom.c      ****  * This program is free software: you can redistribute it and/or modify
+   5:eeprom.c      ****  * it under the terms of the GNU Lesser General Public License as published by
+   6:eeprom.c      ****  * the Free Software Foundation, either version 3 of the License, or
+   7:eeprom.c      ****  * (at your option) any later version.
+   8:eeprom.c      ****  *
+   9:eeprom.c      ****  * This program is distributed in the hope that it will be useful,
+  10:eeprom.c      ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  11:eeprom.c      ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  12:eeprom.c      ****  * GNU Lesser General Public License for more details.
+  13:eeprom.c      ****  *
+  14:eeprom.c      ****  * You should have received a copy of the GNU Lesser General Public License
+  15:eeprom.c      ****  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  16:eeprom.c      ****  */
+  17:eeprom.c      **** #include <makestuff.h>
+  18:eeprom.c      **** #include <libusbwrap.h>
+  19:eeprom.c      **** #include <liberror.h>
+  20:eeprom.c      **** #include <libbuffer.h>
+  21:eeprom.c      **** #include "libfx2loader.h"
+  22:eeprom.c      **** #include "vendorCommands.h"
+  23:eeprom.c      **** 
+  24:eeprom.c      **** #define A2_ERROR ": This firmware does not seem to support EEPROM operations - try loading an appro
+  25:eeprom.c      **** #define BLOCK_SIZE 4096
+  26:eeprom.c      **** 
+  27:eeprom.c      **** // Write the supplied reader buffer to EEPROM, using the supplied VID/PID.
+  28:eeprom.c      **** //
+  29:eeprom.c      **** DLLEXPORT(FX2Status) fx2WriteEEPROM(
+  30:eeprom.c      **** 	struct USBDevice *device, const uint8 *bufPtr, uint32 numBytes, const char **error)
+  31:eeprom.c      **** {
+  14              		.loc 1 31 0
+  15              		.cfi_startproc
+  16 0000 55       		pushq	%rbp
+  17              		.cfi_def_cfa_offset 16
+  18              		.cfi_offset 6, -16
+  19 0001 4889E5   		movq	%rsp, %rbp
+  20              		.cfi_def_cfa_register 6
+  21 0004 4883EC30 		subq	$48, %rsp
+  22 0008 48897DE8 		movq	%rdi, -24(%rbp)
+  23 000c 488975E0 		movq	%rsi, -32(%rbp)
+  24 0010 8955DC   		movl	%edx, -36(%rbp)
+  25 0013 48894DD0 		movq	%rcx, -48(%rbp)
+  32:eeprom.c      **** 	FX2Status retVal = FX2_SUCCESS;
+  26              		.loc 1 32 0
+  27 0017 C745F800 		movl	$0, -8(%rbp)
+  27      000000
+  33:eeprom.c      **** 	USBStatus uStatus;
+  34:eeprom.c      **** 	uint16 address = 0x0000;
+  28              		.loc 1 34 0
+  29 001e 66C745F4 		movw	$0, -12(%rbp)
+  29      0000
+  35:eeprom.c      **** 	uint16 bank = 0x0000;
+  30              		.loc 1 35 0
+  31 0024 66C745F6 		movw	$0, -10(%rbp)
+  31      0000
+  36:eeprom.c      **** 	while ( numBytes > BLOCK_SIZE ) {
+  32              		.loc 1 36 0
+  33 002a E9810000 		jmp	.L2
+  33      00
+  34              	.L5:
+  37:eeprom.c      **** 		uStatus = usbControlWrite(
+  35              		.loc 1 37 0
+  36 002f 0FB74DF6 		movzwl	-10(%rbp), %ecx
+  37 0033 0FB755F4 		movzwl	-12(%rbp), %edx
+  38 0037 488B75E0 		movq	-32(%rbp), %rsi
+  39 003b 488B45E8 		movq	-24(%rbp), %rax
+  40 003f FF75D0   		pushq	-48(%rbp)
+  41 0042 68881300 		pushq	$5000
+  41      00
+  42 0047 41B90010 		movl	$4096, %r9d
+  42      0000
+  43 004d 4989F0   		movq	%rsi, %r8
+  44 0050 BEA20000 		movl	$162, %esi
+  44      00
+  45 0055 4889C7   		movq	%rax, %rdi
+  46 0058 E8000000 		call	usbControlWrite@PLT
+  46      00
+  47 005d 4883C410 		addq	$16, %rsp
+  48 0061 8945FC   		movl	%eax, -4(%rbp)
+  38:eeprom.c      **** 			device,
+  39:eeprom.c      **** 			CMD_READ_WRITE_EEPROM, // bRequest: EEPROM access
+  40:eeprom.c      **** 			address,               // wValue: address to write
+  41:eeprom.c      **** 			bank,                  // wIndex: bank (currently only 0 & 1 supported by firmware)
+  42:eeprom.c      **** 			bufPtr,                // data to be written
+  43:eeprom.c      **** 			BLOCK_SIZE,            // wLength: number of bytes to be written
+  44:eeprom.c      **** 			5000,                  // timeout
+  45:eeprom.c      **** 			error
+  46:eeprom.c      **** 		);
+  47:eeprom.c      **** 		CHECK_STATUS(uStatus, FX2_USB_ERR, cleanup, "fx2WriteEEPROM()"A2_ERROR);
+  49              		.loc 1 47 0
+  50 0064 837DFC00 		cmpl	$0, -4(%rbp)
+  51 0068 741F     		je	.L3
+  52              		.loc 1 47 0 is_stmt 0 discriminator 1
+  53 006a 488B45D0 		movq	-48(%rbp), %rax
+  54 006e 488D3500 		leaq	.LC0(%rip), %rsi
+  54      000000
+  55 0075 4889C7   		movq	%rax, %rdi
+  56 0078 E8000000 		call	errPrefix@PLT
+  56      00
+  57 007d C745F801 		movl	$1, -8(%rbp)
+  57      000000
+  58 0084 E98D0000 		jmp	.L4
+  58      00
+  59              	.L3:
+  48:eeprom.c      **** 		numBytes -= BLOCK_SIZE;
+  60              		.loc 1 48 0 is_stmt 1
+  61 0089 816DDC00 		subl	$4096, -36(%rbp)
+  61      100000
+  49:eeprom.c      **** 		bufPtr += BLOCK_SIZE;
+  62              		.loc 1 49 0
+  63 0090 488145E0 		addq	$4096, -32(%rbp)
+  63      00100000 
+  50:eeprom.c      **** 		address = (uint16)(address + BLOCK_SIZE);
+  64              		.loc 1 50 0
+  65 0098 668145F4 		addw	$4096, -12(%rbp)
+  65      0010
+  51:eeprom.c      **** 		if ( !address ) {
+  66              		.loc 1 51 0
+  67 009e 66837DF4 		cmpw	$0, -12(%rbp)
+  67      00
+  68 00a3 750B     		jne	.L2
+  52:eeprom.c      **** 			bank++;
+  69              		.loc 1 52 0
+  70 00a5 0FB745F6 		movzwl	-10(%rbp), %eax
+  71 00a9 83C001   		addl	$1, %eax
+  72 00ac 668945F6 		movw	%ax, -10(%rbp)
+  73              	.L2:
+  36:eeprom.c      **** 		uStatus = usbControlWrite(
+  74              		.loc 1 36 0
+  75 00b0 817DDC00 		cmpl	$4096, -36(%rbp)
+  75      100000
+  76 00b7 0F8772FF 		ja	.L5
+  76      FFFF
+  53:eeprom.c      **** 		}
+  54:eeprom.c      **** 	}
+  55:eeprom.c      **** 	uStatus = usbControlWrite(
+  77              		.loc 1 55 0
+  78 00bd 8B45DC   		movl	-36(%rbp), %eax
+  79 00c0 0FB7F8   		movzwl	%ax, %edi
+  80 00c3 0FB74DF6 		movzwl	-10(%rbp), %ecx
+  81 00c7 0FB755F4 		movzwl	-12(%rbp), %edx
+  82 00cb 488B75E0 		movq	-32(%rbp), %rsi
+  83 00cf 488B45E8 		movq	-24(%rbp), %rax
+  84 00d3 FF75D0   		pushq	-48(%rbp)
+  85 00d6 68881300 		pushq	$5000
+  85      00
+  86 00db 4189F9   		movl	%edi, %r9d
+  87 00de 4989F0   		movq	%rsi, %r8
+  88 00e1 BEA20000 		movl	$162, %esi
+  88      00
+  89 00e6 4889C7   		movq	%rax, %rdi
+  90 00e9 E8000000 		call	usbControlWrite@PLT
+  90      00
+  91 00ee 4883C410 		addq	$16, %rsp
+  92 00f2 8945FC   		movl	%eax, -4(%rbp)
+  56:eeprom.c      **** 		device,
+  57:eeprom.c      **** 		CMD_READ_WRITE_EEPROM, // bRequest: EEPROM access
+  58:eeprom.c      **** 		address,               // wValue: address to write
+  59:eeprom.c      **** 		bank,                  // wIndex: bank (currently only 0 & 1 supported by firmware)
+  60:eeprom.c      **** 		bufPtr,                // data to be written
+  61:eeprom.c      **** 		(uint16)numBytes,      // wLength: number of bytes to be written
+  62:eeprom.c      **** 		5000,                  // timeout
+  63:eeprom.c      **** 		error
+  64:eeprom.c      **** 	);
+  65:eeprom.c      **** 	CHECK_STATUS(uStatus, FX2_USB_ERR, cleanup, "fx2WriteEEPROM()"A2_ERROR);
+  93              		.loc 1 65 0
+  94 00f5 837DFC00 		cmpl	$0, -4(%rbp)
+  95 00f9 741B     		je	.L4
+  96              		.loc 1 65 0 is_stmt 0 discriminator 1
+  97 00fb 488B45D0 		movq	-48(%rbp), %rax
+  98 00ff 488D3500 		leaq	.LC0(%rip), %rsi
+  98      000000
+  99 0106 4889C7   		movq	%rax, %rdi
+ 100 0109 E8000000 		call	errPrefix@PLT
+ 100      00
+ 101 010e C745F801 		movl	$1, -8(%rbp)
+ 101      000000
+ 102 0115 90       		nop
+ 103              	.L4:
+  66:eeprom.c      **** cleanup:
+  67:eeprom.c      **** 	return retVal;
+ 104              		.loc 1 67 0 is_stmt 1
+ 105 0116 8B45F8   		movl	-8(%rbp), %eax
+  68:eeprom.c      **** }
+ 106              		.loc 1 68 0
+ 107 0119 C9       		leave
+ 108              		.cfi_def_cfa 7, 8
+ 109 011a C3       		ret
+ 110              		.cfi_endproc
+ 111              	.LFE4:
+ 113              		.section	.rodata
+ 114              	.LC1:
+ 115 0080 66783252 		.string	"fx2ReadEEPROM()"
+ 115      65616445 
+ 115      4550524F 
+ 115      4D282900 
+ 116              		.text
+ 117              		.globl	fx2ReadEEPROM
+ 119              	fx2ReadEEPROM:
+ 120              	.LFB5:
+  69:eeprom.c      **** 
+  70:eeprom.c      **** // Read from the EEPROM into the supplied buffer, using the supplied VID/PID.
+  71:eeprom.c      **** //
+  72:eeprom.c      **** DLLEXPORT(FX2Status) fx2ReadEEPROM(
+  73:eeprom.c      **** 	struct USBDevice *device, uint32 numBytes, struct Buffer *i2cBuffer, const char **error)
+  74:eeprom.c      **** {
+ 121              		.loc 1 74 0
+ 122              		.cfi_startproc
+ 123 011b 55       		pushq	%rbp
+ 124              		.cfi_def_cfa_offset 16
+ 125              		.cfi_offset 6, -16
+ 126 011c 4889E5   		movq	%rsp, %rbp
+ 127              		.cfi_def_cfa_register 6
+ 128 011f 4883EC40 		subq	$64, %rsp
+ 129 0123 48897DD8 		movq	%rdi, -40(%rbp)
+ 130 0127 8975D4   		movl	%esi, -44(%rbp)
+ 131 012a 488955C8 		movq	%rdx, -56(%rbp)
+ 132 012e 48894DC0 		movq	%rcx, -64(%rbp)
+  75:eeprom.c      **** 	FX2Status retVal = FX2_SUCCESS;
+ 133              		.loc 1 75 0
+ 134 0132 C745EC00 		movl	$0, -20(%rbp)
+ 134      000000
+  76:eeprom.c      **** 	USBStatus uStatus;
+  77:eeprom.c      **** 	BufferStatus bStatus;
+  78:eeprom.c      **** 	uint16 address = 0x0000;
+ 135              		.loc 1 78 0
+ 136 0139 66C745E8 		movw	$0, -24(%rbp)
+ 136      0000
+  79:eeprom.c      **** 	uint16 bank = 0x0000;
+ 137              		.loc 1 79 0
+ 138 013f 66C745EA 		movw	$0, -22(%rbp)
+ 138      0000
+  80:eeprom.c      **** 	uint8 *bufPtr;
+  81:eeprom.c      **** 	bStatus = bufAppendConst(i2cBuffer, 0x00, numBytes, error);
+ 139              		.loc 1 81 0
+ 140 0145 8B55D4   		movl	-44(%rbp), %edx
+ 141 0148 488B4DC0 		movq	-64(%rbp), %rcx
+ 142 014c 488B45C8 		movq	-56(%rbp), %rax
+ 143 0150 BE000000 		movl	$0, %esi
+ 143      00
+ 144 0155 4889C7   		movq	%rax, %rdi
+ 145 0158 E8000000 		call	bufAppendConst@PLT
+ 145      00
+ 146 015d 8945F0   		movl	%eax, -16(%rbp)
+  82:eeprom.c      **** 	CHECK_STATUS(bStatus, FX2_BUF_ERR, cleanup, "fx2ReadEEPROM()");
+ 147              		.loc 1 82 0
+ 148 0160 837DF000 		cmpl	$0, -16(%rbp)
+ 149 0164 741F     		je	.L8
+ 150              		.loc 1 82 0 is_stmt 0 discriminator 1
+ 151 0166 488B45C0 		movq	-64(%rbp), %rax
+ 152 016a 488D3500 		leaq	.LC1(%rip), %rsi
+ 152      000000
+ 153 0171 4889C7   		movq	%rax, %rdi
+ 154 0174 E8000000 		call	errPrefix@PLT
+ 154      00
+ 155 0179 C745EC02 		movl	$2, -20(%rbp)
+ 155      000000
+ 156 0180 E9F70000 		jmp	.L9
+ 156      00
+ 157              	.L8:
+  83:eeprom.c      **** 	bufPtr = i2cBuffer->data;
+ 158              		.loc 1 83 0 is_stmt 1
+ 159 0185 488B45C8 		movq	-56(%rbp), %rax
+ 160 0189 488B00   		movq	(%rax), %rax
+ 161 018c 488945F8 		movq	%rax, -8(%rbp)
+  84:eeprom.c      **** 	while ( numBytes > BLOCK_SIZE ) {
+ 162              		.loc 1 84 0
+ 163 0190 E9810000 		jmp	.L10
+ 163      00
+ 164              	.L12:
+  85:eeprom.c      **** 		uStatus = usbControlRead(
+ 165              		.loc 1 85 0
+ 166 0195 0FB74DEA 		movzwl	-22(%rbp), %ecx
+ 167 0199 0FB755E8 		movzwl	-24(%rbp), %edx
+ 168 019d 488B75F8 		movq	-8(%rbp), %rsi
+ 169 01a1 488B45D8 		movq	-40(%rbp), %rax
+ 170 01a5 FF75C0   		pushq	-64(%rbp)
+ 171 01a8 68881300 		pushq	$5000
+ 171      00
+ 172 01ad 41B90010 		movl	$4096, %r9d
+ 172      0000
+ 173 01b3 4989F0   		movq	%rsi, %r8
+ 174 01b6 BEA20000 		movl	$162, %esi
+ 174      00
+ 175 01bb 4889C7   		movq	%rax, %rdi
+ 176 01be E8000000 		call	usbControlRead@PLT
+ 176      00
+ 177 01c3 4883C410 		addq	$16, %rsp
+ 178 01c7 8945F4   		movl	%eax, -12(%rbp)
+  86:eeprom.c      **** 			device,
+  87:eeprom.c      **** 			CMD_READ_WRITE_EEPROM, // bRequest: EEPROM access
+  88:eeprom.c      **** 			address,               // wValue: address to read
+  89:eeprom.c      **** 			bank,                  // wIndex: bank (currently only 0 & 1 supported by firmware)
+  90:eeprom.c      **** 			bufPtr,                // data to be written
+  91:eeprom.c      **** 		   BLOCK_SIZE,            // wLength: number of bytes to be written
+  92:eeprom.c      **** 			5000,                  // timeout
+  93:eeprom.c      **** 			error
+  94:eeprom.c      **** 		);
+  95:eeprom.c      **** 		CHECK_STATUS(uStatus, FX2_USB_ERR, cleanup, "fx2WriteEEPROM()"A2_ERROR);
+ 179              		.loc 1 95 0
+ 180 01ca 837DF400 		cmpl	$0, -12(%rbp)
+ 181 01ce 741F     		je	.L11
+ 182              		.loc 1 95 0 is_stmt 0 discriminator 1
+ 183 01d0 488B45C0 		movq	-64(%rbp), %rax
+ 184 01d4 488D3500 		leaq	.LC0(%rip), %rsi
+ 184      000000
+ 185 01db 4889C7   		movq	%rax, %rdi
+ 186 01de E8000000 		call	errPrefix@PLT
+ 186      00
+ 187 01e3 C745EC01 		movl	$1, -20(%rbp)
+ 187      000000
+ 188 01ea E98D0000 		jmp	.L9
+ 188      00
+ 189              	.L11:
+  96:eeprom.c      **** 		numBytes -= BLOCK_SIZE;
+ 190              		.loc 1 96 0 is_stmt 1
+ 191 01ef 816DD400 		subl	$4096, -44(%rbp)
+ 191      100000
+  97:eeprom.c      **** 		bufPtr += BLOCK_SIZE;
+ 192              		.loc 1 97 0
+ 193 01f6 488145F8 		addq	$4096, -8(%rbp)
+ 193      00100000 
+  98:eeprom.c      **** 		address = (uint16)(address + BLOCK_SIZE);
+ 194              		.loc 1 98 0
+ 195 01fe 668145E8 		addw	$4096, -24(%rbp)
+ 195      0010
+  99:eeprom.c      **** 		if ( !address ) {
+ 196              		.loc 1 99 0
+ 197 0204 66837DE8 		cmpw	$0, -24(%rbp)
+ 197      00
+ 198 0209 750B     		jne	.L10
+ 100:eeprom.c      **** 			bank++;
+ 199              		.loc 1 100 0
+ 200 020b 0FB745EA 		movzwl	-22(%rbp), %eax
+ 201 020f 83C001   		addl	$1, %eax
+ 202 0212 668945EA 		movw	%ax, -22(%rbp)
+ 203              	.L10:
+  84:eeprom.c      **** 		uStatus = usbControlRead(
+ 204              		.loc 1 84 0
+ 205 0216 817DD400 		cmpl	$4096, -44(%rbp)
+ 205      100000
+ 206 021d 0F8772FF 		ja	.L12
+ 206      FFFF
+ 101:eeprom.c      **** 		}
+ 102:eeprom.c      **** 	}
+ 103:eeprom.c      **** 	uStatus = usbControlRead(
+ 207              		.loc 1 103 0
+ 208 0223 8B45D4   		movl	-44(%rbp), %eax
+ 209 0226 0FB7F8   		movzwl	%ax, %edi
+ 210 0229 0FB74DEA 		movzwl	-22(%rbp), %ecx
+ 211 022d 0FB755E8 		movzwl	-24(%rbp), %edx
+ 212 0231 488B75F8 		movq	-8(%rbp), %rsi
+ 213 0235 488B45D8 		movq	-40(%rbp), %rax
+ 214 0239 FF75C0   		pushq	-64(%rbp)
+ 215 023c 68881300 		pushq	$5000
+ 215      00
+ 216 0241 4189F9   		movl	%edi, %r9d
+ 217 0244 4989F0   		movq	%rsi, %r8
+ 218 0247 BEA20000 		movl	$162, %esi
+ 218      00
+ 219 024c 4889C7   		movq	%rax, %rdi
+ 220 024f E8000000 		call	usbControlRead@PLT
+ 220      00
+ 221 0254 4883C410 		addq	$16, %rsp
+ 222 0258 8945F4   		movl	%eax, -12(%rbp)
+ 104:eeprom.c      **** 		device,
+ 105:eeprom.c      **** 		CMD_READ_WRITE_EEPROM, // bRequest: EEPROM access
+ 106:eeprom.c      **** 		address,               // wValue: address to read
+ 107:eeprom.c      **** 		bank,                  // wIndex: bank (currently only 0 & 1 supported by firmware)
+ 108:eeprom.c      **** 		bufPtr,                // data to be written
+ 109:eeprom.c      **** 		(uint16)numBytes,      // wLength: number of bytes to be written
+ 110:eeprom.c      **** 		5000,                  // timeout
+ 111:eeprom.c      **** 		error
+ 112:eeprom.c      **** 	);
+ 113:eeprom.c      **** 	CHECK_STATUS(uStatus, FX2_USB_ERR, cleanup, "fx2WriteEEPROM()"A2_ERROR);
+ 223              		.loc 1 113 0
+ 224 025b 837DF400 		cmpl	$0, -12(%rbp)
+ 225 025f 741B     		je	.L9
+ 226              		.loc 1 113 0 is_stmt 0 discriminator 1
+ 227 0261 488B45C0 		movq	-64(%rbp), %rax
+ 228 0265 488D3500 		leaq	.LC0(%rip), %rsi
+ 228      000000
+ 229 026c 4889C7   		movq	%rax, %rdi
+ 230 026f E8000000 		call	errPrefix@PLT
+ 230      00
+ 231 0274 C745EC01 		movl	$1, -20(%rbp)
+ 231      000000
+ 232 027b 90       		nop
+ 233              	.L9:
+ 114:eeprom.c      **** cleanup:
+ 115:eeprom.c      **** 	return retVal;
+ 234              		.loc 1 115 0 is_stmt 1
+ 235 027c 8B45EC   		movl	-20(%rbp), %eax
+ 116:eeprom.c      **** }
+ 236              		.loc 1 116 0
+ 237 027f C9       		leave
+ 238              		.cfi_def_cfa 7, 8
+ 239 0280 C3       		ret
+ 240              		.cfi_endproc
+ 241              	.LFE5:
+ 243              	.Letext0:
+ 244              		.file 2 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 245              		.file 3 "/home/shubham/20140524/makestuff/common/makestuff.h"
+ 246              		.file 4 "/home/shubham/20140524/makestuff/libs/libusbwrap/libusbwrap.h"
+ 247              		.file 5 "/home/shubham/20140524/makestuff/libs/libbuffer/libbuffer.h"
+ 248              		.file 6 "libfx2loader.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 eeprom.c
+     /tmp/cc2fV3zp.s:11     .text:0000000000000000 fx2WriteEEPROM
+     /tmp/cc2fV3zp.s:119    .text:000000000000011b fx2ReadEEPROM
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+usbControlWrite
+errPrefix
+bufAppendConst
+usbControlRead

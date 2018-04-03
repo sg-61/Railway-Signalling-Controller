@@ -1,0 +1,1733 @@
+   1              		.file	"encrypt.c"
+   2              		.text
+   3              	.Ltext0:
+   4              		.globl	key
+   5              		.section	.rodata
+   6              		.align 8
+   7              	.LC0:
+   8 0000 31313030 		.string	"11001100110011001100110011000001"
+   8      31313030 
+   8      31313030 
+   8      31313030 
+   8      31313030 
+   9              		.data
+  10              		.align 8
+  13              	key:
+  14 0000 00000000 		.quad	.LC0
+  14      00000000 
+  15              		.text
+  16              		.globl	xor
+  18              	xor:
+  19              	.LFB0:
+  20              		.file 1 "encrypt.c"
+   1:encrypt.c     **** #include<stdio.h>
+   2:encrypt.c     **** #include<string.h>
+   3:encrypt.c     **** #include<stdlib.h>
+   4:encrypt.c     **** char* key="11001100110011001100110011000001"; // initialise it 
+   5:encrypt.c     **** 
+   6:encrypt.c     **** char xor(char a, char b){
+  21              		.loc 1 6 0
+  22              		.cfi_startproc
+  23 0000 55       		pushq	%rbp
+  24              		.cfi_def_cfa_offset 16
+  25              		.cfi_offset 6, -16
+  26 0001 4889E5   		movq	%rsp, %rbp
+  27              		.cfi_def_cfa_register 6
+  28 0004 89FA     		movl	%edi, %edx
+  29 0006 89F0     		movl	%esi, %eax
+  30 0008 8855FC   		movb	%dl, -4(%rbp)
+  31 000b 8845F8   		movb	%al, -8(%rbp)
+   7:encrypt.c     **** 	if (a==b) return '0';
+  32              		.loc 1 7 0
+  33 000e 0FB645FC 		movzbl	-4(%rbp), %eax
+  34 0012 3A45F8   		cmpb	-8(%rbp), %al
+  35 0015 7507     		jne	.L2
+  36              		.loc 1 7 0 is_stmt 0 discriminator 1
+  37 0017 B8300000 		movl	$48, %eax
+  37      00
+  38 001c EB05     		jmp	.L3
+  39              	.L2:
+   8:encrypt.c     **** 	else return '1';
+  40              		.loc 1 8 0 is_stmt 1
+  41 001e B8310000 		movl	$49, %eax
+  41      00
+  42              	.L3:
+   9:encrypt.c     **** }
+  43              		.loc 1 9 0
+  44 0023 5D       		popq	%rbp
+  45              		.cfi_def_cfa 7, 8
+  46 0024 C3       		ret
+  47              		.cfi_endproc
+  48              	.LFE0:
+  50              		.globl	and
+  52              	and:
+  53              	.LFB1:
+  10:encrypt.c     **** 
+  11:encrypt.c     **** char and(char a, char b){
+  54              		.loc 1 11 0
+  55              		.cfi_startproc
+  56 0025 55       		pushq	%rbp
+  57              		.cfi_def_cfa_offset 16
+  58              		.cfi_offset 6, -16
+  59 0026 4889E5   		movq	%rsp, %rbp
+  60              		.cfi_def_cfa_register 6
+  61 0029 89FA     		movl	%edi, %edx
+  62 002b 89F0     		movl	%esi, %eax
+  63 002d 8855FC   		movb	%dl, -4(%rbp)
+  64 0030 8845F8   		movb	%al, -8(%rbp)
+  12:encrypt.c     **** 	if (a=='1' && b=='1') return '1';
+  65              		.loc 1 12 0
+  66 0033 807DFC31 		cmpb	$49, -4(%rbp)
+  67 0037 750D     		jne	.L5
+  68              		.loc 1 12 0 is_stmt 0 discriminator 1
+  69 0039 807DF831 		cmpb	$49, -8(%rbp)
+  70 003d 7507     		jne	.L5
+  71              		.loc 1 12 0 discriminator 2
+  72 003f B8310000 		movl	$49, %eax
+  72      00
+  73 0044 EB05     		jmp	.L6
+  74              	.L5:
+  13:encrypt.c     **** 	else return '0';
+  75              		.loc 1 13 0 is_stmt 1
+  76 0046 B8300000 		movl	$48, %eax
+  76      00
+  77              	.L6:
+  14:encrypt.c     **** }
+  78              		.loc 1 14 0
+  79 004b 5D       		popq	%rbp
+  80              		.cfi_def_cfa 7, 8
+  81 004c C3       		ret
+  82              		.cfi_endproc
+  83              	.LFE1:
+  85              		.globl	decrypt
+  87              	decrypt:
+  88              	.LFB2:
+  15:encrypt.c     **** 
+  16:encrypt.c     **** char* decrypt(char C[32], char K[32]){
+  89              		.loc 1 16 0
+  90              		.cfi_startproc
+  91 004d 55       		pushq	%rbp
+  92              		.cfi_def_cfa_offset 16
+  93              		.cfi_offset 6, -16
+  94 004e 4889E5   		movq	%rsp, %rbp
+  95              		.cfi_def_cfa_register 6
+  96 0051 4154     		pushq	%r12
+  97 0053 53       		pushq	%rbx
+  98 0054 4883EC70 		subq	$112, %rsp
+  99              		.cfi_offset 12, -24
+ 100              		.cfi_offset 3, -32
+ 101 0058 48897D88 		movq	%rdi, -120(%rbp)
+ 102 005c 48897580 		movq	%rsi, -128(%rbp)
+  17:encrypt.c     **** 	char* P = malloc(33);
+ 103              		.loc 1 17 0
+ 104 0060 BF210000 		movl	$33, %edi
+ 104      00
+ 105 0065 E8000000 		call	malloc
+ 105      00
+ 106 006a 488945C0 		movq	%rax, -64(%rbp)
+  18:encrypt.c     **** 	int N0=0;
+ 107              		.loc 1 18 0
+ 108 006e C7459400 		movl	$0, -108(%rbp)
+ 108      000000
+ 109              	.LBB2:
+  19:encrypt.c     **** 	for (int i=0;i<32;i++){if (K[i]=='0') N0++;}
+ 110              		.loc 1 19 0
+ 111 0075 C7459800 		movl	$0, -104(%rbp)
+ 111      000000
+ 112 007c EB1C     		jmp	.L8
+ 113              	.L10:
+ 114              		.loc 1 19 0 is_stmt 0 discriminator 6
+ 115 007e 8B4598   		movl	-104(%rbp), %eax
+ 116 0081 4863D0   		movslq	%eax, %rdx
+ 117 0084 488B4580 		movq	-128(%rbp), %rax
+ 118 0088 4801D0   		addq	%rdx, %rax
+ 119 008b 0FB600   		movzbl	(%rax), %eax
+ 120 008e 3C30     		cmpb	$48, %al
+ 121 0090 7504     		jne	.L9
+ 122              		.loc 1 19 0 discriminator 2
+ 123 0092 83459401 		addl	$1, -108(%rbp)
+ 124              	.L9:
+ 125              		.loc 1 19 0 discriminator 4
+ 126 0096 83459801 		addl	$1, -104(%rbp)
+ 127              	.L8:
+ 128              		.loc 1 19 0 discriminator 5
+ 129 009a 837D981F 		cmpl	$31, -104(%rbp)
+ 130 009e 7EDE     		jle	.L10
+ 131              	.LBE2:
+ 132              	.LBB3:
+  20:encrypt.c     **** 	for (int i=0;i<32;i++) P[i]=C[i];
+ 133              		.loc 1 20 0 is_stmt 1
+ 134 00a0 C7459C00 		movl	$0, -100(%rbp)
+ 134      000000
+ 135 00a7 EB23     		jmp	.L11
+ 136              	.L12:
+ 137              		.loc 1 20 0 is_stmt 0 discriminator 3
+ 138 00a9 8B459C   		movl	-100(%rbp), %eax
+ 139 00ac 4863D0   		movslq	%eax, %rdx
+ 140 00af 488B45C0 		movq	-64(%rbp), %rax
+ 141 00b3 4801C2   		addq	%rax, %rdx
+ 142 00b6 8B459C   		movl	-100(%rbp), %eax
+ 143 00b9 4863C8   		movslq	%eax, %rcx
+ 144 00bc 488B4588 		movq	-120(%rbp), %rax
+ 145 00c0 4801C8   		addq	%rcx, %rax
+ 146 00c3 0FB600   		movzbl	(%rax), %eax
+ 147 00c6 8802     		movb	%al, (%rdx)
+ 148 00c8 83459C01 		addl	$1, -100(%rbp)
+ 149              	.L11:
+ 150              		.loc 1 20 0 discriminator 1
+ 151 00cc 837D9C1F 		cmpl	$31, -100(%rbp)
+ 152 00d0 7ED7     		jle	.L12
+ 153              	.LBE3:
+  21:encrypt.c     **** 	P[32]='\0';
+ 154              		.loc 1 21 0 is_stmt 1
+ 155 00d2 488B45C0 		movq	-64(%rbp), %rax
+ 156 00d6 4883C020 		addq	$32, %rax
+ 157 00da C60000   		movb	$0, (%rax)
+  22:encrypt.c     **** 
+  23:encrypt.c     **** 	char* T = malloc(5) ;
+ 158              		.loc 1 23 0
+ 159 00dd BF050000 		movl	$5, %edi
+ 159      00
+ 160 00e2 E8000000 		call	malloc
+ 160      00
+ 161 00e7 488945C8 		movq	%rax, -56(%rbp)
+  24:encrypt.c     **** 	T[4]='\0';
+ 162              		.loc 1 24 0
+ 163 00eb 488B45C8 		movq	-56(%rbp), %rax
+ 164 00ef 4883C004 		addq	$4, %rax
+ 165 00f3 C60000   		movb	$0, (%rax)
+  25:encrypt.c     **** 	T[3] = xor(K[31],xor(K[27],xor(K[23],xor(K[19],xor(K[15],xor(K[11],xor(K[7],K[3])))))));
+ 166              		.loc 1 25 0
+ 167 00f6 488B45C8 		movq	-56(%rbp), %rax
+ 168 00fa 488D5803 		leaq	3(%rax), %rbx
+ 169 00fe 488B4580 		movq	-128(%rbp), %rax
+ 170 0102 4883C003 		addq	$3, %rax
+ 171 0106 0FB600   		movzbl	(%rax), %eax
+ 172 0109 0FBED0   		movsbl	%al, %edx
+ 173 010c 488B4580 		movq	-128(%rbp), %rax
+ 174 0110 4883C007 		addq	$7, %rax
+ 175 0114 0FB600   		movzbl	(%rax), %eax
+ 176 0117 0FBEC0   		movsbl	%al, %eax
+ 177 011a 89D6     		movl	%edx, %esi
+ 178 011c 89C7     		movl	%eax, %edi
+ 179 011e E8000000 		call	xor
+ 179      00
+ 180 0123 0FBED0   		movsbl	%al, %edx
+ 181 0126 488B4580 		movq	-128(%rbp), %rax
+ 182 012a 4883C00B 		addq	$11, %rax
+ 183 012e 0FB600   		movzbl	(%rax), %eax
+ 184 0131 0FBEC0   		movsbl	%al, %eax
+ 185 0134 89D6     		movl	%edx, %esi
+ 186 0136 89C7     		movl	%eax, %edi
+ 187 0138 E8000000 		call	xor
+ 187      00
+ 188 013d 0FBED0   		movsbl	%al, %edx
+ 189 0140 488B4580 		movq	-128(%rbp), %rax
+ 190 0144 4883C00F 		addq	$15, %rax
+ 191 0148 0FB600   		movzbl	(%rax), %eax
+ 192 014b 0FBEC0   		movsbl	%al, %eax
+ 193 014e 89D6     		movl	%edx, %esi
+ 194 0150 89C7     		movl	%eax, %edi
+ 195 0152 E8000000 		call	xor
+ 195      00
+ 196 0157 0FBED0   		movsbl	%al, %edx
+ 197 015a 488B4580 		movq	-128(%rbp), %rax
+ 198 015e 4883C013 		addq	$19, %rax
+ 199 0162 0FB600   		movzbl	(%rax), %eax
+ 200 0165 0FBEC0   		movsbl	%al, %eax
+ 201 0168 89D6     		movl	%edx, %esi
+ 202 016a 89C7     		movl	%eax, %edi
+ 203 016c E8000000 		call	xor
+ 203      00
+ 204 0171 0FBED0   		movsbl	%al, %edx
+ 205 0174 488B4580 		movq	-128(%rbp), %rax
+ 206 0178 4883C017 		addq	$23, %rax
+ 207 017c 0FB600   		movzbl	(%rax), %eax
+ 208 017f 0FBEC0   		movsbl	%al, %eax
+ 209 0182 89D6     		movl	%edx, %esi
+ 210 0184 89C7     		movl	%eax, %edi
+ 211 0186 E8000000 		call	xor
+ 211      00
+ 212 018b 0FBED0   		movsbl	%al, %edx
+ 213 018e 488B4580 		movq	-128(%rbp), %rax
+ 214 0192 4883C01B 		addq	$27, %rax
+ 215 0196 0FB600   		movzbl	(%rax), %eax
+ 216 0199 0FBEC0   		movsbl	%al, %eax
+ 217 019c 89D6     		movl	%edx, %esi
+ 218 019e 89C7     		movl	%eax, %edi
+ 219 01a0 E8000000 		call	xor
+ 219      00
+ 220 01a5 0FBED0   		movsbl	%al, %edx
+ 221 01a8 488B4580 		movq	-128(%rbp), %rax
+ 222 01ac 4883C01F 		addq	$31, %rax
+ 223 01b0 0FB600   		movzbl	(%rax), %eax
+ 224 01b3 0FBEC0   		movsbl	%al, %eax
+ 225 01b6 89D6     		movl	%edx, %esi
+ 226 01b8 89C7     		movl	%eax, %edi
+ 227 01ba E8000000 		call	xor
+ 227      00
+ 228 01bf 8803     		movb	%al, (%rbx)
+  26:encrypt.c     **** 	T[2] = xor(K[30],xor(K[26],xor(K[22],xor(K[18],xor(K[14],xor(K[10],xor(K[6],K[2])))))));
+ 229              		.loc 1 26 0
+ 230 01c1 488B45C8 		movq	-56(%rbp), %rax
+ 231 01c5 488D5802 		leaq	2(%rax), %rbx
+ 232 01c9 488B4580 		movq	-128(%rbp), %rax
+ 233 01cd 4883C002 		addq	$2, %rax
+ 234 01d1 0FB600   		movzbl	(%rax), %eax
+ 235 01d4 0FBED0   		movsbl	%al, %edx
+ 236 01d7 488B4580 		movq	-128(%rbp), %rax
+ 237 01db 4883C006 		addq	$6, %rax
+ 238 01df 0FB600   		movzbl	(%rax), %eax
+ 239 01e2 0FBEC0   		movsbl	%al, %eax
+ 240 01e5 89D6     		movl	%edx, %esi
+ 241 01e7 89C7     		movl	%eax, %edi
+ 242 01e9 E8000000 		call	xor
+ 242      00
+ 243 01ee 0FBED0   		movsbl	%al, %edx
+ 244 01f1 488B4580 		movq	-128(%rbp), %rax
+ 245 01f5 4883C00A 		addq	$10, %rax
+ 246 01f9 0FB600   		movzbl	(%rax), %eax
+ 247 01fc 0FBEC0   		movsbl	%al, %eax
+ 248 01ff 89D6     		movl	%edx, %esi
+ 249 0201 89C7     		movl	%eax, %edi
+ 250 0203 E8000000 		call	xor
+ 250      00
+ 251 0208 0FBED0   		movsbl	%al, %edx
+ 252 020b 488B4580 		movq	-128(%rbp), %rax
+ 253 020f 4883C00E 		addq	$14, %rax
+ 254 0213 0FB600   		movzbl	(%rax), %eax
+ 255 0216 0FBEC0   		movsbl	%al, %eax
+ 256 0219 89D6     		movl	%edx, %esi
+ 257 021b 89C7     		movl	%eax, %edi
+ 258 021d E8000000 		call	xor
+ 258      00
+ 259 0222 0FBED0   		movsbl	%al, %edx
+ 260 0225 488B4580 		movq	-128(%rbp), %rax
+ 261 0229 4883C012 		addq	$18, %rax
+ 262 022d 0FB600   		movzbl	(%rax), %eax
+ 263 0230 0FBEC0   		movsbl	%al, %eax
+ 264 0233 89D6     		movl	%edx, %esi
+ 265 0235 89C7     		movl	%eax, %edi
+ 266 0237 E8000000 		call	xor
+ 266      00
+ 267 023c 0FBED0   		movsbl	%al, %edx
+ 268 023f 488B4580 		movq	-128(%rbp), %rax
+ 269 0243 4883C016 		addq	$22, %rax
+ 270 0247 0FB600   		movzbl	(%rax), %eax
+ 271 024a 0FBEC0   		movsbl	%al, %eax
+ 272 024d 89D6     		movl	%edx, %esi
+ 273 024f 89C7     		movl	%eax, %edi
+ 274 0251 E8000000 		call	xor
+ 274      00
+ 275 0256 0FBED0   		movsbl	%al, %edx
+ 276 0259 488B4580 		movq	-128(%rbp), %rax
+ 277 025d 4883C01A 		addq	$26, %rax
+ 278 0261 0FB600   		movzbl	(%rax), %eax
+ 279 0264 0FBEC0   		movsbl	%al, %eax
+ 280 0267 89D6     		movl	%edx, %esi
+ 281 0269 89C7     		movl	%eax, %edi
+ 282 026b E8000000 		call	xor
+ 282      00
+ 283 0270 0FBED0   		movsbl	%al, %edx
+ 284 0273 488B4580 		movq	-128(%rbp), %rax
+ 285 0277 4883C01E 		addq	$30, %rax
+ 286 027b 0FB600   		movzbl	(%rax), %eax
+ 287 027e 0FBEC0   		movsbl	%al, %eax
+ 288 0281 89D6     		movl	%edx, %esi
+ 289 0283 89C7     		movl	%eax, %edi
+ 290 0285 E8000000 		call	xor
+ 290      00
+ 291 028a 8803     		movb	%al, (%rbx)
+  27:encrypt.c     **** 	T[1] = xor(K[29],xor(K[25],xor(K[21],xor(K[17],xor(K[13],xor(K[9],xor(K[5],K[1])))))));
+ 292              		.loc 1 27 0
+ 293 028c 488B45C8 		movq	-56(%rbp), %rax
+ 294 0290 488D5801 		leaq	1(%rax), %rbx
+ 295 0294 488B4580 		movq	-128(%rbp), %rax
+ 296 0298 4883C001 		addq	$1, %rax
+ 297 029c 0FB600   		movzbl	(%rax), %eax
+ 298 029f 0FBED0   		movsbl	%al, %edx
+ 299 02a2 488B4580 		movq	-128(%rbp), %rax
+ 300 02a6 4883C005 		addq	$5, %rax
+ 301 02aa 0FB600   		movzbl	(%rax), %eax
+ 302 02ad 0FBEC0   		movsbl	%al, %eax
+ 303 02b0 89D6     		movl	%edx, %esi
+ 304 02b2 89C7     		movl	%eax, %edi
+ 305 02b4 E8000000 		call	xor
+ 305      00
+ 306 02b9 0FBED0   		movsbl	%al, %edx
+ 307 02bc 488B4580 		movq	-128(%rbp), %rax
+ 308 02c0 4883C009 		addq	$9, %rax
+ 309 02c4 0FB600   		movzbl	(%rax), %eax
+ 310 02c7 0FBEC0   		movsbl	%al, %eax
+ 311 02ca 89D6     		movl	%edx, %esi
+ 312 02cc 89C7     		movl	%eax, %edi
+ 313 02ce E8000000 		call	xor
+ 313      00
+ 314 02d3 0FBED0   		movsbl	%al, %edx
+ 315 02d6 488B4580 		movq	-128(%rbp), %rax
+ 316 02da 4883C00D 		addq	$13, %rax
+ 317 02de 0FB600   		movzbl	(%rax), %eax
+ 318 02e1 0FBEC0   		movsbl	%al, %eax
+ 319 02e4 89D6     		movl	%edx, %esi
+ 320 02e6 89C7     		movl	%eax, %edi
+ 321 02e8 E8000000 		call	xor
+ 321      00
+ 322 02ed 0FBED0   		movsbl	%al, %edx
+ 323 02f0 488B4580 		movq	-128(%rbp), %rax
+ 324 02f4 4883C011 		addq	$17, %rax
+ 325 02f8 0FB600   		movzbl	(%rax), %eax
+ 326 02fb 0FBEC0   		movsbl	%al, %eax
+ 327 02fe 89D6     		movl	%edx, %esi
+ 328 0300 89C7     		movl	%eax, %edi
+ 329 0302 E8000000 		call	xor
+ 329      00
+ 330 0307 0FBED0   		movsbl	%al, %edx
+ 331 030a 488B4580 		movq	-128(%rbp), %rax
+ 332 030e 4883C015 		addq	$21, %rax
+ 333 0312 0FB600   		movzbl	(%rax), %eax
+ 334 0315 0FBEC0   		movsbl	%al, %eax
+ 335 0318 89D6     		movl	%edx, %esi
+ 336 031a 89C7     		movl	%eax, %edi
+ 337 031c E8000000 		call	xor
+ 337      00
+ 338 0321 0FBED0   		movsbl	%al, %edx
+ 339 0324 488B4580 		movq	-128(%rbp), %rax
+ 340 0328 4883C019 		addq	$25, %rax
+ 341 032c 0FB600   		movzbl	(%rax), %eax
+ 342 032f 0FBEC0   		movsbl	%al, %eax
+ 343 0332 89D6     		movl	%edx, %esi
+ 344 0334 89C7     		movl	%eax, %edi
+ 345 0336 E8000000 		call	xor
+ 345      00
+ 346 033b 0FBED0   		movsbl	%al, %edx
+ 347 033e 488B4580 		movq	-128(%rbp), %rax
+ 348 0342 4883C01D 		addq	$29, %rax
+ 349 0346 0FB600   		movzbl	(%rax), %eax
+ 350 0349 0FBEC0   		movsbl	%al, %eax
+ 351 034c 89D6     		movl	%edx, %esi
+ 352 034e 89C7     		movl	%eax, %edi
+ 353 0350 E8000000 		call	xor
+ 353      00
+ 354 0355 8803     		movb	%al, (%rbx)
+  28:encrypt.c     **** 	T[0] = xor(K[28],xor(K[24],xor(K[20],xor(K[16],xor(K[12],xor(K[8],xor(K[4],K[0])))))));
+ 355              		.loc 1 28 0
+ 356 0357 488B4580 		movq	-128(%rbp), %rax
+ 357 035b 0FB600   		movzbl	(%rax), %eax
+ 358 035e 0FBED0   		movsbl	%al, %edx
+ 359 0361 488B4580 		movq	-128(%rbp), %rax
+ 360 0365 4883C004 		addq	$4, %rax
+ 361 0369 0FB600   		movzbl	(%rax), %eax
+ 362 036c 0FBEC0   		movsbl	%al, %eax
+ 363 036f 89D6     		movl	%edx, %esi
+ 364 0371 89C7     		movl	%eax, %edi
+ 365 0373 E8000000 		call	xor
+ 365      00
+ 366 0378 0FBED0   		movsbl	%al, %edx
+ 367 037b 488B4580 		movq	-128(%rbp), %rax
+ 368 037f 4883C008 		addq	$8, %rax
+ 369 0383 0FB600   		movzbl	(%rax), %eax
+ 370 0386 0FBEC0   		movsbl	%al, %eax
+ 371 0389 89D6     		movl	%edx, %esi
+ 372 038b 89C7     		movl	%eax, %edi
+ 373 038d E8000000 		call	xor
+ 373      00
+ 374 0392 0FBED0   		movsbl	%al, %edx
+ 375 0395 488B4580 		movq	-128(%rbp), %rax
+ 376 0399 4883C00C 		addq	$12, %rax
+ 377 039d 0FB600   		movzbl	(%rax), %eax
+ 378 03a0 0FBEC0   		movsbl	%al, %eax
+ 379 03a3 89D6     		movl	%edx, %esi
+ 380 03a5 89C7     		movl	%eax, %edi
+ 381 03a7 E8000000 		call	xor
+ 381      00
+ 382 03ac 0FBED0   		movsbl	%al, %edx
+ 383 03af 488B4580 		movq	-128(%rbp), %rax
+ 384 03b3 4883C010 		addq	$16, %rax
+ 385 03b7 0FB600   		movzbl	(%rax), %eax
+ 386 03ba 0FBEC0   		movsbl	%al, %eax
+ 387 03bd 89D6     		movl	%edx, %esi
+ 388 03bf 89C7     		movl	%eax, %edi
+ 389 03c1 E8000000 		call	xor
+ 389      00
+ 390 03c6 0FBED0   		movsbl	%al, %edx
+ 391 03c9 488B4580 		movq	-128(%rbp), %rax
+ 392 03cd 4883C014 		addq	$20, %rax
+ 393 03d1 0FB600   		movzbl	(%rax), %eax
+ 394 03d4 0FBEC0   		movsbl	%al, %eax
+ 395 03d7 89D6     		movl	%edx, %esi
+ 396 03d9 89C7     		movl	%eax, %edi
+ 397 03db E8000000 		call	xor
+ 397      00
+ 398 03e0 0FBED0   		movsbl	%al, %edx
+ 399 03e3 488B4580 		movq	-128(%rbp), %rax
+ 400 03e7 4883C018 		addq	$24, %rax
+ 401 03eb 0FB600   		movzbl	(%rax), %eax
+ 402 03ee 0FBEC0   		movsbl	%al, %eax
+ 403 03f1 89D6     		movl	%edx, %esi
+ 404 03f3 89C7     		movl	%eax, %edi
+ 405 03f5 E8000000 		call	xor
+ 405      00
+ 406 03fa 0FBED0   		movsbl	%al, %edx
+ 407 03fd 488B4580 		movq	-128(%rbp), %rax
+ 408 0401 4883C01C 		addq	$28, %rax
+ 409 0405 0FB600   		movzbl	(%rax), %eax
+ 410 0408 0FBEC0   		movsbl	%al, %eax
+ 411 040b 89D6     		movl	%edx, %esi
+ 412 040d 89C7     		movl	%eax, %edi
+ 413 040f E8000000 		call	xor
+ 413      00
+ 414 0414 89C2     		movl	%eax, %edx
+ 415 0416 488B45C8 		movq	-56(%rbp), %rax
+ 416 041a 8810     		movb	%dl, (%rax)
+  29:encrypt.c     **** 
+  30:encrypt.c     **** 	// char* T8 = malloc(32);
+  31:encrypt.c     **** 
+  32:encrypt.c     **** 	// T = T+15
+  33:encrypt.c     **** 	char* Carry = malloc(4);
+ 417              		.loc 1 33 0
+ 418 041c BF040000 		movl	$4, %edi
+ 418      00
+ 419 0421 E8000000 		call	malloc
+ 419      00
+ 420 0426 488945D0 		movq	%rax, -48(%rbp)
+  34:encrypt.c     **** 	char* Sum = malloc(4);
+ 421              		.loc 1 34 0
+ 422 042a BF040000 		movl	$4, %edi
+ 422      00
+ 423 042f E8000000 		call	malloc
+ 423      00
+ 424 0434 488945D8 		movq	%rax, -40(%rbp)
+ 425              	.LBB4:
+  35:encrypt.c     **** 	for (int l=0;l<4;l++) Carry[l]='0';
+ 426              		.loc 1 35 0
+ 427 0438 C745A000 		movl	$0, -96(%rbp)
+ 427      000000
+ 428 043f EB14     		jmp	.L13
+ 429              	.L14:
+ 430              		.loc 1 35 0 is_stmt 0 discriminator 3
+ 431 0441 8B45A0   		movl	-96(%rbp), %eax
+ 432 0444 4863D0   		movslq	%eax, %rdx
+ 433 0447 488B45D0 		movq	-48(%rbp), %rax
+ 434 044b 4801D0   		addq	%rdx, %rax
+ 435 044e C60030   		movb	$48, (%rax)
+ 436 0451 8345A001 		addl	$1, -96(%rbp)
+ 437              	.L13:
+ 438              		.loc 1 35 0 discriminator 1
+ 439 0455 837DA003 		cmpl	$3, -96(%rbp)
+ 440 0459 7EE6     		jle	.L14
+ 441              	.LBE4:
+  36:encrypt.c     **** 	Sum[0] = xor(T[0],'1');
+ 442              		.loc 1 36 0 is_stmt 1
+ 443 045b 488B45C8 		movq	-56(%rbp), %rax
+ 444 045f 0FB600   		movzbl	(%rax), %eax
+ 445 0462 0FBEC0   		movsbl	%al, %eax
+ 446 0465 BE310000 		movl	$49, %esi
+ 446      00
+ 447 046a 89C7     		movl	%eax, %edi
+ 448 046c E8000000 		call	xor
+ 448      00
+ 449 0471 89C2     		movl	%eax, %edx
+ 450 0473 488B45D8 		movq	-40(%rbp), %rax
+ 451 0477 8810     		movb	%dl, (%rax)
+  37:encrypt.c     **** 	Carry[0] = and(T[0],'1');
+ 452              		.loc 1 37 0
+ 453 0479 488B45C8 		movq	-56(%rbp), %rax
+ 454 047d 0FB600   		movzbl	(%rax), %eax
+ 455 0480 0FBEC0   		movsbl	%al, %eax
+ 456 0483 BE310000 		movl	$49, %esi
+ 456      00
+ 457 0488 89C7     		movl	%eax, %edi
+ 458 048a E8000000 		call	and
+ 458      00
+ 459 048f 89C2     		movl	%eax, %edx
+ 460 0491 488B45D0 		movq	-48(%rbp), %rax
+ 461 0495 8810     		movb	%dl, (%rax)
+ 462              	.LBB5:
+  38:encrypt.c     **** 	for (int c=1;c<4;c++){
+ 463              		.loc 1 38 0
+ 464 0497 C745A401 		movl	$1, -92(%rbp)
+ 464      000000
+ 465 049e E9F80000 		jmp	.L15
+ 465      00
+ 466              	.L16:
+  39:encrypt.c     **** 		Sum[c] = xor(T[c],xor(Carry[c-1],'1'));
+ 467              		.loc 1 39 0 discriminator 3
+ 468 04a3 8B45A4   		movl	-92(%rbp), %eax
+ 469 04a6 4863D0   		movslq	%eax, %rdx
+ 470 04a9 488B45D8 		movq	-40(%rbp), %rax
+ 471 04ad 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 472 04b1 8B45A4   		movl	-92(%rbp), %eax
+ 473 04b4 4898     		cltq
+ 474 04b6 488D50FF 		leaq	-1(%rax), %rdx
+ 475 04ba 488B45D0 		movq	-48(%rbp), %rax
+ 476 04be 4801D0   		addq	%rdx, %rax
+ 477 04c1 0FB600   		movzbl	(%rax), %eax
+ 478 04c4 0FBEC0   		movsbl	%al, %eax
+ 479 04c7 BE310000 		movl	$49, %esi
+ 479      00
+ 480 04cc 89C7     		movl	%eax, %edi
+ 481 04ce E8000000 		call	xor
+ 481      00
+ 482 04d3 0FBED0   		movsbl	%al, %edx
+ 483 04d6 8B45A4   		movl	-92(%rbp), %eax
+ 484 04d9 4863C8   		movslq	%eax, %rcx
+ 485 04dc 488B45C8 		movq	-56(%rbp), %rax
+ 486 04e0 4801C8   		addq	%rcx, %rax
+ 487 04e3 0FB600   		movzbl	(%rax), %eax
+ 488 04e6 0FBEC0   		movsbl	%al, %eax
+ 489 04e9 89D6     		movl	%edx, %esi
+ 490 04eb 89C7     		movl	%eax, %edi
+ 491 04ed E8000000 		call	xor
+ 491      00
+ 492 04f2 8803     		movb	%al, (%rbx)
+  40:encrypt.c     **** 		Carry[c] = xor(and(Carry[c-1],T[c]),xor(and(Carry[c-1],'1'),and(T[c],'1')));
+ 493              		.loc 1 40 0 discriminator 3
+ 494 04f4 8B45A4   		movl	-92(%rbp), %eax
+ 495 04f7 4863D0   		movslq	%eax, %rdx
+ 496 04fa 488B45D0 		movq	-48(%rbp), %rax
+ 497 04fe 4C8D2402 		leaq	(%rdx,%rax), %r12
+ 498 0502 8B45A4   		movl	-92(%rbp), %eax
+ 499 0505 4863D0   		movslq	%eax, %rdx
+ 500 0508 488B45C8 		movq	-56(%rbp), %rax
+ 501 050c 4801D0   		addq	%rdx, %rax
+ 502 050f 0FB600   		movzbl	(%rax), %eax
+ 503 0512 0FBEC0   		movsbl	%al, %eax
+ 504 0515 BE310000 		movl	$49, %esi
+ 504      00
+ 505 051a 89C7     		movl	%eax, %edi
+ 506 051c E8000000 		call	and
+ 506      00
+ 507 0521 0FBED8   		movsbl	%al, %ebx
+ 508 0524 8B45A4   		movl	-92(%rbp), %eax
+ 509 0527 4898     		cltq
+ 510 0529 488D50FF 		leaq	-1(%rax), %rdx
+ 511 052d 488B45D0 		movq	-48(%rbp), %rax
+ 512 0531 4801D0   		addq	%rdx, %rax
+ 513 0534 0FB600   		movzbl	(%rax), %eax
+ 514 0537 0FBEC0   		movsbl	%al, %eax
+ 515 053a BE310000 		movl	$49, %esi
+ 515      00
+ 516 053f 89C7     		movl	%eax, %edi
+ 517 0541 E8000000 		call	and
+ 517      00
+ 518 0546 0FBEC0   		movsbl	%al, %eax
+ 519 0549 89DE     		movl	%ebx, %esi
+ 520 054b 89C7     		movl	%eax, %edi
+ 521 054d E8000000 		call	xor
+ 521      00
+ 522 0552 0FBED8   		movsbl	%al, %ebx
+ 523 0555 8B45A4   		movl	-92(%rbp), %eax
+ 524 0558 4863D0   		movslq	%eax, %rdx
+ 525 055b 488B45C8 		movq	-56(%rbp), %rax
+ 526 055f 4801D0   		addq	%rdx, %rax
+ 527 0562 0FB600   		movzbl	(%rax), %eax
+ 528 0565 0FBED0   		movsbl	%al, %edx
+ 529 0568 8B45A4   		movl	-92(%rbp), %eax
+ 530 056b 4898     		cltq
+ 531 056d 488D48FF 		leaq	-1(%rax), %rcx
+ 532 0571 488B45D0 		movq	-48(%rbp), %rax
+ 533 0575 4801C8   		addq	%rcx, %rax
+ 534 0578 0FB600   		movzbl	(%rax), %eax
+ 535 057b 0FBEC0   		movsbl	%al, %eax
+ 536 057e 89D6     		movl	%edx, %esi
+ 537 0580 89C7     		movl	%eax, %edi
+ 538 0582 E8000000 		call	and
+ 538      00
+ 539 0587 0FBEC0   		movsbl	%al, %eax
+ 540 058a 89DE     		movl	%ebx, %esi
+ 541 058c 89C7     		movl	%eax, %edi
+ 542 058e E8000000 		call	xor
+ 542      00
+ 543 0593 41880424 		movb	%al, (%r12)
+  38:encrypt.c     **** 	for (int c=1;c<4;c++){
+ 544              		.loc 1 38 0 discriminator 3
+ 545 0597 8345A401 		addl	$1, -92(%rbp)
+ 546              	.L15:
+  38:encrypt.c     **** 	for (int c=1;c<4;c++){
+ 547              		.loc 1 38 0 is_stmt 0 discriminator 1
+ 548 059b 837DA403 		cmpl	$3, -92(%rbp)
+ 549 059f 0F8EFEFE 		jle	.L16
+ 549      FFFF
+ 550              	.LBE5:
+ 551              	.LBB6:
+  41:encrypt.c     **** 	}
+  42:encrypt.c     **** 
+  43:encrypt.c     **** 	for (int k=0;k<4;k++) T[k]=Sum[k];
+ 552              		.loc 1 43 0 is_stmt 1
+ 553 05a5 C745A800 		movl	$0, -88(%rbp)
+ 553      000000
+ 554 05ac EB23     		jmp	.L17
+ 555              	.L18:
+ 556              		.loc 1 43 0 is_stmt 0 discriminator 3
+ 557 05ae 8B45A8   		movl	-88(%rbp), %eax
+ 558 05b1 4863D0   		movslq	%eax, %rdx
+ 559 05b4 488B45C8 		movq	-56(%rbp), %rax
+ 560 05b8 4801C2   		addq	%rax, %rdx
+ 561 05bb 8B45A8   		movl	-88(%rbp), %eax
+ 562 05be 4863C8   		movslq	%eax, %rcx
+ 563 05c1 488B45D8 		movq	-40(%rbp), %rax
+ 564 05c5 4801C8   		addq	%rcx, %rax
+ 565 05c8 0FB600   		movzbl	(%rax), %eax
+ 566 05cb 8802     		movb	%al, (%rdx)
+ 567 05cd 8345A801 		addl	$1, -88(%rbp)
+ 568              	.L17:
+ 569              		.loc 1 43 0 discriminator 1
+ 570 05d1 837DA803 		cmpl	$3, -88(%rbp)
+ 571 05d5 7ED7     		jle	.L18
+ 572              	.LBE6:
+ 573              	.LBB7:
+  44:encrypt.c     **** 
+  45:encrypt.c     **** ///
+  46:encrypt.c     **** 	for (int i=0;i<N0;i++){
+ 574              		.loc 1 46 0 is_stmt 1
+ 575 05d7 C745AC00 		movl	$0, -84(%rbp)
+ 575      000000
+ 576 05de E91C0200 		jmp	.L19
+ 576      00
+ 577              	.L28:
+ 578              	.LBB8:
+ 579              	.LBB9:
+  47:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+  48:encrypt.c     **** 		for (int j=0;j<32;j++){P[j]=xor(P[j],T[j%4]);}
+ 580              		.loc 1 48 0
+ 581 05e3 C745B000 		movl	$0, -80(%rbp)
+ 581      000000
+ 582 05ea EB4E     		jmp	.L20
+ 583              	.L21:
+ 584              		.loc 1 48 0 is_stmt 0 discriminator 3
+ 585 05ec 8B45B0   		movl	-80(%rbp), %eax
+ 586 05ef 4863D0   		movslq	%eax, %rdx
+ 587 05f2 488B45C0 		movq	-64(%rbp), %rax
+ 588 05f6 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 589 05fa 8B45B0   		movl	-80(%rbp), %eax
+ 590 05fd 99       		cltd
+ 591 05fe C1EA1E   		shrl	$30, %edx
+ 592 0601 01D0     		addl	%edx, %eax
+ 593 0603 83E003   		andl	$3, %eax
+ 594 0606 29D0     		subl	%edx, %eax
+ 595 0608 4863D0   		movslq	%eax, %rdx
+ 596 060b 488B45C8 		movq	-56(%rbp), %rax
+ 597 060f 4801D0   		addq	%rdx, %rax
+ 598 0612 0FB600   		movzbl	(%rax), %eax
+ 599 0615 0FBED0   		movsbl	%al, %edx
+ 600 0618 8B45B0   		movl	-80(%rbp), %eax
+ 601 061b 4863C8   		movslq	%eax, %rcx
+ 602 061e 488B45C0 		movq	-64(%rbp), %rax
+ 603 0622 4801C8   		addq	%rcx, %rax
+ 604 0625 0FB600   		movzbl	(%rax), %eax
+ 605 0628 0FBEC0   		movsbl	%al, %eax
+ 606 062b 89D6     		movl	%edx, %esi
+ 607 062d 89C7     		movl	%eax, %edi
+ 608 062f E8000000 		call	xor
+ 608      00
+ 609 0634 8803     		movb	%al, (%rbx)
+ 610 0636 8345B001 		addl	$1, -80(%rbp)
+ 611              	.L20:
+ 612              		.loc 1 48 0 discriminator 1
+ 613 063a 837DB01F 		cmpl	$31, -80(%rbp)
+ 614 063e 7EAC     		jle	.L21
+ 615              	.LBE9:
+  49:encrypt.c     **** 
+  50:encrypt.c     **** 		char* Carry = malloc(5);
+ 616              		.loc 1 50 0 is_stmt 1
+ 617 0640 BF050000 		movl	$5, %edi
+ 617      00
+ 618 0645 E8000000 		call	malloc
+ 618      00
+ 619 064a 488945E0 		movq	%rax, -32(%rbp)
+  51:encrypt.c     **** 		char* Sum = malloc(5);
+ 620              		.loc 1 51 0
+ 621 064e BF050000 		movl	$5, %edi
+ 621      00
+ 622 0653 E8000000 		call	malloc
+ 622      00
+ 623 0658 488945E8 		movq	%rax, -24(%rbp)
+ 624              	.LBB10:
+  52:encrypt.c     **** 		for (int l=0;l<4;l++) Carry[l]='0';
+ 625              		.loc 1 52 0
+ 626 065c C745B400 		movl	$0, -76(%rbp)
+ 626      000000
+ 627 0663 EB14     		jmp	.L22
+ 628              	.L23:
+ 629              		.loc 1 52 0 is_stmt 0 discriminator 3
+ 630 0665 8B45B4   		movl	-76(%rbp), %eax
+ 631 0668 4863D0   		movslq	%eax, %rdx
+ 632 066b 488B45E0 		movq	-32(%rbp), %rax
+ 633 066f 4801D0   		addq	%rdx, %rax
+ 634 0672 C60030   		movb	$48, (%rax)
+ 635 0675 8345B401 		addl	$1, -76(%rbp)
+ 636              	.L22:
+ 637              		.loc 1 52 0 discriminator 1
+ 638 0679 837DB403 		cmpl	$3, -76(%rbp)
+ 639 067d 7EE6     		jle	.L23
+ 640              	.LBE10:
+  53:encrypt.c     **** 		Sum[0] = xor(T[0],'1');
+ 641              		.loc 1 53 0 is_stmt 1
+ 642 067f 488B45C8 		movq	-56(%rbp), %rax
+ 643 0683 0FB600   		movzbl	(%rax), %eax
+ 644 0686 0FBEC0   		movsbl	%al, %eax
+ 645 0689 BE310000 		movl	$49, %esi
+ 645      00
+ 646 068e 89C7     		movl	%eax, %edi
+ 647 0690 E8000000 		call	xor
+ 647      00
+ 648 0695 89C2     		movl	%eax, %edx
+ 649 0697 488B45E8 		movq	-24(%rbp), %rax
+ 650 069b 8810     		movb	%dl, (%rax)
+  54:encrypt.c     **** 		Carry[0] = and(T[0],'1');
+ 651              		.loc 1 54 0
+ 652 069d 488B45C8 		movq	-56(%rbp), %rax
+ 653 06a1 0FB600   		movzbl	(%rax), %eax
+ 654 06a4 0FBEC0   		movsbl	%al, %eax
+ 655 06a7 BE310000 		movl	$49, %esi
+ 655      00
+ 656 06ac 89C7     		movl	%eax, %edi
+ 657 06ae E8000000 		call	and
+ 657      00
+ 658 06b3 89C2     		movl	%eax, %edx
+ 659 06b5 488B45E0 		movq	-32(%rbp), %rax
+ 660 06b9 8810     		movb	%dl, (%rax)
+ 661              	.LBB11:
+  55:encrypt.c     **** 		for (int c=1;c<4;c++){
+ 662              		.loc 1 55 0
+ 663 06bb C745B801 		movl	$1, -72(%rbp)
+ 663      000000
+ 664 06c2 E9F80000 		jmp	.L24
+ 664      00
+ 665              	.L25:
+  56:encrypt.c     **** 			Sum[c] = xor(T[c],xor(Carry[c-1],'1'));
+ 666              		.loc 1 56 0 discriminator 3
+ 667 06c7 8B45B8   		movl	-72(%rbp), %eax
+ 668 06ca 4863D0   		movslq	%eax, %rdx
+ 669 06cd 488B45E8 		movq	-24(%rbp), %rax
+ 670 06d1 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 671 06d5 8B45B8   		movl	-72(%rbp), %eax
+ 672 06d8 4898     		cltq
+ 673 06da 488D50FF 		leaq	-1(%rax), %rdx
+ 674 06de 488B45E0 		movq	-32(%rbp), %rax
+ 675 06e2 4801D0   		addq	%rdx, %rax
+ 676 06e5 0FB600   		movzbl	(%rax), %eax
+ 677 06e8 0FBEC0   		movsbl	%al, %eax
+ 678 06eb BE310000 		movl	$49, %esi
+ 678      00
+ 679 06f0 89C7     		movl	%eax, %edi
+ 680 06f2 E8000000 		call	xor
+ 680      00
+ 681 06f7 0FBED0   		movsbl	%al, %edx
+ 682 06fa 8B45B8   		movl	-72(%rbp), %eax
+ 683 06fd 4863C8   		movslq	%eax, %rcx
+ 684 0700 488B45C8 		movq	-56(%rbp), %rax
+ 685 0704 4801C8   		addq	%rcx, %rax
+ 686 0707 0FB600   		movzbl	(%rax), %eax
+ 687 070a 0FBEC0   		movsbl	%al, %eax
+ 688 070d 89D6     		movl	%edx, %esi
+ 689 070f 89C7     		movl	%eax, %edi
+ 690 0711 E8000000 		call	xor
+ 690      00
+ 691 0716 8803     		movb	%al, (%rbx)
+  57:encrypt.c     **** 			Carry[c] = xor(and(Carry[c-1],T[c]),xor(and(Carry[c-1],'1'),and(T[c],'1')));
+ 692              		.loc 1 57 0 discriminator 3
+ 693 0718 8B45B8   		movl	-72(%rbp), %eax
+ 694 071b 4863D0   		movslq	%eax, %rdx
+ 695 071e 488B45E0 		movq	-32(%rbp), %rax
+ 696 0722 4C8D2402 		leaq	(%rdx,%rax), %r12
+ 697 0726 8B45B8   		movl	-72(%rbp), %eax
+ 698 0729 4863D0   		movslq	%eax, %rdx
+ 699 072c 488B45C8 		movq	-56(%rbp), %rax
+ 700 0730 4801D0   		addq	%rdx, %rax
+ 701 0733 0FB600   		movzbl	(%rax), %eax
+ 702 0736 0FBEC0   		movsbl	%al, %eax
+ 703 0739 BE310000 		movl	$49, %esi
+ 703      00
+ 704 073e 89C7     		movl	%eax, %edi
+ 705 0740 E8000000 		call	and
+ 705      00
+ 706 0745 0FBED8   		movsbl	%al, %ebx
+ 707 0748 8B45B8   		movl	-72(%rbp), %eax
+ 708 074b 4898     		cltq
+ 709 074d 488D50FF 		leaq	-1(%rax), %rdx
+ 710 0751 488B45E0 		movq	-32(%rbp), %rax
+ 711 0755 4801D0   		addq	%rdx, %rax
+ 712 0758 0FB600   		movzbl	(%rax), %eax
+ 713 075b 0FBEC0   		movsbl	%al, %eax
+ 714 075e BE310000 		movl	$49, %esi
+ 714      00
+ 715 0763 89C7     		movl	%eax, %edi
+ 716 0765 E8000000 		call	and
+ 716      00
+ 717 076a 0FBEC0   		movsbl	%al, %eax
+ 718 076d 89DE     		movl	%ebx, %esi
+ 719 076f 89C7     		movl	%eax, %edi
+ 720 0771 E8000000 		call	xor
+ 720      00
+ 721 0776 0FBED8   		movsbl	%al, %ebx
+ 722 0779 8B45B8   		movl	-72(%rbp), %eax
+ 723 077c 4863D0   		movslq	%eax, %rdx
+ 724 077f 488B45C8 		movq	-56(%rbp), %rax
+ 725 0783 4801D0   		addq	%rdx, %rax
+ 726 0786 0FB600   		movzbl	(%rax), %eax
+ 727 0789 0FBED0   		movsbl	%al, %edx
+ 728 078c 8B45B8   		movl	-72(%rbp), %eax
+ 729 078f 4898     		cltq
+ 730 0791 488D48FF 		leaq	-1(%rax), %rcx
+ 731 0795 488B45E0 		movq	-32(%rbp), %rax
+ 732 0799 4801C8   		addq	%rcx, %rax
+ 733 079c 0FB600   		movzbl	(%rax), %eax
+ 734 079f 0FBEC0   		movsbl	%al, %eax
+ 735 07a2 89D6     		movl	%edx, %esi
+ 736 07a4 89C7     		movl	%eax, %edi
+ 737 07a6 E8000000 		call	and
+ 737      00
+ 738 07ab 0FBEC0   		movsbl	%al, %eax
+ 739 07ae 89DE     		movl	%ebx, %esi
+ 740 07b0 89C7     		movl	%eax, %edi
+ 741 07b2 E8000000 		call	xor
+ 741      00
+ 742 07b7 41880424 		movb	%al, (%r12)
+  55:encrypt.c     **** 		for (int c=1;c<4;c++){
+ 743              		.loc 1 55 0 discriminator 3
+ 744 07bb 8345B801 		addl	$1, -72(%rbp)
+ 745              	.L24:
+  55:encrypt.c     **** 		for (int c=1;c<4;c++){
+ 746              		.loc 1 55 0 is_stmt 0 discriminator 1
+ 747 07bf 837DB803 		cmpl	$3, -72(%rbp)
+ 748 07c3 0F8EFEFE 		jle	.L25
+ 748      FFFF
+ 749              	.LBE11:
+ 750              	.LBB12:
+  58:encrypt.c     **** 		}
+  59:encrypt.c     **** 		for (int k=0;k<4;k++) T[k]=Sum[k];
+ 751              		.loc 1 59 0 is_stmt 1
+ 752 07c9 C745BC00 		movl	$0, -68(%rbp)
+ 752      000000
+ 753 07d0 EB23     		jmp	.L26
+ 754              	.L27:
+ 755              		.loc 1 59 0 is_stmt 0 discriminator 3
+ 756 07d2 8B45BC   		movl	-68(%rbp), %eax
+ 757 07d5 4863D0   		movslq	%eax, %rdx
+ 758 07d8 488B45C8 		movq	-56(%rbp), %rax
+ 759 07dc 4801C2   		addq	%rax, %rdx
+ 760 07df 8B45BC   		movl	-68(%rbp), %eax
+ 761 07e2 4863C8   		movslq	%eax, %rcx
+ 762 07e5 488B45E8 		movq	-24(%rbp), %rax
+ 763 07e9 4801C8   		addq	%rcx, %rax
+ 764 07ec 0FB600   		movzbl	(%rax), %eax
+ 765 07ef 8802     		movb	%al, (%rdx)
+ 766 07f1 8345BC01 		addl	$1, -68(%rbp)
+ 767              	.L26:
+ 768              		.loc 1 59 0 discriminator 1
+ 769 07f5 837DBC03 		cmpl	$3, -68(%rbp)
+ 770 07f9 7ED7     		jle	.L27
+ 771              	.LBE12:
+ 772              	.LBE8:
+  46:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+ 773              		.loc 1 46 0 is_stmt 1 discriminator 2
+ 774 07fb 8345AC01 		addl	$1, -84(%rbp)
+ 775              	.L19:
+  46:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+ 776              		.loc 1 46 0 is_stmt 0 discriminator 1
+ 777 07ff 8B45AC   		movl	-84(%rbp), %eax
+ 778 0802 3B4594   		cmpl	-108(%rbp), %eax
+ 779 0805 0F8CD8FD 		jl	.L28
+ 779      FFFF
+ 780              	.LBE7:
+  60:encrypt.c     **** 
+  61:encrypt.c     **** 	}
+  62:encrypt.c     **** 	return P;
+ 781              		.loc 1 62 0 is_stmt 1
+ 782 080b 488B45C0 		movq	-64(%rbp), %rax
+  63:encrypt.c     **** }
+ 783              		.loc 1 63 0
+ 784 080f 4883C470 		addq	$112, %rsp
+ 785 0813 5B       		popq	%rbx
+ 786 0814 415C     		popq	%r12
+ 787 0816 5D       		popq	%rbp
+ 788              		.cfi_def_cfa 7, 8
+ 789 0817 C3       		ret
+ 790              		.cfi_endproc
+ 791              	.LFE2:
+ 793              		.section	.rodata
+ 794              	.LC1:
+ 795 0021 31313131 		.string	"1111"
+ 795      00
+ 796              	.LC2:
+ 797 0026 30303030 		.string	"0000"
+ 797      00
+ 798              		.text
+ 799              		.globl	encrypt
+ 801              	encrypt:
+ 802              	.LFB3:
+  64:encrypt.c     **** 
+  65:encrypt.c     **** char* encrypt(char P[32], char K[32]){
+ 803              		.loc 1 65 0
+ 804              		.cfi_startproc
+ 805 0818 55       		pushq	%rbp
+ 806              		.cfi_def_cfa_offset 16
+ 807              		.cfi_offset 6, -16
+ 808 0819 4889E5   		movq	%rsp, %rbp
+ 809              		.cfi_def_cfa_register 6
+ 810 081c 53       		pushq	%rbx
+ 811 081d 4883EC58 		subq	$88, %rsp
+ 812              		.cfi_offset 3, -24
+ 813 0821 48897DA8 		movq	%rdi, -88(%rbp)
+ 814 0825 488975A0 		movq	%rsi, -96(%rbp)
+  66:encrypt.c     **** 	char* C = malloc(33);
+ 815              		.loc 1 66 0
+ 816 0829 BF210000 		movl	$33, %edi
+ 816      00
+ 817 082e E8000000 		call	malloc
+ 817      00
+ 818 0833 488945D8 		movq	%rax, -40(%rbp)
+  67:encrypt.c     **** 	int N1=0;
+ 819              		.loc 1 67 0
+ 820 0837 C745B000 		movl	$0, -80(%rbp)
+ 820      000000
+ 821              	.LBB13:
+  68:encrypt.c     **** 	for (int i=0;i<32;i++){if (K[i]=='1') N1++;}
+ 822              		.loc 1 68 0
+ 823 083e C745B400 		movl	$0, -76(%rbp)
+ 823      000000
+ 824 0845 EB1C     		jmp	.L31
+ 825              	.L33:
+ 826              		.loc 1 68 0 is_stmt 0 discriminator 6
+ 827 0847 8B45B4   		movl	-76(%rbp), %eax
+ 828 084a 4863D0   		movslq	%eax, %rdx
+ 829 084d 488B45A0 		movq	-96(%rbp), %rax
+ 830 0851 4801D0   		addq	%rdx, %rax
+ 831 0854 0FB600   		movzbl	(%rax), %eax
+ 832 0857 3C31     		cmpb	$49, %al
+ 833 0859 7504     		jne	.L32
+ 834              		.loc 1 68 0 discriminator 2
+ 835 085b 8345B001 		addl	$1, -80(%rbp)
+ 836              	.L32:
+ 837              		.loc 1 68 0 discriminator 4
+ 838 085f 8345B401 		addl	$1, -76(%rbp)
+ 839              	.L31:
+ 840              		.loc 1 68 0 discriminator 5
+ 841 0863 837DB41F 		cmpl	$31, -76(%rbp)
+ 842 0867 7EDE     		jle	.L33
+ 843              	.LBE13:
+ 844              	.LBB14:
+  69:encrypt.c     **** 	for (int i=0;i<32;i++){C[i]=P[i];}
+ 845              		.loc 1 69 0 is_stmt 1
+ 846 0869 C745B800 		movl	$0, -72(%rbp)
+ 846      000000
+ 847 0870 EB23     		jmp	.L34
+ 848              	.L35:
+ 849              		.loc 1 69 0 is_stmt 0 discriminator 3
+ 850 0872 8B45B8   		movl	-72(%rbp), %eax
+ 851 0875 4863D0   		movslq	%eax, %rdx
+ 852 0878 488B45D8 		movq	-40(%rbp), %rax
+ 853 087c 4801C2   		addq	%rax, %rdx
+ 854 087f 8B45B8   		movl	-72(%rbp), %eax
+ 855 0882 4863C8   		movslq	%eax, %rcx
+ 856 0885 488B45A8 		movq	-88(%rbp), %rax
+ 857 0889 4801C8   		addq	%rcx, %rax
+ 858 088c 0FB600   		movzbl	(%rax), %eax
+ 859 088f 8802     		movb	%al, (%rdx)
+ 860 0891 8345B801 		addl	$1, -72(%rbp)
+ 861              	.L34:
+ 862              		.loc 1 69 0 discriminator 1
+ 863 0895 837DB81F 		cmpl	$31, -72(%rbp)
+ 864 0899 7ED7     		jle	.L35
+ 865              	.LBE14:
+  70:encrypt.c     **** 	char* T = malloc(5) ;
+ 866              		.loc 1 70 0 is_stmt 1
+ 867 089b BF050000 		movl	$5, %edi
+ 867      00
+ 868 08a0 E8000000 		call	malloc
+ 868      00
+ 869 08a5 488945D0 		movq	%rax, -48(%rbp)
+  71:encrypt.c     **** 	C[32]='\0'; T[4]='\0';
+ 870              		.loc 1 71 0
+ 871 08a9 488B45D8 		movq	-40(%rbp), %rax
+ 872 08ad 4883C020 		addq	$32, %rax
+ 873 08b1 C60000   		movb	$0, (%rax)
+ 874 08b4 488B45D0 		movq	-48(%rbp), %rax
+ 875 08b8 4883C004 		addq	$4, %rax
+ 876 08bc C60000   		movb	$0, (%rax)
+  72:encrypt.c     **** 	T[3] = xor(K[31],xor(K[27],xor(K[23],xor(K[19],xor(K[15],xor(K[11],xor(K[7],K[3])))))));
+ 877              		.loc 1 72 0
+ 878 08bf 488B45D0 		movq	-48(%rbp), %rax
+ 879 08c3 488D5803 		leaq	3(%rax), %rbx
+ 880 08c7 488B45A0 		movq	-96(%rbp), %rax
+ 881 08cb 4883C003 		addq	$3, %rax
+ 882 08cf 0FB600   		movzbl	(%rax), %eax
+ 883 08d2 0FBED0   		movsbl	%al, %edx
+ 884 08d5 488B45A0 		movq	-96(%rbp), %rax
+ 885 08d9 4883C007 		addq	$7, %rax
+ 886 08dd 0FB600   		movzbl	(%rax), %eax
+ 887 08e0 0FBEC0   		movsbl	%al, %eax
+ 888 08e3 89D6     		movl	%edx, %esi
+ 889 08e5 89C7     		movl	%eax, %edi
+ 890 08e7 E8000000 		call	xor
+ 890      00
+ 891 08ec 0FBED0   		movsbl	%al, %edx
+ 892 08ef 488B45A0 		movq	-96(%rbp), %rax
+ 893 08f3 4883C00B 		addq	$11, %rax
+ 894 08f7 0FB600   		movzbl	(%rax), %eax
+ 895 08fa 0FBEC0   		movsbl	%al, %eax
+ 896 08fd 89D6     		movl	%edx, %esi
+ 897 08ff 89C7     		movl	%eax, %edi
+ 898 0901 E8000000 		call	xor
+ 898      00
+ 899 0906 0FBED0   		movsbl	%al, %edx
+ 900 0909 488B45A0 		movq	-96(%rbp), %rax
+ 901 090d 4883C00F 		addq	$15, %rax
+ 902 0911 0FB600   		movzbl	(%rax), %eax
+ 903 0914 0FBEC0   		movsbl	%al, %eax
+ 904 0917 89D6     		movl	%edx, %esi
+ 905 0919 89C7     		movl	%eax, %edi
+ 906 091b E8000000 		call	xor
+ 906      00
+ 907 0920 0FBED0   		movsbl	%al, %edx
+ 908 0923 488B45A0 		movq	-96(%rbp), %rax
+ 909 0927 4883C013 		addq	$19, %rax
+ 910 092b 0FB600   		movzbl	(%rax), %eax
+ 911 092e 0FBEC0   		movsbl	%al, %eax
+ 912 0931 89D6     		movl	%edx, %esi
+ 913 0933 89C7     		movl	%eax, %edi
+ 914 0935 E8000000 		call	xor
+ 914      00
+ 915 093a 0FBED0   		movsbl	%al, %edx
+ 916 093d 488B45A0 		movq	-96(%rbp), %rax
+ 917 0941 4883C017 		addq	$23, %rax
+ 918 0945 0FB600   		movzbl	(%rax), %eax
+ 919 0948 0FBEC0   		movsbl	%al, %eax
+ 920 094b 89D6     		movl	%edx, %esi
+ 921 094d 89C7     		movl	%eax, %edi
+ 922 094f E8000000 		call	xor
+ 922      00
+ 923 0954 0FBED0   		movsbl	%al, %edx
+ 924 0957 488B45A0 		movq	-96(%rbp), %rax
+ 925 095b 4883C01B 		addq	$27, %rax
+ 926 095f 0FB600   		movzbl	(%rax), %eax
+ 927 0962 0FBEC0   		movsbl	%al, %eax
+ 928 0965 89D6     		movl	%edx, %esi
+ 929 0967 89C7     		movl	%eax, %edi
+ 930 0969 E8000000 		call	xor
+ 930      00
+ 931 096e 0FBED0   		movsbl	%al, %edx
+ 932 0971 488B45A0 		movq	-96(%rbp), %rax
+ 933 0975 4883C01F 		addq	$31, %rax
+ 934 0979 0FB600   		movzbl	(%rax), %eax
+ 935 097c 0FBEC0   		movsbl	%al, %eax
+ 936 097f 89D6     		movl	%edx, %esi
+ 937 0981 89C7     		movl	%eax, %edi
+ 938 0983 E8000000 		call	xor
+ 938      00
+ 939 0988 8803     		movb	%al, (%rbx)
+  73:encrypt.c     **** 	T[2] = xor(K[30],xor(K[26],xor(K[22],xor(K[18],xor(K[14],xor(K[10],xor(K[6],K[2])))))));
+ 940              		.loc 1 73 0
+ 941 098a 488B45D0 		movq	-48(%rbp), %rax
+ 942 098e 488D5802 		leaq	2(%rax), %rbx
+ 943 0992 488B45A0 		movq	-96(%rbp), %rax
+ 944 0996 4883C002 		addq	$2, %rax
+ 945 099a 0FB600   		movzbl	(%rax), %eax
+ 946 099d 0FBED0   		movsbl	%al, %edx
+ 947 09a0 488B45A0 		movq	-96(%rbp), %rax
+ 948 09a4 4883C006 		addq	$6, %rax
+ 949 09a8 0FB600   		movzbl	(%rax), %eax
+ 950 09ab 0FBEC0   		movsbl	%al, %eax
+ 951 09ae 89D6     		movl	%edx, %esi
+ 952 09b0 89C7     		movl	%eax, %edi
+ 953 09b2 E8000000 		call	xor
+ 953      00
+ 954 09b7 0FBED0   		movsbl	%al, %edx
+ 955 09ba 488B45A0 		movq	-96(%rbp), %rax
+ 956 09be 4883C00A 		addq	$10, %rax
+ 957 09c2 0FB600   		movzbl	(%rax), %eax
+ 958 09c5 0FBEC0   		movsbl	%al, %eax
+ 959 09c8 89D6     		movl	%edx, %esi
+ 960 09ca 89C7     		movl	%eax, %edi
+ 961 09cc E8000000 		call	xor
+ 961      00
+ 962 09d1 0FBED0   		movsbl	%al, %edx
+ 963 09d4 488B45A0 		movq	-96(%rbp), %rax
+ 964 09d8 4883C00E 		addq	$14, %rax
+ 965 09dc 0FB600   		movzbl	(%rax), %eax
+ 966 09df 0FBEC0   		movsbl	%al, %eax
+ 967 09e2 89D6     		movl	%edx, %esi
+ 968 09e4 89C7     		movl	%eax, %edi
+ 969 09e6 E8000000 		call	xor
+ 969      00
+ 970 09eb 0FBED0   		movsbl	%al, %edx
+ 971 09ee 488B45A0 		movq	-96(%rbp), %rax
+ 972 09f2 4883C012 		addq	$18, %rax
+ 973 09f6 0FB600   		movzbl	(%rax), %eax
+ 974 09f9 0FBEC0   		movsbl	%al, %eax
+ 975 09fc 89D6     		movl	%edx, %esi
+ 976 09fe 89C7     		movl	%eax, %edi
+ 977 0a00 E8000000 		call	xor
+ 977      00
+ 978 0a05 0FBED0   		movsbl	%al, %edx
+ 979 0a08 488B45A0 		movq	-96(%rbp), %rax
+ 980 0a0c 4883C016 		addq	$22, %rax
+ 981 0a10 0FB600   		movzbl	(%rax), %eax
+ 982 0a13 0FBEC0   		movsbl	%al, %eax
+ 983 0a16 89D6     		movl	%edx, %esi
+ 984 0a18 89C7     		movl	%eax, %edi
+ 985 0a1a E8000000 		call	xor
+ 985      00
+ 986 0a1f 0FBED0   		movsbl	%al, %edx
+ 987 0a22 488B45A0 		movq	-96(%rbp), %rax
+ 988 0a26 4883C01A 		addq	$26, %rax
+ 989 0a2a 0FB600   		movzbl	(%rax), %eax
+ 990 0a2d 0FBEC0   		movsbl	%al, %eax
+ 991 0a30 89D6     		movl	%edx, %esi
+ 992 0a32 89C7     		movl	%eax, %edi
+ 993 0a34 E8000000 		call	xor
+ 993      00
+ 994 0a39 0FBED0   		movsbl	%al, %edx
+ 995 0a3c 488B45A0 		movq	-96(%rbp), %rax
+ 996 0a40 4883C01E 		addq	$30, %rax
+ 997 0a44 0FB600   		movzbl	(%rax), %eax
+ 998 0a47 0FBEC0   		movsbl	%al, %eax
+ 999 0a4a 89D6     		movl	%edx, %esi
+ 1000 0a4c 89C7     		movl	%eax, %edi
+ 1001 0a4e E8000000 		call	xor
+ 1001      00
+ 1002 0a53 8803     		movb	%al, (%rbx)
+  74:encrypt.c     **** 	T[1] = xor(K[29],xor(K[25],xor(K[21],xor(K[17],xor(K[13],xor(K[9],xor(K[5],K[1])))))));
+ 1003              		.loc 1 74 0
+ 1004 0a55 488B45D0 		movq	-48(%rbp), %rax
+ 1005 0a59 488D5801 		leaq	1(%rax), %rbx
+ 1006 0a5d 488B45A0 		movq	-96(%rbp), %rax
+ 1007 0a61 4883C001 		addq	$1, %rax
+ 1008 0a65 0FB600   		movzbl	(%rax), %eax
+ 1009 0a68 0FBED0   		movsbl	%al, %edx
+ 1010 0a6b 488B45A0 		movq	-96(%rbp), %rax
+ 1011 0a6f 4883C005 		addq	$5, %rax
+ 1012 0a73 0FB600   		movzbl	(%rax), %eax
+ 1013 0a76 0FBEC0   		movsbl	%al, %eax
+ 1014 0a79 89D6     		movl	%edx, %esi
+ 1015 0a7b 89C7     		movl	%eax, %edi
+ 1016 0a7d E8000000 		call	xor
+ 1016      00
+ 1017 0a82 0FBED0   		movsbl	%al, %edx
+ 1018 0a85 488B45A0 		movq	-96(%rbp), %rax
+ 1019 0a89 4883C009 		addq	$9, %rax
+ 1020 0a8d 0FB600   		movzbl	(%rax), %eax
+ 1021 0a90 0FBEC0   		movsbl	%al, %eax
+ 1022 0a93 89D6     		movl	%edx, %esi
+ 1023 0a95 89C7     		movl	%eax, %edi
+ 1024 0a97 E8000000 		call	xor
+ 1024      00
+ 1025 0a9c 0FBED0   		movsbl	%al, %edx
+ 1026 0a9f 488B45A0 		movq	-96(%rbp), %rax
+ 1027 0aa3 4883C00D 		addq	$13, %rax
+ 1028 0aa7 0FB600   		movzbl	(%rax), %eax
+ 1029 0aaa 0FBEC0   		movsbl	%al, %eax
+ 1030 0aad 89D6     		movl	%edx, %esi
+ 1031 0aaf 89C7     		movl	%eax, %edi
+ 1032 0ab1 E8000000 		call	xor
+ 1032      00
+ 1033 0ab6 0FBED0   		movsbl	%al, %edx
+ 1034 0ab9 488B45A0 		movq	-96(%rbp), %rax
+ 1035 0abd 4883C011 		addq	$17, %rax
+ 1036 0ac1 0FB600   		movzbl	(%rax), %eax
+ 1037 0ac4 0FBEC0   		movsbl	%al, %eax
+ 1038 0ac7 89D6     		movl	%edx, %esi
+ 1039 0ac9 89C7     		movl	%eax, %edi
+ 1040 0acb E8000000 		call	xor
+ 1040      00
+ 1041 0ad0 0FBED0   		movsbl	%al, %edx
+ 1042 0ad3 488B45A0 		movq	-96(%rbp), %rax
+ 1043 0ad7 4883C015 		addq	$21, %rax
+ 1044 0adb 0FB600   		movzbl	(%rax), %eax
+ 1045 0ade 0FBEC0   		movsbl	%al, %eax
+ 1046 0ae1 89D6     		movl	%edx, %esi
+ 1047 0ae3 89C7     		movl	%eax, %edi
+ 1048 0ae5 E8000000 		call	xor
+ 1048      00
+ 1049 0aea 0FBED0   		movsbl	%al, %edx
+ 1050 0aed 488B45A0 		movq	-96(%rbp), %rax
+ 1051 0af1 4883C019 		addq	$25, %rax
+ 1052 0af5 0FB600   		movzbl	(%rax), %eax
+ 1053 0af8 0FBEC0   		movsbl	%al, %eax
+ 1054 0afb 89D6     		movl	%edx, %esi
+ 1055 0afd 89C7     		movl	%eax, %edi
+ 1056 0aff E8000000 		call	xor
+ 1056      00
+ 1057 0b04 0FBED0   		movsbl	%al, %edx
+ 1058 0b07 488B45A0 		movq	-96(%rbp), %rax
+ 1059 0b0b 4883C01D 		addq	$29, %rax
+ 1060 0b0f 0FB600   		movzbl	(%rax), %eax
+ 1061 0b12 0FBEC0   		movsbl	%al, %eax
+ 1062 0b15 89D6     		movl	%edx, %esi
+ 1063 0b17 89C7     		movl	%eax, %edi
+ 1064 0b19 E8000000 		call	xor
+ 1064      00
+ 1065 0b1e 8803     		movb	%al, (%rbx)
+  75:encrypt.c     **** 	T[0] = xor(K[28],xor(K[24],xor(K[20],xor(K[16],xor(K[12],xor(K[8],xor(K[4],K[0])))))));
+ 1066              		.loc 1 75 0
+ 1067 0b20 488B45A0 		movq	-96(%rbp), %rax
+ 1068 0b24 0FB600   		movzbl	(%rax), %eax
+ 1069 0b27 0FBED0   		movsbl	%al, %edx
+ 1070 0b2a 488B45A0 		movq	-96(%rbp), %rax
+ 1071 0b2e 4883C004 		addq	$4, %rax
+ 1072 0b32 0FB600   		movzbl	(%rax), %eax
+ 1073 0b35 0FBEC0   		movsbl	%al, %eax
+ 1074 0b38 89D6     		movl	%edx, %esi
+ 1075 0b3a 89C7     		movl	%eax, %edi
+ 1076 0b3c E8000000 		call	xor
+ 1076      00
+ 1077 0b41 0FBED0   		movsbl	%al, %edx
+ 1078 0b44 488B45A0 		movq	-96(%rbp), %rax
+ 1079 0b48 4883C008 		addq	$8, %rax
+ 1080 0b4c 0FB600   		movzbl	(%rax), %eax
+ 1081 0b4f 0FBEC0   		movsbl	%al, %eax
+ 1082 0b52 89D6     		movl	%edx, %esi
+ 1083 0b54 89C7     		movl	%eax, %edi
+ 1084 0b56 E8000000 		call	xor
+ 1084      00
+ 1085 0b5b 0FBED0   		movsbl	%al, %edx
+ 1086 0b5e 488B45A0 		movq	-96(%rbp), %rax
+ 1087 0b62 4883C00C 		addq	$12, %rax
+ 1088 0b66 0FB600   		movzbl	(%rax), %eax
+ 1089 0b69 0FBEC0   		movsbl	%al, %eax
+ 1090 0b6c 89D6     		movl	%edx, %esi
+ 1091 0b6e 89C7     		movl	%eax, %edi
+ 1092 0b70 E8000000 		call	xor
+ 1092      00
+ 1093 0b75 0FBED0   		movsbl	%al, %edx
+ 1094 0b78 488B45A0 		movq	-96(%rbp), %rax
+ 1095 0b7c 4883C010 		addq	$16, %rax
+ 1096 0b80 0FB600   		movzbl	(%rax), %eax
+ 1097 0b83 0FBEC0   		movsbl	%al, %eax
+ 1098 0b86 89D6     		movl	%edx, %esi
+ 1099 0b88 89C7     		movl	%eax, %edi
+ 1100 0b8a E8000000 		call	xor
+ 1100      00
+ 1101 0b8f 0FBED0   		movsbl	%al, %edx
+ 1102 0b92 488B45A0 		movq	-96(%rbp), %rax
+ 1103 0b96 4883C014 		addq	$20, %rax
+ 1104 0b9a 0FB600   		movzbl	(%rax), %eax
+ 1105 0b9d 0FBEC0   		movsbl	%al, %eax
+ 1106 0ba0 89D6     		movl	%edx, %esi
+ 1107 0ba2 89C7     		movl	%eax, %edi
+ 1108 0ba4 E8000000 		call	xor
+ 1108      00
+ 1109 0ba9 0FBED0   		movsbl	%al, %edx
+ 1110 0bac 488B45A0 		movq	-96(%rbp), %rax
+ 1111 0bb0 4883C018 		addq	$24, %rax
+ 1112 0bb4 0FB600   		movzbl	(%rax), %eax
+ 1113 0bb7 0FBEC0   		movsbl	%al, %eax
+ 1114 0bba 89D6     		movl	%edx, %esi
+ 1115 0bbc 89C7     		movl	%eax, %edi
+ 1116 0bbe E8000000 		call	xor
+ 1116      00
+ 1117 0bc3 0FBED0   		movsbl	%al, %edx
+ 1118 0bc6 488B45A0 		movq	-96(%rbp), %rax
+ 1119 0bca 4883C01C 		addq	$28, %rax
+ 1120 0bce 0FB600   		movzbl	(%rax), %eax
+ 1121 0bd1 0FBEC0   		movsbl	%al, %eax
+ 1122 0bd4 89D6     		movl	%edx, %esi
+ 1123 0bd6 89C7     		movl	%eax, %edi
+ 1124 0bd8 E8000000 		call	xor
+ 1124      00
+ 1125 0bdd 89C2     		movl	%eax, %edx
+ 1126 0bdf 488B45D0 		movq	-48(%rbp), %rax
+ 1127 0be3 8810     		movb	%dl, (%rax)
+ 1128              	.LBB15:
+  76:encrypt.c     **** 
+  77:encrypt.c     **** 	// char* T8 = malloc(33);
+  78:encrypt.c     **** 
+  79:encrypt.c     **** 	for (int i=0;i<N1;i++){
+ 1129              		.loc 1 79 0
+ 1130 0be5 C745BC00 		movl	$0, -68(%rbp)
+ 1130      000000
+ 1131 0bec E9CF0100 		jmp	.L36
+ 1131      00
+ 1132              	.L47:
+ 1133              	.LBB16:
+  80:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+  81:encrypt.c     **** 		for (int j=0;j<32;j++){C[j]=xor(C[j],T[j%4]);}
+ 1134              		.loc 1 81 0
+ 1135 0bf1 C745C000 		movl	$0, -64(%rbp)
+ 1135      000000
+ 1136 0bf8 EB4E     		jmp	.L37
+ 1137              	.L38:
+ 1138              		.loc 1 81 0 is_stmt 0 discriminator 3
+ 1139 0bfa 8B45C0   		movl	-64(%rbp), %eax
+ 1140 0bfd 4863D0   		movslq	%eax, %rdx
+ 1141 0c00 488B45D8 		movq	-40(%rbp), %rax
+ 1142 0c04 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 1143 0c08 8B45C0   		movl	-64(%rbp), %eax
+ 1144 0c0b 99       		cltd
+ 1145 0c0c C1EA1E   		shrl	$30, %edx
+ 1146 0c0f 01D0     		addl	%edx, %eax
+ 1147 0c11 83E003   		andl	$3, %eax
+ 1148 0c14 29D0     		subl	%edx, %eax
+ 1149 0c16 4863D0   		movslq	%eax, %rdx
+ 1150 0c19 488B45D0 		movq	-48(%rbp), %rax
+ 1151 0c1d 4801D0   		addq	%rdx, %rax
+ 1152 0c20 0FB600   		movzbl	(%rax), %eax
+ 1153 0c23 0FBED0   		movsbl	%al, %edx
+ 1154 0c26 8B45C0   		movl	-64(%rbp), %eax
+ 1155 0c29 4863C8   		movslq	%eax, %rcx
+ 1156 0c2c 488B45D8 		movq	-40(%rbp), %rax
+ 1157 0c30 4801C8   		addq	%rcx, %rax
+ 1158 0c33 0FB600   		movzbl	(%rax), %eax
+ 1159 0c36 0FBEC0   		movsbl	%al, %eax
+ 1160 0c39 89D6     		movl	%edx, %esi
+ 1161 0c3b 89C7     		movl	%eax, %edi
+ 1162 0c3d E8000000 		call	xor
+ 1162      00
+ 1163 0c42 8803     		movb	%al, (%rbx)
+ 1164 0c44 8345C001 		addl	$1, -64(%rbp)
+ 1165              	.L37:
+ 1166              		.loc 1 81 0 discriminator 1
+ 1167 0c48 837DC01F 		cmpl	$31, -64(%rbp)
+ 1168 0c4c 7EAC     		jle	.L38
+ 1169              	.LBE16:
+  82:encrypt.c     **** 		if(strcmp(T,"1111") == 1) T="0000";
+ 1170              		.loc 1 82 0 is_stmt 1
+ 1171 0c4e 488B45D0 		movq	-48(%rbp), %rax
+ 1172 0c52 BE000000 		movl	$.LC1, %esi
+ 1172      00
+ 1173 0c57 4889C7   		movq	%rax, %rdi
+ 1174 0c5a E8000000 		call	strcmp
+ 1174      00
+ 1175 0c5f 83F801   		cmpl	$1, %eax
+ 1176 0c62 750D     		jne	.L39
+ 1177              		.loc 1 82 0 is_stmt 0 discriminator 1
+ 1178 0c64 48C745D0 		movq	$.LC2, -48(%rbp)
+ 1178      00000000 
+ 1179 0c6c E94B0100 		jmp	.L40
+ 1179      00
+ 1180              	.L39:
+ 1181              	.LBB17:
+  83:encrypt.c     **** 		else {
+  84:encrypt.c     **** 			char* Carry = malloc(4);
+ 1182              		.loc 1 84 0 is_stmt 1
+ 1183 0c71 BF040000 		movl	$4, %edi
+ 1183      00
+ 1184 0c76 E8000000 		call	malloc
+ 1184      00
+ 1185 0c7b 488945E0 		movq	%rax, -32(%rbp)
+  85:encrypt.c     **** 			char* Sum = malloc(4);
+ 1186              		.loc 1 85 0
+ 1187 0c7f BF040000 		movl	$4, %edi
+ 1187      00
+ 1188 0c84 E8000000 		call	malloc
+ 1188      00
+ 1189 0c89 488945E8 		movq	%rax, -24(%rbp)
+ 1190              	.LBB18:
+  86:encrypt.c     **** 			for (int l=0;l<4;l++) Carry[l]='0';
+ 1191              		.loc 1 86 0
+ 1192 0c8d C745C400 		movl	$0, -60(%rbp)
+ 1192      000000
+ 1193 0c94 EB14     		jmp	.L41
+ 1194              	.L42:
+ 1195              		.loc 1 86 0 is_stmt 0 discriminator 3
+ 1196 0c96 8B45C4   		movl	-60(%rbp), %eax
+ 1197 0c99 4863D0   		movslq	%eax, %rdx
+ 1198 0c9c 488B45E0 		movq	-32(%rbp), %rax
+ 1199 0ca0 4801D0   		addq	%rdx, %rax
+ 1200 0ca3 C60030   		movb	$48, (%rax)
+ 1201 0ca6 8345C401 		addl	$1, -60(%rbp)
+ 1202              	.L41:
+ 1203              		.loc 1 86 0 discriminator 1
+ 1204 0caa 837DC403 		cmpl	$3, -60(%rbp)
+ 1205 0cae 7EE6     		jle	.L42
+ 1206              	.LBE18:
+  87:encrypt.c     **** 			Sum[0] = xor(T[0],'1');
+ 1207              		.loc 1 87 0 is_stmt 1
+ 1208 0cb0 488B45D0 		movq	-48(%rbp), %rax
+ 1209 0cb4 0FB600   		movzbl	(%rax), %eax
+ 1210 0cb7 0FBEC0   		movsbl	%al, %eax
+ 1211 0cba BE310000 		movl	$49, %esi
+ 1211      00
+ 1212 0cbf 89C7     		movl	%eax, %edi
+ 1213 0cc1 E8000000 		call	xor
+ 1213      00
+ 1214 0cc6 89C2     		movl	%eax, %edx
+ 1215 0cc8 488B45E8 		movq	-24(%rbp), %rax
+ 1216 0ccc 8810     		movb	%dl, (%rax)
+  88:encrypt.c     **** 			Carry[0] = and(T[0],'1');
+ 1217              		.loc 1 88 0
+ 1218 0cce 488B45D0 		movq	-48(%rbp), %rax
+ 1219 0cd2 0FB600   		movzbl	(%rax), %eax
+ 1220 0cd5 0FBEC0   		movsbl	%al, %eax
+ 1221 0cd8 BE310000 		movl	$49, %esi
+ 1221      00
+ 1222 0cdd 89C7     		movl	%eax, %edi
+ 1223 0cdf E8000000 		call	and
+ 1223      00
+ 1224 0ce4 89C2     		movl	%eax, %edx
+ 1225 0ce6 488B45E0 		movq	-32(%rbp), %rax
+ 1226 0cea 8810     		movb	%dl, (%rax)
+ 1227              	.LBB19:
+  89:encrypt.c     **** 			for (int c=1;c<4;c++){
+ 1228              		.loc 1 89 0
+ 1229 0cec C745C801 		movl	$1, -56(%rbp)
+ 1229      000000
+ 1230 0cf3 E9880000 		jmp	.L43
+ 1230      00
+ 1231              	.L44:
+  90:encrypt.c     **** 				Sum[c] = xor(T[c],Carry[c-1]);
+ 1232              		.loc 1 90 0 discriminator 3
+ 1233 0cf8 8B45C8   		movl	-56(%rbp), %eax
+ 1234 0cfb 4863D0   		movslq	%eax, %rdx
+ 1235 0cfe 488B45E8 		movq	-24(%rbp), %rax
+ 1236 0d02 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 1237 0d06 8B45C8   		movl	-56(%rbp), %eax
+ 1238 0d09 4898     		cltq
+ 1239 0d0b 488D50FF 		leaq	-1(%rax), %rdx
+ 1240 0d0f 488B45E0 		movq	-32(%rbp), %rax
+ 1241 0d13 4801D0   		addq	%rdx, %rax
+ 1242 0d16 0FB600   		movzbl	(%rax), %eax
+ 1243 0d19 0FBED0   		movsbl	%al, %edx
+ 1244 0d1c 8B45C8   		movl	-56(%rbp), %eax
+ 1245 0d1f 4863C8   		movslq	%eax, %rcx
+ 1246 0d22 488B45D0 		movq	-48(%rbp), %rax
+ 1247 0d26 4801C8   		addq	%rcx, %rax
+ 1248 0d29 0FB600   		movzbl	(%rax), %eax
+ 1249 0d2c 0FBEC0   		movsbl	%al, %eax
+ 1250 0d2f 89D6     		movl	%edx, %esi
+ 1251 0d31 89C7     		movl	%eax, %edi
+ 1252 0d33 E8000000 		call	xor
+ 1252      00
+ 1253 0d38 8803     		movb	%al, (%rbx)
+  91:encrypt.c     **** 				Carry[c] = and(Carry[c-1],T[c]);
+ 1254              		.loc 1 91 0 discriminator 3
+ 1255 0d3a 8B45C8   		movl	-56(%rbp), %eax
+ 1256 0d3d 4863D0   		movslq	%eax, %rdx
+ 1257 0d40 488B45E0 		movq	-32(%rbp), %rax
+ 1258 0d44 488D1C02 		leaq	(%rdx,%rax), %rbx
+ 1259 0d48 8B45C8   		movl	-56(%rbp), %eax
+ 1260 0d4b 4863D0   		movslq	%eax, %rdx
+ 1261 0d4e 488B45D0 		movq	-48(%rbp), %rax
+ 1262 0d52 4801D0   		addq	%rdx, %rax
+ 1263 0d55 0FB600   		movzbl	(%rax), %eax
+ 1264 0d58 0FBED0   		movsbl	%al, %edx
+ 1265 0d5b 8B45C8   		movl	-56(%rbp), %eax
+ 1266 0d5e 4898     		cltq
+ 1267 0d60 488D48FF 		leaq	-1(%rax), %rcx
+ 1268 0d64 488B45E0 		movq	-32(%rbp), %rax
+ 1269 0d68 4801C8   		addq	%rcx, %rax
+ 1270 0d6b 0FB600   		movzbl	(%rax), %eax
+ 1271 0d6e 0FBEC0   		movsbl	%al, %eax
+ 1272 0d71 89D6     		movl	%edx, %esi
+ 1273 0d73 89C7     		movl	%eax, %edi
+ 1274 0d75 E8000000 		call	and
+ 1274      00
+ 1275 0d7a 8803     		movb	%al, (%rbx)
+  89:encrypt.c     **** 			for (int c=1;c<4;c++){
+ 1276              		.loc 1 89 0 discriminator 3
+ 1277 0d7c 8345C801 		addl	$1, -56(%rbp)
+ 1278              	.L43:
+  89:encrypt.c     **** 			for (int c=1;c<4;c++){
+ 1279              		.loc 1 89 0 is_stmt 0 discriminator 1
+ 1280 0d80 837DC803 		cmpl	$3, -56(%rbp)
+ 1281 0d84 0F8E6EFF 		jle	.L44
+ 1281      FFFF
+ 1282              	.LBE19:
+ 1283              	.LBB20:
+  92:encrypt.c     **** 			}
+  93:encrypt.c     **** 			for(int k=0;k<4;k++) T[k]=Sum[k];
+ 1284              		.loc 1 93 0 is_stmt 1
+ 1285 0d8a C745CC00 		movl	$0, -52(%rbp)
+ 1285      000000
+ 1286 0d91 EB23     		jmp	.L45
+ 1287              	.L46:
+ 1288              		.loc 1 93 0 is_stmt 0 discriminator 3
+ 1289 0d93 8B45CC   		movl	-52(%rbp), %eax
+ 1290 0d96 4863D0   		movslq	%eax, %rdx
+ 1291 0d99 488B45D0 		movq	-48(%rbp), %rax
+ 1292 0d9d 4801C2   		addq	%rax, %rdx
+ 1293 0da0 8B45CC   		movl	-52(%rbp), %eax
+ 1294 0da3 4863C8   		movslq	%eax, %rcx
+ 1295 0da6 488B45E8 		movq	-24(%rbp), %rax
+ 1296 0daa 4801C8   		addq	%rcx, %rax
+ 1297 0dad 0FB600   		movzbl	(%rax), %eax
+ 1298 0db0 8802     		movb	%al, (%rdx)
+ 1299 0db2 8345CC01 		addl	$1, -52(%rbp)
+ 1300              	.L45:
+ 1301              		.loc 1 93 0 discriminator 1
+ 1302 0db6 837DCC03 		cmpl	$3, -52(%rbp)
+ 1303 0dba 7ED7     		jle	.L46
+ 1304              	.L40:
+ 1305              	.LBE20:
+ 1306              	.LBE17:
+  79:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+ 1307              		.loc 1 79 0 is_stmt 1 discriminator 2
+ 1308 0dbc 8345BC01 		addl	$1, -68(%rbp)
+ 1309              	.L36:
+  79:encrypt.c     **** 		// for (int j=0;j<32;j++){T8[j] = T[j%4];}
+ 1310              		.loc 1 79 0 is_stmt 0 discriminator 1
+ 1311 0dc0 8B45BC   		movl	-68(%rbp), %eax
+ 1312 0dc3 3B45B0   		cmpl	-80(%rbp), %eax
+ 1313 0dc6 0F8C25FE 		jl	.L47
+ 1313      FFFF
+ 1314              	.LBE15:
+  94:encrypt.c     **** 
+  95:encrypt.c     **** 		}
+  96:encrypt.c     **** 	}
+  97:encrypt.c     **** 	return C;
+ 1315              		.loc 1 97 0 is_stmt 1
+ 1316 0dcc 488B45D8 		movq	-40(%rbp), %rax
+  98:encrypt.c     **** }
+ 1317              		.loc 1 98 0
+ 1318 0dd0 4883C458 		addq	$88, %rsp
+ 1319 0dd4 5B       		popq	%rbx
+ 1320 0dd5 5D       		popq	%rbp
+ 1321              		.cfi_def_cfa 7, 8
+ 1322 0dd6 C3       		ret
+ 1323              		.cfi_endproc
+ 1324              	.LFE3:
+ 1326              		.section	.rodata
+ 1327              	.LC3:
+ 1328 002b 256300   		.string	"%c"
+ 1329              		.text
+ 1330              		.globl	main
+ 1332              	main:
+ 1333              	.LFB4:
+  99:encrypt.c     **** 
+ 100:encrypt.c     **** int main(){
+ 1334              		.loc 1 100 0
+ 1335              		.cfi_startproc
+ 1336 0dd7 55       		pushq	%rbp
+ 1337              		.cfi_def_cfa_offset 16
+ 1338              		.cfi_offset 6, -16
+ 1339 0dd8 4889E5   		movq	%rsp, %rbp
+ 1340              		.cfi_def_cfa_register 6
+ 1341 0ddb 4883EC30 		subq	$48, %rsp
+ 1342              		.loc 1 100 0
+ 1343 0ddf 64488B04 		movq	%fs:40, %rax
+ 1343      25280000 
+ 1343      00
+ 1344 0de8 488945F8 		movq	%rax, -8(%rbp)
+ 1345 0dec 31C0     		xorl	%eax, %eax
+ 101:encrypt.c     ****     char * p=malloc(35); 
+ 1346              		.loc 1 101 0
+ 1347 0dee BF230000 		movl	$35, %edi
+ 1347      00
+ 1348 0df3 E8000000 		call	malloc
+ 1348      00
+ 1349 0df8 488945E8 		movq	%rax, -24(%rbp)
+ 1350              	.LBB21:
+ 102:encrypt.c     ****     for(int i=0;i<32;i++){
+ 1351              		.loc 1 102 0
+ 1352 0dfc C745E000 		movl	$0, -32(%rbp)
+ 1352      000000
+ 1353 0e03 EB2D     		jmp	.L50
+ 1354              	.L51:
+ 1355              	.LBB22:
+ 103:encrypt.c     ****         char c; scanf("%c",&c); p[i]= c; 
+ 1356              		.loc 1 103 0 discriminator 3
+ 1357 0e05 488D45DF 		leaq	-33(%rbp), %rax
+ 1358 0e09 4889C6   		movq	%rax, %rsi
+ 1359 0e0c BF000000 		movl	$.LC3, %edi
+ 1359      00
+ 1360 0e11 B8000000 		movl	$0, %eax
+ 1360      00
+ 1361 0e16 E8000000 		call	__isoc99_scanf
+ 1361      00
+ 1362 0e1b 8B45E0   		movl	-32(%rbp), %eax
+ 1363 0e1e 4863D0   		movslq	%eax, %rdx
+ 1364 0e21 488B45E8 		movq	-24(%rbp), %rax
+ 1365 0e25 4801C2   		addq	%rax, %rdx
+ 1366 0e28 0FB645DF 		movzbl	-33(%rbp), %eax
+ 1367 0e2c 8802     		movb	%al, (%rdx)
+ 1368              	.LBE22:
+ 102:encrypt.c     ****     for(int i=0;i<32;i++){
+ 1369              		.loc 1 102 0 discriminator 3
+ 1370 0e2e 8345E001 		addl	$1, -32(%rbp)
+ 1371              	.L50:
+ 102:encrypt.c     ****     for(int i=0;i<32;i++){
+ 1372              		.loc 1 102 0 is_stmt 0 discriminator 1
+ 1373 0e32 837DE01F 		cmpl	$31, -32(%rbp)
+ 1374 0e36 7ECD     		jle	.L51
+ 1375              	.LBE21:
+ 104:encrypt.c     ****     }
+ 105:encrypt.c     ****     char * cipher=encrypt(p,key); 
+ 1376              		.loc 1 105 0 is_stmt 1
+ 1377 0e38 488B1500 		movq	key(%rip), %rdx
+ 1377      000000
+ 1378 0e3f 488B45E8 		movq	-24(%rbp), %rax
+ 1379 0e43 4889D6   		movq	%rdx, %rsi
+ 1380 0e46 4889C7   		movq	%rax, %rdi
+ 1381 0e49 E8000000 		call	encrypt
+ 1381      00
+ 1382 0e4e 488945F0 		movq	%rax, -16(%rbp)
+ 106:encrypt.c     ****     printf("\n"); 
+ 1383              		.loc 1 106 0
+ 1384 0e52 BF0A0000 		movl	$10, %edi
+ 1384      00
+ 1385 0e57 E8000000 		call	putchar
+ 1385      00
+ 1386              	.LBB23:
+ 107:encrypt.c     ****     for(int i=0;i<32;i++) { 
+ 1387              		.loc 1 107 0
+ 1388 0e5c C745E400 		movl	$0, -28(%rbp)
+ 1388      000000
+ 1389 0e63 EB32     		jmp	.L52
+ 1390              	.L54:
+ 108:encrypt.c     ****         if(i%8==0) printf(" " ); 
+ 1391              		.loc 1 108 0
+ 1392 0e65 8B45E4   		movl	-28(%rbp), %eax
+ 1393 0e68 83E007   		andl	$7, %eax
+ 1394 0e6b 85C0     		testl	%eax, %eax
+ 1395 0e6d 750A     		jne	.L53
+ 1396              		.loc 1 108 0 is_stmt 0 discriminator 1
+ 1397 0e6f BF200000 		movl	$32, %edi
+ 1397      00
+ 1398 0e74 E8000000 		call	putchar
+ 1398      00
+ 1399              	.L53:
+ 109:encrypt.c     ****         printf("%c",cipher[i]); 
+ 1400              		.loc 1 109 0 is_stmt 1 discriminator 2
+ 1401 0e79 8B45E4   		movl	-28(%rbp), %eax
+ 1402 0e7c 4863D0   		movslq	%eax, %rdx
+ 1403 0e7f 488B45F0 		movq	-16(%rbp), %rax
+ 1404 0e83 4801D0   		addq	%rdx, %rax
+ 1405 0e86 0FB600   		movzbl	(%rax), %eax
+ 1406 0e89 0FBEC0   		movsbl	%al, %eax
+ 1407 0e8c 89C7     		movl	%eax, %edi
+ 1408 0e8e E8000000 		call	putchar
+ 1408      00
+ 107:encrypt.c     ****     for(int i=0;i<32;i++) { 
+ 1409              		.loc 1 107 0 discriminator 2
+ 1410 0e93 8345E401 		addl	$1, -28(%rbp)
+ 1411              	.L52:
+ 107:encrypt.c     ****     for(int i=0;i<32;i++) { 
+ 1412              		.loc 1 107 0 is_stmt 0 discriminator 1
+ 1413 0e97 837DE41F 		cmpl	$31, -28(%rbp)
+ 1414 0e9b 7EC8     		jle	.L54
+ 1415              	.LBE23:
+ 1416 0e9d B8000000 		movl	$0, %eax
+ 1416      00
+ 110:encrypt.c     ****     }
+ 111:encrypt.c     **** }
+ 1417              		.loc 1 111 0 is_stmt 1
+ 1418 0ea2 488B4DF8 		movq	-8(%rbp), %rcx
+ 1419 0ea6 6448330C 		xorq	%fs:40, %rcx
+ 1419      25280000 
+ 1419      00
+ 1420 0eaf 7405     		je	.L56
+ 1421 0eb1 E8000000 		call	__stack_chk_fail
+ 1421      00
+ 1422              	.L56:
+ 1423 0eb6 C9       		leave
+ 1424              		.cfi_def_cfa 7, 8
+ 1425 0eb7 C3       		ret
+ 1426              		.cfi_endproc
+ 1427              	.LFE4:
+ 1429              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 encrypt.c
+     /tmp/ccNWd8bm.s:13     .data:0000000000000000 key
+     /tmp/ccNWd8bm.s:18     .text:0000000000000000 xor
+     /tmp/ccNWd8bm.s:52     .text:0000000000000025 and
+     /tmp/ccNWd8bm.s:87     .text:000000000000004d decrypt
+     /tmp/ccNWd8bm.s:801    .text:0000000000000818 encrypt
+     /tmp/ccNWd8bm.s:1332   .text:0000000000000dd7 main
+
+UNDEFINED SYMBOLS
+malloc
+strcmp
+__isoc99_scanf
+putchar
+__stack_chk_fail

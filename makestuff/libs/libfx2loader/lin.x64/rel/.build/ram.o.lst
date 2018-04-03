@@ -1,0 +1,260 @@
+   1              		.file	"ram.c"
+   2              		.section	.rodata.str1.8,"aMS",@progbits,1
+   3              		.align 8
+   4              	.LC0:
+   5 0000 66783257 		.string	"fx2WriteRAM(): Failed to put the CPU in reset"
+   5      72697465 
+   5      52414D28 
+   5      293A2046 
+   5      61696C65 
+   6 002e 0000     		.align 8
+   7              	.LC1:
+   8 0030 66783257 		.string	"fx2WriteRAM(): Failed to write block of bytes"
+   8      72697465 
+   8      52414D28 
+   8      293A2046 
+   8      61696C65 
+   9 005e 0000     		.align 8
+  10              	.LC2:
+  11 0060 66783257 		.string	"fx2WriteRAM(): Failed to write final block"
+  11      72697465 
+  11      52414D28 
+  11      293A2046 
+  11      61696C65 
+  12              		.section	.text.unlikely,"ax",@progbits
+  13              	.LCOLDB3:
+  14              		.text
+  15              	.LHOTB3:
+  16              		.p2align 4,,15
+  17              		.globl	fx2WriteRAM
+  19              	fx2WriteRAM:
+  20              	.LFB17:
+  21              		.cfi_startproc
+  22 0000 4157     		pushq	%r15
+  23              		.cfi_def_cfa_offset 16
+  24              		.cfi_offset 15, -16
+  25 0002 4156     		pushq	%r14
+  26              		.cfi_def_cfa_offset 24
+  27              		.cfi_offset 14, -24
+  28 0004 41B90100 		movl	$1, %r9d
+  28      0000
+  29 000a 4155     		pushq	%r13
+  30              		.cfi_def_cfa_offset 32
+  31              		.cfi_offset 13, -32
+  32 000c 4154     		pushq	%r12
+  33              		.cfi_def_cfa_offset 40
+  34              		.cfi_offset 12, -40
+  35 000e 4989F7   		movq	%rsi, %r15
+  36 0011 55       		pushq	%rbp
+  37              		.cfi_def_cfa_offset 48
+  38              		.cfi_offset 6, -48
+  39 0012 53       		pushq	%rbx
+  40              		.cfi_def_cfa_offset 56
+  41              		.cfi_offset 3, -56
+  42 0013 4189D6   		movl	%edx, %r14d
+  43 0016 4889CD   		movq	%rcx, %rbp
+  44 0019 BA00E600 		movl	$58880, %edx
+  44      00
+  45 001e BEA00000 		movl	$160, %esi
+  45      00
+  46 0023 4883EC18 		subq	$24, %rsp
+  47              		.cfi_def_cfa_offset 80
+  48 0027 4989FC   		movq	%rdi, %r12
+  49 002a 4C8D6C24 		leaq	7(%rsp), %r13
+  49      07
+  50 002f C6442407 		movb	$1, 7(%rsp)
+  50      01
+  51 0034 64488B04 		movq	%fs:40, %rax
+  51      25280000 
+  51      00
+  52 003d 48894424 		movq	%rax, 8(%rsp)
+  52      08
+  53 0042 31C0     		xorl	%eax, %eax
+  54 0044 51       		pushq	%rcx
+  55              		.cfi_def_cfa_offset 88
+  56 0045 68881300 		pushq	$5000
+  56      00
+  57              		.cfi_def_cfa_offset 96
+  58 004a 31C9     		xorl	%ecx, %ecx
+  59 004c 4D89E8   		movq	%r13, %r8
+  60 004f E8000000 		call	usbControlWrite@PLT
+  60      00
+  61 0054 85C0     		testl	%eax, %eax
+  62 0056 4159     		popq	%r9
+  63              		.cfi_def_cfa_offset 88
+  64 0058 415A     		popq	%r10
+  65              		.cfi_def_cfa_offset 80
+  66 005a 0F85F000 		jne	.L2
+  66      0000
+  67 0060 31DB     		xorl	%ebx, %ebx
+  68 0062 31D2     		xorl	%edx, %edx
+  69 0064 4181FE00 		cmpl	$4096, %r14d
+  69      100000
+  70 006b 7727     		ja	.L10
+  71 006d E9890000 		jmp	.L4
+  71      00
+  72              		.p2align 4,,10
+  73 0072 660F1F44 		.p2align 3
+  73      0000
+  74              	.L6:
+  75 0078 4181EE00 		subl	$4096, %r14d
+  75      100000
+  76 007f 4981C700 		addq	$4096, %r15
+  76      100000
+  77 0086 6681C300 		addw	$4096, %bx
+  77      10
+  78 008b 4181FE00 		cmpl	$4096, %r14d
+  78      100000
+  79 0092 7664     		jbe	.L14
+  80              	.L10:
+  81 0094 55       		pushq	%rbp
+  82              		.cfi_def_cfa_offset 88
+  83 0095 68881300 		pushq	$5000
+  83      00
+  84              		.cfi_def_cfa_offset 96
+  85 009a 4D89F8   		movq	%r15, %r8
+  86 009d 31C9     		xorl	%ecx, %ecx
+  87 009f 4C89E7   		movq	%r12, %rdi
+  88 00a2 0FB7D3   		movzwl	%bx, %edx
+  89 00a5 41B90010 		movl	$4096, %r9d
+  89      0000
+  90 00ab BEA00000 		movl	$160, %esi
+  90      00
+  91 00b0 E8000000 		call	usbControlWrite@PLT
+  91      00
+  92 00b5 85C0     		testl	%eax, %eax
+  93 00b7 5F       		popq	%rdi
+  94              		.cfi_def_cfa_offset 88
+  95 00b8 4158     		popq	%r8
+  96              		.cfi_def_cfa_offset 80
+  97 00ba 74BC     		je	.L6
+  98 00bc 488D3500 		leaq	.LC1(%rip), %rsi
+  98      000000
+  99 00c3 4889EF   		movq	%rbp, %rdi
+ 100 00c6 E8000000 		call	errPrefix@PLT
+ 100      00
+ 101 00cb B8010000 		movl	$1, %eax
+ 101      00
+ 102              	.L5:
+ 103 00d0 488B4C24 		movq	8(%rsp), %rcx
+ 103      08
+ 104 00d5 6448330C 		xorq	%fs:40, %rcx
+ 104      25280000 
+ 104      00
+ 105 00de 0F85A500 		jne	.L15
+ 105      0000
+ 106 00e4 4883C418 		addq	$24, %rsp
+ 107              		.cfi_remember_state
+ 108              		.cfi_def_cfa_offset 56
+ 109 00e8 5B       		popq	%rbx
+ 110              		.cfi_def_cfa_offset 48
+ 111 00e9 5D       		popq	%rbp
+ 112              		.cfi_def_cfa_offset 40
+ 113 00ea 415C     		popq	%r12
+ 114              		.cfi_def_cfa_offset 32
+ 115 00ec 415D     		popq	%r13
+ 116              		.cfi_def_cfa_offset 24
+ 117 00ee 415E     		popq	%r14
+ 118              		.cfi_def_cfa_offset 16
+ 119 00f0 415F     		popq	%r15
+ 120              		.cfi_def_cfa_offset 8
+ 121 00f2 C3       		ret
+ 122              		.p2align 4,,10
+ 123 00f3 0F1F4400 		.p2align 3
+ 123      00
+ 124              	.L14:
+ 125              		.cfi_restore_state
+ 126 00f8 0FB7D3   		movzwl	%bx, %edx
+ 127              	.L4:
+ 128 00fb 55       		pushq	%rbp
+ 129              		.cfi_def_cfa_offset 88
+ 130 00fc 68881300 		pushq	$5000
+ 130      00
+ 131              		.cfi_def_cfa_offset 96
+ 132 0101 31C9     		xorl	%ecx, %ecx
+ 133 0103 BEA00000 		movl	$160, %esi
+ 133      00
+ 134 0108 4589F1   		movl	%r14d, %r9d
+ 135 010b 4D89F8   		movq	%r15, %r8
+ 136 010e 4C89E7   		movq	%r12, %rdi
+ 137 0111 E8000000 		call	usbControlWrite@PLT
+ 137      00
+ 138 0116 85C0     		testl	%eax, %eax
+ 139 0118 59       		popq	%rcx
+ 140              		.cfi_def_cfa_offset 88
+ 141 0119 5E       		popq	%rsi
+ 142              		.cfi_def_cfa_offset 80
+ 143 011a 7554     		jne	.L16
+ 144 011c C6442407 		movb	$0, 7(%rsp)
+ 144      00
+ 145 0121 6A00     		pushq	$0
+ 146              		.cfi_def_cfa_offset 88
+ 147 0123 BA00E600 		movl	$58880, %edx
+ 147      00
+ 148 0128 68881300 		pushq	$5000
+ 148      00
+ 149              		.cfi_def_cfa_offset 96
+ 150 012d 41B90100 		movl	$1, %r9d
+ 150      0000
+ 151 0133 4D89E8   		movq	%r13, %r8
+ 152 0136 31C9     		xorl	%ecx, %ecx
+ 153 0138 BEA00000 		movl	$160, %esi
+ 153      00
+ 154 013d 4C89E7   		movq	%r12, %rdi
+ 155 0140 E8000000 		call	usbControlWrite@PLT
+ 155      00
+ 156 0145 58       		popq	%rax
+ 157              		.cfi_def_cfa_offset 88
+ 158 0146 31C0     		xorl	%eax, %eax
+ 159 0148 5A       		popq	%rdx
+ 160              		.cfi_def_cfa_offset 80
+ 161 0149 EB85     		jmp	.L5
+ 162 014b 0F1F4400 		.p2align 4,,10
+ 162      00
+ 163              		.p2align 3
+ 164              	.L2:
+ 165 0150 488D3500 		leaq	.LC0(%rip), %rsi
+ 165      000000
+ 166 0157 4889EF   		movq	%rbp, %rdi
+ 167 015a E8000000 		call	errPrefix@PLT
+ 167      00
+ 168 015f B8010000 		movl	$1, %eax
+ 168      00
+ 169 0164 E967FFFF 		jmp	.L5
+ 169      FF
+ 170 0169 0F1F8000 		.p2align 4,,10
+ 170      000000
+ 171              		.p2align 3
+ 172              	.L16:
+ 173 0170 488D3500 		leaq	.LC2(%rip), %rsi
+ 173      000000
+ 174 0177 4889EF   		movq	%rbp, %rdi
+ 175 017a E8000000 		call	errPrefix@PLT
+ 175      00
+ 176 017f B8010000 		movl	$1, %eax
+ 176      00
+ 177 0184 E947FFFF 		jmp	.L5
+ 177      FF
+ 178              	.L15:
+ 179 0189 E8000000 		call	__stack_chk_fail@PLT
+ 179      00
+ 180              		.cfi_endproc
+ 181              	.LFE17:
+ 183              		.section	.text.unlikely
+ 184              	.LCOLDE3:
+ 185              		.text
+ 186              	.LHOTE3:
+ 187              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 188              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ram.c
+     /tmp/ccnUBsgz.s:19     .text:0000000000000000 fx2WriteRAM
+     /tmp/ccnUBsgz.s:7      .rodata.str1.8:0000000000000030 .LC1
+     /tmp/ccnUBsgz.s:4      .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccnUBsgz.s:10     .rodata.str1.8:0000000000000060 .LC2
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+usbControlWrite
+errPrefix
+__stack_chk_fail

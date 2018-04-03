@@ -1,0 +1,393 @@
+   1              		.file	"AssertException.cpp"
+   2              		.text
+   3              	.Ltext0:
+   4              		.section	.text._ZNSt9exceptionC2Ev,"axG",@progbits,_ZNSt9exceptionC5Ev,comdat
+   5              		.align 2
+   6              		.weak	_ZNSt9exceptionC2Ev
+   8              	_ZNSt9exceptionC2Ev:
+   9              	.LFB1:
+  10              		.file 1 "/usr/include/c++/5/exception"
+   1:/usr/include/c++/5/exception **** // Exception Handling support header for -*- C++ -*-
+   2:/usr/include/c++/5/exception **** 
+   3:/usr/include/c++/5/exception **** // Copyright (C) 1995-2015 Free Software Foundation, Inc.
+   4:/usr/include/c++/5/exception **** //
+   5:/usr/include/c++/5/exception **** // This file is part of GCC.
+   6:/usr/include/c++/5/exception **** //
+   7:/usr/include/c++/5/exception **** // GCC is free software; you can redistribute it and/or modify
+   8:/usr/include/c++/5/exception **** // it under the terms of the GNU General Public License as published by
+   9:/usr/include/c++/5/exception **** // the Free Software Foundation; either version 3, or (at your option)
+  10:/usr/include/c++/5/exception **** // any later version.
+  11:/usr/include/c++/5/exception **** //
+  12:/usr/include/c++/5/exception **** // GCC is distributed in the hope that it will be useful,
+  13:/usr/include/c++/5/exception **** // but WITHOUT ANY WARRANTY; without even the implied warranty of
+  14:/usr/include/c++/5/exception **** // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  15:/usr/include/c++/5/exception **** // GNU General Public License for more details.
+  16:/usr/include/c++/5/exception **** //
+  17:/usr/include/c++/5/exception **** // Under Section 7 of GPL version 3, you are granted additional
+  18:/usr/include/c++/5/exception **** // permissions described in the GCC Runtime Library Exception, version
+  19:/usr/include/c++/5/exception **** // 3.1, as published by the Free Software Foundation.
+  20:/usr/include/c++/5/exception **** 
+  21:/usr/include/c++/5/exception **** // You should have received a copy of the GNU General Public License and
+  22:/usr/include/c++/5/exception **** // a copy of the GCC Runtime Library Exception along with this program;
+  23:/usr/include/c++/5/exception **** // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  24:/usr/include/c++/5/exception **** // <http://www.gnu.org/licenses/>.
+  25:/usr/include/c++/5/exception **** 
+  26:/usr/include/c++/5/exception **** /** @file exception
+  27:/usr/include/c++/5/exception ****  *  This is a Standard C++ Library header.
+  28:/usr/include/c++/5/exception ****  */
+  29:/usr/include/c++/5/exception **** 
+  30:/usr/include/c++/5/exception **** #ifndef __EXCEPTION__
+  31:/usr/include/c++/5/exception **** #define __EXCEPTION__
+  32:/usr/include/c++/5/exception **** 
+  33:/usr/include/c++/5/exception **** #pragma GCC system_header
+  34:/usr/include/c++/5/exception **** 
+  35:/usr/include/c++/5/exception **** #pragma GCC visibility push(default)
+  36:/usr/include/c++/5/exception **** 
+  37:/usr/include/c++/5/exception **** #include <bits/c++config.h>
+  38:/usr/include/c++/5/exception **** #include <bits/atomic_lockfree_defines.h>
+  39:/usr/include/c++/5/exception **** 
+  40:/usr/include/c++/5/exception **** extern "C++" {
+  41:/usr/include/c++/5/exception **** 
+  42:/usr/include/c++/5/exception **** namespace std
+  43:/usr/include/c++/5/exception **** {
+  44:/usr/include/c++/5/exception ****   /**
+  45:/usr/include/c++/5/exception ****    * @defgroup exceptions Exceptions
+  46:/usr/include/c++/5/exception ****    * @ingroup diagnostics
+  47:/usr/include/c++/5/exception ****    *
+  48:/usr/include/c++/5/exception ****    * Classes and functions for reporting errors via exception classes.
+  49:/usr/include/c++/5/exception ****    * @{
+  50:/usr/include/c++/5/exception ****    */
+  51:/usr/include/c++/5/exception **** 
+  52:/usr/include/c++/5/exception ****   /**
+  53:/usr/include/c++/5/exception ****    *  @brief Base class for all library exceptions.
+  54:/usr/include/c++/5/exception ****    *
+  55:/usr/include/c++/5/exception ****    *  This is the base class for all exceptions thrown by the standard
+  56:/usr/include/c++/5/exception ****    *  library, and by certain language expressions.  You are free to derive
+  57:/usr/include/c++/5/exception ****    *  your own %exception classes, or use a different hierarchy, or to
+  58:/usr/include/c++/5/exception ****    *  throw non-class data (e.g., fundamental types).
+  59:/usr/include/c++/5/exception ****    */
+  60:/usr/include/c++/5/exception ****   class exception
+  61:/usr/include/c++/5/exception ****   {
+  62:/usr/include/c++/5/exception ****   public:
+  63:/usr/include/c++/5/exception ****     exception() _GLIBCXX_USE_NOEXCEPT { }
+  11              		.loc 1 63 0
+  12              		.cfi_startproc
+  13 0000 55       		pushq	%rbp
+  14              		.cfi_def_cfa_offset 16
+  15              		.cfi_offset 6, -16
+  16 0001 4889E5   		movq	%rsp, %rbp
+  17              		.cfi_def_cfa_register 6
+  18 0004 48897DF8 		movq	%rdi, -8(%rbp)
+  19              	.LBB2:
+  20              		.loc 1 63 0
+  21 0008 488B0500 		movq	_ZTVSt9exception@GOTPCREL(%rip), %rax
+  21      000000
+  22 000f 488D5010 		leaq	16(%rax), %rdx
+  23 0013 488B45F8 		movq	-8(%rbp), %rax
+  24 0017 488910   		movq	%rdx, (%rax)
+  25              	.LBE2:
+  26 001a 90       		nop
+  27 001b 5D       		popq	%rbp
+  28              		.cfi_def_cfa 7, 8
+  29 001c C3       		ret
+  30              		.cfi_endproc
+  31              	.LFE1:
+  33              		.weak	_ZNSt9exceptionC1Ev
+  34              		.set	_ZNSt9exceptionC1Ev,_ZNSt9exceptionC2Ev
+  35              		.text
+  36              		.align 2
+  37              		.globl	_ZN8UnitTest15AssertExceptionC2EPKcS2_i
+  39              	_ZN8UnitTest15AssertExceptionC2EPKcS2_i:
+  40              	.LFB7:
+  41              		.file 2 "AssertException.cpp"
+   1:AssertException.cpp **** #include "AssertException.h"
+   2:AssertException.cpp **** #include <cstring>
+   3:AssertException.cpp **** 
+   4:AssertException.cpp **** namespace UnitTest {
+   5:AssertException.cpp **** 
+   6:AssertException.cpp **** AssertException::AssertException(char const* description, char const* filename, int lineNumber)
+  42              		.loc 2 6 0
+  43              		.cfi_startproc
+  44 0000 55       		pushq	%rbp
+  45              		.cfi_def_cfa_offset 16
+  46              		.cfi_offset 6, -16
+  47 0001 4889E5   		movq	%rsp, %rbp
+  48              		.cfi_def_cfa_register 6
+  49 0004 4883EC20 		subq	$32, %rsp
+  50 0008 48897DF8 		movq	%rdi, -8(%rbp)
+  51 000c 488975F0 		movq	%rsi, -16(%rbp)
+  52 0010 488955E8 		movq	%rdx, -24(%rbp)
+  53 0014 894DE4   		movl	%ecx, -28(%rbp)
+  54              	.LBB3:
+   7:AssertException.cpp ****     : m_lineNumber(lineNumber)
+  55              		.loc 2 7 0
+  56 0017 488B45F8 		movq	-8(%rbp), %rax
+  57 001b 4889C7   		movq	%rax, %rdi
+  58 001e E8000000 		call	_ZNSt9exceptionC2Ev@PLT
+  58      00
+  59 0023 488B0500 		movq	_ZTVN8UnitTest15AssertExceptionE@GOTPCREL(%rip), %rax
+  59      000000
+  60 002a 488D5010 		leaq	16(%rax), %rdx
+  61 002e 488B45F8 		movq	-8(%rbp), %rax
+  62 0032 488910   		movq	%rdx, (%rax)
+  63 0035 488B45F8 		movq	-8(%rbp), %rax
+  64 0039 8B55E4   		movl	-28(%rbp), %edx
+  65 003c 89900803 		movl	%edx, 776(%rax)
+  65      0000
+  66              	.LBB4:
+   8:AssertException.cpp **** {
+   9:AssertException.cpp **** 	using namespace std;
+  10:AssertException.cpp **** 
+  11:AssertException.cpp ****     strcpy(m_description, description);
+  67              		.loc 2 11 0
+  68 0042 488B45F8 		movq	-8(%rbp), %rax
+  69 0046 488D5008 		leaq	8(%rax), %rdx
+  70 004a 488B45F0 		movq	-16(%rbp), %rax
+  71 004e 4889C6   		movq	%rax, %rsi
+  72 0051 4889D7   		movq	%rdx, %rdi
+  73 0054 E8000000 		call	strcpy@PLT
+  73      00
+  12:AssertException.cpp ****     strcpy(m_filename, filename);
+  74              		.loc 2 12 0
+  75 0059 488B45F8 		movq	-8(%rbp), %rax
+  76 005d 488D9008 		leaq	520(%rax), %rdx
+  76      020000
+  77 0064 488B45E8 		movq	-24(%rbp), %rax
+  78 0068 4889C6   		movq	%rax, %rsi
+  79 006b 4889D7   		movq	%rdx, %rdi
+  80 006e E8000000 		call	strcpy@PLT
+  80      00
+  81              	.LBE4:
+  82              	.LBE3:
+  13:AssertException.cpp **** }
+  83              		.loc 2 13 0
+  84 0073 90       		nop
+  85 0074 C9       		leave
+  86              		.cfi_def_cfa 7, 8
+  87 0075 C3       		ret
+  88              		.cfi_endproc
+  89              	.LFE7:
+  91              		.globl	_ZN8UnitTest15AssertExceptionC1EPKcS2_i
+  92              		.set	_ZN8UnitTest15AssertExceptionC1EPKcS2_i,_ZN8UnitTest15AssertExceptionC2EPKcS2_i
+  93              		.align 2
+  94              		.globl	_ZN8UnitTest15AssertExceptionD2Ev
+  96              	_ZN8UnitTest15AssertExceptionD2Ev:
+  97              	.LFB10:
+  14:AssertException.cpp **** 
+  15:AssertException.cpp **** AssertException::~AssertException() throw()
+  98              		.loc 2 15 0
+  99              		.cfi_startproc
+ 100 0076 55       		pushq	%rbp
+ 101              		.cfi_def_cfa_offset 16
+ 102              		.cfi_offset 6, -16
+ 103 0077 4889E5   		movq	%rsp, %rbp
+ 104              		.cfi_def_cfa_register 6
+ 105 007a 4883EC10 		subq	$16, %rsp
+ 106 007e 48897DF8 		movq	%rdi, -8(%rbp)
+ 107              	.LBB5:
+ 108              		.loc 2 15 0
+ 109 0082 488B0500 		movq	_ZTVN8UnitTest15AssertExceptionE@GOTPCREL(%rip), %rax
+ 109      000000
+ 110 0089 488D5010 		leaq	16(%rax), %rdx
+ 111 008d 488B45F8 		movq	-8(%rbp), %rax
+ 112 0091 488910   		movq	%rdx, (%rax)
+ 113 0094 488B45F8 		movq	-8(%rbp), %rax
+ 114 0098 4889C7   		movq	%rax, %rdi
+ 115 009b E8000000 		call	_ZNSt9exceptionD2Ev@PLT
+ 115      00
+ 116              	.LBE5:
+  16:AssertException.cpp **** {
+  17:AssertException.cpp **** }
+ 117              		.loc 2 17 0
+ 118 00a0 B8000000 		movl	$0, %eax
+ 118      00
+ 119 00a5 85C0     		testl	%eax, %eax
+ 120 00a7 740C     		je	.L3
+ 121              		.loc 2 17 0 is_stmt 0 discriminator 1
+ 122 00a9 488B45F8 		movq	-8(%rbp), %rax
+ 123 00ad 4889C7   		movq	%rax, %rdi
+ 124 00b0 E8000000 		call	_ZdlPv@PLT
+ 124      00
+ 125              	.L3:
+ 126              		.loc 2 17 0
+ 127 00b5 C9       		leave
+ 128              		.cfi_def_cfa 7, 8
+ 129 00b6 C3       		ret
+ 130              		.cfi_endproc
+ 131              	.LFE10:
+ 133              		.globl	_ZN8UnitTest15AssertExceptionD1Ev
+ 134              		.set	_ZN8UnitTest15AssertExceptionD1Ev,_ZN8UnitTest15AssertExceptionD2Ev
+ 135 00b7 90       		.align 2
+ 136              		.globl	_ZN8UnitTest15AssertExceptionD0Ev
+ 138              	_ZN8UnitTest15AssertExceptionD0Ev:
+ 139              	.LFB12:
+  15:AssertException.cpp **** {
+ 140              		.loc 2 15 0 is_stmt 1
+ 141              		.cfi_startproc
+ 142 00b8 55       		pushq	%rbp
+ 143              		.cfi_def_cfa_offset 16
+ 144              		.cfi_offset 6, -16
+ 145 00b9 4889E5   		movq	%rsp, %rbp
+ 146              		.cfi_def_cfa_register 6
+ 147 00bc 4883EC10 		subq	$16, %rsp
+ 148 00c0 48897DF8 		movq	%rdi, -8(%rbp)
+ 149              		.loc 2 17 0
+ 150 00c4 488B45F8 		movq	-8(%rbp), %rax
+ 151 00c8 4889C7   		movq	%rax, %rdi
+ 152 00cb E8000000 		call	_ZN8UnitTest15AssertExceptionD1Ev@PLT
+ 152      00
+ 153 00d0 488B45F8 		movq	-8(%rbp), %rax
+ 154 00d4 4889C7   		movq	%rax, %rdi
+ 155 00d7 E8000000 		call	_ZdlPv@PLT
+ 155      00
+ 156 00dc C9       		leave
+ 157              		.cfi_def_cfa 7, 8
+ 158 00dd C3       		ret
+ 159              		.cfi_endproc
+ 160              	.LFE12:
+ 162              		.align 2
+ 163              		.globl	_ZNK8UnitTest15AssertException4whatEv
+ 165              	_ZNK8UnitTest15AssertException4whatEv:
+ 166              	.LFB13:
+  18:AssertException.cpp **** 
+  19:AssertException.cpp **** char const* AssertException::what() const throw()
+  20:AssertException.cpp **** {
+ 167              		.loc 2 20 0
+ 168              		.cfi_startproc
+ 169 00de 55       		pushq	%rbp
+ 170              		.cfi_def_cfa_offset 16
+ 171              		.cfi_offset 6, -16
+ 172 00df 4889E5   		movq	%rsp, %rbp
+ 173              		.cfi_def_cfa_register 6
+ 174 00e2 48897DF8 		movq	%rdi, -8(%rbp)
+  21:AssertException.cpp ****     return m_description;
+ 175              		.loc 2 21 0
+ 176 00e6 488B45F8 		movq	-8(%rbp), %rax
+ 177 00ea 4883C008 		addq	$8, %rax
+  22:AssertException.cpp **** }
+ 178              		.loc 2 22 0
+ 179 00ee 5D       		popq	%rbp
+ 180              		.cfi_def_cfa 7, 8
+ 181 00ef C3       		ret
+ 182              		.cfi_endproc
+ 183              	.LFE13:
+ 185              		.align 2
+ 186              		.globl	_ZNK8UnitTest15AssertException8FilenameEv
+ 188              	_ZNK8UnitTest15AssertException8FilenameEv:
+ 189              	.LFB14:
+  23:AssertException.cpp **** 
+  24:AssertException.cpp **** char const* AssertException::Filename() const
+  25:AssertException.cpp **** {
+ 190              		.loc 2 25 0
+ 191              		.cfi_startproc
+ 192 00f0 55       		pushq	%rbp
+ 193              		.cfi_def_cfa_offset 16
+ 194              		.cfi_offset 6, -16
+ 195 00f1 4889E5   		movq	%rsp, %rbp
+ 196              		.cfi_def_cfa_register 6
+ 197 00f4 48897DF8 		movq	%rdi, -8(%rbp)
+  26:AssertException.cpp ****     return m_filename;
+ 198              		.loc 2 26 0
+ 199 00f8 488B45F8 		movq	-8(%rbp), %rax
+ 200 00fc 48050802 		addq	$520, %rax
+ 200      0000
+  27:AssertException.cpp **** }
+ 201              		.loc 2 27 0
+ 202 0102 5D       		popq	%rbp
+ 203              		.cfi_def_cfa 7, 8
+ 204 0103 C3       		ret
+ 205              		.cfi_endproc
+ 206              	.LFE14:
+ 208              		.align 2
+ 209              		.globl	_ZNK8UnitTest15AssertException10LineNumberEv
+ 211              	_ZNK8UnitTest15AssertException10LineNumberEv:
+ 212              	.LFB15:
+  28:AssertException.cpp **** 
+  29:AssertException.cpp **** int AssertException::LineNumber() const
+  30:AssertException.cpp **** {
+ 213              		.loc 2 30 0
+ 214              		.cfi_startproc
+ 215 0104 55       		pushq	%rbp
+ 216              		.cfi_def_cfa_offset 16
+ 217              		.cfi_offset 6, -16
+ 218 0105 4889E5   		movq	%rsp, %rbp
+ 219              		.cfi_def_cfa_register 6
+ 220 0108 48897DF8 		movq	%rdi, -8(%rbp)
+  31:AssertException.cpp ****     return m_lineNumber;
+ 221              		.loc 2 31 0
+ 222 010c 488B45F8 		movq	-8(%rbp), %rax
+ 223 0110 8B800803 		movl	776(%rax), %eax
+ 223      0000
+  32:AssertException.cpp **** }
+ 224              		.loc 2 32 0
+ 225 0116 5D       		popq	%rbp
+ 226              		.cfi_def_cfa 7, 8
+ 227 0117 C3       		ret
+ 228              		.cfi_endproc
+ 229              	.LFE15:
+ 231              		.weak	_ZTVN8UnitTest15AssertExceptionE
+ 232              		.section	.data.rel.ro._ZTVN8UnitTest15AssertExceptionE,"awG",@progbits,_ZTVN8UnitTest15AssertExcep
+ 233              		.align 8
+ 236              	_ZTVN8UnitTest15AssertExceptionE:
+ 237 0000 00000000 		.quad	0
+ 237      00000000 
+ 238 0008 00000000 		.quad	_ZTIN8UnitTest15AssertExceptionE
+ 238      00000000 
+ 239 0010 00000000 		.quad	_ZN8UnitTest15AssertExceptionD1Ev
+ 239      00000000 
+ 240 0018 00000000 		.quad	_ZN8UnitTest15AssertExceptionD0Ev
+ 240      00000000 
+ 241 0020 00000000 		.quad	_ZNK8UnitTest15AssertException4whatEv
+ 241      00000000 
+ 242              		.weak	_ZTIN8UnitTest15AssertExceptionE
+ 243              		.section	.data.rel.ro._ZTIN8UnitTest15AssertExceptionE,"awG",@progbits,_ZTIN8UnitTest15AssertExcep
+ 244              		.align 8
+ 247              	_ZTIN8UnitTest15AssertExceptionE:
+ 248 0000 00000000 		.quad	_ZTVN10__cxxabiv120__si_class_type_infoE+16
+ 248      00000000 
+ 249 0008 00000000 		.quad	_ZTSN8UnitTest15AssertExceptionE
+ 249      00000000 
+ 250 0010 00000000 		.quad	_ZTISt9exception
+ 250      00000000 
+ 251              		.weak	_ZTSN8UnitTest15AssertExceptionE
+ 252              		.section	.rodata._ZTSN8UnitTest15AssertExceptionE,"aG",@progbits,_ZTSN8UnitTest15AssertExceptionE,
+ 253              		.align 16
+ 256              	_ZTSN8UnitTest15AssertExceptionE:
+ 257 0000 4E38556E 		.string	"N8UnitTest15AssertExceptionE"
+ 257      69745465 
+ 257      73743135 
+ 257      41737365 
+ 257      72744578 
+ 258              		.text
+ 259              	.Letext0:
+ 260              		.file 3 "/usr/include/c++/5/cstring"
+ 261              		.file 4 "/usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h"
+ 262              		.file 5 "/usr/include/string.h"
+ 263              		.file 6 "AssertException.h"
+ 264              		.file 7 "<built-in>"
+ 265              		.file 8 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 AssertException.cpp
+     /tmp/ccjT6YcD.s:8      .text._ZNSt9exceptionC2Ev:0000000000000000 _ZNSt9exceptionC2Ev
+     /tmp/ccjT6YcD.s:8      .text._ZNSt9exceptionC2Ev:0000000000000000 _ZNSt9exceptionC1Ev
+     /tmp/ccjT6YcD.s:39     .text:0000000000000000 _ZN8UnitTest15AssertExceptionC2EPKcS2_i
+     /tmp/ccjT6YcD.s:236    .data.rel.ro._ZTVN8UnitTest15AssertExceptionE:0000000000000000 _ZTVN8UnitTest15AssertExceptionE
+     /tmp/ccjT6YcD.s:39     .text:0000000000000000 _ZN8UnitTest15AssertExceptionC1EPKcS2_i
+     /tmp/ccjT6YcD.s:96     .text:0000000000000076 _ZN8UnitTest15AssertExceptionD2Ev
+     /tmp/ccjT6YcD.s:96     .text:0000000000000076 _ZN8UnitTest15AssertExceptionD1Ev
+     /tmp/ccjT6YcD.s:138    .text:00000000000000b8 _ZN8UnitTest15AssertExceptionD0Ev
+     /tmp/ccjT6YcD.s:165    .text:00000000000000de _ZNK8UnitTest15AssertException4whatEv
+     /tmp/ccjT6YcD.s:188    .text:00000000000000f0 _ZNK8UnitTest15AssertException8FilenameEv
+     /tmp/ccjT6YcD.s:211    .text:0000000000000104 _ZNK8UnitTest15AssertException10LineNumberEv
+     /tmp/ccjT6YcD.s:247    .data.rel.ro._ZTIN8UnitTest15AssertExceptionE:0000000000000000 _ZTIN8UnitTest15AssertExceptionE
+     /tmp/ccjT6YcD.s:256    .rodata._ZTSN8UnitTest15AssertExceptionE:0000000000000000 _ZTSN8UnitTest15AssertExceptionE
+                           .group:0000000000000000 _ZNSt9exceptionC5Ev
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+_ZTVSt9exception
+strcpy
+_ZNSt9exceptionD2Ev
+_ZdlPv
+_ZTVN10__cxxabiv120__si_class_type_infoE
+_ZTISt9exception

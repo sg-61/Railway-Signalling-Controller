@@ -1,0 +1,2020 @@
+   1              		.file	"xsvf2csvf.c"
+   2              		.text
+   3              	.Ltext0:
+   5              	getNextByte:
+   6              	.LFB4:
+   7              		.file 1 "xsvf2csvf.c"
+   1:xsvf2csvf.c   **** /*
+   2:xsvf2csvf.c   ****  * Copyright (C) 2009-2012 Chris McClelland
+   3:xsvf2csvf.c   ****  *
+   4:xsvf2csvf.c   ****  * This program is free software: you can redistribute it and/or modify
+   5:xsvf2csvf.c   ****  * it under the terms of the GNU Lesser General Public License as published by
+   6:xsvf2csvf.c   ****  * the Free Software Foundation, either version 3 of the License, or
+   7:xsvf2csvf.c   ****  * (at your option) any later version.
+   8:xsvf2csvf.c   ****  *
+   9:xsvf2csvf.c   ****  * This program is distributed in the hope that it will be useful,
+  10:xsvf2csvf.c   ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  11:xsvf2csvf.c   ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  12:xsvf2csvf.c   ****  * GNU Lesser General Public License for more details.
+  13:xsvf2csvf.c   ****  *
+  14:xsvf2csvf.c   ****  * You should have received a copy of the GNU Lesser General Public License
+  15:xsvf2csvf.c   ****  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  16:xsvf2csvf.c   ****  */
+  17:xsvf2csvf.c   **** #include <makestuff.h>
+  18:xsvf2csvf.c   **** #include <libfpgalink.h>
+  19:xsvf2csvf.c   **** #include <libbuffer.h>
+  20:xsvf2csvf.c   **** #include <liberror.h>
+  21:xsvf2csvf.c   **** #include "xsvf.h"
+  22:xsvf2csvf.c   **** #include "private.h"
+  23:xsvf2csvf.c   **** 
+  24:xsvf2csvf.c   **** #define ENABLE_SWAP
+  25:xsvf2csvf.c   **** 
+  26:xsvf2csvf.c   **** // Global buffer and offset used to implement the iterator
+  27:xsvf2csvf.c   **** //
+  28:xsvf2csvf.c   **** typedef struct {
+  29:xsvf2csvf.c   **** 	struct Buffer xsvfBuf;
+  30:xsvf2csvf.c   **** 	uint32 offset;
+  31:xsvf2csvf.c   **** } XC;
+  32:xsvf2csvf.c   **** 
+  33:xsvf2csvf.c   **** // The buffer iterator. TODO: refactor to return error code on end of buffer.
+  34:xsvf2csvf.c   **** //
+  35:xsvf2csvf.c   **** static uint8 getNextByte(XC *xc) {
+   8              		.loc 1 35 0
+   9              		.cfi_startproc
+  10 0000 55       		pushq	%rbp
+  11              		.cfi_def_cfa_offset 16
+  12              		.cfi_offset 6, -16
+  13 0001 4889E5   		movq	%rsp, %rbp
+  14              		.cfi_def_cfa_register 6
+  15 0004 48897DF8 		movq	%rdi, -8(%rbp)
+  36:xsvf2csvf.c   **** 	return xc->xsvfBuf.data[xc->offset++];
+  16              		.loc 1 36 0
+  17 0008 488B45F8 		movq	-8(%rbp), %rax
+  18 000c 488B30   		movq	(%rax), %rsi
+  19 000f 488B45F8 		movq	-8(%rbp), %rax
+  20 0013 8B4020   		movl	32(%rax), %eax
+  21 0016 8D4801   		leal	1(%rax), %ecx
+  22 0019 488B55F8 		movq	-8(%rbp), %rdx
+  23 001d 894A20   		movl	%ecx, 32(%rdx)
+  24 0020 89C0     		movl	%eax, %eax
+  25 0022 4801F0   		addq	%rsi, %rax
+  26 0025 0FB600   		movzbl	(%rax), %eax
+  37:xsvf2csvf.c   **** }
+  27              		.loc 1 37 0
+  28 0028 5D       		popq	%rbp
+  29              		.cfi_def_cfa 7, 8
+  30 0029 C3       		ret
+  31              		.cfi_endproc
+  32              	.LFE4:
+  34              		.section	.rodata
+  35              	.LC0:
+  36 0000 73776170 		.string	"swapBytes()"
+  36      42797465 
+  36      73282900 
+  37              		.text
+  39              	swapBytes:
+  40              	.LFB5:
+  38:xsvf2csvf.c   **** 
+  39:xsvf2csvf.c   **** // Read "numBytes" bytes from the stream and write them out in reverse order to the supplied buffer
+  40:xsvf2csvf.c   **** // "outBuf". If ENABLE_SWAP is undefined, no swapping is done.
+  41:xsvf2csvf.c   **** //
+  42:xsvf2csvf.c   **** static FLStatus swapBytes(XC *xc, uint32 numBytes, struct Buffer *outBuf, const char **error) {
+  41              		.loc 1 42 0
+  42              		.cfi_startproc
+  43 002a 55       		pushq	%rbp
+  44              		.cfi_def_cfa_offset 16
+  45              		.cfi_offset 6, -16
+  46 002b 4889E5   		movq	%rsp, %rbp
+  47              		.cfi_def_cfa_register 6
+  48 002e 53       		pushq	%rbx
+  49 002f 4883EC38 		subq	$56, %rsp
+  50              		.cfi_offset 3, -24
+  51 0033 48897DD8 		movq	%rdi, -40(%rbp)
+  52 0037 8975D4   		movl	%esi, -44(%rbp)
+  53 003a 488955C8 		movq	%rdx, -56(%rbp)
+  54 003e 48894DC0 		movq	%rcx, -64(%rbp)
+  43:xsvf2csvf.c   **** 	FLStatus retVal = FL_SUCCESS;
+  55              		.loc 1 43 0
+  56 0042 C745E000 		movl	$0, -32(%rbp)
+  56      000000
+  44:xsvf2csvf.c   **** 	uint8 *ptr;
+  45:xsvf2csvf.c   **** 	BufferStatus bStatus;
+  46:xsvf2csvf.c   **** 	#ifdef ENABLE_SWAP
+  47:xsvf2csvf.c   **** 		bStatus = bufAppendConst(outBuf, 0x00, numBytes, error);
+  57              		.loc 1 47 0
+  58 0049 8B55D4   		movl	-44(%rbp), %edx
+  59 004c 488B4DC0 		movq	-64(%rbp), %rcx
+  60 0050 488B45C8 		movq	-56(%rbp), %rax
+  61 0054 BE000000 		movl	$0, %esi
+  61      00
+  62 0059 4889C7   		movq	%rax, %rdi
+  63 005c E8000000 		call	bufAppendConst@PLT
+  63      00
+  64 0061 8945E4   		movl	%eax, -28(%rbp)
+  48:xsvf2csvf.c   **** 		CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "swapBytes()");
+  65              		.loc 1 48 0
+  66 0064 837DE400 		cmpl	$0, -28(%rbp)
+  67 0068 741C     		je	.L4
+  68              		.loc 1 48 0 is_stmt 0 discriminator 1
+  69 006a 488B45C0 		movq	-64(%rbp), %rax
+  70 006e 488D3500 		leaq	.LC0(%rip), %rsi
+  70      000000
+  71 0075 4889C7   		movq	%rax, %rdi
+  72 0078 E8000000 		call	errPrefix@PLT
+  72      00
+  73 007d C745E001 		movl	$1, -32(%rbp)
+  73      000000
+  74 0084 EB43     		jmp	.L5
+  75              	.L4:
+  49:xsvf2csvf.c   **** 		ptr = outBuf->data + outBuf->length - 1;
+  76              		.loc 1 49 0 is_stmt 1
+  77 0086 488B45C8 		movq	-56(%rbp), %rax
+  78 008a 488B10   		movq	(%rax), %rdx
+  79 008d 488B45C8 		movq	-56(%rbp), %rax
+  80 0091 488B4008 		movq	8(%rax), %rax
+  81 0095 4883E801 		subq	$1, %rax
+  82 0099 4801D0   		addq	%rdx, %rax
+  83 009c 488945E8 		movq	%rax, -24(%rbp)
+  50:xsvf2csvf.c   **** 		while ( numBytes-- ) {
+  84              		.loc 1 50 0
+  85 00a0 EB1A     		jmp	.L6
+  86              	.L7:
+  51:xsvf2csvf.c   **** 			*ptr-- = getNextByte(xc);
+  87              		.loc 1 51 0
+  88 00a2 488B5DE8 		movq	-24(%rbp), %rbx
+  89 00a6 488D43FF 		leaq	-1(%rbx), %rax
+  90 00aa 488945E8 		movq	%rax, -24(%rbp)
+  91 00ae 488B45D8 		movq	-40(%rbp), %rax
+  92 00b2 4889C7   		movq	%rax, %rdi
+  93 00b5 E846FFFF 		call	getNextByte
+  93      FF
+  94 00ba 8803     		movb	%al, (%rbx)
+  95              	.L6:
+  50:xsvf2csvf.c   **** 		while ( numBytes-- ) {
+  96              		.loc 1 50 0
+  97 00bc 8B45D4   		movl	-44(%rbp), %eax
+  98 00bf 8D50FF   		leal	-1(%rax), %edx
+  99 00c2 8955D4   		movl	%edx, -44(%rbp)
+ 100 00c5 85C0     		testl	%eax, %eax
+ 101 00c7 75D9     		jne	.L7
+ 102              	.L5:
+  52:xsvf2csvf.c   **** 		}
+  53:xsvf2csvf.c   **** 	#else
+  54:xsvf2csvf.c   **** 		const uint32 initLength = outBuf->length;
+  55:xsvf2csvf.c   **** 		bStatus = bufAppendConst(outBuf, 0x00, numBytes, error);
+  56:xsvf2csvf.c   **** 		CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "swapBytes()");
+  57:xsvf2csvf.c   **** 		ptr = outBuf->data + initLength - 1;
+  58:xsvf2csvf.c   **** 		while ( numBytes-- ) {
+  59:xsvf2csvf.c   **** 			*ptr++ = getNextByte(xc);
+  60:xsvf2csvf.c   **** 		}
+  61:xsvf2csvf.c   **** 	#endif
+  62:xsvf2csvf.c   **** cleanup:
+  63:xsvf2csvf.c   **** 	return retVal;
+ 103              		.loc 1 63 0
+ 104 00c9 8B45E0   		movl	-32(%rbp), %eax
+  64:xsvf2csvf.c   **** }
+ 105              		.loc 1 64 0
+ 106 00cc 4883C438 		addq	$56, %rsp
+ 107 00d0 5B       		popq	%rbx
+ 108 00d1 5D       		popq	%rbp
+ 109              		.cfi_def_cfa 7, 8
+ 110 00d2 C3       		ret
+ 111              		.cfi_endproc
+ 112              	.LFE5:
+ 114              		.section	.rodata
+ 115              	.LC1:
+ 116 000c 73776170 		.string	"swapAndInterleaveBytes()"
+ 116      416E6449 
+ 116      6E746572 
+ 116      6C656176 
+ 116      65427974 
+ 117              		.text
+ 119              	swapAndInterleaveBytes:
+ 120              	.LFB6:
+  65:xsvf2csvf.c   **** 
+  66:xsvf2csvf.c   **** // Reverse and interleave the incoming tdi, tdoExpected arrays:
+  67:xsvf2csvf.c   **** // 0123456789ABCDEFGHIJ -> 9J8I7H6G5F4E3D2C1B0A
+  68:xsvf2csvf.c   **** //
+  69:xsvf2csvf.c   **** static FLStatus swapAndInterleaveBytes(XC *xc, uint32 numBytes, struct Buffer *outBuf, const char *
+ 121              		.loc 1 69 0
+ 122              		.cfi_startproc
+ 123 00d3 55       		pushq	%rbp
+ 124              		.cfi_def_cfa_offset 16
+ 125              		.cfi_offset 6, -16
+ 126 00d4 4889E5   		movq	%rsp, %rbp
+ 127              		.cfi_def_cfa_register 6
+ 128 00d7 4883EC40 		subq	$64, %rsp
+ 129 00db 48897DD8 		movq	%rdi, -40(%rbp)
+ 130 00df 8975D4   		movl	%esi, -44(%rbp)
+ 131 00e2 488955C8 		movq	%rdx, -56(%rbp)
+ 132 00e6 48894DC0 		movq	%rcx, -64(%rbp)
+  70:xsvf2csvf.c   **** 	FLStatus retVal = FL_SUCCESS;
+ 133              		.loc 1 70 0
+ 134 00ea C745EC00 		movl	$0, -20(%rbp)
+ 134      000000
+  71:xsvf2csvf.c   **** 	uint8 *ptr;
+  72:xsvf2csvf.c   **** 	BufferStatus bStatus;
+  73:xsvf2csvf.c   **** 	uint32 i = numBytes;
+ 135              		.loc 1 73 0
+ 136 00f1 8B45D4   		movl	-44(%rbp), %eax
+ 137 00f4 8945F0   		movl	%eax, -16(%rbp)
+  74:xsvf2csvf.c   **** 	bStatus = bufAppendConst(outBuf, 0x00, numBytes*2, error);
+ 138              		.loc 1 74 0
+ 139 00f7 8B45D4   		movl	-44(%rbp), %eax
+ 140 00fa 01C0     		addl	%eax, %eax
+ 141 00fc 89C6     		movl	%eax, %esi
+ 142 00fe 488B55C0 		movq	-64(%rbp), %rdx
+ 143 0102 488B45C8 		movq	-56(%rbp), %rax
+ 144 0106 4889D1   		movq	%rdx, %rcx
+ 145 0109 4889F2   		movq	%rsi, %rdx
+ 146 010c BE000000 		movl	$0, %esi
+ 146      00
+ 147 0111 4889C7   		movq	%rax, %rdi
+ 148 0114 E8000000 		call	bufAppendConst@PLT
+ 148      00
+ 149 0119 8945F4   		movl	%eax, -12(%rbp)
+  75:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "swapAndInterleaveBytes()");
+ 150              		.loc 1 75 0
+ 151 011c 837DF400 		cmpl	$0, -12(%rbp)
+ 152 0120 741F     		je	.L10
+ 153              		.loc 1 75 0 is_stmt 0 discriminator 1
+ 154 0122 488B45C0 		movq	-64(%rbp), %rax
+ 155 0126 488D3500 		leaq	.LC1(%rip), %rsi
+ 155      000000
+ 156 012d 4889C7   		movq	%rax, %rdi
+ 157 0130 E8000000 		call	errPrefix@PLT
+ 157      00
+ 158 0135 C745EC01 		movl	$1, -20(%rbp)
+ 158      000000
+ 159 013c E98A0000 		jmp	.L11
+ 159      00
+ 160              	.L10:
+  76:xsvf2csvf.c   **** 	ptr = outBuf->data + outBuf->length - 2;
+ 161              		.loc 1 76 0 is_stmt 1
+ 162 0141 488B45C8 		movq	-56(%rbp), %rax
+ 163 0145 488B10   		movq	(%rax), %rdx
+ 164 0148 488B45C8 		movq	-56(%rbp), %rax
+ 165 014c 488B4008 		movq	8(%rax), %rax
+ 166 0150 4883E802 		subq	$2, %rax
+ 167 0154 4801D0   		addq	%rdx, %rax
+ 168 0157 488945F8 		movq	%rax, -8(%rbp)
+  77:xsvf2csvf.c   **** 	while ( i-- ) {
+ 169              		.loc 1 77 0
+ 170 015b EB19     		jmp	.L12
+ 171              	.L13:
+  78:xsvf2csvf.c   **** 		*ptr = getNextByte(xc);
+ 172              		.loc 1 78 0
+ 173 015d 488B45D8 		movq	-40(%rbp), %rax
+ 174 0161 4889C7   		movq	%rax, %rdi
+ 175 0164 E897FEFF 		call	getNextByte
+ 175      FF
+ 176 0169 89C2     		movl	%eax, %edx
+ 177 016b 488B45F8 		movq	-8(%rbp), %rax
+ 178 016f 8810     		movb	%dl, (%rax)
+  79:xsvf2csvf.c   **** 		ptr -= 2;
+ 179              		.loc 1 79 0
+ 180 0171 48836DF8 		subq	$2, -8(%rbp)
+ 180      02
+ 181              	.L12:
+  77:xsvf2csvf.c   **** 	while ( i-- ) {
+ 182              		.loc 1 77 0
+ 183 0176 8B45F0   		movl	-16(%rbp), %eax
+ 184 0179 8D50FF   		leal	-1(%rax), %edx
+ 185 017c 8955F0   		movl	%edx, -16(%rbp)
+ 186 017f 85C0     		testl	%eax, %eax
+ 187 0181 75DA     		jne	.L13
+  80:xsvf2csvf.c   **** 	}
+  81:xsvf2csvf.c   **** 	i = numBytes;
+ 188              		.loc 1 81 0
+ 189 0183 8B45D4   		movl	-44(%rbp), %eax
+ 190 0186 8945F0   		movl	%eax, -16(%rbp)
+  82:xsvf2csvf.c   **** 	ptr = outBuf->data + outBuf->length - 1;
+ 191              		.loc 1 82 0
+ 192 0189 488B45C8 		movq	-56(%rbp), %rax
+ 193 018d 488B10   		movq	(%rax), %rdx
+ 194 0190 488B45C8 		movq	-56(%rbp), %rax
+ 195 0194 488B4008 		movq	8(%rax), %rax
+ 196 0198 4883E801 		subq	$1, %rax
+ 197 019c 4801D0   		addq	%rdx, %rax
+ 198 019f 488945F8 		movq	%rax, -8(%rbp)
+  83:xsvf2csvf.c   **** 	while ( i-- ) {
+ 199              		.loc 1 83 0
+ 200 01a3 EB19     		jmp	.L14
+ 201              	.L15:
+  84:xsvf2csvf.c   **** 		*ptr = getNextByte(xc);
+ 202              		.loc 1 84 0
+ 203 01a5 488B45D8 		movq	-40(%rbp), %rax
+ 204 01a9 4889C7   		movq	%rax, %rdi
+ 205 01ac E84FFEFF 		call	getNextByte
+ 205      FF
+ 206 01b1 89C2     		movl	%eax, %edx
+ 207 01b3 488B45F8 		movq	-8(%rbp), %rax
+ 208 01b7 8810     		movb	%dl, (%rax)
+  85:xsvf2csvf.c   **** 		ptr -= 2;
+ 209              		.loc 1 85 0
+ 210 01b9 48836DF8 		subq	$2, -8(%rbp)
+ 210      02
+ 211              	.L14:
+  83:xsvf2csvf.c   **** 	while ( i-- ) {
+ 212              		.loc 1 83 0
+ 213 01be 8B45F0   		movl	-16(%rbp), %eax
+ 214 01c1 8D50FF   		leal	-1(%rax), %edx
+ 215 01c4 8955F0   		movl	%edx, -16(%rbp)
+ 216 01c7 85C0     		testl	%eax, %eax
+ 217 01c9 75DA     		jne	.L15
+ 218              	.L11:
+  86:xsvf2csvf.c   **** 	}
+  87:xsvf2csvf.c   **** cleanup:
+  88:xsvf2csvf.c   **** 	return retVal;
+ 219              		.loc 1 88 0
+ 220 01cb 8B45EC   		movl	-20(%rbp), %eax
+  89:xsvf2csvf.c   **** }
+ 221              		.loc 1 89 0
+ 222 01ce C9       		leave
+ 223              		.cfi_def_cfa 7, 8
+ 224 01cf C3       		ret
+ 225              		.cfi_endproc
+ 226              	.LFE6:
+ 228              		.section	.rodata
+ 229              	.LC2:
+ 230 0025 73656E64 		.string	"sendXSize()"
+ 230      5853697A 
+ 230      65282900 
+ 231              		.text
+ 233              	sendXSize:
+ 234              	.LFB7:
+  90:xsvf2csvf.c   **** 
+  91:xsvf2csvf.c   **** static FLStatus sendXSize(struct Buffer *outBuf, uint32 xSize, const char **error) {
+ 235              		.loc 1 91 0
+ 236              		.cfi_startproc
+ 237 01d0 55       		pushq	%rbp
+ 238              		.cfi_def_cfa_offset 16
+ 239              		.cfi_offset 6, -16
+ 240 01d1 4889E5   		movq	%rsp, %rbp
+ 241              		.cfi_def_cfa_register 6
+ 242 01d4 4883EC30 		subq	$48, %rsp
+ 243 01d8 48897DE8 		movq	%rdi, -24(%rbp)
+ 244 01dc 8975E4   		movl	%esi, -28(%rbp)
+ 245 01df 488955D8 		movq	%rdx, -40(%rbp)
+  92:xsvf2csvf.c   **** 	FLStatus retVal = FL_SUCCESS;
+ 246              		.loc 1 92 0
+ 247 01e3 C745F800 		movl	$0, -8(%rbp)
+ 247      000000
+  93:xsvf2csvf.c   **** 	BufferStatus bStatus;
+  94:xsvf2csvf.c   **** 	bStatus = bufAppendByte(outBuf, XSDRSIZE, error);
+ 248              		.loc 1 94 0
+ 249 01ea 488B55D8 		movq	-40(%rbp), %rdx
+ 250 01ee 488B45E8 		movq	-24(%rbp), %rax
+ 251 01f2 BE080000 		movl	$8, %esi
+ 251      00
+ 252 01f7 4889C7   		movq	%rax, %rdi
+ 253 01fa E8000000 		call	bufAppendByte@PLT
+ 253      00
+ 254 01ff 8945FC   		movl	%eax, -4(%rbp)
+  95:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "sendXSize()");
+ 255              		.loc 1 95 0
+ 256 0202 837DFC00 		cmpl	$0, -4(%rbp)
+ 257 0206 741C     		je	.L18
+ 258              		.loc 1 95 0 is_stmt 0 discriminator 1
+ 259 0208 488B45D8 		movq	-40(%rbp), %rax
+ 260 020c 488D3500 		leaq	.LC2(%rip), %rsi
+ 260      000000
+ 261 0213 4889C7   		movq	%rax, %rdi
+ 262 0216 E8000000 		call	errPrefix@PLT
+ 262      00
+ 263 021b C745F801 		movl	$1, -8(%rbp)
+ 263      000000
+ 264 0222 EB39     		jmp	.L19
+ 265              	.L18:
+  96:xsvf2csvf.c   **** 	bStatus = bufAppendLongBE(outBuf, xSize, error);
+ 266              		.loc 1 96 0 is_stmt 1
+ 267 0224 488B55D8 		movq	-40(%rbp), %rdx
+ 268 0228 8B4DE4   		movl	-28(%rbp), %ecx
+ 269 022b 488B45E8 		movq	-24(%rbp), %rax
+ 270 022f 89CE     		movl	%ecx, %esi
+ 271 0231 4889C7   		movq	%rax, %rdi
+ 272 0234 E8000000 		call	bufAppendLongBE@PLT
+ 272      00
+ 273 0239 8945FC   		movl	%eax, -4(%rbp)
+  97:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "sendXSize()");
+ 274              		.loc 1 97 0
+ 275 023c 837DFC00 		cmpl	$0, -4(%rbp)
+ 276 0240 741B     		je	.L19
+ 277              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 278 0242 488B45D8 		movq	-40(%rbp), %rax
+ 279 0246 488D3500 		leaq	.LC2(%rip), %rsi
+ 279      000000
+ 280 024d 4889C7   		movq	%rax, %rdi
+ 281 0250 E8000000 		call	errPrefix@PLT
+ 281      00
+ 282 0255 C745F801 		movl	$1, -8(%rbp)
+ 282      000000
+ 283 025c 90       		nop
+ 284              	.L19:
+  98:xsvf2csvf.c   **** cleanup:
+  99:xsvf2csvf.c   **** 	return retVal;
+ 285              		.loc 1 99 0 is_stmt 1
+ 286 025d 8B45F8   		movl	-8(%rbp), %eax
+ 100:xsvf2csvf.c   **** }
+ 287              		.loc 1 100 0
+ 288 0260 C9       		leave
+ 289              		.cfi_def_cfa 7, 8
+ 290 0261 C3       		ret
+ 291              		.cfi_endproc
+ 292              	.LFE7:
+ 294              		.section	.rodata
+ 295              	.LC3:
+ 296 0031 78737666 		.string	"xsvfSwapBytes()"
+ 296      53776170 
+ 296      42797465 
+ 296      73282900 
+ 297 0041 00000000 		.align 8
+ 297      000000
+ 298              	.LC4:
+ 299 0048 78737666 		.string	"xsvfSwapBytes(): Previous mask was nonzero, but no room to compare %d bytes"
+ 299      53776170 
+ 299      42797465 
+ 299      7328293A 
+ 299      20507265 
+ 300 0094 00000000 		.align 8
+ 301              	.LC5:
+ 302 0098 78737666 		.string	"xsvfSwapBytes(): Only XENDIR(TAPSTATE_RUN_TEST_IDLE) is supported!"
+ 302      53776170 
+ 302      42797465 
+ 302      7328293A 
+ 302      204F6E6C 
+ 303 00db 00000000 		.align 8
+ 303      00
+ 304              	.LC6:
+ 305 00e0 78737666 		.string	"xsvfSwapBytes(): Only XENDDR(TAPSTATE_RUN_TEST_IDLE) is supported!"
+ 305      53776170 
+ 305      42797465 
+ 305      7328293A 
+ 305      204F6E6C 
+ 306 0123 00000000 		.align 8
+ 306      00
+ 307              	.LC7:
+ 308 0128 78737666 		.string	"xsvfSwapBytes(): Unsupported command 0x%02X!"
+ 308      53776170 
+ 308      42797465 
+ 308      7328293A 
+ 308      20556E73 
+ 309              		.text
+ 311              	xsvfSwapBytes:
+ 312              	.LFB8:
+ 101:xsvf2csvf.c   **** 
+ 102:xsvf2csvf.c   **** // Parse the XSVF, reversing the byte-ordering of all the bytestreams.
+ 103:xsvf2csvf.c   **** //
+ 104:xsvf2csvf.c   **** static FLStatus xsvfSwapBytes(XC *xc, struct Buffer *outBuf, uint32 *maxBufSize, const char **error
+ 313              		.loc 1 104 0
+ 314              		.cfi_startproc
+ 315 0262 55       		pushq	%rbp
+ 316              		.cfi_def_cfa_offset 16
+ 317              		.cfi_offset 6, -16
+ 318 0263 4889E5   		movq	%rsp, %rbp
+ 319              		.cfi_def_cfa_register 6
+ 320 0266 4883EC60 		subq	$96, %rsp
+ 321 026a 48897DB8 		movq	%rdi, -72(%rbp)
+ 322 026e 488975B0 		movq	%rsi, -80(%rbp)
+ 323 0272 488955A8 		movq	%rdx, -88(%rbp)
+ 324 0276 48894DA0 		movq	%rcx, -96(%rbp)
+ 325              		.loc 1 104 0
+ 326 027a 64488B04 		movq	%fs:40, %rax
+ 326      25280000 
+ 326      00
+ 327 0283 488945F8 		movq	%rax, -8(%rbp)
+ 328 0287 31C0     		xorl	%eax, %eax
+ 105:xsvf2csvf.c   **** 	FLStatus fStatus, retVal = FL_SUCCESS;
+ 329              		.loc 1 105 0
+ 330 0289 C745C800 		movl	$0, -56(%rbp)
+ 330      000000
+ 106:xsvf2csvf.c   **** 	uint32 newXSize = 0, curXSize = 0, totOffset = 0;
+ 331              		.loc 1 106 0
+ 332 0290 C745CC00 		movl	$0, -52(%rbp)
+ 332      000000
+ 333 0297 C745D000 		movl	$0, -48(%rbp)
+ 333      000000
+ 334 029e C745D400 		movl	$0, -44(%rbp)
+ 334      000000
+ 107:xsvf2csvf.c   **** 	uint32 numBytes;
+ 108:xsvf2csvf.c   **** 	BufferStatus bStatus;
+ 109:xsvf2csvf.c   **** 	uint8 thisByte;
+ 110:xsvf2csvf.c   **** 	uint32 dummy;
+ 111:xsvf2csvf.c   **** 	bool zeroMask = false;
+ 335              		.loc 1 111 0
+ 336 02a5 C645C300 		movb	$0, -61(%rbp)
+ 112:xsvf2csvf.c   **** 
+ 113:xsvf2csvf.c   **** 	if ( !maxBufSize ) {
+ 337              		.loc 1 113 0
+ 338 02a9 48837DA8 		cmpq	$0, -88(%rbp)
+ 338      00
+ 339 02ae 7508     		jne	.L22
+ 114:xsvf2csvf.c   **** 		maxBufSize = &dummy;
+ 340              		.loc 1 114 0
+ 341 02b0 488D45C4 		leaq	-60(%rbp), %rax
+ 342 02b4 488945A8 		movq	%rax, -88(%rbp)
+ 343              	.L22:
+ 115:xsvf2csvf.c   **** 	}
+ 116:xsvf2csvf.c   **** 	*maxBufSize = 0;
+ 344              		.loc 1 116 0
+ 345 02b8 488B45A8 		movq	-88(%rbp), %rax
+ 346 02bc C7000000 		movl	$0, (%rax)
+ 346      0000
+ 117:xsvf2csvf.c   **** 	thisByte = getNextByte(xc);
+ 347              		.loc 1 117 0
+ 348 02c2 488B45B8 		movq	-72(%rbp), %rax
+ 349 02c6 4889C7   		movq	%rax, %rdi
+ 350 02c9 E832FDFF 		call	getNextByte
+ 350      FF
+ 351 02ce 8845C2   		movb	%al, -62(%rbp)
+ 118:xsvf2csvf.c   **** 	while ( thisByte != XCOMPLETE ) {
+ 352              		.loc 1 118 0
+ 353 02d1 E9770900 		jmp	.L23
+ 353      00
+ 354              	.L91:
+ 119:xsvf2csvf.c   **** 		switch ( thisByte ) {
+ 355              		.loc 1 119 0
+ 356 02d6 0FB645C2 		movzbl	-62(%rbp), %eax
+ 357 02da 83F814   		cmpl	$20, %eax
+ 358 02dd 0F871D09 		ja	.L24
+ 358      0000
+ 359 02e3 89C0     		movl	%eax, %eax
+ 360 02e5 488D1485 		leaq	0(,%rax,4), %rdx
+ 360      00000000 
+ 361 02ed 488D0500 		leaq	.L26(%rip), %rax
+ 361      000000
+ 362 02f4 8B0402   		movl	(%rdx,%rax), %eax
+ 363 02f7 4863D0   		movslq	%eax, %rdx
+ 364 02fa 488D0500 		leaq	.L26(%rip), %rax
+ 364      000000
+ 365 0301 4801D0   		addq	%rdx, %rax
+ 366 0304 FFE0     		jmp	*%rax
+ 367              		.section	.rodata
+ 368 0155 000000   		.align 4
+ 369              		.align 4
+ 370              	.L26:
+ 371 0158 00000000 		.long	.L24-.L26
+ 372 015c 00000000 		.long	.L25-.L26
+ 373 0160 00000000 		.long	.L27-.L26
+ 374 0164 00000000 		.long	.L28-.L26
+ 375 0168 00000000 		.long	.L29-.L26
+ 376 016c 00000000 		.long	.L24-.L26
+ 377 0170 00000000 		.long	.L24-.L26
+ 378 0174 00000000 		.long	.L30-.L26
+ 379 0178 00000000 		.long	.L31-.L26
+ 380 017c 00000000 		.long	.L32-.L26
+ 381 0180 00000000 		.long	.L24-.L26
+ 382 0184 00000000 		.long	.L24-.L26
+ 383 0188 00000000 		.long	.L33-.L26
+ 384 018c 00000000 		.long	.L34-.L26
+ 385 0190 00000000 		.long	.L35-.L26
+ 386 0194 00000000 		.long	.L24-.L26
+ 387 0198 00000000 		.long	.L24-.L26
+ 388 019c 00000000 		.long	.L24-.L26
+ 389 01a0 00000000 		.long	.L36-.L26
+ 390 01a4 00000000 		.long	.L37-.L26
+ 391 01a8 00000000 		.long	.L38-.L26
+ 392              		.text
+ 393              	.L25:
+ 394              	.LBB2:
+ 120:xsvf2csvf.c   **** 		case XTDOMASK:{
+ 121:xsvf2csvf.c   **** 			// Swap the XTDOMASK bytes.
+ 122:xsvf2csvf.c   **** 			uint32 initLength;
+ 123:xsvf2csvf.c   **** 			const uint8 *p;
+ 124:xsvf2csvf.c   **** 			const uint8 *end;
+ 125:xsvf2csvf.c   **** 			if ( newXSize != curXSize ) {
+ 395              		.loc 1 125 0
+ 396 0306 8B45CC   		movl	-52(%rbp), %eax
+ 397 0309 3B45D0   		cmpl	-48(%rbp), %eax
+ 398 030c 741B     		je	.L39
+ 126:xsvf2csvf.c   **** 				curXSize = newXSize;
+ 399              		.loc 1 126 0
+ 400 030e 8B45CC   		movl	-52(%rbp), %eax
+ 401 0311 8945D0   		movl	%eax, -48(%rbp)
+ 127:xsvf2csvf.c   **** 				sendXSize(outBuf, curXSize, error);
+ 402              		.loc 1 127 0
+ 403 0314 488B55A0 		movq	-96(%rbp), %rdx
+ 404 0318 8B4DD0   		movl	-48(%rbp), %ecx
+ 405 031b 488B45B0 		movq	-80(%rbp), %rax
+ 406 031f 89CE     		movl	%ecx, %esi
+ 407 0321 4889C7   		movq	%rax, %rdi
+ 408 0324 E8A7FEFF 		call	sendXSize
+ 408      FF
+ 409              	.L39:
+ 128:xsvf2csvf.c   **** 			}
+ 129:xsvf2csvf.c   **** 			initLength = (uint32)outBuf->length;
+ 410              		.loc 1 129 0
+ 411 0329 488B45B0 		movq	-80(%rbp), %rax
+ 412 032d 488B4008 		movq	8(%rax), %rax
+ 413 0331 8945E4   		movl	%eax, -28(%rbp)
+ 130:xsvf2csvf.c   **** 			numBytes = bitsToBytes(curXSize);
+ 414              		.loc 1 130 0
+ 415 0334 8B45D0   		movl	-48(%rbp), %eax
+ 416 0337 C1E803   		shrl	$3, %eax
+ 417 033a 89C2     		movl	%eax, %edx
+ 418 033c 8B45D0   		movl	-48(%rbp), %eax
+ 419 033f 83E007   		andl	$7, %eax
+ 420 0342 85C0     		testl	%eax, %eax
+ 421 0344 7407     		je	.L40
+ 422              		.loc 1 130 0 is_stmt 0 discriminator 1
+ 423 0346 B8010000 		movl	$1, %eax
+ 423      00
+ 424 034b EB05     		jmp	.L41
+ 425              	.L40:
+ 426              		.loc 1 130 0 discriminator 2
+ 427 034d B8000000 		movl	$0, %eax
+ 427      00
+ 428              	.L41:
+ 429              		.loc 1 130 0 discriminator 4
+ 430 0352 01D0     		addl	%edx, %eax
+ 431 0354 8945D8   		movl	%eax, -40(%rbp)
+ 131:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, XTDOMASK, error);
+ 432              		.loc 1 131 0 is_stmt 1 discriminator 4
+ 433 0357 488B55A0 		movq	-96(%rbp), %rdx
+ 434 035b 488B45B0 		movq	-80(%rbp), %rax
+ 435 035f BE010000 		movl	$1, %esi
+ 435      00
+ 436 0364 4889C7   		movq	%rax, %rdi
+ 437 0367 E8000000 		call	bufAppendByte@PLT
+ 437      00
+ 438 036c 8945DC   		movl	%eax, -36(%rbp)
+ 132:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 439              		.loc 1 132 0 discriminator 4
+ 440 036f 837DDC00 		cmpl	$0, -36(%rbp)
+ 441 0373 741F     		je	.L42
+ 442              		.loc 1 132 0 is_stmt 0 discriminator 1
+ 443 0375 488B45A0 		movq	-96(%rbp), %rax
+ 444 0379 488D3500 		leaq	.LC3(%rip), %rsi
+ 444      000000
+ 445 0380 4889C7   		movq	%rax, %rdi
+ 446 0383 E8000000 		call	errPrefix@PLT
+ 446      00
+ 447 0388 C745C801 		movl	$1, -56(%rbp)
+ 447      000000
+ 448 038f E9FC0800 		jmp	.L43
+ 448      00
+ 449              	.L42:
+ 133:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, numBytes, outBuf, error);
+ 450              		.loc 1 133 0 is_stmt 1
+ 451 0394 488B4DA0 		movq	-96(%rbp), %rcx
+ 452 0398 488B55B0 		movq	-80(%rbp), %rdx
+ 453 039c 8B75D8   		movl	-40(%rbp), %esi
+ 454 039f 488B45B8 		movq	-72(%rbp), %rax
+ 455 03a3 4889C7   		movq	%rax, %rdi
+ 456 03a6 E87FFCFF 		call	swapBytes
+ 456      FF
+ 457 03ab 8945E0   		movl	%eax, -32(%rbp)
+ 134:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 458              		.loc 1 134 0
+ 459 03ae 837DE000 		cmpl	$0, -32(%rbp)
+ 460 03b2 741E     		je	.L44
+ 461              		.loc 1 134 0 is_stmt 0 discriminator 1
+ 462 03b4 488B45A0 		movq	-96(%rbp), %rax
+ 463 03b8 488D3500 		leaq	.LC3(%rip), %rsi
+ 463      000000
+ 464 03bf 4889C7   		movq	%rax, %rdi
+ 465 03c2 E8000000 		call	errPrefix@PLT
+ 465      00
+ 466 03c7 8B45E0   		movl	-32(%rbp), %eax
+ 467 03ca 8945C8   		movl	%eax, -56(%rbp)
+ 468 03cd E9BE0800 		jmp	.L43
+ 468      00
+ 469              	.L44:
+ 135:xsvf2csvf.c   **** 			p = outBuf->data + initLength + 1;
+ 470              		.loc 1 135 0 is_stmt 1
+ 471 03d2 488B45B0 		movq	-80(%rbp), %rax
+ 472 03d6 488B00   		movq	(%rax), %rax
+ 473 03d9 8B55E4   		movl	-28(%rbp), %edx
+ 474 03dc 4883C201 		addq	$1, %rdx
+ 475 03e0 4801D0   		addq	%rdx, %rax
+ 476 03e3 488945E8 		movq	%rax, -24(%rbp)
+ 136:xsvf2csvf.c   **** 			end = outBuf->data + outBuf->length;
+ 477              		.loc 1 136 0
+ 478 03e7 488B45B0 		movq	-80(%rbp), %rax
+ 479 03eb 488B10   		movq	(%rax), %rdx
+ 480 03ee 488B45B0 		movq	-80(%rbp), %rax
+ 481 03f2 488B4008 		movq	8(%rax), %rax
+ 482 03f6 4801D0   		addq	%rdx, %rax
+ 483 03f9 488945F0 		movq	%rax, -16(%rbp)
+ 137:xsvf2csvf.c   **** 			while ( *p == 0 && p < end ) p++;
+ 484              		.loc 1 137 0
+ 485 03fd EB05     		jmp	.L45
+ 486              	.L47:
+ 487              		.loc 1 137 0 is_stmt 0 discriminator 3
+ 488 03ff 488345E8 		addq	$1, -24(%rbp)
+ 488      01
+ 489              	.L45:
+ 490              		.loc 1 137 0 discriminator 1
+ 491 0404 488B45E8 		movq	-24(%rbp), %rax
+ 492 0408 0FB600   		movzbl	(%rax), %eax
+ 493 040b 84C0     		testb	%al, %al
+ 494 040d 750A     		jne	.L46
+ 495              		.loc 1 137 0 discriminator 2
+ 496 040f 488B45E8 		movq	-24(%rbp), %rax
+ 497 0413 483B45F0 		cmpq	-16(%rbp), %rax
+ 498 0417 72E6     		jb	.L47
+ 499              	.L46:
+ 138:xsvf2csvf.c   **** 			if ( p == end ) {
+ 500              		.loc 1 138 0 is_stmt 1
+ 501 0419 488B45E8 		movq	-24(%rbp), %rax
+ 502 041d 483B45F0 		cmpq	-16(%rbp), %rax
+ 503 0421 7514     		jne	.L48
+ 139:xsvf2csvf.c   **** 				// All zeros so delete the command
+ 140:xsvf2csvf.c   **** 				outBuf->length = initLength;
+ 504              		.loc 1 140 0
+ 505 0423 8B55E4   		movl	-28(%rbp), %edx
+ 506 0426 488B45B0 		movq	-80(%rbp), %rax
+ 507 042a 48895008 		movq	%rdx, 8(%rax)
+ 141:xsvf2csvf.c   **** 				zeroMask = true;
+ 508              		.loc 1 141 0
+ 509 042e C645C301 		movb	$1, -61(%rbp)
+ 142:xsvf2csvf.c   **** 			} else {
+ 143:xsvf2csvf.c   **** 				// Keep the command
+ 144:xsvf2csvf.c   **** 				if ( numBytes > *maxBufSize ) {
+ 145:xsvf2csvf.c   **** 					*maxBufSize = numBytes;
+ 146:xsvf2csvf.c   **** 				}
+ 147:xsvf2csvf.c   **** 				zeroMask = false;
+ 148:xsvf2csvf.c   **** 			}
+ 149:xsvf2csvf.c   **** 			break;
+ 510              		.loc 1 149 0
+ 511 0432 E9070800 		jmp	.L51
+ 511      00
+ 512              	.L48:
+ 144:xsvf2csvf.c   **** 					*maxBufSize = numBytes;
+ 513              		.loc 1 144 0
+ 514 0437 488B45A8 		movq	-88(%rbp), %rax
+ 515 043b 8B00     		movl	(%rax), %eax
+ 516 043d 3B45D8   		cmpl	-40(%rbp), %eax
+ 517 0440 7309     		jnb	.L50
+ 145:xsvf2csvf.c   **** 				}
+ 518              		.loc 1 145 0
+ 519 0442 488B45A8 		movq	-88(%rbp), %rax
+ 520 0446 8B55D8   		movl	-40(%rbp), %edx
+ 521 0449 8910     		movl	%edx, (%rax)
+ 522              	.L50:
+ 147:xsvf2csvf.c   **** 			}
+ 523              		.loc 1 147 0
+ 524 044b C645C300 		movb	$0, -61(%rbp)
+ 525              		.loc 1 149 0
+ 526 044f E9EA0700 		jmp	.L51
+ 526      00
+ 527              	.L32:
+ 528              	.LBE2:
+ 150:xsvf2csvf.c   **** 		}
+ 151:xsvf2csvf.c   **** 
+ 152:xsvf2csvf.c   **** 		case XSDRTDO:
+ 153:xsvf2csvf.c   **** 			// Swap the tdiValue and tdoExpected bytes.
+ 154:xsvf2csvf.c   **** 			if ( newXSize != curXSize ) {
+ 529              		.loc 1 154 0
+ 530 0454 8B45CC   		movl	-52(%rbp), %eax
+ 531 0457 3B45D0   		cmpl	-48(%rbp), %eax
+ 532 045a 741B     		je	.L52
+ 155:xsvf2csvf.c   **** 				curXSize = newXSize;
+ 533              		.loc 1 155 0
+ 534 045c 8B45CC   		movl	-52(%rbp), %eax
+ 535 045f 8945D0   		movl	%eax, -48(%rbp)
+ 156:xsvf2csvf.c   **** 				sendXSize(outBuf, curXSize, error);
+ 536              		.loc 1 156 0
+ 537 0462 488B55A0 		movq	-96(%rbp), %rdx
+ 538 0466 8B4DD0   		movl	-48(%rbp), %ecx
+ 539 0469 488B45B0 		movq	-80(%rbp), %rax
+ 540 046d 89CE     		movl	%ecx, %esi
+ 541 046f 4889C7   		movq	%rax, %rdi
+ 542 0472 E859FDFF 		call	sendXSize
+ 542      FF
+ 543              	.L52:
+ 157:xsvf2csvf.c   **** 			}
+ 158:xsvf2csvf.c   **** 			numBytes = bitsToBytes(curXSize);
+ 544              		.loc 1 158 0
+ 545 0477 8B45D0   		movl	-48(%rbp), %eax
+ 546 047a C1E803   		shrl	$3, %eax
+ 547 047d 89C2     		movl	%eax, %edx
+ 548 047f 8B45D0   		movl	-48(%rbp), %eax
+ 549 0482 83E007   		andl	$7, %eax
+ 550 0485 85C0     		testl	%eax, %eax
+ 551 0487 7407     		je	.L53
+ 552              		.loc 1 158 0 is_stmt 0 discriminator 1
+ 553 0489 B8010000 		movl	$1, %eax
+ 553      00
+ 554 048e EB05     		jmp	.L54
+ 555              	.L53:
+ 556              		.loc 1 158 0 discriminator 2
+ 557 0490 B8000000 		movl	$0, %eax
+ 557      00
+ 558              	.L54:
+ 559              		.loc 1 158 0 discriminator 4
+ 560 0495 01D0     		addl	%edx, %eax
+ 561 0497 8945D8   		movl	%eax, -40(%rbp)
+ 159:xsvf2csvf.c   **** 			if ( zeroMask ) {
+ 562              		.loc 1 159 0 is_stmt 1 discriminator 4
+ 563 049a 807DC300 		cmpb	$0, -61(%rbp)
+ 564 049e 0F849900 		je	.L55
+ 564      0000
+ 160:xsvf2csvf.c   **** 				// The last mask was all zeros, so replace this XSDRTDO with an XSDR and throw away
+ 161:xsvf2csvf.c   **** 				// the tdoExpected bytes.
+ 162:xsvf2csvf.c   **** 				bStatus = bufAppendByte(outBuf, XSDR, error);
+ 565              		.loc 1 162 0
+ 566 04a4 488B55A0 		movq	-96(%rbp), %rdx
+ 567 04a8 488B45B0 		movq	-80(%rbp), %rax
+ 568 04ac BE030000 		movl	$3, %esi
+ 568      00
+ 569 04b1 4889C7   		movq	%rax, %rdi
+ 570 04b4 E8000000 		call	bufAppendByte@PLT
+ 570      00
+ 571 04b9 8945DC   		movl	%eax, -36(%rbp)
+ 163:xsvf2csvf.c   **** 				CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 572              		.loc 1 163 0
+ 573 04bc 837DDC00 		cmpl	$0, -36(%rbp)
+ 574 04c0 741F     		je	.L56
+ 575              		.loc 1 163 0 is_stmt 0 discriminator 1
+ 576 04c2 488B45A0 		movq	-96(%rbp), %rax
+ 577 04c6 488D3500 		leaq	.LC3(%rip), %rsi
+ 577      000000
+ 578 04cd 4889C7   		movq	%rax, %rdi
+ 579 04d0 E8000000 		call	errPrefix@PLT
+ 579      00
+ 580 04d5 C745C801 		movl	$1, -56(%rbp)
+ 580      000000
+ 581 04dc E9AF0700 		jmp	.L43
+ 581      00
+ 582              	.L56:
+ 164:xsvf2csvf.c   **** 				fStatus = swapBytes(xc, numBytes, outBuf, error);
+ 583              		.loc 1 164 0 is_stmt 1
+ 584 04e1 488B4DA0 		movq	-96(%rbp), %rcx
+ 585 04e5 488B55B0 		movq	-80(%rbp), %rdx
+ 586 04e9 8B75D8   		movl	-40(%rbp), %esi
+ 587 04ec 488B45B8 		movq	-72(%rbp), %rax
+ 588 04f0 4889C7   		movq	%rax, %rdi
+ 589 04f3 E832FBFF 		call	swapBytes
+ 589      FF
+ 590 04f8 8945E0   		movl	%eax, -32(%rbp)
+ 165:xsvf2csvf.c   **** 				CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 591              		.loc 1 165 0
+ 592 04fb 837DE000 		cmpl	$0, -32(%rbp)
+ 593 04ff 742A     		je	.L58
+ 594              		.loc 1 165 0 is_stmt 0 discriminator 1
+ 595 0501 488B45A0 		movq	-96(%rbp), %rax
+ 596 0505 488D3500 		leaq	.LC3(%rip), %rsi
+ 596      000000
+ 597 050c 4889C7   		movq	%rax, %rdi
+ 598 050f E8000000 		call	errPrefix@PLT
+ 598      00
+ 599 0514 8B45E0   		movl	-32(%rbp), %eax
+ 600 0517 8945C8   		movl	%eax, -56(%rbp)
+ 601 051a E9710700 		jmp	.L43
+ 601      00
+ 602              	.L59:
+ 166:xsvf2csvf.c   **** 				while ( numBytes-- ) {
+ 167:xsvf2csvf.c   **** 					getNextByte(xc);
+ 603              		.loc 1 167 0 is_stmt 1
+ 604 051f 488B45B8 		movq	-72(%rbp), %rax
+ 605 0523 4889C7   		movq	%rax, %rdi
+ 606 0526 E8D5FAFF 		call	getNextByte
+ 606      FF
+ 607              	.L58:
+ 166:xsvf2csvf.c   **** 				while ( numBytes-- ) {
+ 608              		.loc 1 166 0
+ 609 052b 8B45D8   		movl	-40(%rbp), %eax
+ 610 052e 8D50FF   		leal	-1(%rax), %edx
+ 611 0531 8955D8   		movl	%edx, -40(%rbp)
+ 612 0534 85C0     		testl	%eax, %eax
+ 613 0536 75E7     		jne	.L59
+ 168:xsvf2csvf.c   **** 				}
+ 169:xsvf2csvf.c   **** 			} else {
+ 170:xsvf2csvf.c   **** 				// The last mask was not all zeros, so we must honour the XSDRTDO's tdoExpected bytes.
+ 171:xsvf2csvf.c   **** 				CHECK_STATUS(
+ 172:xsvf2csvf.c   **** 					numBytes > BUF_SIZE, FL_UNSUPPORTED_SIZE_ERR, cleanup,
+ 173:xsvf2csvf.c   **** 					"xsvfSwapBytes(): Previous mask was nonzero, but no room to compare %d bytes", numBytes);
+ 174:xsvf2csvf.c   **** 				if ( numBytes > *maxBufSize ) {
+ 175:xsvf2csvf.c   **** 					*maxBufSize = numBytes;
+ 176:xsvf2csvf.c   **** 				}
+ 177:xsvf2csvf.c   **** 				bStatus = bufAppendByte(outBuf, XSDRTDO, error);
+ 178:xsvf2csvf.c   **** 				CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 179:xsvf2csvf.c   **** 				fStatus = swapAndInterleaveBytes(xc, numBytes, outBuf, error);
+ 180:xsvf2csvf.c   **** 				CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 181:xsvf2csvf.c   **** 			}
+ 182:xsvf2csvf.c   **** 			break;
+ 614              		.loc 1 182 0
+ 615 0538 E9E80600 		jmp	.L94
+ 615      00
+ 616              	.L55:
+ 171:xsvf2csvf.c   **** 					numBytes > BUF_SIZE, FL_UNSUPPORTED_SIZE_ERR, cleanup,
+ 617              		.loc 1 171 0
+ 618 053d 817DD800 		cmpl	$2048, -40(%rbp)
+ 618      080000
+ 619 0544 7627     		jbe	.L61
+ 171:xsvf2csvf.c   **** 					numBytes > BUF_SIZE, FL_UNSUPPORTED_SIZE_ERR, cleanup,
+ 620              		.loc 1 171 0 is_stmt 0 discriminator 1
+ 621 0546 8B55D8   		movl	-40(%rbp), %edx
+ 622 0549 488B45A0 		movq	-96(%rbp), %rax
+ 623 054d 488D3500 		leaq	.LC4(%rip), %rsi
+ 623      000000
+ 624 0554 4889C7   		movq	%rax, %rdi
+ 625 0557 B8000000 		movl	$0, %eax
+ 625      00
+ 626 055c E8000000 		call	errRender@PLT
+ 626      00
+ 627 0561 C745C809 		movl	$9, -56(%rbp)
+ 627      000000
+ 628 0568 E9230700 		jmp	.L43
+ 628      00
+ 629              	.L61:
+ 174:xsvf2csvf.c   **** 					*maxBufSize = numBytes;
+ 630              		.loc 1 174 0 is_stmt 1
+ 631 056d 488B45A8 		movq	-88(%rbp), %rax
+ 632 0571 8B00     		movl	(%rax), %eax
+ 633 0573 3B45D8   		cmpl	-40(%rbp), %eax
+ 634 0576 7309     		jnb	.L62
+ 175:xsvf2csvf.c   **** 				}
+ 635              		.loc 1 175 0
+ 636 0578 488B45A8 		movq	-88(%rbp), %rax
+ 637 057c 8B55D8   		movl	-40(%rbp), %edx
+ 638 057f 8910     		movl	%edx, (%rax)
+ 639              	.L62:
+ 177:xsvf2csvf.c   **** 				CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 640              		.loc 1 177 0
+ 641 0581 488B55A0 		movq	-96(%rbp), %rdx
+ 642 0585 488B45B0 		movq	-80(%rbp), %rax
+ 643 0589 BE090000 		movl	$9, %esi
+ 643      00
+ 644 058e 4889C7   		movq	%rax, %rdi
+ 645 0591 E8000000 		call	bufAppendByte@PLT
+ 645      00
+ 646 0596 8945DC   		movl	%eax, -36(%rbp)
+ 178:xsvf2csvf.c   **** 				fStatus = swapAndInterleaveBytes(xc, numBytes, outBuf, error);
+ 647              		.loc 1 178 0
+ 648 0599 837DDC00 		cmpl	$0, -36(%rbp)
+ 649 059d 741F     		je	.L63
+ 178:xsvf2csvf.c   **** 				fStatus = swapAndInterleaveBytes(xc, numBytes, outBuf, error);
+ 650              		.loc 1 178 0 is_stmt 0 discriminator 1
+ 651 059f 488B45A0 		movq	-96(%rbp), %rax
+ 652 05a3 488D3500 		leaq	.LC3(%rip), %rsi
+ 652      000000
+ 653 05aa 4889C7   		movq	%rax, %rdi
+ 654 05ad E8000000 		call	errPrefix@PLT
+ 654      00
+ 655 05b2 C745C801 		movl	$1, -56(%rbp)
+ 655      000000
+ 656 05b9 E9D20600 		jmp	.L43
+ 656      00
+ 657              	.L63:
+ 179:xsvf2csvf.c   **** 				CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 658              		.loc 1 179 0 is_stmt 1
+ 659 05be 488B4DA0 		movq	-96(%rbp), %rcx
+ 660 05c2 488B55B0 		movq	-80(%rbp), %rdx
+ 661 05c6 8B75D8   		movl	-40(%rbp), %esi
+ 662 05c9 488B45B8 		movq	-72(%rbp), %rax
+ 663 05cd 4889C7   		movq	%rax, %rdi
+ 664 05d0 E8FEFAFF 		call	swapAndInterleaveBytes
+ 664      FF
+ 665 05d5 8945E0   		movl	%eax, -32(%rbp)
+ 180:xsvf2csvf.c   **** 			}
+ 666              		.loc 1 180 0
+ 667 05d8 837DE000 		cmpl	$0, -32(%rbp)
+ 668 05dc 0F844306 		je	.L94
+ 668      0000
+ 180:xsvf2csvf.c   **** 			}
+ 669              		.loc 1 180 0 is_stmt 0 discriminator 1
+ 670 05e2 488B45A0 		movq	-96(%rbp), %rax
+ 671 05e6 488D3500 		leaq	.LC3(%rip), %rsi
+ 671      000000
+ 672 05ed 4889C7   		movq	%rax, %rdi
+ 673 05f0 E8000000 		call	errPrefix@PLT
+ 673      00
+ 674 05f5 8B45E0   		movl	-32(%rbp), %eax
+ 675 05f8 8945C8   		movl	%eax, -56(%rbp)
+ 676 05fb E9900600 		jmp	.L43
+ 676      00
+ 677              	.L30:
+ 183:xsvf2csvf.c   **** 
+ 184:xsvf2csvf.c   **** 		case XREPEAT:
+ 185:xsvf2csvf.c   **** 			// Drop XREPEAT for now. Will probably be needed for CPLDs.
+ 186:xsvf2csvf.c   **** 			getNextByte(xc);
+ 678              		.loc 1 186 0 is_stmt 1
+ 679 0600 488B45B8 		movq	-72(%rbp), %rax
+ 680 0604 4889C7   		movq	%rax, %rdi
+ 681 0607 E8F4F9FF 		call	getNextByte
+ 681      FF
+ 187:xsvf2csvf.c   **** 			break;
+ 682              		.loc 1 187 0
+ 683 060c E92D0600 		jmp	.L51
+ 683      00
+ 684              	.L29:
+ 188:xsvf2csvf.c   **** 			
+ 189:xsvf2csvf.c   **** 		case XRUNTEST:
+ 190:xsvf2csvf.c   **** 			// Copy the XRUNTEST bytes as-is.
+ 191:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, XRUNTEST, error);
+ 685              		.loc 1 191 0
+ 686 0611 488B55A0 		movq	-96(%rbp), %rdx
+ 687 0615 488B45B0 		movq	-80(%rbp), %rax
+ 688 0619 BE040000 		movl	$4, %esi
+ 688      00
+ 689 061e 4889C7   		movq	%rax, %rdi
+ 690 0621 E8000000 		call	bufAppendByte@PLT
+ 690      00
+ 691 0626 8945DC   		movl	%eax, -36(%rbp)
+ 192:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 692              		.loc 1 192 0
+ 693 0629 837DDC00 		cmpl	$0, -36(%rbp)
+ 694 062d 741F     		je	.L64
+ 695              		.loc 1 192 0 is_stmt 0 discriminator 1
+ 696 062f 488B45A0 		movq	-96(%rbp), %rax
+ 697 0633 488D3500 		leaq	.LC3(%rip), %rsi
+ 697      000000
+ 698 063a 4889C7   		movq	%rax, %rdi
+ 699 063d E8000000 		call	errPrefix@PLT
+ 699      00
+ 700 0642 C745C801 		movl	$1, -56(%rbp)
+ 700      000000
+ 701 0649 E9420600 		jmp	.L43
+ 701      00
+ 702              	.L64:
+ 193:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, getNextByte(xc), error);
+ 703              		.loc 1 193 0 is_stmt 1
+ 704 064e 488B45B8 		movq	-72(%rbp), %rax
+ 705 0652 4889C7   		movq	%rax, %rdi
+ 706 0655 E8A6F9FF 		call	getNextByte
+ 706      FF
+ 707 065a 0FB6C8   		movzbl	%al, %ecx
+ 708 065d 488B55A0 		movq	-96(%rbp), %rdx
+ 709 0661 488B45B0 		movq	-80(%rbp), %rax
+ 710 0665 89CE     		movl	%ecx, %esi
+ 711 0667 4889C7   		movq	%rax, %rdi
+ 712 066a E8000000 		call	bufAppendByte@PLT
+ 712      00
+ 713 066f 8945DC   		movl	%eax, -36(%rbp)
+ 194:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 714              		.loc 1 194 0
+ 715 0672 837DDC00 		cmpl	$0, -36(%rbp)
+ 716 0676 741F     		je	.L65
+ 717              		.loc 1 194 0 is_stmt 0 discriminator 1
+ 718 0678 488B45A0 		movq	-96(%rbp), %rax
+ 719 067c 488D3500 		leaq	.LC3(%rip), %rsi
+ 719      000000
+ 720 0683 4889C7   		movq	%rax, %rdi
+ 721 0686 E8000000 		call	errPrefix@PLT
+ 721      00
+ 722 068b C745C801 		movl	$1, -56(%rbp)
+ 722      000000
+ 723 0692 E9F90500 		jmp	.L43
+ 723      00
+ 724              	.L65:
+ 195:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, getNextByte(xc), error);
+ 725              		.loc 1 195 0 is_stmt 1
+ 726 0697 488B45B8 		movq	-72(%rbp), %rax
+ 727 069b 4889C7   		movq	%rax, %rdi
+ 728 069e E85DF9FF 		call	getNextByte
+ 728      FF
+ 729 06a3 0FB6C8   		movzbl	%al, %ecx
+ 730 06a6 488B55A0 		movq	-96(%rbp), %rdx
+ 731 06aa 488B45B0 		movq	-80(%rbp), %rax
+ 732 06ae 89CE     		movl	%ecx, %esi
+ 733 06b0 4889C7   		movq	%rax, %rdi
+ 734 06b3 E8000000 		call	bufAppendByte@PLT
+ 734      00
+ 735 06b8 8945DC   		movl	%eax, -36(%rbp)
+ 196:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 736              		.loc 1 196 0
+ 737 06bb 837DDC00 		cmpl	$0, -36(%rbp)
+ 738 06bf 741F     		je	.L66
+ 739              		.loc 1 196 0 is_stmt 0 discriminator 1
+ 740 06c1 488B45A0 		movq	-96(%rbp), %rax
+ 741 06c5 488D3500 		leaq	.LC3(%rip), %rsi
+ 741      000000
+ 742 06cc 4889C7   		movq	%rax, %rdi
+ 743 06cf E8000000 		call	errPrefix@PLT
+ 743      00
+ 744 06d4 C745C801 		movl	$1, -56(%rbp)
+ 744      000000
+ 745 06db E9B00500 		jmp	.L43
+ 745      00
+ 746              	.L66:
+ 197:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, getNextByte(xc), error);
+ 747              		.loc 1 197 0 is_stmt 1
+ 748 06e0 488B45B8 		movq	-72(%rbp), %rax
+ 749 06e4 4889C7   		movq	%rax, %rdi
+ 750 06e7 E814F9FF 		call	getNextByte
+ 750      FF
+ 751 06ec 0FB6C8   		movzbl	%al, %ecx
+ 752 06ef 488B55A0 		movq	-96(%rbp), %rdx
+ 753 06f3 488B45B0 		movq	-80(%rbp), %rax
+ 754 06f7 89CE     		movl	%ecx, %esi
+ 755 06f9 4889C7   		movq	%rax, %rdi
+ 756 06fc E8000000 		call	bufAppendByte@PLT
+ 756      00
+ 757 0701 8945DC   		movl	%eax, -36(%rbp)
+ 198:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 758              		.loc 1 198 0
+ 759 0704 837DDC00 		cmpl	$0, -36(%rbp)
+ 760 0708 741F     		je	.L67
+ 761              		.loc 1 198 0 is_stmt 0 discriminator 1
+ 762 070a 488B45A0 		movq	-96(%rbp), %rax
+ 763 070e 488D3500 		leaq	.LC3(%rip), %rsi
+ 763      000000
+ 764 0715 4889C7   		movq	%rax, %rdi
+ 765 0718 E8000000 		call	errPrefix@PLT
+ 765      00
+ 766 071d C745C801 		movl	$1, -56(%rbp)
+ 766      000000
+ 767 0724 E9670500 		jmp	.L43
+ 767      00
+ 768              	.L67:
+ 199:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, getNextByte(xc), error);
+ 769              		.loc 1 199 0 is_stmt 1
+ 770 0729 488B45B8 		movq	-72(%rbp), %rax
+ 771 072d 4889C7   		movq	%rax, %rdi
+ 772 0730 E8CBF8FF 		call	getNextByte
+ 772      FF
+ 773 0735 0FB6C8   		movzbl	%al, %ecx
+ 774 0738 488B55A0 		movq	-96(%rbp), %rdx
+ 775 073c 488B45B0 		movq	-80(%rbp), %rax
+ 776 0740 89CE     		movl	%ecx, %esi
+ 777 0742 4889C7   		movq	%rax, %rdi
+ 778 0745 E8000000 		call	bufAppendByte@PLT
+ 778      00
+ 779 074a 8945DC   		movl	%eax, -36(%rbp)
+ 200:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 780              		.loc 1 200 0
+ 781 074d 837DDC00 		cmpl	$0, -36(%rbp)
+ 782 0751 0F84D104 		je	.L95
+ 782      0000
+ 783              		.loc 1 200 0 is_stmt 0 discriminator 1
+ 784 0757 488B45A0 		movq	-96(%rbp), %rax
+ 785 075b 488D3500 		leaq	.LC3(%rip), %rsi
+ 785      000000
+ 786 0762 4889C7   		movq	%rax, %rdi
+ 787 0765 E8000000 		call	errPrefix@PLT
+ 787      00
+ 788 076a C745C801 		movl	$1, -56(%rbp)
+ 788      000000
+ 789 0771 E91A0500 		jmp	.L43
+ 789      00
+ 790              	.L27:
+ 201:xsvf2csvf.c   **** 			break;
+ 202:xsvf2csvf.c   **** 
+ 203:xsvf2csvf.c   **** 		case XSIR:
+ 204:xsvf2csvf.c   **** 			// Swap the XSIR bytes.
+ 205:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, XSIR, error);
+ 791              		.loc 1 205 0 is_stmt 1
+ 792 0776 488B55A0 		movq	-96(%rbp), %rdx
+ 793 077a 488B45B0 		movq	-80(%rbp), %rax
+ 794 077e BE020000 		movl	$2, %esi
+ 794      00
+ 795 0783 4889C7   		movq	%rax, %rdi
+ 796 0786 E8000000 		call	bufAppendByte@PLT
+ 796      00
+ 797 078b 8945DC   		movl	%eax, -36(%rbp)
+ 206:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 798              		.loc 1 206 0
+ 799 078e 837DDC00 		cmpl	$0, -36(%rbp)
+ 800 0792 741F     		je	.L69
+ 801              		.loc 1 206 0 is_stmt 0 discriminator 1
+ 802 0794 488B45A0 		movq	-96(%rbp), %rax
+ 803 0798 488D3500 		leaq	.LC3(%rip), %rsi
+ 803      000000
+ 804 079f 4889C7   		movq	%rax, %rdi
+ 805 07a2 E8000000 		call	errPrefix@PLT
+ 805      00
+ 806 07a7 C745C801 		movl	$1, -56(%rbp)
+ 806      000000
+ 807 07ae E9DD0400 		jmp	.L43
+ 807      00
+ 808              	.L69:
+ 207:xsvf2csvf.c   **** 			thisByte = getNextByte(xc);
+ 809              		.loc 1 207 0 is_stmt 1
+ 810 07b3 488B45B8 		movq	-72(%rbp), %rax
+ 811 07b7 4889C7   		movq	%rax, %rdi
+ 812 07ba E841F8FF 		call	getNextByte
+ 812      FF
+ 813 07bf 8845C2   		movb	%al, -62(%rbp)
+ 208:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, thisByte, error);
+ 814              		.loc 1 208 0
+ 815 07c2 0FB64DC2 		movzbl	-62(%rbp), %ecx
+ 816 07c6 488B55A0 		movq	-96(%rbp), %rdx
+ 817 07ca 488B45B0 		movq	-80(%rbp), %rax
+ 818 07ce 89CE     		movl	%ecx, %esi
+ 819 07d0 4889C7   		movq	%rax, %rdi
+ 820 07d3 E8000000 		call	bufAppendByte@PLT
+ 820      00
+ 821 07d8 8945DC   		movl	%eax, -36(%rbp)
+ 209:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 822              		.loc 1 209 0
+ 823 07db 837DDC00 		cmpl	$0, -36(%rbp)
+ 824 07df 741F     		je	.L70
+ 825              		.loc 1 209 0 is_stmt 0 discriminator 1
+ 826 07e1 488B45A0 		movq	-96(%rbp), %rax
+ 827 07e5 488D3500 		leaq	.LC3(%rip), %rsi
+ 827      000000
+ 828 07ec 4889C7   		movq	%rax, %rdi
+ 829 07ef E8000000 		call	errPrefix@PLT
+ 829      00
+ 830 07f4 C745C801 		movl	$1, -56(%rbp)
+ 830      000000
+ 831 07fb E9900400 		jmp	.L43
+ 831      00
+ 832              	.L70:
+ 210:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, (uint32)bitsToBytes(thisByte), outBuf, error);
+ 833              		.loc 1 210 0 is_stmt 1
+ 834 0800 0FB645C2 		movzbl	-62(%rbp), %eax
+ 835 0804 C0E803   		shrb	$3, %al
+ 836 0807 0FB6D0   		movzbl	%al, %edx
+ 837 080a 0FB645C2 		movzbl	-62(%rbp), %eax
+ 838 080e 83E007   		andl	$7, %eax
+ 839 0811 85C0     		testl	%eax, %eax
+ 840 0813 0F95C0   		setne	%al
+ 841 0816 0FB6C0   		movzbl	%al, %eax
+ 842 0819 01D0     		addl	%edx, %eax
+ 843 081b 89C6     		movl	%eax, %esi
+ 844 081d 488B4DA0 		movq	-96(%rbp), %rcx
+ 845 0821 488B55B0 		movq	-80(%rbp), %rdx
+ 846 0825 488B45B8 		movq	-72(%rbp), %rax
+ 847 0829 4889C7   		movq	%rax, %rdi
+ 848 082c E8F9F7FF 		call	swapBytes
+ 848      FF
+ 849 0831 8945E0   		movl	%eax, -32(%rbp)
+ 211:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 850              		.loc 1 211 0
+ 851 0834 837DE000 		cmpl	$0, -32(%rbp)
+ 852 0838 0F84ED03 		je	.L96
+ 852      0000
+ 853              		.loc 1 211 0 is_stmt 0 discriminator 1
+ 854 083e 488B45A0 		movq	-96(%rbp), %rax
+ 855 0842 488D3500 		leaq	.LC3(%rip), %rsi
+ 855      000000
+ 856 0849 4889C7   		movq	%rax, %rdi
+ 857 084c E8000000 		call	errPrefix@PLT
+ 857      00
+ 858 0851 8B45E0   		movl	-32(%rbp), %eax
+ 859 0854 8945C8   		movl	%eax, -56(%rbp)
+ 860 0857 E9340400 		jmp	.L43
+ 860      00
+ 861              	.L31:
+ 212:xsvf2csvf.c   **** 			break;
+ 213:xsvf2csvf.c   **** 
+ 214:xsvf2csvf.c   **** 		case XSDRSIZE:
+ 215:xsvf2csvf.c   **** 			// Just store it; if it differs from the old one it will be sent when required
+ 216:xsvf2csvf.c   **** 			newXSize = getNextByte(xc);  // Get MSB
+ 862              		.loc 1 216 0 is_stmt 1
+ 863 085c 488B45B8 		movq	-72(%rbp), %rax
+ 864 0860 4889C7   		movq	%rax, %rdi
+ 865 0863 E898F7FF 		call	getNextByte
+ 865      FF
+ 866 0868 0FB6C0   		movzbl	%al, %eax
+ 867 086b 8945CC   		movl	%eax, -52(%rbp)
+ 217:xsvf2csvf.c   **** 			newXSize <<= 8;
+ 868              		.loc 1 217 0
+ 869 086e C165CC08 		sall	$8, -52(%rbp)
+ 218:xsvf2csvf.c   **** 			newXSize |= getNextByte(xc);
+ 870              		.loc 1 218 0
+ 871 0872 488B45B8 		movq	-72(%rbp), %rax
+ 872 0876 4889C7   		movq	%rax, %rdi
+ 873 0879 E882F7FF 		call	getNextByte
+ 873      FF
+ 874 087e 0FB6C0   		movzbl	%al, %eax
+ 875 0881 0945CC   		orl	%eax, -52(%rbp)
+ 219:xsvf2csvf.c   **** 			newXSize <<= 8;
+ 876              		.loc 1 219 0
+ 877 0884 C165CC08 		sall	$8, -52(%rbp)
+ 220:xsvf2csvf.c   **** 			newXSize |= getNextByte(xc);
+ 878              		.loc 1 220 0
+ 879 0888 488B45B8 		movq	-72(%rbp), %rax
+ 880 088c 4889C7   		movq	%rax, %rdi
+ 881 088f E86CF7FF 		call	getNextByte
+ 881      FF
+ 882 0894 0FB6C0   		movzbl	%al, %eax
+ 883 0897 0945CC   		orl	%eax, -52(%rbp)
+ 221:xsvf2csvf.c   **** 			newXSize <<= 8;
+ 884              		.loc 1 221 0
+ 885 089a C165CC08 		sall	$8, -52(%rbp)
+ 222:xsvf2csvf.c   **** 			newXSize |= getNextByte(xc); // Get LSB
+ 886              		.loc 1 222 0
+ 887 089e 488B45B8 		movq	-72(%rbp), %rax
+ 888 08a2 4889C7   		movq	%rax, %rdi
+ 889 08a5 E856F7FF 		call	getNextByte
+ 889      FF
+ 890 08aa 0FB6C0   		movzbl	%al, %eax
+ 891 08ad 0945CC   		orl	%eax, -52(%rbp)
+ 223:xsvf2csvf.c   **** 			break;
+ 892              		.loc 1 223 0
+ 893 08b0 E9890300 		jmp	.L51
+ 893      00
+ 894              	.L28:
+ 224:xsvf2csvf.c   **** 
+ 225:xsvf2csvf.c   **** 		case XSDR:
+ 226:xsvf2csvf.c   **** 			// Copy over
+ 227:xsvf2csvf.c   **** 			if ( newXSize != curXSize ) {
+ 895              		.loc 1 227 0
+ 896 08b5 8B45CC   		movl	-52(%rbp), %eax
+ 897 08b8 3B45D0   		cmpl	-48(%rbp), %eax
+ 898 08bb 741B     		je	.L72
+ 228:xsvf2csvf.c   **** 				curXSize = newXSize;
+ 899              		.loc 1 228 0
+ 900 08bd 8B45CC   		movl	-52(%rbp), %eax
+ 901 08c0 8945D0   		movl	%eax, -48(%rbp)
+ 229:xsvf2csvf.c   **** 				sendXSize(outBuf, curXSize, error);
+ 902              		.loc 1 229 0
+ 903 08c3 488B55A0 		movq	-96(%rbp), %rdx
+ 904 08c7 8B4DD0   		movl	-48(%rbp), %ecx
+ 905 08ca 488B45B0 		movq	-80(%rbp), %rax
+ 906 08ce 89CE     		movl	%ecx, %esi
+ 907 08d0 4889C7   		movq	%rax, %rdi
+ 908 08d3 E8F8F8FF 		call	sendXSize
+ 908      FF
+ 909              	.L72:
+ 230:xsvf2csvf.c   **** 			}
+ 231:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, XSDR, error);
+ 910              		.loc 1 231 0
+ 911 08d8 488B55A0 		movq	-96(%rbp), %rdx
+ 912 08dc 488B45B0 		movq	-80(%rbp), %rax
+ 913 08e0 BE030000 		movl	$3, %esi
+ 913      00
+ 914 08e5 4889C7   		movq	%rax, %rdi
+ 915 08e8 E8000000 		call	bufAppendByte@PLT
+ 915      00
+ 916 08ed 8945DC   		movl	%eax, -36(%rbp)
+ 232:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 917              		.loc 1 232 0
+ 918 08f0 837DDC00 		cmpl	$0, -36(%rbp)
+ 919 08f4 741F     		je	.L73
+ 920              		.loc 1 232 0 is_stmt 0 discriminator 1
+ 921 08f6 488B45A0 		movq	-96(%rbp), %rax
+ 922 08fa 488D3500 		leaq	.LC3(%rip), %rsi
+ 922      000000
+ 923 0901 4889C7   		movq	%rax, %rdi
+ 924 0904 E8000000 		call	errPrefix@PLT
+ 924      00
+ 925 0909 C745C801 		movl	$1, -56(%rbp)
+ 925      000000
+ 926 0910 E97B0300 		jmp	.L43
+ 926      00
+ 927              	.L73:
+ 233:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, bitsToBytes(curXSize), outBuf, error);
+ 928              		.loc 1 233 0 is_stmt 1
+ 929 0915 8B45D0   		movl	-48(%rbp), %eax
+ 930 0918 C1E803   		shrl	$3, %eax
+ 931 091b 89C2     		movl	%eax, %edx
+ 932 091d 8B45D0   		movl	-48(%rbp), %eax
+ 933 0920 83E007   		andl	$7, %eax
+ 934 0923 85C0     		testl	%eax, %eax
+ 935 0925 7407     		je	.L74
+ 936              		.loc 1 233 0 is_stmt 0 discriminator 1
+ 937 0927 B8010000 		movl	$1, %eax
+ 937      00
+ 938 092c EB05     		jmp	.L75
+ 939              	.L74:
+ 940              		.loc 1 233 0 discriminator 2
+ 941 092e B8000000 		movl	$0, %eax
+ 941      00
+ 942              	.L75:
+ 943              		.loc 1 233 0 discriminator 4
+ 944 0933 8D3402   		leal	(%rdx,%rax), %esi
+ 945 0936 488B4DA0 		movq	-96(%rbp), %rcx
+ 946 093a 488B55B0 		movq	-80(%rbp), %rdx
+ 947 093e 488B45B8 		movq	-72(%rbp), %rax
+ 948 0942 4889C7   		movq	%rax, %rdi
+ 949 0945 E8E0F6FF 		call	swapBytes
+ 949      FF
+ 950 094a 8945E0   		movl	%eax, -32(%rbp)
+ 234:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 951              		.loc 1 234 0 is_stmt 1 discriminator 4
+ 952 094d 837DE000 		cmpl	$0, -32(%rbp)
+ 953 0951 0F84D702 		je	.L97
+ 953      0000
+ 954              		.loc 1 234 0 is_stmt 0 discriminator 1
+ 955 0957 488B45A0 		movq	-96(%rbp), %rax
+ 956 095b 488D3500 		leaq	.LC3(%rip), %rsi
+ 956      000000
+ 957 0962 4889C7   		movq	%rax, %rdi
+ 958 0965 E8000000 		call	errPrefix@PLT
+ 958      00
+ 959 096a 8B45E0   		movl	-32(%rbp), %eax
+ 960 096d 8945C8   		movl	%eax, -56(%rbp)
+ 961 0970 E91B0300 		jmp	.L43
+ 961      00
+ 962              	.L33:
+ 235:xsvf2csvf.c   **** 			break;
+ 236:xsvf2csvf.c   **** 
+ 237:xsvf2csvf.c   **** 		case XSDRB:
+ 238:xsvf2csvf.c   **** 			// Roll XSDRB, XSDRC*, XSDRE into one XSDR
+ 239:xsvf2csvf.c   **** 			curXSize = newXSize;
+ 963              		.loc 1 239 0 is_stmt 1
+ 964 0975 8B45CC   		movl	-52(%rbp), %eax
+ 965 0978 8945D0   		movl	%eax, -48(%rbp)
+ 240:xsvf2csvf.c   **** 			sendXSize(outBuf, curXSize, error);
+ 966              		.loc 1 240 0
+ 967 097b 488B55A0 		movq	-96(%rbp), %rdx
+ 968 097f 8B4DD0   		movl	-48(%rbp), %ecx
+ 969 0982 488B45B0 		movq	-80(%rbp), %rax
+ 970 0986 89CE     		movl	%ecx, %esi
+ 971 0988 4889C7   		movq	%rax, %rdi
+ 972 098b E840F8FF 		call	sendXSize
+ 972      FF
+ 241:xsvf2csvf.c   **** 			totOffset = (uint32)outBuf->length - 4; // each subsequent XSDRC & XSDRE updates this XSDRSIZE
+ 973              		.loc 1 241 0
+ 974 0990 488B45B0 		movq	-80(%rbp), %rax
+ 975 0994 488B4008 		movq	8(%rax), %rax
+ 976 0998 83E804   		subl	$4, %eax
+ 977 099b 8945D4   		movl	%eax, -44(%rbp)
+ 242:xsvf2csvf.c   **** 			bStatus = bufAppendByte(outBuf, XSDR, error);
+ 978              		.loc 1 242 0
+ 979 099e 488B55A0 		movq	-96(%rbp), %rdx
+ 980 09a2 488B45B0 		movq	-80(%rbp), %rax
+ 981 09a6 BE030000 		movl	$3, %esi
+ 981      00
+ 982 09ab 4889C7   		movq	%rax, %rdi
+ 983 09ae E8000000 		call	bufAppendByte@PLT
+ 983      00
+ 984 09b3 8945DC   		movl	%eax, -36(%rbp)
+ 243:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 985              		.loc 1 243 0
+ 986 09b6 837DDC00 		cmpl	$0, -36(%rbp)
+ 987 09ba 741F     		je	.L77
+ 988              		.loc 1 243 0 is_stmt 0 discriminator 1
+ 989 09bc 488B45A0 		movq	-96(%rbp), %rax
+ 990 09c0 488D3500 		leaq	.LC3(%rip), %rsi
+ 990      000000
+ 991 09c7 4889C7   		movq	%rax, %rdi
+ 992 09ca E8000000 		call	errPrefix@PLT
+ 992      00
+ 993 09cf C745C801 		movl	$1, -56(%rbp)
+ 993      000000
+ 994 09d6 E9B50200 		jmp	.L43
+ 994      00
+ 995              	.L77:
+ 244:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, bitsToBytes(newXSize), outBuf, error);
+ 996              		.loc 1 244 0 is_stmt 1
+ 997 09db 8B45CC   		movl	-52(%rbp), %eax
+ 998 09de C1E803   		shrl	$3, %eax
+ 999 09e1 89C2     		movl	%eax, %edx
+ 1000 09e3 8B45CC   		movl	-52(%rbp), %eax
+ 1001 09e6 83E007   		andl	$7, %eax
+ 1002 09e9 85C0     		testl	%eax, %eax
+ 1003 09eb 7407     		je	.L78
+ 1004              		.loc 1 244 0 is_stmt 0 discriminator 1
+ 1005 09ed B8010000 		movl	$1, %eax
+ 1005      00
+ 1006 09f2 EB05     		jmp	.L79
+ 1007              	.L78:
+ 1008              		.loc 1 244 0 discriminator 2
+ 1009 09f4 B8000000 		movl	$0, %eax
+ 1009      00
+ 1010              	.L79:
+ 1011              		.loc 1 244 0 discriminator 4
+ 1012 09f9 8D3402   		leal	(%rdx,%rax), %esi
+ 1013 09fc 488B4DA0 		movq	-96(%rbp), %rcx
+ 1014 0a00 488B55B0 		movq	-80(%rbp), %rdx
+ 1015 0a04 488B45B8 		movq	-72(%rbp), %rax
+ 1016 0a08 4889C7   		movq	%rax, %rdi
+ 1017 0a0b E81AF6FF 		call	swapBytes
+ 1017      FF
+ 1018 0a10 8945E0   		movl	%eax, -32(%rbp)
+ 245:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 1019              		.loc 1 245 0 is_stmt 1 discriminator 4
+ 1020 0a13 837DE000 		cmpl	$0, -32(%rbp)
+ 1021 0a17 0F841402 		je	.L98
+ 1021      0000
+ 1022              		.loc 1 245 0 is_stmt 0 discriminator 1
+ 1023 0a1d 488B45A0 		movq	-96(%rbp), %rax
+ 1024 0a21 488D3500 		leaq	.LC3(%rip), %rsi
+ 1024      000000
+ 1025 0a28 4889C7   		movq	%rax, %rdi
+ 1026 0a2b E8000000 		call	errPrefix@PLT
+ 1026      00
+ 1027 0a30 8B45E0   		movl	-32(%rbp), %eax
+ 1028 0a33 8945C8   		movl	%eax, -56(%rbp)
+ 1029 0a36 E9550200 		jmp	.L43
+ 1029      00
+ 1030              	.L34:
+ 246:xsvf2csvf.c   **** 			break;
+ 247:xsvf2csvf.c   **** 
+ 248:xsvf2csvf.c   **** 		case XSDRC:
+ 249:xsvf2csvf.c   **** 			// Just add the XSDRC data to the end of the previous XSDR
+ 250:xsvf2csvf.c   **** 			curXSize += newXSize;
+ 1031              		.loc 1 250 0 is_stmt 1
+ 1032 0a3b 8B45CC   		movl	-52(%rbp), %eax
+ 1033 0a3e 0145D0   		addl	%eax, -48(%rbp)
+ 251:xsvf2csvf.c   **** 			bStatus = bufWriteLongBE(outBuf, totOffset, curXSize, error);
+ 1034              		.loc 1 251 0
+ 1035 0a41 8B75D4   		movl	-44(%rbp), %esi
+ 1036 0a44 488B4DA0 		movq	-96(%rbp), %rcx
+ 1037 0a48 8B55D0   		movl	-48(%rbp), %edx
+ 1038 0a4b 488B45B0 		movq	-80(%rbp), %rax
+ 1039 0a4f 4889C7   		movq	%rax, %rdi
+ 1040 0a52 E8000000 		call	bufWriteLongBE@PLT
+ 1040      00
+ 1041 0a57 8945DC   		movl	%eax, -36(%rbp)
+ 252:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 1042              		.loc 1 252 0
+ 1043 0a5a 837DDC00 		cmpl	$0, -36(%rbp)
+ 1044 0a5e 741F     		je	.L81
+ 1045              		.loc 1 252 0 is_stmt 0 discriminator 1
+ 1046 0a60 488B45A0 		movq	-96(%rbp), %rax
+ 1047 0a64 488D3500 		leaq	.LC3(%rip), %rsi
+ 1047      000000
+ 1048 0a6b 4889C7   		movq	%rax, %rdi
+ 1049 0a6e E8000000 		call	errPrefix@PLT
+ 1049      00
+ 1050 0a73 C745C801 		movl	$1, -56(%rbp)
+ 1050      000000
+ 1051 0a7a E9110200 		jmp	.L43
+ 1051      00
+ 1052              	.L81:
+ 253:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, bitsToBytes(newXSize), outBuf, error);
+ 1053              		.loc 1 253 0 is_stmt 1
+ 1054 0a7f 8B45CC   		movl	-52(%rbp), %eax
+ 1055 0a82 C1E803   		shrl	$3, %eax
+ 1056 0a85 89C2     		movl	%eax, %edx
+ 1057 0a87 8B45CC   		movl	-52(%rbp), %eax
+ 1058 0a8a 83E007   		andl	$7, %eax
+ 1059 0a8d 85C0     		testl	%eax, %eax
+ 1060 0a8f 7407     		je	.L82
+ 1061              		.loc 1 253 0 is_stmt 0 discriminator 1
+ 1062 0a91 B8010000 		movl	$1, %eax
+ 1062      00
+ 1063 0a96 EB05     		jmp	.L83
+ 1064              	.L82:
+ 1065              		.loc 1 253 0 discriminator 2
+ 1066 0a98 B8000000 		movl	$0, %eax
+ 1066      00
+ 1067              	.L83:
+ 1068              		.loc 1 253 0 discriminator 4
+ 1069 0a9d 8D3402   		leal	(%rdx,%rax), %esi
+ 1070 0aa0 488B4DA0 		movq	-96(%rbp), %rcx
+ 1071 0aa4 488B55B0 		movq	-80(%rbp), %rdx
+ 1072 0aa8 488B45B8 		movq	-72(%rbp), %rax
+ 1073 0aac 4889C7   		movq	%rax, %rdi
+ 1074 0aaf E876F5FF 		call	swapBytes
+ 1074      FF
+ 1075 0ab4 8945E0   		movl	%eax, -32(%rbp)
+ 254:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 1076              		.loc 1 254 0 is_stmt 1 discriminator 4
+ 1077 0ab7 837DE000 		cmpl	$0, -32(%rbp)
+ 1078 0abb 0F847301 		je	.L99
+ 1078      0000
+ 1079              		.loc 1 254 0 is_stmt 0 discriminator 1
+ 1080 0ac1 488B45A0 		movq	-96(%rbp), %rax
+ 1081 0ac5 488D3500 		leaq	.LC3(%rip), %rsi
+ 1081      000000
+ 1082 0acc 4889C7   		movq	%rax, %rdi
+ 1083 0acf E8000000 		call	errPrefix@PLT
+ 1083      00
+ 1084 0ad4 8B45E0   		movl	-32(%rbp), %eax
+ 1085 0ad7 8945C8   		movl	%eax, -56(%rbp)
+ 1086 0ada E9B10100 		jmp	.L43
+ 1086      00
+ 1087              	.L35:
+ 255:xsvf2csvf.c   **** 			break;
+ 256:xsvf2csvf.c   **** 
+ 257:xsvf2csvf.c   **** 		case XSDRE:
+ 258:xsvf2csvf.c   **** 			// Just add the XSDRE data to the end of the previous XSDR
+ 259:xsvf2csvf.c   **** 			curXSize += newXSize;
+ 1088              		.loc 1 259 0 is_stmt 1
+ 1089 0adf 8B45CC   		movl	-52(%rbp), %eax
+ 1090 0ae2 0145D0   		addl	%eax, -48(%rbp)
+ 260:xsvf2csvf.c   **** 			bStatus = bufWriteLongBE(outBuf, totOffset, curXSize, error);
+ 1091              		.loc 1 260 0
+ 1092 0ae5 8B75D4   		movl	-44(%rbp), %esi
+ 1093 0ae8 488B4DA0 		movq	-96(%rbp), %rcx
+ 1094 0aec 8B55D0   		movl	-48(%rbp), %edx
+ 1095 0aef 488B45B0 		movq	-80(%rbp), %rax
+ 1096 0af3 4889C7   		movq	%rax, %rdi
+ 1097 0af6 E8000000 		call	bufWriteLongBE@PLT
+ 1097      00
+ 1098 0afb 8945DC   		movl	%eax, -36(%rbp)
+ 261:xsvf2csvf.c   **** 			CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 1099              		.loc 1 261 0
+ 1100 0afe 837DDC00 		cmpl	$0, -36(%rbp)
+ 1101 0b02 741F     		je	.L85
+ 1102              		.loc 1 261 0 is_stmt 0 discriminator 1
+ 1103 0b04 488B45A0 		movq	-96(%rbp), %rax
+ 1104 0b08 488D3500 		leaq	.LC3(%rip), %rsi
+ 1104      000000
+ 1105 0b0f 4889C7   		movq	%rax, %rdi
+ 1106 0b12 E8000000 		call	errPrefix@PLT
+ 1106      00
+ 1107 0b17 C745C801 		movl	$1, -56(%rbp)
+ 1107      000000
+ 1108 0b1e E96D0100 		jmp	.L43
+ 1108      00
+ 1109              	.L85:
+ 262:xsvf2csvf.c   **** 			fStatus = swapBytes(xc, bitsToBytes(newXSize), outBuf, error);
+ 1110              		.loc 1 262 0 is_stmt 1
+ 1111 0b23 8B45CC   		movl	-52(%rbp), %eax
+ 1112 0b26 C1E803   		shrl	$3, %eax
+ 1113 0b29 89C2     		movl	%eax, %edx
+ 1114 0b2b 8B45CC   		movl	-52(%rbp), %eax
+ 1115 0b2e 83E007   		andl	$7, %eax
+ 1116 0b31 85C0     		testl	%eax, %eax
+ 1117 0b33 7407     		je	.L86
+ 1118              		.loc 1 262 0 is_stmt 0 discriminator 1
+ 1119 0b35 B8010000 		movl	$1, %eax
+ 1119      00
+ 1120 0b3a EB05     		jmp	.L87
+ 1121              	.L86:
+ 1122              		.loc 1 262 0 discriminator 2
+ 1123 0b3c B8000000 		movl	$0, %eax
+ 1123      00
+ 1124              	.L87:
+ 1125              		.loc 1 262 0 discriminator 4
+ 1126 0b41 8D3402   		leal	(%rdx,%rax), %esi
+ 1127 0b44 488B4DA0 		movq	-96(%rbp), %rcx
+ 1128 0b48 488B55B0 		movq	-80(%rbp), %rdx
+ 1129 0b4c 488B45B8 		movq	-72(%rbp), %rax
+ 1130 0b50 4889C7   		movq	%rax, %rdi
+ 1131 0b53 E8D2F4FF 		call	swapBytes
+ 1131      FF
+ 1132 0b58 8945E0   		movl	%eax, -32(%rbp)
+ 263:xsvf2csvf.c   **** 			CHECK_STATUS(fStatus, fStatus, cleanup, "xsvfSwapBytes()");
+ 1133              		.loc 1 263 0 is_stmt 1 discriminator 4
+ 1134 0b5b 837DE000 		cmpl	$0, -32(%rbp)
+ 1135 0b5f 0F84D200 		je	.L100
+ 1135      0000
+ 1136              		.loc 1 263 0 is_stmt 0 discriminator 1
+ 1137 0b65 488B45A0 		movq	-96(%rbp), %rax
+ 1138 0b69 488D3500 		leaq	.LC3(%rip), %rsi
+ 1138      000000
+ 1139 0b70 4889C7   		movq	%rax, %rdi
+ 1140 0b73 E8000000 		call	errPrefix@PLT
+ 1140      00
+ 1141 0b78 8B45E0   		movl	-32(%rbp), %eax
+ 1142 0b7b 8945C8   		movl	%eax, -56(%rbp)
+ 1143 0b7e E90D0100 		jmp	.L43
+ 1143      00
+ 1144              	.L36:
+ 264:xsvf2csvf.c   **** 			break;
+ 265:xsvf2csvf.c   **** 
+ 266:xsvf2csvf.c   **** 		case XSTATE:
+ 267:xsvf2csvf.c   **** 			// There doesn't seem to be much point in these commands, since the other commands have
+ 268:xsvf2csvf.c   **** 			// implied state transitions anyway. Just make sure the TAP is initialised to be at
+ 269:xsvf2csvf.c   **** 			// Run-Test/Idle before playing the CSVF stream.
+ 270:xsvf2csvf.c   **** 			getNextByte(xc);
+ 1145              		.loc 1 270 0 is_stmt 1
+ 1146 0b83 488B45B8 		movq	-72(%rbp), %rax
+ 1147 0b87 4889C7   		movq	%rax, %rdi
+ 1148 0b8a E871F4FF 		call	getNextByte
+ 1148      FF
+ 271:xsvf2csvf.c   **** 			break;
+ 1149              		.loc 1 271 0
+ 1150 0b8f E9AA0000 		jmp	.L51
+ 1150      00
+ 1151              	.L37:
+ 272:xsvf2csvf.c   **** 
+ 273:xsvf2csvf.c   **** 		case XENDIR:
+ 274:xsvf2csvf.c   **** 			// Only the default XENDIR state (TAPSTATE_RUN_TEST_IDLE) is supported. Fail fast if
+ 275:xsvf2csvf.c   **** 			// there's an attempt to switch the XENDIR state to PAUSE_IR.
+ 276:xsvf2csvf.c   **** 			thisByte = getNextByte(xc);
+ 1152              		.loc 1 276 0
+ 1153 0b94 488B45B8 		movq	-72(%rbp), %rax
+ 1154 0b98 4889C7   		movq	%rax, %rdi
+ 1155 0b9b E860F4FF 		call	getNextByte
+ 1155      FF
+ 1156 0ba0 8845C2   		movb	%al, -62(%rbp)
+ 277:xsvf2csvf.c   **** 			CHECK_STATUS(
+ 1157              		.loc 1 277 0
+ 1158 0ba3 807DC200 		cmpb	$0, -62(%rbp)
+ 1159 0ba7 0F848D00 		je	.L101
+ 1159      0000
+ 1160              		.loc 1 277 0 is_stmt 0 discriminator 1
+ 1161 0bad 488B45A0 		movq	-96(%rbp), %rax
+ 1162 0bb1 488D3500 		leaq	.LC5(%rip), %rsi
+ 1162      000000
+ 1163 0bb8 4889C7   		movq	%rax, %rdi
+ 1164 0bbb E8000000 		call	errPrefix@PLT
+ 1164      00
+ 1165 0bc0 C745C808 		movl	$8, -56(%rbp)
+ 1165      000000
+ 1166 0bc7 E9C40000 		jmp	.L43
+ 1166      00
+ 1167              	.L38:
+ 278:xsvf2csvf.c   **** 				thisByte, FL_UNSUPPORTED_DATA_ERR, cleanup,
+ 279:xsvf2csvf.c   **** 				"xsvfSwapBytes(): Only XENDIR(TAPSTATE_RUN_TEST_IDLE) is supported!");
+ 280:xsvf2csvf.c   **** 			break;
+ 281:xsvf2csvf.c   **** 
+ 282:xsvf2csvf.c   **** 		case XENDDR:
+ 283:xsvf2csvf.c   **** 			// Only the default XENDDR state (TAPSTATE_RUN_TEST_IDLE) is supported. Fail fast if
+ 284:xsvf2csvf.c   **** 			// there's an attempt to switch the XENDDR state to PAUSE_DR.
+ 285:xsvf2csvf.c   **** 			thisByte = getNextByte(xc);
+ 1168              		.loc 1 285 0 is_stmt 1
+ 1169 0bcc 488B45B8 		movq	-72(%rbp), %rax
+ 1170 0bd0 4889C7   		movq	%rax, %rdi
+ 1171 0bd3 E828F4FF 		call	getNextByte
+ 1171      FF
+ 1172 0bd8 8845C2   		movb	%al, -62(%rbp)
+ 286:xsvf2csvf.c   **** 			CHECK_STATUS(
+ 1173              		.loc 1 286 0
+ 1174 0bdb 807DC200 		cmpb	$0, -62(%rbp)
+ 1175 0bdf 745C     		je	.L102
+ 1176              		.loc 1 286 0 is_stmt 0 discriminator 1
+ 1177 0be1 488B45A0 		movq	-96(%rbp), %rax
+ 1178 0be5 488D3500 		leaq	.LC6(%rip), %rsi
+ 1178      000000
+ 1179 0bec 4889C7   		movq	%rax, %rdi
+ 1180 0bef E8000000 		call	errPrefix@PLT
+ 1180      00
+ 1181 0bf4 C745C808 		movl	$8, -56(%rbp)
+ 1181      000000
+ 1182 0bfb E9900000 		jmp	.L43
+ 1182      00
+ 1183              	.L24:
+ 287:xsvf2csvf.c   **** 				thisByte, FL_UNSUPPORTED_DATA_ERR, cleanup,
+ 288:xsvf2csvf.c   **** 				"xsvfSwapBytes(): Only XENDDR(TAPSTATE_RUN_TEST_IDLE) is supported!");
+ 289:xsvf2csvf.c   **** 			break;
+ 290:xsvf2csvf.c   **** 
+ 291:xsvf2csvf.c   **** 		default:
+ 292:xsvf2csvf.c   **** 			// All other commands are unsupported, so fail if they're encountered.
+ 293:xsvf2csvf.c   **** 			CHECK_STATUS(
+ 1184              		.loc 1 293 0 is_stmt 1
+ 1185 0c00 0FB655C2 		movzbl	-62(%rbp), %edx
+ 1186 0c04 488B45A0 		movq	-96(%rbp), %rax
+ 1187 0c08 488D3500 		leaq	.LC7(%rip), %rsi
+ 1187      000000
+ 1188 0c0f 4889C7   		movq	%rax, %rdi
+ 1189 0c12 B8000000 		movl	$0, %eax
+ 1189      00
+ 1190 0c17 E8000000 		call	errRender@PLT
+ 1190      00
+ 1191 0c1c C745C807 		movl	$7, -56(%rbp)
+ 1191      000000
+ 1192 0c23 EB6B     		jmp	.L43
+ 1193              	.L94:
+ 182:xsvf2csvf.c   **** 
+ 1194              		.loc 1 182 0
+ 1195 0c25 90       		nop
+ 1196 0c26 EB16     		jmp	.L51
+ 1197              	.L95:
+ 201:xsvf2csvf.c   **** 
+ 1198              		.loc 1 201 0
+ 1199 0c28 90       		nop
+ 1200 0c29 EB13     		jmp	.L51
+ 1201              	.L96:
+ 212:xsvf2csvf.c   **** 
+ 1202              		.loc 1 212 0
+ 1203 0c2b 90       		nop
+ 1204 0c2c EB10     		jmp	.L51
+ 1205              	.L97:
+ 235:xsvf2csvf.c   **** 
+ 1206              		.loc 1 235 0
+ 1207 0c2e 90       		nop
+ 1208 0c2f EB0D     		jmp	.L51
+ 1209              	.L98:
+ 246:xsvf2csvf.c   **** 
+ 1210              		.loc 1 246 0
+ 1211 0c31 90       		nop
+ 1212 0c32 EB0A     		jmp	.L51
+ 1213              	.L99:
+ 255:xsvf2csvf.c   **** 
+ 1214              		.loc 1 255 0
+ 1215 0c34 90       		nop
+ 1216 0c35 EB07     		jmp	.L51
+ 1217              	.L100:
+ 264:xsvf2csvf.c   **** 
+ 1218              		.loc 1 264 0
+ 1219 0c37 90       		nop
+ 1220 0c38 EB04     		jmp	.L51
+ 1221              	.L101:
+ 280:xsvf2csvf.c   **** 
+ 1222              		.loc 1 280 0
+ 1223 0c3a 90       		nop
+ 1224 0c3b EB01     		jmp	.L51
+ 1225              	.L102:
+ 289:xsvf2csvf.c   **** 
+ 1226              		.loc 1 289 0
+ 1227 0c3d 90       		nop
+ 1228              	.L51:
+ 294:xsvf2csvf.c   **** 				true, FL_UNSUPPORTED_CMD_ERR, cleanup,
+ 295:xsvf2csvf.c   **** 				"xsvfSwapBytes(): Unsupported command 0x%02X!", thisByte);
+ 296:xsvf2csvf.c   **** 		}
+ 297:xsvf2csvf.c   **** 		thisByte = getNextByte(xc);
+ 1229              		.loc 1 297 0
+ 1230 0c3e 488B45B8 		movq	-72(%rbp), %rax
+ 1231 0c42 4889C7   		movq	%rax, %rdi
+ 1232 0c45 E8B6F3FF 		call	getNextByte
+ 1232      FF
+ 1233 0c4a 8845C2   		movb	%al, -62(%rbp)
+ 1234              	.L23:
+ 118:xsvf2csvf.c   **** 		switch ( thisByte ) {
+ 1235              		.loc 1 118 0
+ 1236 0c4d 807DC200 		cmpb	$0, -62(%rbp)
+ 1237 0c51 0F857FF6 		jne	.L91
+ 1237      FFFF
+ 298:xsvf2csvf.c   **** 	}
+ 299:xsvf2csvf.c   **** 
+ 300:xsvf2csvf.c   **** 	// Add the XCOMPLETE command
+ 301:xsvf2csvf.c   **** 	bStatus = bufAppendByte(outBuf, XCOMPLETE, error);
+ 1238              		.loc 1 301 0
+ 1239 0c57 488B55A0 		movq	-96(%rbp), %rdx
+ 1240 0c5b 488B45B0 		movq	-80(%rbp), %rax
+ 1241 0c5f BE000000 		movl	$0, %esi
+ 1241      00
+ 1242 0c64 4889C7   		movq	%rax, %rdi
+ 1243 0c67 E8000000 		call	bufAppendByte@PLT
+ 1243      00
+ 1244 0c6c 8945DC   		movl	%eax, -36(%rbp)
+ 302:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "xsvfSwapBytes()");
+ 1245              		.loc 1 302 0
+ 1246 0c6f 837DDC00 		cmpl	$0, -36(%rbp)
+ 1247 0c73 741B     		je	.L43
+ 1248              		.loc 1 302 0 is_stmt 0 discriminator 1
+ 1249 0c75 488B45A0 		movq	-96(%rbp), %rax
+ 1250 0c79 488D3500 		leaq	.LC3(%rip), %rsi
+ 1250      000000
+ 1251 0c80 4889C7   		movq	%rax, %rdi
+ 1252 0c83 E8000000 		call	errPrefix@PLT
+ 1252      00
+ 1253 0c88 C745C801 		movl	$1, -56(%rbp)
+ 1253      000000
+ 1254 0c8f 90       		nop
+ 1255              	.L43:
+ 303:xsvf2csvf.c   **** 
+ 304:xsvf2csvf.c   **** cleanup:
+ 305:xsvf2csvf.c   **** 	return retVal;
+ 1256              		.loc 1 305 0 is_stmt 1
+ 1257 0c90 8B45C8   		movl	-56(%rbp), %eax
+ 306:xsvf2csvf.c   **** }
+ 1258              		.loc 1 306 0
+ 1259 0c93 488B4DF8 		movq	-8(%rbp), %rcx
+ 1260 0c97 6448330C 		xorq	%fs:40, %rcx
+ 1260      25280000 
+ 1260      00
+ 1261 0ca0 7405     		je	.L93
+ 1262 0ca2 E8000000 		call	__stack_chk_fail@PLT
+ 1262      00
+ 1263              	.L93:
+ 1264 0ca7 C9       		leave
+ 1265              		.cfi_def_cfa 7, 8
+ 1266 0ca8 C3       		ret
+ 1267              		.cfi_endproc
+ 1268              	.LFE8:
+ 1270              		.section	.rodata
+ 1271              	.LC8:
+ 1272 01ac 666C4C6F 		.string	"flLoadXsvfAndConvertToCsvf()"
+ 1272      61645873 
+ 1272      7666416E 
+ 1272      64436F6E 
+ 1272      76657274 
+ 1273              		.text
+ 1274              		.globl	flLoadXsvfAndConvertToCsvf
+ 1276              	flLoadXsvfAndConvertToCsvf:
+ 1277              	.LFB9:
+ 307:xsvf2csvf.c   **** 
+ 308:xsvf2csvf.c   **** DLLEXPORT(FLStatus) flLoadXsvfAndConvertToCsvf(
+ 309:xsvf2csvf.c   **** 	const char *xsvfFile, struct Buffer *csvfBuf, uint32 *maxBufSize, const char **error)
+ 310:xsvf2csvf.c   **** {
+ 1278              		.loc 1 310 0
+ 1279              		.cfi_startproc
+ 1280 0ca9 55       		pushq	%rbp
+ 1281              		.cfi_def_cfa_offset 16
+ 1282              		.cfi_offset 6, -16
+ 1283 0caa 4889E5   		movq	%rsp, %rbp
+ 1284              		.cfi_def_cfa_register 6
+ 1285 0cad 4883EC60 		subq	$96, %rsp
+ 1286 0cb1 48897DB8 		movq	%rdi, -72(%rbp)
+ 1287 0cb5 488975B0 		movq	%rsi, -80(%rbp)
+ 1288 0cb9 488955A8 		movq	%rdx, -88(%rbp)
+ 1289 0cbd 48894DA0 		movq	%rcx, -96(%rbp)
+ 1290              		.loc 1 310 0
+ 1291 0cc1 64488B04 		movq	%fs:40, %rax
+ 1291      25280000 
+ 1291      00
+ 1292 0cca 488945F8 		movq	%rax, -8(%rbp)
+ 1293 0cce 31C0     		xorl	%eax, %eax
+ 311:xsvf2csvf.c   **** 	FLStatus fStatus, retVal = FL_SUCCESS;
+ 1294              		.loc 1 311 0
+ 1295 0cd0 C745C400 		movl	$0, -60(%rbp)
+ 1295      000000
+ 312:xsvf2csvf.c   **** 	BufferStatus bStatus;
+ 313:xsvf2csvf.c   **** 	XC xc;
+ 314:xsvf2csvf.c   **** 	xc.offset = 0;
+ 1296              		.loc 1 314 0
+ 1297 0cd7 C745F000 		movl	$0, -16(%rbp)
+ 1297      000000
+ 315:xsvf2csvf.c   **** 	bStatus = bufInitialise(&xc.xsvfBuf, 0x20000, 0, error);
+ 1298              		.loc 1 315 0
+ 1299 0cde 488B55A0 		movq	-96(%rbp), %rdx
+ 1300 0ce2 488D45D0 		leaq	-48(%rbp), %rax
+ 1301 0ce6 4889D1   		movq	%rdx, %rcx
+ 1302 0ce9 BA000000 		movl	$0, %edx
+ 1302      00
+ 1303 0cee BE000002 		movl	$131072, %esi
+ 1303      00
+ 1304 0cf3 4889C7   		movq	%rax, %rdi
+ 1305 0cf6 E8000000 		call	bufInitialise@PLT
+ 1305      00
+ 1306 0cfb 8945C8   		movl	%eax, -56(%rbp)
+ 316:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_ALLOC_ERR, cleanup, "flLoadXsvfAndConvertToCsvf()");
+ 1307              		.loc 1 316 0
+ 1308 0cfe 837DC800 		cmpl	$0, -56(%rbp)
+ 1309 0d02 741C     		je	.L104
+ 1310              		.loc 1 316 0 is_stmt 0 discriminator 1
+ 1311 0d04 488B45A0 		movq	-96(%rbp), %rax
+ 1312 0d08 488D3500 		leaq	.LC8(%rip), %rsi
+ 1312      000000
+ 1313 0d0f 4889C7   		movq	%rax, %rdi
+ 1314 0d12 E8000000 		call	errPrefix@PLT
+ 1314      00
+ 1315 0d17 C745C401 		movl	$1, -60(%rbp)
+ 1315      000000
+ 1316 0d1e EB77     		jmp	.L105
+ 1317              	.L104:
+ 317:xsvf2csvf.c   **** 	bStatus = bufAppendFromBinaryFile(&xc.xsvfBuf, xsvfFile, error);
+ 1318              		.loc 1 317 0 is_stmt 1
+ 1319 0d20 488B55A0 		movq	-96(%rbp), %rdx
+ 1320 0d24 488B4DB8 		movq	-72(%rbp), %rcx
+ 1321 0d28 488D45D0 		leaq	-48(%rbp), %rax
+ 1322 0d2c 4889CE   		movq	%rcx, %rsi
+ 1323 0d2f 4889C7   		movq	%rax, %rdi
+ 1324 0d32 E8000000 		call	bufAppendFromBinaryFile@PLT
+ 1324      00
+ 1325 0d37 8945C8   		movl	%eax, -56(%rbp)
+ 318:xsvf2csvf.c   **** 	CHECK_STATUS(bStatus, FL_FILE_ERR, cleanup, "flLoadXsvfAndConvertToCsvf()");
+ 1326              		.loc 1 318 0
+ 1327 0d3a 837DC800 		cmpl	$0, -56(%rbp)
+ 1328 0d3e 741C     		je	.L106
+ 1329              		.loc 1 318 0 is_stmt 0 discriminator 1
+ 1330 0d40 488B45A0 		movq	-96(%rbp), %rax
+ 1331 0d44 488D3500 		leaq	.LC8(%rip), %rsi
+ 1331      000000
+ 1332 0d4b 4889C7   		movq	%rax, %rdi
+ 1333 0d4e E8000000 		call	errPrefix@PLT
+ 1333      00
+ 1334 0d53 C745C406 		movl	$6, -60(%rbp)
+ 1334      000000
+ 1335 0d5a EB3B     		jmp	.L105
+ 1336              	.L106:
+ 319:xsvf2csvf.c   **** 	fStatus = xsvfSwapBytes(&xc, csvfBuf, maxBufSize, error);
+ 1337              		.loc 1 319 0 is_stmt 1
+ 1338 0d5c 488B4DA0 		movq	-96(%rbp), %rcx
+ 1339 0d60 488B55A8 		movq	-88(%rbp), %rdx
+ 1340 0d64 488B75B0 		movq	-80(%rbp), %rsi
+ 1341 0d68 488D45D0 		leaq	-48(%rbp), %rax
+ 1342 0d6c 4889C7   		movq	%rax, %rdi
+ 1343 0d6f E8EEF4FF 		call	xsvfSwapBytes
+ 1343      FF
+ 1344 0d74 8945CC   		movl	%eax, -52(%rbp)
+ 320:xsvf2csvf.c   **** 	CHECK_STATUS(fStatus, fStatus, cleanup, "flLoadXsvfAndConvertToCsvf()");
+ 1345              		.loc 1 320 0
+ 1346 0d77 837DCC00 		cmpl	$0, -52(%rbp)
+ 1347 0d7b 741A     		je	.L105
+ 1348              		.loc 1 320 0 is_stmt 0 discriminator 1
+ 1349 0d7d 488B45A0 		movq	-96(%rbp), %rax
+ 1350 0d81 488D3500 		leaq	.LC8(%rip), %rsi
+ 1350      000000
+ 1351 0d88 4889C7   		movq	%rax, %rdi
+ 1352 0d8b E8000000 		call	errPrefix@PLT
+ 1352      00
+ 1353 0d90 8B45CC   		movl	-52(%rbp), %eax
+ 1354 0d93 8945C4   		movl	%eax, -60(%rbp)
+ 1355 0d96 90       		nop
+ 1356              	.L105:
+ 321:xsvf2csvf.c   **** cleanup:
+ 322:xsvf2csvf.c   **** 	bufDestroy(&xc.xsvfBuf);
+ 1357              		.loc 1 322 0 is_stmt 1
+ 1358 0d97 488D45D0 		leaq	-48(%rbp), %rax
+ 1359 0d9b 4889C7   		movq	%rax, %rdi
+ 1360 0d9e E8000000 		call	bufDestroy@PLT
+ 1360      00
+ 323:xsvf2csvf.c   **** 	return retVal;
+ 1361              		.loc 1 323 0
+ 1362 0da3 8B45C4   		movl	-60(%rbp), %eax
+ 324:xsvf2csvf.c   **** }
+ 1363              		.loc 1 324 0
+ 1364 0da6 488B4DF8 		movq	-8(%rbp), %rcx
+ 1365 0daa 6448330C 		xorq	%fs:40, %rcx
+ 1365      25280000 
+ 1365      00
+ 1366 0db3 7405     		je	.L108
+ 1367 0db5 E8000000 		call	__stack_chk_fail@PLT
+ 1367      00
+ 1368              	.L108:
+ 1369 0dba C9       		leave
+ 1370              		.cfi_def_cfa 7, 8
+ 1371 0dbb C3       		ret
+ 1372              		.cfi_endproc
+ 1373              	.LFE9:
+ 1375              	.Letext0:
+ 1376              		.file 2 "/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h"
+ 1377              		.file 3 "/home/shubham/20140524/makestuff/common/makestuff.h"
+ 1378              		.file 4 "./libfpgalink.h"
+ 1379              		.file 5 "/home/shubham/20140524/makestuff/libs/libbuffer/libbuffer.h"
+ 1380              		.file 6 "xsvf.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 xsvf2csvf.c
+     /tmp/ccUIju4D.s:5      .text:0000000000000000 getNextByte
+     /tmp/ccUIju4D.s:39     .text:000000000000002a swapBytes
+     /tmp/ccUIju4D.s:119    .text:00000000000000d3 swapAndInterleaveBytes
+     /tmp/ccUIju4D.s:233    .text:00000000000001d0 sendXSize
+     /tmp/ccUIju4D.s:311    .text:0000000000000262 xsvfSwapBytes
+     /tmp/ccUIju4D.s:1276   .text:0000000000000ca9 flLoadXsvfAndConvertToCsvf
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+bufAppendConst
+errPrefix
+bufAppendByte
+bufAppendLongBE
+errRender
+bufWriteLongBE
+__stack_chk_fail
+bufInitialise
+bufAppendFromBinaryFile
+bufDestroy

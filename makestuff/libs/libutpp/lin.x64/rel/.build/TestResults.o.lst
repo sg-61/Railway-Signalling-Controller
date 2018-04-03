@@ -1,0 +1,201 @@
+   1              		.file	"TestResults.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZN8UnitTest11TestResultsC2EPNS_12TestReporterE
+  11              	_ZN8UnitTest11TestResultsC2EPNS_12TestReporterE:
+  12              	.LFB1:
+  13              		.cfi_startproc
+  14 0000 488937   		movq	%rsi, (%rdi)
+  15 0003 C7470800 		movl	$0, 8(%rdi)
+  15      000000
+  16 000a C7470C00 		movl	$0, 12(%rdi)
+  16      000000
+  17 0011 C7471000 		movl	$0, 16(%rdi)
+  17      000000
+  18 0018 C6471400 		movb	$0, 20(%rdi)
+  19 001c C3       		ret
+  20              		.cfi_endproc
+  21              	.LFE1:
+  23              		.section	.text.unlikely
+  24              	.LCOLDE0:
+  25              		.text
+  26              	.LHOTE0:
+  27              		.globl	_ZN8UnitTest11TestResultsC1EPNS_12TestReporterE
+  28              		.set	_ZN8UnitTest11TestResultsC1EPNS_12TestReporterE,_ZN8UnitTest11TestResultsC2EPNS_12TestReporte
+  29              		.section	.text.unlikely
+  30              		.align 2
+  31              	.LCOLDB1:
+  32              		.text
+  33              	.LHOTB1:
+  34 001d 90       		.align 2
+  35 001e 6690     		.p2align 4,,15
+  36              		.globl	_ZN8UnitTest11TestResults11OnTestStartERKNS_11TestDetailsE
+  38              	_ZN8UnitTest11TestResults11OnTestStartERKNS_11TestDetailsE:
+  39              	.LFB3:
+  40              		.cfi_startproc
+  41 0020 83470801 		addl	$1, 8(%rdi)
+  42 0024 C6471400 		movb	$0, 20(%rdi)
+  43 0028 488B3F   		movq	(%rdi), %rdi
+  44 002b 4885FF   		testq	%rdi, %rdi
+  45 002e 7410     		je	.L2
+  46 0030 488B07   		movq	(%rdi), %rax
+  47 0033 FF6010   		jmp	*16(%rax)
+  48 0036 662E0F1F 		.p2align 4,,10
+  48      84000000 
+  48      0000
+  49              		.p2align 3
+  50              	.L2:
+  51 0040 F3C3     		rep ret
+  52              		.cfi_endproc
+  53              	.LFE3:
+  55              		.section	.text.unlikely
+  56              	.LCOLDE1:
+  57              		.text
+  58              	.LHOTE1:
+  59              		.section	.text.unlikely
+  60              		.align 2
+  61              	.LCOLDB2:
+  62              		.text
+  63              	.LHOTB2:
+  64              		.align 2
+  65 0042 0F1F4000 		.p2align 4,,15
+  65      662E0F1F 
+  65      84000000 
+  65      0000
+  66              		.globl	_ZN8UnitTest11TestResults13OnTestFailureERKNS_11TestDetailsEPKc
+  68              	_ZN8UnitTest11TestResults13OnTestFailureERKNS_11TestDetailsEPKc:
+  69              	.LFB4:
+  70              		.cfi_startproc
+  71 0050 83471001 		addl	$1, 16(%rdi)
+  72 0054 807F1400 		cmpb	$0, 20(%rdi)
+  73 0058 7508     		jne	.L6
+  74 005a 83470C01 		addl	$1, 12(%rdi)
+  75 005e C6471401 		movb	$1, 20(%rdi)
+  76              	.L6:
+  77 0062 488B3F   		movq	(%rdi), %rdi
+  78 0065 4885FF   		testq	%rdi, %rdi
+  79 0068 7406     		je	.L5
+  80 006a 488B07   		movq	(%rdi), %rax
+  81 006d FF6018   		jmp	*24(%rax)
+  82              		.p2align 4,,10
+  83              		.p2align 3
+  84              	.L5:
+  85 0070 F3C3     		rep ret
+  86              		.cfi_endproc
+  87              	.LFE4:
+  89              		.section	.text.unlikely
+  90              	.LCOLDE2:
+  91              		.text
+  92              	.LHOTE2:
+  93              		.section	.text.unlikely
+  94              		.align 2
+  95              	.LCOLDB3:
+  96              		.text
+  97              	.LHOTB3:
+  98              		.align 2
+  99 0072 0F1F4000 		.p2align 4,,15
+  99      662E0F1F 
+  99      84000000 
+  99      0000
+ 100              		.globl	_ZN8UnitTest11TestResults12OnTestFinishERKNS_11TestDetailsEf
+ 102              	_ZN8UnitTest11TestResults12OnTestFinishERKNS_11TestDetailsEf:
+ 103              	.LFB5:
+ 104              		.cfi_startproc
+ 105 0080 488B3F   		movq	(%rdi), %rdi
+ 106 0083 4885FF   		testq	%rdi, %rdi
+ 107 0086 7408     		je	.L8
+ 108 0088 488B07   		movq	(%rdi), %rax
+ 109 008b FF6020   		jmp	*32(%rax)
+ 110 008e 6690     		.p2align 4,,10
+ 111              		.p2align 3
+ 112              	.L8:
+ 113 0090 F3C3     		rep ret
+ 114              		.cfi_endproc
+ 115              	.LFE5:
+ 117              		.section	.text.unlikely
+ 118              	.LCOLDE3:
+ 119              		.text
+ 120              	.LHOTE3:
+ 121              		.section	.text.unlikely
+ 122              		.align 2
+ 123              	.LCOLDB4:
+ 124              		.text
+ 125              	.LHOTB4:
+ 126              		.align 2
+ 127 0092 0F1F4000 		.p2align 4,,15
+ 127      662E0F1F 
+ 127      84000000 
+ 127      0000
+ 128              		.globl	_ZNK8UnitTest11TestResults17GetTotalTestCountEv
+ 130              	_ZNK8UnitTest11TestResults17GetTotalTestCountEv:
+ 131              	.LFB6:
+ 132              		.cfi_startproc
+ 133 00a0 8B4708   		movl	8(%rdi), %eax
+ 134 00a3 C3       		ret
+ 135              		.cfi_endproc
+ 136              	.LFE6:
+ 138              		.section	.text.unlikely
+ 139              	.LCOLDE4:
+ 140              		.text
+ 141              	.LHOTE4:
+ 142              		.section	.text.unlikely
+ 143              		.align 2
+ 144              	.LCOLDB5:
+ 145              		.text
+ 146              	.LHOTB5:
+ 147              		.align 2
+ 148 00a4 6690662E 		.p2align 4,,15
+ 148      0F1F8400 
+ 148      00000000 
+ 149              		.globl	_ZNK8UnitTest11TestResults18GetFailedTestCountEv
+ 151              	_ZNK8UnitTest11TestResults18GetFailedTestCountEv:
+ 152              	.LFB7:
+ 153              		.cfi_startproc
+ 154 00b0 8B470C   		movl	12(%rdi), %eax
+ 155 00b3 C3       		ret
+ 156              		.cfi_endproc
+ 157              	.LFE7:
+ 159              		.section	.text.unlikely
+ 160              	.LCOLDE5:
+ 161              		.text
+ 162              	.LHOTE5:
+ 163              		.section	.text.unlikely
+ 164              		.align 2
+ 165              	.LCOLDB6:
+ 166              		.text
+ 167              	.LHOTB6:
+ 168              		.align 2
+ 169 00b4 6690662E 		.p2align 4,,15
+ 169      0F1F8400 
+ 169      00000000 
+ 170              		.globl	_ZNK8UnitTest11TestResults15GetFailureCountEv
+ 172              	_ZNK8UnitTest11TestResults15GetFailureCountEv:
+ 173              	.LFB8:
+ 174              		.cfi_startproc
+ 175 00c0 8B4710   		movl	16(%rdi), %eax
+ 176 00c3 C3       		ret
+ 177              		.cfi_endproc
+ 178              	.LFE8:
+ 180              		.section	.text.unlikely
+ 181              	.LCOLDE6:
+ 182              		.text
+ 183              	.LHOTE6:
+ 184              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 185              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 TestResults.cpp
+     /tmp/ccpBHoTR.s:11     .text:0000000000000000 _ZN8UnitTest11TestResultsC2EPNS_12TestReporterE
+     /tmp/ccpBHoTR.s:11     .text:0000000000000000 _ZN8UnitTest11TestResultsC1EPNS_12TestReporterE
+     /tmp/ccpBHoTR.s:38     .text:0000000000000020 _ZN8UnitTest11TestResults11OnTestStartERKNS_11TestDetailsE
+     /tmp/ccpBHoTR.s:68     .text:0000000000000050 _ZN8UnitTest11TestResults13OnTestFailureERKNS_11TestDetailsEPKc
+     /tmp/ccpBHoTR.s:102    .text:0000000000000080 _ZN8UnitTest11TestResults12OnTestFinishERKNS_11TestDetailsEf
+     /tmp/ccpBHoTR.s:130    .text:00000000000000a0 _ZNK8UnitTest11TestResults17GetTotalTestCountEv
+     /tmp/ccpBHoTR.s:151    .text:00000000000000b0 _ZNK8UnitTest11TestResults18GetFailedTestCountEv
+     /tmp/ccpBHoTR.s:172    .text:00000000000000c0 _ZNK8UnitTest11TestResults15GetFailureCountEv
+
+NO UNDEFINED SYMBOLS

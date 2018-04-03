@@ -1,0 +1,231 @@
+   1              		.file	"AssertException.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZNK8UnitTest15AssertException4whatEv
+  11              	_ZNK8UnitTest15AssertException4whatEv:
+  12              	.LFB40:
+  13              		.cfi_startproc
+  14 0000 488D4708 		leaq	8(%rdi), %rax
+  15 0004 C3       		ret
+  16              		.cfi_endproc
+  17              	.LFE40:
+  19              		.section	.text.unlikely
+  20              	.LCOLDE0:
+  21              		.text
+  22              	.LHOTE0:
+  23              		.section	.text.unlikely
+  24              		.align 2
+  25              	.LCOLDB1:
+  26              		.text
+  27              	.LHOTB1:
+  28 0005 90       		.align 2
+  29 0006 662E0F1F 		.p2align 4,,15
+  29      84000000 
+  29      0000
+  30              		.globl	_ZN8UnitTest15AssertExceptionD2Ev
+  32              	_ZN8UnitTest15AssertExceptionD2Ev:
+  33              	.LFB37:
+  34              		.cfi_startproc
+  35 0010 488B0500 		movq	_ZTVN8UnitTest15AssertExceptionE@GOTPCREL(%rip), %rax
+  35      000000
+  36 0017 4883C010 		addq	$16, %rax
+  37 001b 488907   		movq	%rax, (%rdi)
+  38 001e E9000000 		jmp	_ZNSt9exceptionD2Ev@PLT
+  38      00
+  39              		.cfi_endproc
+  40              	.LFE37:
+  42              		.section	.text.unlikely
+  43              	.LCOLDE1:
+  44              		.text
+  45              	.LHOTE1:
+  46              		.globl	_ZN8UnitTest15AssertExceptionD1Ev
+  47              		.set	_ZN8UnitTest15AssertExceptionD1Ev,_ZN8UnitTest15AssertExceptionD2Ev
+  48              		.section	.text.unlikely
+  49              		.align 2
+  50              	.LCOLDB2:
+  51              		.text
+  52              	.LHOTB2:
+  53 0023 90       		.align 2
+  54 0024 6690662E 		.p2align 4,,15
+  54      0F1F8400 
+  54      00000000 
+  55              		.globl	_ZN8UnitTest15AssertExceptionD0Ev
+  57              	_ZN8UnitTest15AssertExceptionD0Ev:
+  58              	.LFB39:
+  59              		.cfi_startproc
+  60 0030 53       		pushq	%rbx
+  61              		.cfi_def_cfa_offset 16
+  62              		.cfi_offset 3, -16
+  63 0031 4889FB   		movq	%rdi, %rbx
+  64 0034 E8000000 		call	_ZN8UnitTest15AssertExceptionD1Ev@PLT
+  64      00
+  65 0039 4889DF   		movq	%rbx, %rdi
+  66 003c 5B       		popq	%rbx
+  67              		.cfi_def_cfa_offset 8
+  68 003d E9000000 		jmp	_ZdlPv@PLT
+  68      00
+  69              		.cfi_endproc
+  70              	.LFE39:
+  72              		.section	.text.unlikely
+  73              	.LCOLDE2:
+  74              		.text
+  75              	.LHOTE2:
+  76              		.section	.text.unlikely
+  77              		.align 2
+  78              	.LCOLDB3:
+  79              		.text
+  80              	.LHOTB3:
+  81              		.align 2
+  82 0042 0F1F4000 		.p2align 4,,15
+  82      662E0F1F 
+  82      84000000 
+  82      0000
+  83              		.globl	_ZN8UnitTest15AssertExceptionC2EPKcS2_i
+  85              	_ZN8UnitTest15AssertExceptionC2EPKcS2_i:
+  86              	.LFB34:
+  87              		.cfi_startproc
+  88 0050 55       		pushq	%rbp
+  89              		.cfi_def_cfa_offset 16
+  90              		.cfi_offset 6, -16
+  91 0051 53       		pushq	%rbx
+  92              		.cfi_def_cfa_offset 24
+  93              		.cfi_offset 3, -24
+  94 0052 4889FB   		movq	%rdi, %rbx
+  95 0055 488D7F08 		leaq	8(%rdi), %rdi
+  96 0059 4889D5   		movq	%rdx, %rbp
+  97 005c BA000200 		movl	$512, %edx
+  97      00
+  98 0061 4883EC08 		subq	$8, %rsp
+  99              		.cfi_def_cfa_offset 32
+ 100 0065 488B0500 		movq	_ZTVN8UnitTest15AssertExceptionE@GOTPCREL(%rip), %rax
+ 100      000000
+ 101 006c 898F0003 		movl	%ecx, 768(%rdi)
+ 101      0000
+ 102 0072 4883C010 		addq	$16, %rax
+ 103 0076 488947F8 		movq	%rax, -8(%rdi)
+ 104 007a E8000000 		call	__strcpy_chk@PLT
+ 104      00
+ 105 007f 4883C408 		addq	$8, %rsp
+ 106              		.cfi_def_cfa_offset 24
+ 107 0083 488DBB08 		leaq	520(%rbx), %rdi
+ 107      020000
+ 108 008a 4889EE   		movq	%rbp, %rsi
+ 109 008d 5B       		popq	%rbx
+ 110              		.cfi_def_cfa_offset 16
+ 111 008e 5D       		popq	%rbp
+ 112              		.cfi_def_cfa_offset 8
+ 113 008f BA000100 		movl	$256, %edx
+ 113      00
+ 114 0094 E9000000 		jmp	__strcpy_chk@PLT
+ 114      00
+ 115              		.cfi_endproc
+ 116              	.LFE34:
+ 118              		.section	.text.unlikely
+ 119              	.LCOLDE3:
+ 120              		.text
+ 121              	.LHOTE3:
+ 122              		.globl	_ZN8UnitTest15AssertExceptionC1EPKcS2_i
+ 123              		.set	_ZN8UnitTest15AssertExceptionC1EPKcS2_i,_ZN8UnitTest15AssertExceptionC2EPKcS2_i
+ 124              		.section	.text.unlikely
+ 125              		.align 2
+ 126              	.LCOLDB4:
+ 127              		.text
+ 128              	.LHOTB4:
+ 129 0099 90       		.align 2
+ 130 009a 660F1F44 		.p2align 4,,15
+ 130      0000
+ 131              		.globl	_ZNK8UnitTest15AssertException8FilenameEv
+ 133              	_ZNK8UnitTest15AssertException8FilenameEv:
+ 134              	.LFB41:
+ 135              		.cfi_startproc
+ 136 00a0 488D8708 		leaq	520(%rdi), %rax
+ 136      020000
+ 137 00a7 C3       		ret
+ 138              		.cfi_endproc
+ 139              	.LFE41:
+ 141              		.section	.text.unlikely
+ 142              	.LCOLDE4:
+ 143              		.text
+ 144              	.LHOTE4:
+ 145              		.section	.text.unlikely
+ 146              		.align 2
+ 147              	.LCOLDB5:
+ 148              		.text
+ 149              	.LHOTB5:
+ 150              		.align 2
+ 151 00a8 0F1F8400 		.p2align 4,,15
+ 151      00000000 
+ 152              		.globl	_ZNK8UnitTest15AssertException10LineNumberEv
+ 154              	_ZNK8UnitTest15AssertException10LineNumberEv:
+ 155              	.LFB42:
+ 156              		.cfi_startproc
+ 157 00b0 8B870803 		movl	776(%rdi), %eax
+ 157      0000
+ 158 00b6 C3       		ret
+ 159              		.cfi_endproc
+ 160              	.LFE42:
+ 162              		.section	.text.unlikely
+ 163              	.LCOLDE5:
+ 164              		.text
+ 165              	.LHOTE5:
+ 166              		.weak	_ZTSN8UnitTest15AssertExceptionE
+ 167              		.section	.rodata._ZTSN8UnitTest15AssertExceptionE,"aG",@progbits,_ZTSN8UnitTest15AssertExceptionE,
+ 168              		.align 16
+ 171              	_ZTSN8UnitTest15AssertExceptionE:
+ 172 0000 4E38556E 		.string	"N8UnitTest15AssertExceptionE"
+ 172      69745465 
+ 172      73743135 
+ 172      41737365 
+ 172      72744578 
+ 173              		.weak	_ZTIN8UnitTest15AssertExceptionE
+ 174              		.section	.data.rel.ro._ZTIN8UnitTest15AssertExceptionE,"awG",@progbits,_ZTIN8UnitTest15AssertExcep
+ 175              		.align 8
+ 178              	_ZTIN8UnitTest15AssertExceptionE:
+ 179 0000 00000000 		.quad	_ZTVN10__cxxabiv120__si_class_type_infoE+16
+ 179      00000000 
+ 180 0008 00000000 		.quad	_ZTSN8UnitTest15AssertExceptionE
+ 180      00000000 
+ 181 0010 00000000 		.quad	_ZTISt9exception
+ 181      00000000 
+ 182              		.weak	_ZTVN8UnitTest15AssertExceptionE
+ 183              		.section	.data.rel.ro._ZTVN8UnitTest15AssertExceptionE,"awG",@progbits,_ZTVN8UnitTest15AssertExcep
+ 184              		.align 8
+ 187              	_ZTVN8UnitTest15AssertExceptionE:
+ 188 0000 00000000 		.quad	0
+ 188      00000000 
+ 189 0008 00000000 		.quad	_ZTIN8UnitTest15AssertExceptionE
+ 189      00000000 
+ 190 0010 00000000 		.quad	_ZN8UnitTest15AssertExceptionD1Ev
+ 190      00000000 
+ 191 0018 00000000 		.quad	_ZN8UnitTest15AssertExceptionD0Ev
+ 191      00000000 
+ 192 0020 00000000 		.quad	_ZNK8UnitTest15AssertException4whatEv
+ 192      00000000 
+ 193              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 194              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 AssertException.cpp
+     /tmp/ccFAlpgQ.s:11     .text:0000000000000000 _ZNK8UnitTest15AssertException4whatEv
+     /tmp/ccFAlpgQ.s:32     .text:0000000000000010 _ZN8UnitTest15AssertExceptionD2Ev
+     /tmp/ccFAlpgQ.s:187    .data.rel.ro._ZTVN8UnitTest15AssertExceptionE:0000000000000000 _ZTVN8UnitTest15AssertExceptionE
+     /tmp/ccFAlpgQ.s:32     .text:0000000000000010 _ZN8UnitTest15AssertExceptionD1Ev
+     /tmp/ccFAlpgQ.s:57     .text:0000000000000030 _ZN8UnitTest15AssertExceptionD0Ev
+     /tmp/ccFAlpgQ.s:85     .text:0000000000000050 _ZN8UnitTest15AssertExceptionC2EPKcS2_i
+     /tmp/ccFAlpgQ.s:85     .text:0000000000000050 _ZN8UnitTest15AssertExceptionC1EPKcS2_i
+     /tmp/ccFAlpgQ.s:133    .text:00000000000000a0 _ZNK8UnitTest15AssertException8FilenameEv
+     /tmp/ccFAlpgQ.s:154    .text:00000000000000b0 _ZNK8UnitTest15AssertException10LineNumberEv
+     /tmp/ccFAlpgQ.s:171    .rodata._ZTSN8UnitTest15AssertExceptionE:0000000000000000 _ZTSN8UnitTest15AssertExceptionE
+     /tmp/ccFAlpgQ.s:178    .data.rel.ro._ZTIN8UnitTest15AssertExceptionE:0000000000000000 _ZTIN8UnitTest15AssertExceptionE
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_
+_ZNSt9exceptionD2Ev
+_ZdlPv
+__strcpy_chk
+_ZTVN10__cxxabiv120__si_class_type_infoE
+_ZTISt9exception

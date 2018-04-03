@@ -1,0 +1,112 @@
+   1              		.file	"TestList.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              		.align 2
+   4              	.LCOLDB0:
+   5              		.text
+   6              	.LHOTB0:
+   7              		.align 2
+   8              		.p2align 4,,15
+   9              		.globl	_ZN8UnitTest8TestListC2Ev
+  11              	_ZN8UnitTest8TestListC2Ev:
+  12              	.LFB1:
+  13              		.cfi_startproc
+  14 0000 48C70700 		movq	$0, (%rdi)
+  14      000000
+  15 0007 48C74708 		movq	$0, 8(%rdi)
+  15      00000000 
+  16 000f C3       		ret
+  17              		.cfi_endproc
+  18              	.LFE1:
+  20              		.section	.text.unlikely
+  21              	.LCOLDE0:
+  22              		.text
+  23              	.LHOTE0:
+  24              		.globl	_ZN8UnitTest8TestListC1Ev
+  25              		.set	_ZN8UnitTest8TestListC1Ev,_ZN8UnitTest8TestListC2Ev
+  26              		.section	.text.unlikely
+  27              		.align 2
+  28              	.LCOLDB1:
+  29              		.text
+  30              	.LHOTB1:
+  31              		.align 2
+  32              		.p2align 4,,15
+  33              		.globl	_ZN8UnitTest8TestList3AddEPNS_4TestE
+  35              	_ZN8UnitTest8TestList3AddEPNS_4TestE:
+  36              	.LFB3:
+  37              		.cfi_startproc
+  38 0010 488B4708 		movq	8(%rdi), %rax
+  39 0014 4885C0   		testq	%rax, %rax
+  40 0017 740F     		je	.L6
+  41 0019 48897028 		movq	%rsi, 40(%rax)
+  42 001d 48897708 		movq	%rsi, 8(%rdi)
+  43 0021 C3       		ret
+  44              		.p2align 4,,10
+  45 0022 660F1F44 		.p2align 3
+  45      0000
+  46              	.L6:
+  47 0028 488937   		movq	%rsi, (%rdi)
+  48 002b 48897708 		movq	%rsi, 8(%rdi)
+  49 002f C3       		ret
+  50              		.cfi_endproc
+  51              	.LFE3:
+  53              		.section	.text.unlikely
+  54              	.LCOLDE1:
+  55              		.text
+  56              	.LHOTE1:
+  57              		.section	.text.unlikely
+  58              		.align 2
+  59              	.LCOLDB2:
+  60              		.text
+  61              	.LHOTB2:
+  62              		.align 2
+  63              		.p2align 4,,15
+  64              		.globl	_ZNK8UnitTest8TestList7GetHeadEv
+  66              	_ZNK8UnitTest8TestList7GetHeadEv:
+  67              	.LFB4:
+  68              		.cfi_startproc
+  69 0030 488B07   		movq	(%rdi), %rax
+  70 0033 C3       		ret
+  71              		.cfi_endproc
+  72              	.LFE4:
+  74              		.section	.text.unlikely
+  75              	.LCOLDE2:
+  76              		.text
+  77              	.LHOTE2:
+  78              		.section	.text.unlikely
+  79              		.align 2
+  80              	.LCOLDB3:
+  81              		.text
+  82              	.LHOTB3:
+  83              		.align 2
+  84 0034 6690662E 		.p2align 4,,15
+  84      0F1F8400 
+  84      00000000 
+  85              		.globl	_ZN8UnitTest9ListAdderC2ERNS_8TestListEPNS_4TestE
+  87              	_ZN8UnitTest9ListAdderC2ERNS_8TestListEPNS_4TestE:
+  88              	.LFB6:
+  89              		.cfi_startproc
+  90 0040 4889F7   		movq	%rsi, %rdi
+  91 0043 4889D6   		movq	%rdx, %rsi
+  92 0046 E9000000 		jmp	_ZN8UnitTest8TestList3AddEPNS_4TestE@PLT
+  92      00
+  93              		.cfi_endproc
+  94              	.LFE6:
+  96              		.section	.text.unlikely
+  97              	.LCOLDE3:
+  98              		.text
+  99              	.LHOTE3:
+ 100              		.globl	_ZN8UnitTest9ListAdderC1ERNS_8TestListEPNS_4TestE
+ 101              		.set	_ZN8UnitTest9ListAdderC1ERNS_8TestListEPNS_4TestE,_ZN8UnitTest9ListAdderC2ERNS_8TestListEPNS_
+ 102              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+ 103              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 TestList.cpp
+     /tmp/ccqi7UCH.s:11     .text:0000000000000000 _ZN8UnitTest8TestListC2Ev
+     /tmp/ccqi7UCH.s:11     .text:0000000000000000 _ZN8UnitTest8TestListC1Ev
+     /tmp/ccqi7UCH.s:35     .text:0000000000000010 _ZN8UnitTest8TestList3AddEPNS_4TestE
+     /tmp/ccqi7UCH.s:66     .text:0000000000000030 _ZNK8UnitTest8TestList7GetHeadEv
+     /tmp/ccqi7UCH.s:87     .text:0000000000000040 _ZN8UnitTest9ListAdderC2ERNS_8TestListEPNS_4TestE
+     /tmp/ccqi7UCH.s:87     .text:0000000000000040 _ZN8UnitTest9ListAdderC1ERNS_8TestListEPNS_4TestE
+
+UNDEFINED SYMBOLS
+_GLOBAL_OFFSET_TABLE_

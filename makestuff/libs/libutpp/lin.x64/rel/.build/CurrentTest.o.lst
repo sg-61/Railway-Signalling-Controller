@@ -1,0 +1,52 @@
+   1              		.file	"CurrentTest.cpp"
+   2              		.section	.text.unlikely,"ax",@progbits
+   3              	.LCOLDB0:
+   4              		.text
+   5              	.LHOTB0:
+   6              		.p2align 4,,15
+   7              		.globl	_ZN8UnitTest11CurrentTest7ResultsEv
+   9              	_ZN8UnitTest11CurrentTest7ResultsEv:
+  10              	.LFB0:
+  11              		.cfi_startproc
+  12 0000 488D0500 		leaq	_ZZN8UnitTest11CurrentTest7ResultsEvE11testResults(%rip), %rax
+  12      000000
+  13 0007 C3       		ret
+  14              		.cfi_endproc
+  15              	.LFE0:
+  17              		.section	.text.unlikely
+  18              	.LCOLDE0:
+  19              		.text
+  20              	.LHOTE0:
+  21              		.section	.text.unlikely
+  22              	.LCOLDB1:
+  23              		.text
+  24              	.LHOTB1:
+  25 0008 0F1F8400 		.p2align 4,,15
+  25      00000000 
+  26              		.globl	_ZN8UnitTest11CurrentTest7DetailsEv
+  28              	_ZN8UnitTest11CurrentTest7DetailsEv:
+  29              	.LFB1:
+  30              		.cfi_startproc
+  31 0010 488D0500 		leaq	_ZZN8UnitTest11CurrentTest7DetailsEvE11testDetails(%rip), %rax
+  31      000000
+  32 0017 C3       		ret
+  33              		.cfi_endproc
+  34              	.LFE1:
+  36              		.section	.text.unlikely
+  37              	.LCOLDE1:
+  38              		.text
+  39              	.LHOTE1:
+  40              		.local	_ZZN8UnitTest11CurrentTest7DetailsEvE11testDetails
+  41              		.comm	_ZZN8UnitTest11CurrentTest7DetailsEvE11testDetails,8,8
+  42              		.local	_ZZN8UnitTest11CurrentTest7ResultsEvE11testResults
+  43              		.comm	_ZZN8UnitTest11CurrentTest7ResultsEvE11testResults,8,8
+  44              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.6) 5.4.0 20160609"
+  45              		.section	.note.GNU-stack,"",@progbits
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 CurrentTest.cpp
+     /tmp/ccqCg8T0.s:9      .text:0000000000000000 _ZN8UnitTest11CurrentTest7ResultsEv
+     /tmp/ccqCg8T0.s:43     .bss:0000000000000008 _ZZN8UnitTest11CurrentTest7ResultsEvE11testResults
+     /tmp/ccqCg8T0.s:28     .text:0000000000000010 _ZN8UnitTest11CurrentTest7DetailsEv
+     /tmp/ccqCg8T0.s:41     .bss:0000000000000000 _ZZN8UnitTest11CurrentTest7DetailsEvE11testDetails
+
+NO UNDEFINED SYMBOLS

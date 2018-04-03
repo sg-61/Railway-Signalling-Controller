@@ -23,6 +23,10 @@ entity swled is
 	port(
 		clk_in       : in  std_logic;
 		reset_in     : in  std_logic;
+		up_btn       : in  std_logic;
+		down_btn     : in  std_logic;
+		left_btn     : in  std_logic;
+		right_btn    : in  std_logic;
 
 		-- DVR interface -----------------------------------------------------------------------------
 		chanAddr_in  : in  std_logic_vector(6 downto 0);  -- the selected channel (0-127)

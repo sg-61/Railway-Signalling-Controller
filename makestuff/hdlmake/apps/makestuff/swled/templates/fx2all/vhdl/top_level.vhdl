@@ -41,7 +41,11 @@ entity top_level is
 		anode_out      : out   std_logic_vector(3 downto 0); -- seven-segment display anodes (one for each digit)
 		led_out        : out   std_logic_vector(7 downto 0); -- eight LEDs
 		sw_in          : in    std_logic_vector(7 downto 0); -- eight switches
-		reset_in	   : in	   std_logic					 -- reset function for cksum.rtl
+		reset_in	   : in	   std_logic;					 -- reset function for cksum.rtl
+		up_btn	       : in	   std_logic;					 -- up_btn function for cksum.rtl
+		down_btn	   : in	   std_logic;					 -- down_btn function for cksum.rtl
+		left_btn	   : in	   std_logic;					 -- left_btn function for cksum.rtl
+		right_btn	   : in	   std_logic					 -- right_btn function for cksum.rtl
 	);
 end entity;
 
@@ -102,7 +106,10 @@ begin
 		port map(
 			clk_in       => fx2Clk_in,
 			reset_in     => reset_in,
-			
+			up_btn      =>  up_btn,
+            down_btn    =>  down_btn,
+            left_btn    =>  left_btn,
+            right_btn   =>  right_btn,
 			-- DVR interface -> Connects to comm_fpga module
 			chanAddr_in  => chanAddr,
 			h2fData_in   => h2fData,

@@ -76,6 +76,10 @@ NET "sw_in<6>"        LOC="T5"   | IOSTANDARD=LVTTL;   # SW6
 NET "sw_in<7>"        LOC="E4"   | IOSTANDARD=LVTTL;   # SW7
 
 NET "reset_in"        LOC="F5"   | IOSTANDARD=LVTTL;   # BTN5
+NET "up_btn"          LOC="N4"   | IOSTANDARD=LVTTL;   # BTN5
+NET "down_btn"        LOC="P3"   | IOSTANDARD=LVTTL;   # BTN5
+NET "left_btn"        LOC="P4"   | IOSTANDARD=LVTTL;   # BTN5
+NET "right_btn"       LOC="F6"   | IOSTANDARD=LVTTL;   # BTN5
 
 #===============================================================================
 # Timing constraint of FX2 48MHz clock "fx2Clk_in"

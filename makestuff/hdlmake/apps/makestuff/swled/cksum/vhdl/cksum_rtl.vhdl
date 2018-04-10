@@ -34,7 +34,8 @@ architecture rtl of swled is
     signal cnt                     : integer range -5 to 800000000;
 --    signal cntAck                  : integer range 0 to 1000 := 0;
     signal state                   : integer range 0 to 1000;
-    signal writeHost                : std_logic_vector(7 downto 0);
+    signal writeHost               : std_logic_vector(7 downto 0); 
+    signal MACRO_STATE                   : integer range 0 to 8; 
 	signal data :  STD_LOGIC_VECTOR(39 downto 0);
     signal n : STD_LOGIC_VECTOR(7 downto 0);
     signal temp :   STD_LOGIC_VECTOR(7 downto 0);
@@ -181,7 +182,8 @@ begin                                                                     --BEGI
     begin
     if(rising_edge(clk_in)) then
         if(reset_in = '1') then
-            state <= 0;
+            MACRO_STATE <= 1;  
+        --    state <= 0;
             reg0 <= "10101010";
         else
 		    reg0 <= reg0_next;
@@ -282,7 +284,7 @@ begin                                                                     --BEGI
 --------------------------------------
 ------------        Reset
 --------------------------------------
-            if(state = 0) then
+            if(MACRO_STATE = 1) then
                     reg0_next <= "11000000";
                     checksum_next <= (others => '0');
                     checksum <= (others => '0');
@@ -329,11 +331,20 @@ begin                                                                     --BEGI
     
                     state <= 1;
                     cnt <= 0;
+                    to_wait_sec <= '1'; 
+                    waitSecLimit <= 4; 
+                    waitSecCnt <= 0; 
+                    MACRO_STATE <= 2; 
+
+----------------------------------------------------------------------------------------------------
+-- macroMACRO_STATE 2 
+----------------------------------------------------------------------------------------------------
     
 --------------------------------------
 ------------        Start encryption
 --------------------------------------
-            elsif(state = 1) then
+        elsif( MACRO_STATE = 2 ) then            
+            if(state = 1) then
                 reg0_next <= "11000001";
                 if(cnt = 0) then
                     reg0_next <= "10000000";
@@ -979,12 +990,21 @@ begin                                                                     --BEGI
                     cnt <= 0;
                 end if;
        
+            elsif(state = 26) then 
+                MACRO_STATE <= 3; 
+                state <=27; 
+            end if; 
 
+
+----------------------------------------------------------------------------------------------------
+-- MACRO_STATE 3 
+----------------------------------------------------------------------------------------------------
+        elsif( MACRO_STATE = 3 ) then 
 
         --        elsif(cnt = 336000009) then
         --            cnt <= cnt + 1;
         --            coordinate <= sw_in;
-            elsif(state = 26) then
+            if(state = 27) then
         --            coordinate <= "00000000";
         		reg0_next <= "11110000";
                 if(cnt = 0 and to_wait_sec = '0') then
@@ -999,7 +1019,8 @@ begin                                                                     --BEGI
                 end if;
             end if;
         end if;
-    end if;
+    end if; 
+    end if; 
 --			wait 8000000000ns;
     end process;
 

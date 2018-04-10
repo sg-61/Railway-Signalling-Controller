@@ -87,6 +87,14 @@ architecture rtl of swled is
     signal sendAck1 : STD_LOGIC;
 
     signal switch_info : STD_LOGIC_VECTOR(7 downto 0);
+
+	signal rx_data	:	STD_LOGIC_VECTOR(7 downto 0);
+	signal tx_data	:	STD_LOGIC_VECTOR(7 downto 0);
+	signal rx_enable:	STD_LOGIC;
+	signal tx_ready	:	STD_LOGIC;
+	signal tx_enable:	STD_LOGIC;
+--	signal tx		:	STD_LOGIC;
+--	signal rx		:	STD_LOGIC;
 begin                                                                     --BEGIN_SNIPPET(registers)
 	-- Infer registers
 --	with chanAddr_in select f2hData_out <=
@@ -98,6 +106,16 @@ begin                                                                     --BEGI
 --            std_logic_vector(unsigned(h2fData_in))
 --    	    	when chanAddr_in = "0000001" and h2fValid_in = '1'
 --                else  read_data; 
+
+	basic_uart_inst: entity work.basic_uart
+	generic map (DIVISOR => 2604) -- 2400
+	port map (
+		clk => clk_in, reset => reset_in,
+    	rx_data => rx_data, rx_enable => rx_enable,
+    	tx_data => tx_data, tx_enable => tx_enable, tx_ready => tx_ready,
+    	rx => rx,
+    	tx => tx
+	);
 
 	dec1 : entity work.decrypter
 		port map(

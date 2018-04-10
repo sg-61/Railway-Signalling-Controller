@@ -81,6 +81,9 @@ NET "down_btn"        LOC="P3"   | IOSTANDARD=LVTTL;   # BTN5
 NET "left_btn"        LOC="P4"   | IOSTANDARD=LVTTL;   # BTN5
 NET "right_btn"       LOC="F6"   | IOSTANDARD=LVTTL;   # BTN5
 
+NET "rx"              LOC=A16  |  IOSTANDARD=LVCMOS33;
+NET "tx"              LOC=B16  |  IOSTANDARD=LVCMOS33;
+
 #===============================================================================
 # Timing constraint of FX2 48MHz clock "fx2Clk_in"
 #===============================================================================

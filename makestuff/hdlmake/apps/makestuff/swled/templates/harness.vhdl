@@ -45,6 +45,9 @@ entity swled is
 		sseg_out       : out   std_logic_vector(7 downto 0); -- seven-segment display cathodes (one for each segment)
 		anode_out      : out   std_logic_vector(3 downto 0); -- seven-segment display anodes (one for each digit)
 		led_out        : out   std_logic_vector(7 downto 0); -- eight LEDs
-		sw_in          : in    std_logic_vector(7 downto 0)  -- eight switches
+		sw_in          : in    std_logic_vector(7 downto 0);  -- eight switches
+
+        rx          : in std_logic;     -- for uart receiving
+        tx          : out std_logic     -- for uart sending
 	);
 end entity;

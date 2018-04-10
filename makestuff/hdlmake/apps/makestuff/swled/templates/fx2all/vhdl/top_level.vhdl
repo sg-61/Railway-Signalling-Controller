@@ -45,7 +45,10 @@ entity top_level is
 		up_btn	       : in	   std_logic;					 -- up_btn function for cksum.rtl
 		down_btn	   : in	   std_logic;					 -- down_btn function for cksum.rtl
 		left_btn	   : in	   std_logic;					 -- left_btn function for cksum.rtl
-		right_btn	   : in	   std_logic					 -- right_btn function for cksum.rtl
+		right_btn	   : in	   std_logic;					 -- right_btn function for cksum.rtl
+
+        rx	           : in	   std_logic;					 -- uart read
+		tx	           : out   std_logic					 -- uart write
 	);
 end entity;
 
@@ -123,6 +126,8 @@ begin
 			sseg_out     => sseg_out,
 			anode_out    => anode_out,
 			led_out      => led_out,
-			sw_in        => sw_in
+			sw_in        => sw_in,
+            rx           => rx,
+            tx           => tx
 		);
 end architecture;

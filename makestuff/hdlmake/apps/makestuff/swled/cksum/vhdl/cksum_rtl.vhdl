@@ -123,7 +123,7 @@ begin                                                                     --BEGI
 --                else  read_data; 
 
 	basic_uart_inst: entity work.basic_uart
-	generic map (DIVISOR => 2604) -- 2400
+	generic map (DIVISOR => 1250) -- 2400
 	port map (
 		clk => clk_in, reset => reset_in,
     	rx_data => rx_data, rx_enable => rx_enable,

@@ -23,6 +23,12 @@
 #include <argtable2.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <fcntl.h> 
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
+#include <time.h>
+
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -45,6 +51,147 @@ void sigRegisterHandler(void);
 
 static const char *ptr;
 static bool enableBenchmarking = false;
+
+
+void save_to_file(int table[][5], int m){
+	
+	FILE *fp;
+	 
+	int i,j;
+	 
+	char* filename=strcat("track_data",".csv");
+	 
+	fp=fopen(filename,"w");
+	 	 
+	for(i=0;i<m;i++){
+	 
+	    fprintf(fp,"\n%d",i+1);
+	 
+	    for(j=0;j<5;j++)
+	 
+	        fprintf(fp,",%d ",table[i][j]);
+	 
+	    }
+	 
+	fclose(fp);
+ 
+ 	return ;
+}
+
+
+int set_interface_attribs (int fd, int speed, int parity)
+{
+        struct termios tty;
+        memset (&tty, 0, sizeof tty);
+        if (tcgetattr (fd, &tty) != 0)
+        {
+                printf("error %d from tcgetattr", errno);
+                return -1;
+        }
+
+        cfsetospeed (&tty, speed);
+        cfsetispeed (&tty, speed);
+
+        tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;     // 8-bit chars
+        // disable IGNBRK for mismatched speed tests; otherwise receive break
+        // as \000 chars
+        tty.c_iflag &= ~IGNBRK;         // disable break processing
+        tty.c_lflag = 0;                // no signaling chars, no echo,
+                                        // no canonical processing
+        tty.c_oflag = 0;                // no remapping, no delays
+        tty.c_cc[VMIN]  = 0;            // read doesn't block
+        tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
+
+        tty.c_iflag &= ~(IXON | IXOFF | IXANY); // shut off xon/xoff ctrl
+
+        tty.c_cflag |= (CLOCAL | CREAD);// ignore modem controls,
+                                        // enable reading
+        tty.c_cflag &= ~(PARENB | PARODD);      // shut off parity
+        tty.c_cflag |= parity;
+        tty.c_cflag &= ~CSTOPB;
+       // tty.c_cflag &= ~CRTSCTS;
+    
+
+        if (tcsetattr (fd, TCSANOW, &tty) != 0)
+        {
+                printf ("error %d from tcsetattr", errno);
+                return -1;
+        }
+        return 0;
+}
+
+void set_blocking (int fd, int should_block)
+{
+        struct termios tty;
+        memset (&tty, 0, sizeof tty);
+        if (tcgetattr (fd, &tty) != 0)
+        {
+                printf ("error %d from tggetattr", errno);
+                return;
+        }
+
+        tty.c_cc[VMIN]  = should_block ? 1 : 0;
+        tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
+
+        if (tcsetattr (fd, TCSANOW, &tty) != 0)
+               printf ("error %d setting term attributes", errno);
+} 
+
+char *portname = "/dev/ttyXRUSB0" ;
+int fd; 
+char* read_one_byte_from_uart(int timeout){
+    printf("inside\n");
+	unsigned long systime = (unsigned long) time(NULL);
+	
+    if (fd < 0)
+    {
+        printf ("error %d opening %s: %s", errno, portname, strerror (errno));
+        return 0;
+    }
+    
+    set_interface_attribs (fd, B2400, 0);  // set speed to 115,200 bps, 8n1 (no parity)
+    set_blocking (fd, 0);                // set no blocking
+    char buf[1];
+    char *ans=malloc(9); 
+    
+    printf("inside\n");
+    while ((unsigned long) time(NULL) - systime < timeout) {
+    printf("inside %d\n", time(NULL)-systime);
+    	int n = read (fd, buf, sizeof(buf)); 
+    	if (n == 1) {
+	    	printf("N is =%d", n);
+	    	printf("The read string is %hhx\n",buf[0]);
+	    	uint8 temp=buf[0]; 
+            ans[0]='\0'; 
+            printf("data read from uart in uint8 %d \n", temp); 
+            while(temp>0){
+                if(temp%2==1) { strcat(ans,"1"); }
+                else strcat(ans,"0"); 
+                temp>>=1; 
+            }
+	    	return ans;
+	    }
+	}
+	ans[0]='f'; return ans; 
+}
+
+void write_one_byte_to_uart(){
+	    
+	    printf("Write to the UART port in hex\n");
+	    unsigned char data[1];
+    	scanf("%hhx", &data);
+
+    	// error checking 
+    	int n = write (fd, data, 1); 
+ 		if (n!=1)
+    	{
+        	printf ("error in writing to the board through UART port");
+        	exit(1);
+    	}
+        printf("Write Success\n");
+    	return ;
+
+}
 
 static bool isHexDigit(char ch) {
 	return
@@ -864,6 +1011,32 @@ char * read_4byte_from_fpga(int chan, struct FLContext *handle, const char * err
 //		return dec_data_from_fpga; 
 
 }
+char * read_1byte_from_fpgalink(int chan, struct FLContext *handle, const char * error, int timeout ){
+		char* data_red_from_fpga = malloc(33); 
+		uint8 buf[5];
+        bool data_is_there=0; 
+        while(timeout>0){
+            printf("timeout in reverse order -- %d\n" , timeout); 
+            sleep(1); timeout--; 
+            FLStatus fstatus = flReadChannel(handle,chan,1,buf,error); 
+            if(buf[0]!=0) {
+                data_is_there=1; 
+                fstatus = flReadChannel(handle,chan,3,buf+1,error); 
+                break; 
+            }
+        }
+        if(!data_is_there) { data_red_from_fpga[0]='f';  return data_red_from_fpga; }
+		for(int i=0;i<4;i++){
+				for(int j=0;j<8;j++){
+						if((buf[i]&(1<<j)) > 0) { data_red_from_fpga[8*i+j]='1'; }
+						else { data_red_from_fpga[8*i+j]='0'; }
+				}
+		}
+		char* dec_data_from_fpga=decrypt(data_red_from_fpga,key); 
+		return dec_data_from_fpga; 
+ 
+}
+
 
 char* receive_ack(int chan, struct FLContext *handle, const char * error, int timeout) {
 			char * data_red_from_fpga=read_4byte_from_fpga(chan,handle , error,timeout); 
@@ -901,6 +1074,8 @@ void wtt(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 int main(int argc, char *argv[]) {
+    
+    fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
 	ReturnCode retVal = FLP_SUCCESS, pStatus;
 	struct arg_str *ivpOpt = arg_str0("i", "ivp", "<VID:PID>", "            vendor ID and product ID (e.g 04B4:8613)");
 	struct arg_str *vpOpt = arg_str1("v", "vp", "<VID:PID[:DID]>", "       VID, PID and opt. dev ID (e.g 1D50:602B:0001)");
@@ -1168,7 +1343,7 @@ int main(int argc, char *argv[]) {
 		const char* path = rpOpt->sval[0];
 		entire_process:
 		rows = read_table(path, table);
-		for(int i=0; i<15; i++)
+		for(int i=0; i<rows; i++)
 		{
 			printf("%d, %d, %d, %d, %d\n", table[i][0], table[i][1], table[i][2], table[i][3], table[i][4]);
 		}
@@ -1228,10 +1403,59 @@ int main(int argc, char *argv[]) {
     			ack_status=receive_ack(read_chan,handle, error, 256); 
     			if(ack_status[0]=='f') { goto host_label_2; }
     			else {
-    					send_ack(write_chan,handle,error,32); 
-    					sleep(32); 
-    					goto entire_process; 
+    				send_ack(write_chan,handle,error,32); 
+    				
+    				// goto entire_process; 
+    				// Read four bytes
+    				// Wait until timeout
+    				char* red_data=read_1byte_from_fpgalink(read_chan,handle,error,35);    				
+                    if(red_data[0]=='f') { printf("data for track update was not available at fpgalink \n"); }
+                    else {
+                        printf("red track data update -- %s",red_data); 
+    	    			// change the entry corresponding to these bytes in the table
+
+    	    			int x_c = x_coordinate[read_chan>>1];
+    	    			int y_c = y_coordinate[read_chan>>1];
+
+    	    			int x,y,z ;
+    	    			x = (red_data[3] == '1') ? 1 : 0  ;
+    	    			y = (red_data[4] == '1') ? 1 : 0  ;
+    	    			z = (red_data[5] == '1') ? 1 : 0  ;
+
+    	    			int dir = x*4 + y*2 + z;
+
+    	    			for (int count =0 ; count < rows ; count++){
+
+    	    				if (table[count][0] == x_c && table[count][1]==y_c && table[count][2]==dir) {
+    	    					table[count][3] = red_data[6];
+
+   		    					x = (red_data[0] == '1') ? 1 : 0  ;
+   		    					y = (red_data[1] == '1') ? 1 : 0  ;
+   		    					z = (red_data[2] == '1') ? 1 : 0  ;
+
+    	    					table[count][4] = x*4 + y*2 + z;
+    	    					break;
+    	    				}
+    	    			}
+                        printf("Changed the entry to the table\n");
+    	    			// Save table
+    //	    			save_to_file(table,rows);
+
+                        printf("Saved the table to the file\n");
+                    }
+    				// Read data from UART port
+                    printf("Reading uart data from the byte\n");
+    				char* red_uart=read_one_byte_from_uart(35);
+                    if(red_uart[0]=='f') { 
+                        printf("Data for track update is not available at uart port \n"); 
+                    }
+                    else {
+                        printf("Data received from UART : %s\n", red_uart);
+                    }
+    	    		write_one_byte_to_uart();
+                    goto entire_process; 
     			}
+
 	}
 
 //

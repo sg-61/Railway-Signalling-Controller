@@ -382,6 +382,7 @@ begin                                                                     --BEGI
                     ack2DecEnbale <= '0';
                     ack2DecReset <= '1';
                 
+                    sw_enc_inp_data <= "11001100001100111100110000110011";
                     swEncEnable <= '0';
                     swEncReset <= '1';
                 
@@ -476,20 +477,13 @@ begin                                                                     --BEGI
                         reg0_next <= "11110000";
                         if((chanAddr_in = writeChan) and f2hReady_in = '1') then -- and (wrote_data = '0') ) then
                             reg0_next <= "11000001";
-                            --f2hValid_out <= '1';
-                           -- wrote_data <= '1';
                             writeHost <= coordinate_enc((cnt*8 + 7) downto (cnt*8));
-                        --end if;
-                        --if(wrote_data = '1') then
-                           -- wrote_data <= '0';
-                            --f2hValid_out <= '0';
                             cnt <= cnt + 1;
                         end if;
                     else
                         cnt <= 0;
                         state <= 3;
                         reg0_next <= "10000010";
-                        --f2hValid_out <= '1';
                         writeHost <= "00000000";
                     end if;
         
@@ -1103,6 +1097,7 @@ begin                                                                     --BEGI
 -- MACRO_STATE 3
 ----------------------------------------------------------------------------------------------------
             elsif( MACRO_STATE = 3 ) then
+                reg0_next <= "00110000";
                 if(state = 1) then
                     if(up_btn = '1') then
                         state <= 2;
@@ -1130,11 +1125,9 @@ begin                                                                     --BEGI
                         state <= 5;
                     end if;
                 elsif(state = 5) then
-                    reg0_next <= "11000010";
                     if(cnt < 4) then
-                        reg0_next <= "11111111";
+                        reg0_next <= "00110101";
                         if((chanAddr_in = writeChan) and f2hReady_in = '1') then
-                            reg0_next <= "11000001";
                             writeHost <= sw_enc_out_data((cnt*8 + 7) downto (cnt*8));
                             cnt <= cnt + 1;
                         end if;
@@ -1142,8 +1135,6 @@ begin                                                                     --BEGI
                         cnt <= 0;
                         state <= 1;
                         MACRO_STATE <= 4;               
-                        reg0_next <= "10000010";
-                        --f2hValid_out <= '1';
                         writeHost <= "00000000";
                     end if;
                 end if;
@@ -1152,6 +1143,7 @@ begin                                                                     --BEGI
 -- MACRO_STATE 4
 ----------------------------------------------------------------------------------------------------
             elsif(MACRO_STATE = 4) then
+                reg0_next <= "01000000";
                 if(state = 1) then
                     if(left_btn = '1') then
                         state <= 2;
@@ -1160,7 +1152,7 @@ begin                                                                     --BEGI
                         MACRO_STATE <= 5;               
                     end if;
                 elsif(state = 2) then
-                    if(down_btn = '1') then
+                    if(right_btn = '1') then
                         state <= 3;
                     end if;
                 elsif(state = 3) then
@@ -1191,6 +1183,7 @@ begin                                                                     --BEGI
                     state <= 2;
                 elsif(state = 2) then
                     if(uart_read_done = '1') then
+                        reg0_next <= uart_read_data;
                         state <= 3;
                     elsif(cnt < 48000000) then
                         cnt <= cnt + 1;
@@ -1209,7 +1202,6 @@ begin                                                                     --BEGI
 ----------------------------------------------------------------------------------------------------
             elsif( MACRO_STATE = 6 ) then 
                 if(state = 1) then
-            		reg0_next <= "11110000";
                     if(cnt = 0 and to_wait_sec = '0') then
                         to_wait_sec <= '1';
                         waitSecLimit <= 8;
@@ -1220,6 +1212,7 @@ begin                                                                     --BEGI
                         state <= 1;
                         MACRO_STATE <= 2;
                         cnt <= 0;
+            		    reg0_next <= "10101111";
                     end if;
                 end if;
             end if;

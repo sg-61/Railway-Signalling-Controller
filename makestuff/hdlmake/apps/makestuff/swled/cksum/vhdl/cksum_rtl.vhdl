@@ -311,14 +311,18 @@ begin                                                                     --BEGI
 -----------    Note:  cnt has to be set to 0        
 --------------------------------------
             if(uart_to_send = '1') then
-                uart_send_done <= '0';
                 if(cnt = 0) then
+                    uart_send_done <= '0';
                     if(tx_ready = '1') then
                         tx_enable <= '1';
                         tx_data <= uart_write_data;
                         cnt <= 1;
+                        reg0_next <= uart_write_data;
+                    else
+                        tx_enable <= '0';
                     end if;
                 elsif(cnt < 30000) then
+                    tx_enable <= '0';
                     cnt <= cnt + 1;
                 elsif(cnt = 30000) then
                     cnt <= 0;
@@ -1165,12 +1169,14 @@ begin                                                                     --BEGI
                     state <= 4;
                     cnt <= 0;
                 elsif(state = 4) then
-                    reg0_next <= "11011010";
-                    if(uart_send_done = '1') then
-                        state <= 5;
-                    end if;
+                    state <= 5;
                 elsif(state = 5) then
-                    reg0_next <= "11011010";
+                   -- reg0_next <= "11011010";
+                    if(uart_send_done = '1') then
+                        state <= 6;
+                    end if;
+                elsif(state = 6) then
+                    --reg0_next <= "11011010";
                     cnt <= 0;
                     state <= 1;
                     MACRO_STATE <= 5;               

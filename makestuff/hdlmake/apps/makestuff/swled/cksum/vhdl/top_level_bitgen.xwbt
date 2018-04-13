@@ -1,8 +1,8 @@
 INTSTYLE=ise
-INFILE=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.ncd
-OUTFILE=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.bit
+INFILE=/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.ncd
+OUTFILE=/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/top_level.bit
 FAMILY=Spartan6
 PART=xc6slx45-3csg324
-WORKINGDIR=/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl
+WORKINGDIR=/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl
 LICENSE=WebPack
-USER_INFO=211460752_0_0_971
+USER_INFO=211460623_0_0_277

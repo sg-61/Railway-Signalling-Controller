@@ -18,6 +18,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.std_logic_unsigned.all;
 
 architecture rtl of swled is
 	-- Flags for display on the 7-seg decimal points
@@ -108,6 +109,8 @@ architecture rtl of swled is
 	signal rx_enable:	STD_LOGIC;
 	signal tx_ready	:	STD_LOGIC;
 	signal tx_enable:	STD_LOGIC;
+
+    signal uart_data_valid : STD_LOGIC;
 --	signal tx		:	STD_LOGIC;
 --	signal rx		:	STD_LOGIC;
 begin                                                                     --BEGIN_SNIPPET(registers)
@@ -215,6 +218,7 @@ begin                                                                     --BEGI
             state <= 1;
             reg0 <= "10101010";
             cnt <= 0;
+            uart_data_valid <= '0';
         else
 		    reg0 <= reg0_next;
 
@@ -726,6 +730,106 @@ begin                                                                     --BEGI
                 		    input_64(39 downto 37) <= input_data_dec((cnt*8+2) downto (cnt*8));
                 		end if;
                         cnt <= cnt + 1;
+                    elsif (cnt = 8) then
+                        cnt <= cnt + 1;
+                        reg0_next <= "00111110";
+                        if(uart_data_valid = '1') then
+                            uart_data_valid <= '0';
+                          	if (uart_read_data(7 downto 5) = "000") then
+                                if(input_64(0) = '1') then
+                                    if(input_64(1) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(4 downto 2)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(4 downto 2) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(1) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "001") then
+                                if(input_64(5) = '1') then
+                                    if(input_64(6) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(9 downto 7)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(9 downto 7) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(6) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "010") then
+                                if(input_64(10) = '1') then
+                                    if(input_64(11) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(14 downto 12)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(14 downto 12) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(11) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "011") then
+                                if(input_64(15) = '1') then
+                                    if(input_64(16) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(19 downto 17)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(19 downto 17) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(16) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "100") then
+                                if(input_64(20) = '1') then
+                                    if(input_64(21) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(24 downto 22)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(24 downto 22) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(21) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "101") then
+                                if(input_64(25) = '1') then
+                                    if(input_64(26) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(29 downto 27)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(29 downto 27) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(26) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "110") then
+                                if(input_64(30) = '1') then
+                                    if(input_64(31) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(34 downto 32)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(34 downto 32) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(31) <= '0';
+                                    end if;
+                                end if;
+                          	elsif (uart_read_data(7 downto 5) = "111") then
+                                if(input_64(35) = '1') then
+                                    if(input_64(36) = '1' and uart_read_data(3) = '1') then
+                                        if(unsigned(input_64(39 downto 37)) > unsigned(uart_read_data(2 downto 0))) then
+                                            input_64(39 downto 37) <= uart_read_data(2 downto 0);
+                                        end if;
+                                    else
+                                        input_64(36) <= '0';
+                                    end if;
+                                end if;
+                            end if;
+                        end if;
+--                    elsif(cnt = 8) then
+--                        cnt <= cnt + 1;
+--                        if(uart_data_valid = '1' and input_64(5*unsigned(uart_read_data(7 downto 5))) = 1) then
+--                            uart_data_valid <= '0';
+--                            if(input_64(5*unsigned(uart_read_data(7 downto 5)) + 1) = '1' and uart_read_data(3) = '1') then
+--                                input_64(1 + 5*unsigned(uart_read_data(7 downto 5))) <= '1';
+--                                if(unsigned(uart_read_data(2 downto 0)) < unsigned(input_64((5*unsigned(uart_read_data(7 downto 5)) + 4) downto (5*unsigned(uart_read_data(7 downto 5)) + 2)))) then
+--                                    input_64((5*unsigned(uart_read_data(7 downto 5)) + 4) downto (5*unsigned(uart_read_data(7 downto 5)) + 2)) <= uart_read_data(2 downto 0);
+--                                end if;
+--                            else
+--                                input_64(5*unsigned(uart_read_data(7 downto 5)) + 1) <= '0';
+--                            end if;
+--                        end if;
                     else
                         state <= 18;
                         cnt <= 0;
@@ -750,7 +854,9 @@ begin                                                                     --BEGI
     --        			end if;
                         cnt <= cnt + 1;
             			if((input_64(0) = '1') and (input_64(1)= '1') and switch_info(0) = '1') then
-                            if(switch_info(4) = '0') then
+                            if(switch_info(4) = '0' and unsigned(input_64(4 downto 2)) = 1) then
+                			    reg0_next <= "00000010";
+                            elsif(switch_info(4) = '0') then
                 			    reg0_next <= "00000100";
                             else
                 			    reg0_next <= "00000001";
@@ -774,7 +880,9 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                         cnt <= cnt + 1;
             			if((input_64(5) = '1') and (input_64(6)= '1') and switch_info(1) = '1') then
-                            if(switch_info(5) = '0') then
+                            if(switch_info(5) = '0' and unsigned(input_64(9 downto 7)) = 1) then
+                			    reg0_next <= "10000010";
+                            elsif(switch_info(5) = '0') then
                 			    reg0_next <= "10000100";
                             else
                 			    reg0_next <= "10000001";
@@ -805,7 +913,9 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                         cnt <= cnt + 1;
             			if((input_64(10) = '1') and (input_64(11)= '1') and switch_info(2) = '1') then
-                            if(switch_info(6) = '0') then
+                            if(switch_info(6) = '0' and unsigned(input_64(14 downto 12)) = 1) then
+                			    reg0_next <= "01000010";
+                            elsif(switch_info(6) = '0') then
                 			    reg0_next <= "01000100";
                             else
                 			    reg0_next <= "01000001";
@@ -836,7 +946,9 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                       cnt <= cnt + 1;
             			if((input_64(15) = '1') and (input_64(16)= '1') and switch_info(3) = '1') then
-                            if(switch_info(7) = '0') then
+                            if(switch_info(7) = '0' and unsigned(input_64(19 downto 17)) = 1) then
+                			    reg0_next <= "11000010";
+                            elsif(switch_info(7) = '0') then
                 			    reg0_next <= "11000100";
                             else
                 			    reg0_next <= "11000001";
@@ -867,7 +979,10 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                     --  cnt <= cnt + 1;
             			if((input_64(20) = '1') and (input_64(21)= '1') and switch_info(4) = '1') then
-                            if(switch_info(0) = '0') then
+                            if(switch_info(0) = '0' and unsigned(input_64(24 downto 22)) = 1) then
+                			    reg0_next <= "00100010";
+                                cnt <= 1;
+                            elsif(switch_info(0) = '0') then
                 			    reg0_next <= "00100100";
                                 cnt <= 1;
                             else
@@ -923,7 +1038,10 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                       -- cnt <= cnt + 1;
             			if((input_64(25) = '1') and (input_64(26)= '1') and switch_info(5) = '1') then
-                            if(switch_info(1) = '0') then
+                            if(switch_info(1) = '0' and unsigned(input_64(29 downto 27)) = 1) then
+                			    reg0_next <= "10100010";
+                                cnt <= 1;
+                            elsif(switch_info(1) = '0') then
                 			    reg0_next <= "10100100";
                                 cnt <= 1;
                             else
@@ -979,7 +1097,10 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                       --cnt <= cnt + 1;
             			if((input_64(30) = '1') and (input_64(30)= '1') and switch_info(6) = '1') then
-                            if(switch_info(2) = '0') then
+                            if(switch_info(2) = '0' and unsigned(input_64(34 downto 32)) = 1) then
+                			    reg0_next <= "01100010";
+                                cnt <= 1;
+                            elsif(switch_info(2) = '0') then
                 			    reg0_next <= "01100100";
                                 cnt <= 1;
                             else
@@ -1035,7 +1156,10 @@ begin                                                                     --BEGI
                     if (cnt = 0 ) then 
                       cnt <= cnt + 1;
             			if((input_64(35) = '1') and (input_64(35)= '1') and switch_info(7) = '1') then
-                            if(switch_info(3) = '0') then
+                            if(switch_info(3) = '0' and unsigned(input_64(29 downto 27)) = 1) then
+                			    reg0_next <= "11100010";
+                                cnt <= 1;
+                            elsif(switch_info(3) = '0') then
                 			    reg0_next <= "11100100";
                                 cnt <= 1;
                             else
@@ -1108,10 +1232,12 @@ begin                                                                     --BEGI
                         MACRO_STATE <= 4;               
                     end if;
                 elsif(state = 2) then
+                    reg0_next<= "00110010";
                     if(down_btn = '1') then
                         state <= 3;
                     end if;
                 elsif(state = 3) then
+                    reg0_next <= "00110010";
                     sw_enc_inp_data(7 downto 0) <= sw_in(7 downto 0);
                     swEncReset <='0';
                     swEncEnable <= '1';
@@ -1152,10 +1278,12 @@ begin                                                                     --BEGI
                         MACRO_STATE <= 5;               
                     end if;
                 elsif(state = 2) then
+                    reg0_next <= "01000010";
                     if(right_btn = '1') then
                         state <= 3;
                     end if;
                 elsif(state = 3) then
+                    reg0_next <= "01000011"; 
                     uart_write_data <= sw_in;
                     uart_to_send <='1';
                     state <= 4;
@@ -1182,7 +1310,9 @@ begin                                                                     --BEGI
                     cnt <= 0;
                     state <= 2;
                 elsif(state = 2) then
+                    reg0_next <= "01010010"; 
                     if(uart_read_done = '1') then
+                        uart_data_valid <= '1';
                         reg0_next <= uart_read_data;
                         state <= 3;
                     elsif(cnt < 48000000) then
@@ -1203,8 +1333,11 @@ begin                                                                     --BEGI
             elsif( MACRO_STATE = 6 ) then 
                 if(state = 1) then
                     if(cnt = 0 and to_wait_sec = '0') then
+                        reg0_next <= "01100001"; 
+                        to_wait_clk <= '0';
+                        waitCnt <= 0;
                         to_wait_sec <= '1';
-                        waitSecLimit <= 8;
+                        waitSecLimit <= 25;
                         waitSecCnt <= 0;
                         stop_wait_sec <= '0';
                         cnt <= cnt + 1;
@@ -1212,7 +1345,6 @@ begin                                                                     --BEGI
                         state <= 1;
                         MACRO_STATE <= 2;
                         cnt <= 0;
-            		    reg0_next <= "10101111";
                     end if;
                 end if;
             end if;
@@ -1220,6 +1352,7 @@ begin                                                                     --BEGI
     end if; 
 end process;
 
+----------------------------------------------------------------------------------------------------
 
 
 	-- Assert that there's always data for reading, and always room for writing

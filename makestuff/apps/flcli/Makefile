@@ -17,6 +17,7 @@
 ROOT    := $(realpath ../..)
 DEPS    := buffer fpgalink error dump argtable2 readline
 TYPE    := exe
+#LDFLAGS := -lpthread
 SUBDIRS :=
 
 -include $(ROOT)/common/top.mk

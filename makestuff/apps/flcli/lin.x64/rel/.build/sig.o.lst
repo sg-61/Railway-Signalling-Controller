@@ -104,14 +104,14 @@
   85              	.LHOTE2:
   86              		.local	m_sigint
   87              		.comm	m_sigint,1,1
-  88              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+  88              		.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.5) 5.4.0 20160609"
   89              		.section	.note.GNU-stack,"",@progbits
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 sig.c
-     /tmp/ccmW9XsD.s:8      .text:0000000000000000 sigHandler
+     /tmp/ccAcP975.s:8      .text:0000000000000000 sigHandler
                              .bss:0000000000000000 m_sigint
-     /tmp/ccmW9XsD.s:27     .text:0000000000000010 sigIsRaised
-     /tmp/ccmW9XsD.s:46     .text:0000000000000020 sigRegisterHandler
+     /tmp/ccAcP975.s:27     .text:0000000000000010 sigIsRaised
+     /tmp/ccAcP975.s:46     .text:0000000000000020 sigRegisterHandler
 
 UNDEFINED SYMBOLS
 sigemptyset

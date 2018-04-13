@@ -53,6 +53,13 @@ static const char *ptr;
 static bool enableBenchmarking = false;
 
 
+long timediff(clock_t t1, clock_t t2) {
+    long elapsed;
+    elapsed = ((double)t2 - t1) / CLOCKS_PER_SEC * 1000;
+    return elapsed;
+}
+
+
 void save_to_file(int table[][5], int m){
 	
 	FILE *fp;
@@ -139,10 +146,10 @@ void set_blocking (int fd, int should_block)
 
 char *portname = "/dev/ttyXRUSB0" ;
 int fd; 
-char* read_one_byte_from_uart(int timeout){
-    printf("inside\n");
-	unsigned long systime = (unsigned long) time(NULL);
-	
+char* read_one_byte_from_uart(long long  timeout){
+    
+    clock_t start;	
+
     if (fd < 0)
     {
         printf ("error %d opening %s: %s", errno, portname, strerror (errno));
@@ -153,11 +160,10 @@ char* read_one_byte_from_uart(int timeout){
     set_blocking (fd, 0);                // set no blocking
     char buf[1];
     char *ans=malloc(9); 
-    
-    printf("inside\n");
-    while ((unsigned long) time(NULL) - systime < timeout) {
-    printf("inside %d\n", time(NULL)-systime);
-    	int n = read (fd, buf, sizeof(buf)); 
+
+    //printf(" reading data from uart \n"); 
+    //while (timediff(clock(), start) < timeout) {
+    {    	int n = read (fd, buf, sizeof(buf)); 
     	if (n == 1) {
 	    	printf("N is =%d", n);
 	    	printf("The read string is %hhx\n",buf[0]);
@@ -1016,8 +1022,9 @@ char * read_1byte_from_fpgalink(int chan, struct FLContext *handle, const char *
 		uint8 buf[5];
         bool data_is_there=0; 
         while(timeout>0){
-            printf("timeout in reverse order -- %d\n" , timeout); 
-            sleep(1); timeout--; 
+       //     printf("timeout in reverse order -- %d\n" , timeout); 
+            sleep(0.05);
+            timeout--;
             FLStatus fstatus = flReadChannel(handle,chan,1,buf,error); 
             if(buf[0]!=0) {
                 data_is_there=1; 
@@ -1403,55 +1410,83 @@ int main(int argc, char *argv[]) {
     			ack_status=receive_ack(read_chan,handle, error, 256); 
     			if(ack_status[0]=='f') { goto host_label_2; }
     			else {
+                        
     				send_ack(write_chan,handle,error,32); 
     				
     				// goto entire_process; 
     				// Read four bytes
     				// Wait until timeout
-    				char* red_data=read_1byte_from_fpgalink(read_chan,handle,error,35);    				
-                    if(red_data[0]=='f') { printf("data for track update was not available at fpgalink \n"); }
-                    else {
-                        printf("red track data update -- %s",red_data); 
-    	    			// change the entry corresponding to these bytes in the table
 
-    	    			int x_c = x_coordinate[read_chan>>1];
-    	    			int y_c = y_coordinate[read_chan>>1];
+                    sleep(20);
 
-    	    			int x,y,z ;
-    	    			x = (red_data[3] == '1') ? 1 : 0  ;
-    	    			y = (red_data[4] == '1') ? 1 : 0  ;
-    	    			z = (red_data[5] == '1') ? 1 : 0  ;
-
-    	    			int dir = x*4 + y*2 + z;
-
-    	    			for (int count =0 ; count < rows ; count++){
-
-    	    				if (table[count][0] == x_c && table[count][1]==y_c && table[count][2]==dir) {
-    	    					table[count][3] = red_data[6];
-
-   		    					x = (red_data[0] == '1') ? 1 : 0  ;
-   		    					y = (red_data[1] == '1') ? 1 : 0  ;
-   		    					z = (red_data[2] == '1') ? 1 : 0  ;
-
-    	    					table[count][4] = x*4 + y*2 + z;
-    	    					break;
-    	    				}
-    	    			}
-                        printf("Changed the entry to the table\n");
-    	    			// Save table
-    //	    			save_to_file(table,rows);
-
-                        printf("Saved the table to the file\n");
+                    int flag1 = 0, flag2 = 0 ;
+        
+                    clock_t start, stop;
+                    start = clock();
+                    
+                    int timeout_s = 20;                
+    
+                    while ( 100*((double)(clock())-start)/CLOCKS_PER_SEC < timeout_s) {
+                        printf("%.9f sec\n",100*((double)(clock())-start)/CLOCKS_PER_SEC);  
+                        printf("%.8f sec\n", clock()-start); 
+                        
+                        if (!(flag1)){
+                              // 32 tries
+                              char* red_data=read_1byte_from_fpgalink(read_chan,handle,error,32);    				
+                              if(red_data[0]=='f') {} // printf("data for track update was not available at fpgalink \n"); }
+                              else {
+                                  printf("red track data update -- %s",red_data); 
+                                  flag1 = 1 ;
+        	          			// change the entry corresponding to these bytes in the table
+    
+        	          			int x_c = x_coordinate[read_chan>>1];
+        	          			int y_c = y_coordinate[read_chan>>1];
+    
+        	          			int x,y,z ;
+        	          			x = (red_data[3] == '1') ? 1 : 0  ;
+        	          			y = (red_data[4] == '1') ? 1 : 0  ;
+        	          			z = (red_data[5] == '1') ? 1 : 0  ;
+    
+        	          			int dir = x*4 + y*2 + z;
+    
+        	          			for (int count =0 ; count < rows ; count++){
+    
+        	          				if (table[count][0] == x_c && table[count][1]==y_c && table[count][2]==dir) {
+        	          					table[count][3] = red_data[6];
+    
+       		          					x = (red_data[0] == '1') ? 1 : 0  ;
+       		          					y = (red_data[1] == '1') ? 1 : 0  ;
+       		          					z = (red_data[2] == '1') ? 1 : 0  ;
+    
+        	          					table[count][4] = x*4 + y*2 + z;
+        	          					break;
+        	          				}
+        	          			}
+                                  printf("Changed the entry to the table\n");
+        	          			// Save table
+        //	          			save_to_file(table,rows);
+    
+                                  printf("Saved the table to the file\n");
+                              }
+                        }
+        				// Read data from UART port
+        				if (!(flag2)) {
+                            //printf("Reading uart data from the byte\n");
+        	         		char* red_uart=read_one_byte_from_uart(1);
+                            //printf("out of read_one_byte \n"); 
+                             
+                            if(red_uart[0]=='f' && !(flag2)) { 
+                               //printf("Data for track update is not available at uart port \n");
+                            }
+                             else {
+                                 printf("Data received from UART : %s\n", red_uart);
+                                 flag2 = 1 ;
+                             }
+                             }
+                        if(flag1 == 1 && flag2==1 ) break; 
                     }
-    				// Read data from UART port
-                    printf("Reading uart data from the byte\n");
-    				char* red_uart=read_one_byte_from_uart(35);
-                    if(red_uart[0]=='f') { 
-                        printf("Data for track update is not available at uart port \n"); 
-                    }
-                    else {
-                        printf("Data received from UART : %s\n", red_uart);
-                    }
+                    flag1 = 0;
+                    flag2 = 0;
     	    		write_one_byte_to_uart();
                     goto entire_process; 
     			}

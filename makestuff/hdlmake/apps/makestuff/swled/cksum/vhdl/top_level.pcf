@@ -1,9 +1,11 @@
 //! **************************************************************************
-// Written by: Map P.20131013 on Tue Mar 20 14:15:32 2018
+// Written by: Map P.20131013 on Fri Apr 13 21:20:18 2018
 //! **************************************************************************
 
 SCHEMATIC START;
 COMP "fx2Clk_in" LOCATE = SITE "C10" LEVEL 1;
+COMP "rx" LOCATE = SITE "A16" LEVEL 1;
+COMP "tx" LOCATE = SITE "B16" LEVEL 1;
 COMP "fx2Data_io<0>" LOCATE = SITE "A2" LEVEL 1;
 COMP "fx2Data_io<1>" LOCATE = SITE "D6" LEVEL 1;
 COMP "fx2Data_io<2>" LOCATE = SITE "C6" LEVEL 1;
@@ -14,6 +16,7 @@ COMP "fx2Data_io<6>" LOCATE = SITE "A4" LEVEL 1;
 COMP "fx2Data_io<7>" LOCATE = SITE "C5" LEVEL 1;
 COMP "fx2Read_out" LOCATE = SITE "F13" LEVEL 1;
 COMP "fx2GotData_in" LOCATE = SITE "C15" LEVEL 1;
+COMP "right_btn" LOCATE = SITE "F6" LEVEL 1;
 COMP "fx2GotRoom_in" LOCATE = SITE "A9" LEVEL 1;
 COMP "led_out<0>" LOCATE = SITE "U18" LEVEL 1;
 COMP "led_out<1>" LOCATE = SITE "M14" LEVEL 1;
@@ -23,6 +26,9 @@ COMP "led_out<4>" LOCATE = SITE "M13" LEVEL 1;
 COMP "led_out<5>" LOCATE = SITE "D4" LEVEL 1;
 COMP "led_out<6>" LOCATE = SITE "P16" LEVEL 1;
 COMP "led_out<7>" LOCATE = SITE "N12" LEVEL 1;
+COMP "left_btn" LOCATE = SITE "P4" LEVEL 1;
+COMP "down_btn" LOCATE = SITE "P3" LEVEL 1;
+COMP "up_btn" LOCATE = SITE "N4" LEVEL 1;
 COMP "fx2Write_out" LOCATE = SITE "E13" LEVEL 1;
 COMP "reset_in" LOCATE = SITE "F5" LEVEL 1;
 COMP "sw_in<0>" LOCATE = SITE "A10" LEVEL 1;
@@ -66,130 +72,230 @@ TIMEGRP fx2Clk_in = BEL "comm_fpga_fx2/state_FSM_FFd1" BEL
         "comm_fpga_fx2/chanAddr_1" BEL "comm_fpga_fx2/chanAddr_0" BEL
         "comm_fpga_fx2/isAligned" BEL "swled_app/cntRead_2" BEL
         "swled_app/cntRead_1" BEL "swled_app/cntRead_0" BEL
-        "swled_app/state_FSM_FFd1" BEL "swled_app/state_FSM_FFd2" BEL
-        "swled_app/state_FSM_FFd3" BEL "swled_app/state_FSM_FFd4" BEL
-        "swled_app/state_FSM_FFd5" BEL "swled_app/state_FSM_FFd6" BEL
+        "swled_app/state_FSM_FFd6" BEL "swled_app/state_FSM_FFd7" BEL
         "swled_app/state_FSM_FFd8" BEL "swled_app/state_FSM_FFd9" BEL
-        "swled_app/state_FSM_FFd7" BEL "swled_app/state_FSM_FFd10" BEL
-        "swled_app/state_FSM_FFd11" BEL "swled_app/state_FSM_FFd13" BEL
-        "swled_app/state_FSM_FFd14" BEL "swled_app/state_FSM_FFd12" BEL
-        "swled_app/state_FSM_FFd15" BEL "swled_app/state_FSM_FFd16" BEL
-        "swled_app/state_FSM_FFd18" BEL "swled_app/state_FSM_FFd19" BEL
-        "swled_app/state_FSM_FFd17" BEL "swled_app/state_FSM_FFd20" BEL
-        "swled_app/state_FSM_FFd21" BEL "swled_app/state_FSM_FFd23" BEL
-        "swled_app/state_FSM_FFd24" BEL "swled_app/state_FSM_FFd22" BEL
+        "swled_app/uart_cntRead_FSM_FFd1" BEL "swled_app/MACRO_STATE_FSM_FFd1"
+        BEL "swled_app/MACRO_STATE_FSM_FFd2" BEL
+        "swled_app/MACRO_STATE_FSM_FFd3" BEL "swled_app/waitCnt_25" BEL
+        "swled_app/waitCnt_24" BEL "swled_app/waitCnt_23" BEL
+        "swled_app/waitCnt_22" BEL "swled_app/waitCnt_21" BEL
+        "swled_app/waitCnt_20" BEL "swled_app/waitCnt_19" BEL
+        "swled_app/waitCnt_18" BEL "swled_app/waitCnt_17" BEL
+        "swled_app/waitCnt_16" BEL "swled_app/waitCnt_15" BEL
+        "swled_app/waitCnt_14" BEL "swled_app/waitCnt_13" BEL
+        "swled_app/waitCnt_12" BEL "swled_app/waitCnt_11" BEL
+        "swled_app/waitCnt_10" BEL "swled_app/waitCnt_9" BEL
+        "swled_app/waitCnt_8" BEL "swled_app/waitCnt_7" BEL
+        "swled_app/waitCnt_6" BEL "swled_app/waitCnt_5" BEL
+        "swled_app/waitCnt_4" BEL "swled_app/waitCnt_3" BEL
+        "swled_app/waitCnt_2" BEL "swled_app/waitCnt_1" BEL
+        "swled_app/waitCnt_0" BEL "swled_app/to_wait_clk" BEL
         "swled_app/input_data_63" BEL "swled_app/input_data_62" BEL
         "swled_app/input_data_61" BEL "swled_app/input_data_60" BEL
-        "swled_app/input_data_59" BEL "swled_app/input_data_55" BEL
-        "swled_app/input_data_54" BEL "swled_app/input_data_53" BEL
-        "swled_app/input_data_52" BEL "swled_app/input_data_51" BEL
+        "swled_app/input_data_59" BEL "swled_app/input_data_58" BEL
+        "swled_app/input_data_57" BEL "swled_app/input_data_56" BEL
+        "swled_app/input_data_55" BEL "swled_app/input_data_54" BEL
+        "swled_app/input_data_53" BEL "swled_app/input_data_52" BEL
+        "swled_app/input_data_51" BEL "swled_app/input_data_50" BEL
+        "swled_app/input_data_49" BEL "swled_app/input_data_48" BEL
         "swled_app/input_data_47" BEL "swled_app/input_data_46" BEL
         "swled_app/input_data_45" BEL "swled_app/input_data_44" BEL
-        "swled_app/input_data_43" BEL "swled_app/input_data_39" BEL
-        "swled_app/input_data_38" BEL "swled_app/input_data_37" BEL
-        "swled_app/input_data_36" BEL "swled_app/input_data_35" BEL
+        "swled_app/input_data_43" BEL "swled_app/input_data_42" BEL
+        "swled_app/input_data_41" BEL "swled_app/input_data_40" BEL
+        "swled_app/input_data_39" BEL "swled_app/input_data_38" BEL
+        "swled_app/input_data_37" BEL "swled_app/input_data_36" BEL
+        "swled_app/input_data_35" BEL "swled_app/input_data_34" BEL
+        "swled_app/input_data_33" BEL "swled_app/input_data_32" BEL
         "swled_app/input_data_31" BEL "swled_app/input_data_30" BEL
         "swled_app/input_data_29" BEL "swled_app/input_data_28" BEL
-        "swled_app/input_data_27" BEL "swled_app/input_data_23" BEL
-        "swled_app/input_data_22" BEL "swled_app/input_data_21" BEL
-        "swled_app/input_data_20" BEL "swled_app/input_data_19" BEL
+        "swled_app/input_data_27" BEL "swled_app/input_data_26" BEL
+        "swled_app/input_data_25" BEL "swled_app/input_data_24" BEL
+        "swled_app/input_data_23" BEL "swled_app/input_data_22" BEL
+        "swled_app/input_data_21" BEL "swled_app/input_data_20" BEL
+        "swled_app/input_data_19" BEL "swled_app/input_data_18" BEL
+        "swled_app/input_data_17" BEL "swled_app/input_data_16" BEL
         "swled_app/input_data_15" BEL "swled_app/input_data_14" BEL
         "swled_app/input_data_13" BEL "swled_app/input_data_12" BEL
-        "swled_app/input_data_11" BEL "swled_app/input_data_7" BEL
-        "swled_app/input_data_6" BEL "swled_app/input_data_5" BEL
-        "swled_app/input_data_4" BEL "swled_app/input_data_3" BEL
-        "swled_app/data_read" BEL "swled_app/to_read" BEL
-        "swled_app/input_64_35" BEL "swled_app/input_64_30" BEL
-        "swled_app/input_64_26" BEL "swled_app/input_64_25" BEL
+        "swled_app/input_data_11" BEL "swled_app/input_data_10" BEL
+        "swled_app/input_data_9" BEL "swled_app/input_data_8" BEL
+        "swled_app/input_data_7" BEL "swled_app/input_data_6" BEL
+        "swled_app/input_data_5" BEL "swled_app/input_data_4" BEL
+        "swled_app/input_data_3" BEL "swled_app/input_data_2" BEL
+        "swled_app/input_data_1" BEL "swled_app/input_data_0" BEL
+        "swled_app/input_64_35" BEL "swled_app/input_64_34" BEL
+        "swled_app/input_64_33" BEL "swled_app/input_64_32" BEL
+        "swled_app/input_64_31" BEL "swled_app/input_64_30" BEL
+        "swled_app/input_64_29" BEL "swled_app/input_64_28" BEL
+        "swled_app/input_64_27" BEL "swled_app/input_64_26" BEL
+        "swled_app/input_64_25" BEL "swled_app/input_64_24" BEL
+        "swled_app/input_64_23" BEL "swled_app/input_64_22" BEL
         "swled_app/input_64_21" BEL "swled_app/input_64_20" BEL
-        "swled_app/input_64_16" BEL "swled_app/input_64_15" BEL
+        "swled_app/input_64_19" BEL "swled_app/input_64_18" BEL
+        "swled_app/input_64_17" BEL "swled_app/input_64_16" BEL
+        "swled_app/input_64_15" BEL "swled_app/input_64_14" BEL
+        "swled_app/input_64_13" BEL "swled_app/input_64_12" BEL
         "swled_app/input_64_11" BEL "swled_app/input_64_10" BEL
-        "swled_app/input_64_6" BEL "swled_app/input_64_5" BEL
+        "swled_app/input_64_9" BEL "swled_app/input_64_8" BEL
+        "swled_app/input_64_7" BEL "swled_app/input_64_6" BEL
+        "swled_app/input_64_5" BEL "swled_app/input_64_4" BEL
+        "swled_app/input_64_3" BEL "swled_app/input_64_2" BEL
         "swled_app/input_64_1" BEL "swled_app/input_64_0" BEL
-        "swled_app/waitCnt_25" BEL "swled_app/waitCnt_24" BEL
-        "swled_app/waitCnt_23" BEL "swled_app/waitCnt_22" BEL
-        "swled_app/waitCnt_21" BEL "swled_app/waitCnt_20" BEL
-        "swled_app/waitCnt_19" BEL "swled_app/waitCnt_18" BEL
-        "swled_app/waitCnt_17" BEL "swled_app/waitCnt_16" BEL
-        "swled_app/waitCnt_15" BEL "swled_app/waitCnt_14" BEL
-        "swled_app/waitCnt_13" BEL "swled_app/waitCnt_12" BEL
-        "swled_app/waitCnt_11" BEL "swled_app/waitCnt_10" BEL
-        "swled_app/waitCnt_9" BEL "swled_app/waitCnt_8" BEL
-        "swled_app/waitCnt_7" BEL "swled_app/waitCnt_6" BEL
-        "swled_app/waitCnt_5" BEL "swled_app/waitCnt_4" BEL
-        "swled_app/waitCnt_3" BEL "swled_app/waitCnt_2" BEL
-        "swled_app/waitCnt_1" BEL "swled_app/waitCnt_0" BEL
-        "swled_app/enableDecrypt2" BEL "swled_app/resetDecrypt2" BEL
-        "swled_app/enableDecrypt1" BEL "swled_app/resetDecrypt1" BEL
-        "swled_app/to_wait_sec" BEL "swled_app/cnt_30" BEL "swled_app/cnt_5"
-        BEL "swled_app/cnt_4" BEL "swled_app/cnt_3" BEL "swled_app/cnt_2" BEL
-        "swled_app/cnt_1" BEL "swled_app/cnt_0" BEL "swled_app/waitSecCnt_8"
-        BEL "swled_app/waitSecCnt_7" BEL "swled_app/waitSecCnt_6" BEL
-        "swled_app/waitSecCnt_5" BEL "swled_app/waitSecCnt_4" BEL
-        "swled_app/waitSecCnt_3" BEL "swled_app/waitSecCnt_2" BEL
-        "swled_app/waitSecCnt_1" BEL "swled_app/waitSecCnt_0" BEL
-        "swled_app/stop_wait_sec" BEL "swled_app/sendAck1" BEL
         "swled_app/waitSecLimit_8" BEL "swled_app/waitSecLimit_3" BEL
         "swled_app/waitSecLimit_2" BEL "swled_app/waitSecLimit_1" BEL
-        "swled_app/waitSecLimit_0" BEL "swled_app/data_in_buffer_31" BEL
+        "swled_app/waitSecLimit_0" BEL "swled_app/uart_to_send" BEL
+        "swled_app/uart_to_read" BEL "swled_app/swEncReset" BEL
+        "swled_app/swEncEnable" BEL "swled_app/sw_enc_inp_data_7" BEL
+        "swled_app/sw_enc_inp_data_6" BEL "swled_app/sw_enc_inp_data_5" BEL
+        "swled_app/sw_enc_inp_data_4" BEL "swled_app/sw_enc_inp_data_3" BEL
+        "swled_app/sw_enc_inp_data_2" BEL "swled_app/sw_enc_inp_data_1" BEL
+        "swled_app/sw_enc_inp_data_0" BEL "swled_app/uart_data_valid" BEL
+        "swled_app/enableEncrypt" BEL "swled_app/enableDecrypt2" BEL
+        "swled_app/resetDecrypt2" BEL "swled_app/resetEncrypt" BEL
+        "swled_app/enableDecrypt1" BEL "swled_app/resetDecrypt1" BEL
+        "swled_app/uart_read_data_7" BEL "swled_app/uart_read_data_6" BEL
+        "swled_app/uart_read_data_5" BEL "swled_app/uart_read_data_4" BEL
+        "swled_app/uart_read_data_3" BEL "swled_app/uart_read_data_2" BEL
+        "swled_app/uart_read_data_1" BEL "swled_app/uart_read_data_0" BEL
+        "swled_app/data_read" BEL "swled_app/data_in_buffer_31" BEL
         "swled_app/data_in_buffer_30" BEL "swled_app/data_in_buffer_29" BEL
         "swled_app/data_in_buffer_28" BEL "swled_app/data_in_buffer_27" BEL
-        "swled_app/data_in_buffer_23" BEL "swled_app/data_in_buffer_22" BEL
-        "swled_app/data_in_buffer_21" BEL "swled_app/data_in_buffer_20" BEL
-        "swled_app/data_in_buffer_19" BEL "swled_app/data_in_buffer_15" BEL
+        "swled_app/data_in_buffer_26" BEL "swled_app/data_in_buffer_25" BEL
+        "swled_app/data_in_buffer_24" BEL "swled_app/data_in_buffer_23" BEL
+        "swled_app/data_in_buffer_22" BEL "swled_app/data_in_buffer_21" BEL
+        "swled_app/data_in_buffer_20" BEL "swled_app/data_in_buffer_19" BEL
+        "swled_app/data_in_buffer_18" BEL "swled_app/data_in_buffer_17" BEL
+        "swled_app/data_in_buffer_16" BEL "swled_app/data_in_buffer_15" BEL
         "swled_app/data_in_buffer_14" BEL "swled_app/data_in_buffer_13" BEL
         "swled_app/data_in_buffer_12" BEL "swled_app/data_in_buffer_11" BEL
-        "swled_app/data_in_buffer_7" BEL "swled_app/data_in_buffer_6" BEL
-        "swled_app/data_in_buffer_5" BEL "swled_app/data_in_buffer_4" BEL
-        "swled_app/data_in_buffer_3" BEL "swled_app/reg0_7" BEL
+        "swled_app/data_in_buffer_10" BEL "swled_app/data_in_buffer_9" BEL
+        "swled_app/data_in_buffer_8" BEL "swled_app/data_in_buffer_7" BEL
+        "swled_app/data_in_buffer_6" BEL "swled_app/data_in_buffer_5" BEL
+        "swled_app/data_in_buffer_4" BEL "swled_app/data_in_buffer_3" BEL
+        "swled_app/data_in_buffer_2" BEL "swled_app/data_in_buffer_1" BEL
+        "swled_app/data_in_buffer_0" BEL "swled_app/reg0_7" BEL
         "swled_app/reg0_6" BEL "swled_app/reg0_5" BEL "swled_app/reg0_4" BEL
         "swled_app/reg0_3" BEL "swled_app/reg0_2" BEL "swled_app/reg0_1" BEL
-        "swled_app/reg0_0" BEL "swled_app/f2hData_out_7" BEL
-        "swled_app/f2hData_out_6" BEL "swled_app/f2hData_out_5" BEL
-        "swled_app/f2hData_out_4" BEL "swled_app/f2hData_out_3" BEL
-        "swled_app/f2hData_out_2" BEL "swled_app/f2hData_out_1" BEL
-        "swled_app/f2hData_out_0" BEL "swled_app/writeHost_7" BEL
+        "swled_app/reg0_0" BEL "swled_app/tx_data_7" BEL "swled_app/tx_data_6"
+        BEL "swled_app/tx_data_5" BEL "swled_app/tx_data_4" BEL
+        "swled_app/tx_data_3" BEL "swled_app/tx_data_2" BEL
+        "swled_app/tx_data_1" BEL "swled_app/tx_data_0" BEL
+        "swled_app/f2hData_out_7" BEL "swled_app/f2hData_out_6" BEL
+        "swled_app/f2hData_out_5" BEL "swled_app/f2hData_out_4" BEL
+        "swled_app/f2hData_out_3" BEL "swled_app/f2hData_out_2" BEL
+        "swled_app/f2hData_out_1" BEL "swled_app/f2hData_out_0" BEL
+        "swled_app/tx_enable" BEL "swled_app/uart_send_done" BEL
+        "swled_app/cnt_2" BEL "swled_app/sendAck1" BEL "swled_app/reg0_next_7"
+        BEL "swled_app/reg0_next_6" BEL "swled_app/reg0_next_5" BEL
+        "swled_app/reg0_next_4" BEL "swled_app/reg0_next_3" BEL
+        "swled_app/reg0_next_2" BEL "swled_app/reg0_next_1" BEL
+        "swled_app/reg0_next_0" BEL "swled_app/writeHost_7" BEL
         "swled_app/writeHost_6" BEL "swled_app/writeHost_5" BEL
         "swled_app/writeHost_4" BEL "swled_app/writeHost_3" BEL
         "swled_app/writeHost_2" BEL "swled_app/writeHost_1" BEL
-        "swled_app/writeHost_0" BEL "swled_app/reg0_next_7" BEL
-        "swled_app/reg0_next_6" BEL "swled_app/reg0_next_5" BEL
-        "swled_app/reg0_next_4" BEL "swled_app/reg0_next_3" BEL
-        "swled_app/reg0_next_2" BEL "swled_app/reg0_next_1" BEL
-        "swled_app/reg0_next_0" BEL "swled_app/waitLimit_10" BEL
+        "swled_app/writeHost_0" BEL "swled_app/to_read" BEL
+        "swled_app/waitLimit_10" BEL "swled_app/waitSecCnt_8" BEL
+        "swled_app/waitSecCnt_7" BEL "swled_app/waitSecCnt_6" BEL
+        "swled_app/waitSecCnt_5" BEL "swled_app/waitSecCnt_4" BEL
+        "swled_app/waitSecCnt_3" BEL "swled_app/waitSecCnt_2" BEL
+        "swled_app/waitSecCnt_1" BEL "swled_app/waitSecCnt_0" BEL
+        "swled_app/to_wait_sec" BEL "swled_app/stop_wait_sec" BEL
+        "swled_app/uart_write_data_7" BEL "swled_app/uart_write_data_6" BEL
+        "swled_app/uart_write_data_5" BEL "swled_app/uart_write_data_4" BEL
+        "swled_app/uart_write_data_3" BEL "swled_app/uart_write_data_2" BEL
+        "swled_app/uart_write_data_1" BEL "swled_app/uart_write_data_0" BEL
         "swled_app/switch_info_7" BEL "swled_app/switch_info_6" BEL
         "swled_app/switch_info_5" BEL "swled_app/switch_info_4" BEL
         "swled_app/switch_info_3" BEL "swled_app/switch_info_2" BEL
         "swled_app/switch_info_1" BEL "swled_app/switch_info_0" BEL
         "swled_app/read_data_7" BEL "swled_app/read_data_6" BEL
         "swled_app/read_data_5" BEL "swled_app/read_data_4" BEL
-        "swled_app/read_data_3" BEL "swled_app/dec2/P_31" BEL
+        "swled_app/read_data_3" BEL "swled_app/read_data_2" BEL
+        "swled_app/read_data_1" BEL "swled_app/read_data_0" BEL
+        "swled_app/basic_uart_inst/rx_state_counter_3" BEL
+        "swled_app/basic_uart_inst/rx_state_counter_2" BEL
+        "swled_app/basic_uart_inst/rx_state_counter_1" BEL
+        "swled_app/basic_uart_inst/rx_state_counter_0" BEL
+        "swled_app/basic_uart_inst/rx_state_nbits_3" BEL
+        "swled_app/basic_uart_inst/rx_state_nbits_2" BEL
+        "swled_app/basic_uart_inst/rx_state_nbits_1" BEL
+        "swled_app/basic_uart_inst/rx_state_nbits_0" BEL
+        "swled_app/basic_uart_inst/tx_state_counter_3" BEL
+        "swled_app/basic_uart_inst/tx_state_counter_2" BEL
+        "swled_app/basic_uart_inst/tx_state_counter_1" BEL
+        "swled_app/basic_uart_inst/tx_state_counter_0" BEL
+        "swled_app/basic_uart_inst/sample_counter_10" BEL
+        "swled_app/basic_uart_inst/sample_counter_9" BEL
+        "swled_app/basic_uart_inst/sample_counter_8" BEL
+        "swled_app/basic_uart_inst/sample_counter_7" BEL
+        "swled_app/basic_uart_inst/sample_counter_6" BEL
+        "swled_app/basic_uart_inst/sample_counter_5" BEL
+        "swled_app/basic_uart_inst/sample_counter_4" BEL
+        "swled_app/basic_uart_inst/sample_counter_3" BEL
+        "swled_app/basic_uart_inst/sample_counter_2" BEL
+        "swled_app/basic_uart_inst/sample_counter_1" BEL
+        "swled_app/basic_uart_inst/sample_counter_0" BEL
+        "swled_app/basic_uart_inst/tx_state_nbits_3" BEL
+        "swled_app/basic_uart_inst/tx_state_nbits_2" BEL
+        "swled_app/basic_uart_inst/tx_state_nbits_1" BEL
+        "swled_app/basic_uart_inst/tx_state_nbits_0" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_8" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_7" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_6" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_5" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_4" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_3" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_2" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_1" BEL
+        "swled_app/basic_uart_inst/tx_state_bits_0" BEL
+        "swled_app/basic_uart_inst/rx_state_enable" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_7" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_6" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_5" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_4" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_3" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_2" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_1" BEL
+        "swled_app/basic_uart_inst/rx_state_bits_0" BEL
+        "swled_app/basic_uart_inst/rx_state_fsm_state" BEL
+        "swled_app/basic_uart_inst/tx_state_ready" BEL
+        "swled_app/basic_uart_inst/sample" BEL "swled_app/dec2/P_31" BEL
         "swled_app/dec2/P_30" BEL "swled_app/dec2/P_29" BEL
         "swled_app/dec2/P_28" BEL "swled_app/dec2/P_27" BEL
-        "swled_app/dec2/P_23" BEL "swled_app/dec2/P_22" BEL
-        "swled_app/dec2/P_21" BEL "swled_app/dec2/P_20" BEL
-        "swled_app/dec2/P_19" BEL "swled_app/dec2/P_15" BEL
+        "swled_app/dec2/P_26" BEL "swled_app/dec2/P_25" BEL
+        "swled_app/dec2/P_24" BEL "swled_app/dec2/P_23" BEL
+        "swled_app/dec2/P_22" BEL "swled_app/dec2/P_21" BEL
+        "swled_app/dec2/P_20" BEL "swled_app/dec2/P_19" BEL
+        "swled_app/dec2/P_18" BEL "swled_app/dec2/P_17" BEL
+        "swled_app/dec2/P_16" BEL "swled_app/dec2/P_15" BEL
         "swled_app/dec2/P_14" BEL "swled_app/dec2/P_13" BEL
         "swled_app/dec2/P_12" BEL "swled_app/dec2/P_11" BEL
-        "swled_app/dec2/P_7" BEL "swled_app/dec2/P_6" BEL "swled_app/dec2/P_5"
-        BEL "swled_app/dec2/P_4" BEL "swled_app/dec2/P_3" BEL
-        "swled_app/dec2/tempP_31" BEL "swled_app/dec2/tempP_30" BEL
-        "swled_app/dec2/tempP_29" BEL "swled_app/dec2/tempP_28" BEL
-        "swled_app/dec2/tt_3" BEL "swled_app/dec2/tt_2" BEL
-        "swled_app/dec2/tt_1" BEL "swled_app/dec2/tt_0" BEL
-        "swled_app/dec2/cnt_6" BEL "swled_app/dec2/cnt_5" BEL
-        "swled_app/dec2/cnt_4" BEL "swled_app/dec2/cnt_3" BEL
-        "swled_app/dec2/cnt_2" BEL "swled_app/dec2/cnt_1" BEL
-        "swled_app/dec2/cnt_0" BEL "swled_app/dec1/P_31" BEL
-        "swled_app/dec1/P_30" BEL "swled_app/dec1/P_29" BEL
-        "swled_app/dec1/P_28" BEL "swled_app/dec1/P_27" BEL
+        "swled_app/dec2/P_10" BEL "swled_app/dec2/P_9" BEL
+        "swled_app/dec2/P_8" BEL "swled_app/dec2/P_7" BEL "swled_app/dec2/P_6"
+        BEL "swled_app/dec2/P_5" BEL "swled_app/dec2/P_4" BEL
+        "swled_app/dec2/P_3" BEL "swled_app/dec2/P_2" BEL "swled_app/dec2/P_1"
+        BEL "swled_app/dec2/P_0" BEL "swled_app/dec2/tempP_31" BEL
+        "swled_app/dec2/tempP_30" BEL "swled_app/dec2/tempP_29" BEL
+        "swled_app/dec2/tempP_28" BEL "swled_app/dec2/tt_3" BEL
+        "swled_app/dec2/tt_2" BEL "swled_app/dec2/tt_1" BEL
+        "swled_app/dec2/tt_0" BEL "swled_app/dec2/cnt_6" BEL
+        "swled_app/dec2/cnt_5" BEL "swled_app/dec2/cnt_4" BEL
+        "swled_app/dec2/cnt_3" BEL "swled_app/dec2/cnt_2" BEL
+        "swled_app/dec2/cnt_1" BEL "swled_app/dec2/cnt_0" BEL
+        "swled_app/dec1/P_31" BEL "swled_app/dec1/P_30" BEL
+        "swled_app/dec1/P_29" BEL "swled_app/dec1/P_28" BEL
+        "swled_app/dec1/P_27" BEL "swled_app/dec1/P_26" BEL
+        "swled_app/dec1/P_25" BEL "swled_app/dec1/P_24" BEL
         "swled_app/dec1/P_23" BEL "swled_app/dec1/P_22" BEL
         "swled_app/dec1/P_21" BEL "swled_app/dec1/P_20" BEL
-        "swled_app/dec1/P_19" BEL "swled_app/dec1/P_15" BEL
-        "swled_app/dec1/P_14" BEL "swled_app/dec1/P_13" BEL
-        "swled_app/dec1/P_12" BEL "swled_app/dec1/P_11" BEL
-        "swled_app/dec1/P_7" BEL "swled_app/dec1/P_6" BEL "swled_app/dec1/P_5"
-        BEL "swled_app/dec1/P_4" BEL "swled_app/dec1/P_3" BEL
+        "swled_app/dec1/P_19" BEL "swled_app/dec1/P_18" BEL
+        "swled_app/dec1/P_17" BEL "swled_app/dec1/P_16" BEL
+        "swled_app/dec1/P_15" BEL "swled_app/dec1/P_14" BEL
+        "swled_app/dec1/P_13" BEL "swled_app/dec1/P_12" BEL
+        "swled_app/dec1/P_11" BEL "swled_app/dec1/P_10" BEL
+        "swled_app/dec1/P_9" BEL "swled_app/dec1/P_8" BEL "swled_app/dec1/P_7"
+        BEL "swled_app/dec1/P_6" BEL "swled_app/dec1/P_5" BEL
+        "swled_app/dec1/P_4" BEL "swled_app/dec1/P_3" BEL "swled_app/dec1/P_2"
+        BEL "swled_app/dec1/P_1" BEL "swled_app/dec1/P_0" BEL
         "swled_app/dec1/tempP_31" BEL "swled_app/dec1/tempP_30" BEL
         "swled_app/dec1/tempP_29" BEL "swled_app/dec1/tempP_28" BEL
         "swled_app/dec1/tt_3" BEL "swled_app/dec1/tt_2" BEL
@@ -197,51 +303,61 @@ TIMEGRP fx2Clk_in = BEL "comm_fpga_fx2/state_FSM_FFd1" BEL
         "swled_app/dec1/cnt_6" BEL "swled_app/dec1/cnt_5" BEL
         "swled_app/dec1/cnt_4" BEL "swled_app/dec1/cnt_3" BEL
         "swled_app/dec1/cnt_2" BEL "swled_app/dec1/cnt_1" BEL
-        "swled_app/dec1/cnt_0" BEL "swled_app/encAck1/tt_3" BEL
-        "swled_app/encAck1/tt_2" BEL "swled_app/encAck1/tt_1" BEL
-        "swled_app/encAck1/tt_0" BEL "swled_app/encAck1/C_25" BEL
-        "swled_app/encAck1/C_24" BEL "swled_app/encAck1/C_15" BEL
-        "swled_app/encAck1/C_14" BEL "swled_app/encAck1/C_13" BEL
-        "swled_app/encAck1/C_12" BEL "swled_app/encAck1/C_11" BEL
-        "swled_app/encAck1/C_10" BEL "swled_app/encAck1/tempC_31" BEL
-        "swled_app/encAck1/tempC_30" BEL "swled_app/encAck1/tempC_29" BEL
-        "swled_app/encAck1/tempC_28" BEL "swled_app/encAck1/cnt_6" BEL
-        "swled_app/encAck1/cnt_5" BEL "swled_app/encAck1/cnt_4" BEL
-        "swled_app/encAck1/cnt_3" BEL "swled_app/encAck1/cnt_2" BEL
-        "swled_app/encAck1/cnt_1" BEL "swled_app/encAck1/cnt_0" BEL
-        "swled_app/enc/tt_3" BEL "swled_app/enc/tt_2" BEL "swled_app/enc/tt_1"
-        BEL "swled_app/enc/tt_0" BEL "swled_app/enc/C_31" BEL
+        "swled_app/dec1/cnt_0" BEL "swled_app/encSw_Data/tt_3" BEL
+        "swled_app/encSw_Data/tt_2" BEL "swled_app/encSw_Data/tt_1" BEL
+        "swled_app/encSw_Data/tt_0" BEL "swled_app/encSw_Data/C_31" BEL
+        "swled_app/encSw_Data/C_30" BEL "swled_app/encSw_Data/C_29" BEL
+        "swled_app/encSw_Data/C_28" BEL "swled_app/encSw_Data/C_23" BEL
+        "swled_app/encSw_Data/C_22" BEL "swled_app/encSw_Data/C_21" BEL
+        "swled_app/encSw_Data/C_20" BEL "swled_app/encSw_Data/C_7" BEL
+        "swled_app/encSw_Data/C_6" BEL "swled_app/encSw_Data/C_5" BEL
+        "swled_app/encSw_Data/C_4" BEL "swled_app/encSw_Data/C_3" BEL
+        "swled_app/encSw_Data/C_2" BEL "swled_app/encSw_Data/C_1" BEL
+        "swled_app/encSw_Data/C_0" BEL "swled_app/encSw_Data/tempC_31" BEL
+        "swled_app/encSw_Data/tempC_30" BEL "swled_app/encSw_Data/tempC_29"
+        BEL "swled_app/encSw_Data/tempC_28" BEL "swled_app/encSw_Data/cnt_6"
+        BEL "swled_app/encSw_Data/cnt_5" BEL "swled_app/encSw_Data/cnt_4" BEL
+        "swled_app/encSw_Data/cnt_3" BEL "swled_app/encSw_Data/cnt_2" BEL
+        "swled_app/encSw_Data/cnt_1" BEL "swled_app/encSw_Data/cnt_0" BEL
+        "swled_app/encAck1/tt_3" BEL "swled_app/encAck1/tt_2" BEL
+        "swled_app/encAck1/tt_1" BEL "swled_app/encAck1/tt_0" BEL
+        "swled_app/encAck1/C_15" BEL "swled_app/encAck1/C_14" BEL
+        "swled_app/encAck1/C_13" BEL "swled_app/encAck1/C_12" BEL
+        "swled_app/encAck1/tempC_31" BEL "swled_app/encAck1/tempC_30" BEL
+        "swled_app/encAck1/tempC_29" BEL "swled_app/encAck1/tempC_28" BEL
+        "swled_app/encAck1/cnt_6" BEL "swled_app/encAck1/cnt_5" BEL
+        "swled_app/encAck1/cnt_4" BEL "swled_app/encAck1/cnt_3" BEL
+        "swled_app/encAck1/cnt_2" BEL "swled_app/encAck1/cnt_1" BEL
+        "swled_app/encAck1/cnt_0" BEL "swled_app/enc/C_31" BEL
         "swled_app/enc/C_30" BEL "swled_app/enc/C_29" BEL "swled_app/enc/C_28"
-        BEL "swled_app/enc/C_25" BEL "swled_app/enc/C_7" BEL
-        "swled_app/enc/C_6" BEL "swled_app/enc/C_4" BEL
-        "swled_app/enc/tempC_31" BEL "swled_app/enc/tempC_30" BEL
-        "swled_app/enc/tempC_29" BEL "swled_app/enc/tempC_28" BEL
-        "swled_app/enc/cnt_6" BEL "swled_app/enc/cnt_5" BEL
-        "swled_app/enc/cnt_4" BEL "swled_app/enc/cnt_3" BEL
-        "swled_app/enc/cnt_2" BEL "swled_app/enc/cnt_1" BEL
-        "swled_app/enc/cnt_0" BEL "swled_app/seven_seg/count_17" BEL
-        "swled_app/seven_seg/count_16" BEL "swled_app/seven_seg/count_15" BEL
-        "swled_app/seven_seg/count_14" BEL "swled_app/seven_seg/count_13" BEL
-        "swled_app/seven_seg/count_12" BEL "swled_app/seven_seg/count_11" BEL
-        "swled_app/seven_seg/count_10" BEL "swled_app/seven_seg/count_9" BEL
-        "swled_app/seven_seg/count_8" BEL "swled_app/seven_seg/count_7" BEL
-        "swled_app/seven_seg/count_6" BEL "swled_app/seven_seg/count_5" BEL
-        "swled_app/seven_seg/count_4" BEL "swled_app/seven_seg/count_3" BEL
-        "swled_app/seven_seg/count_2" BEL "swled_app/seven_seg/count_1" BEL
-        "swled_app/seven_seg/count_0" BEL "swled_app/ack1EncEnbale" BEL
-        "swled_app/ack1EncReset" BEL "swled_app/to_wait_clk" BEL
-        "swled_app/read_done" BEL "swled_app/cnt_0_1" BEL "swled_app/cnt_2_1"
-        BEL "swled_app/cnt_1_1" BEL "swled_app/cnt_0_2" BEL
-        "comm_fpga_fx2/state_FSM_FFd4_1" BEL "swled_app/cnt_2_2" BEL
-        "swled_app/cnt_1_2" BEL "comm_fpga_fx2/state_FSM_FFd1_1" BEL
-        "swled_app/cnt_0_3" BEL "swled_app/cnt_1_3" BEL "swled_app/cnt_30_1"
-        BEL "comm_fpga_fx2/state_FSM_FFd3_1" BEL "swled_app/state_FSM_FFd18_1"
-        BEL "swled_app/cnt_2_3" BEL "swled_app/cnt_3_1" BEL
-        "comm_fpga_fx2/state_FSM_FFd2_1" BEL "swled_app/state_FSM_FFd15_1" BEL
-        "swled_app/to_wait_sec_1" BEL "swled_app/cnt_30_2" BEL
-        "swled_app/cnt_5_1" BEL "swled_app/cnt_0_4" BEL "swled_app/cnt_30_3"
-        BEL "swled_app/cnt_4_1" BEL "swled_app/to_wait_sec_2" BEL
-        "fx2Clk_in_BUFGP/BUFG";
+        BEL "swled_app/seven_seg/count_17" BEL "swled_app/seven_seg/count_16"
+        BEL "swled_app/seven_seg/count_15" BEL "swled_app/seven_seg/count_14"
+        BEL "swled_app/seven_seg/count_13" BEL "swled_app/seven_seg/count_12"
+        BEL "swled_app/seven_seg/count_11" BEL "swled_app/seven_seg/count_10"
+        BEL "swled_app/seven_seg/count_9" BEL "swled_app/seven_seg/count_8"
+        BEL "swled_app/seven_seg/count_7" BEL "swled_app/seven_seg/count_6"
+        BEL "swled_app/seven_seg/count_5" BEL "swled_app/seven_seg/count_4"
+        BEL "swled_app/seven_seg/count_3" BEL "swled_app/seven_seg/count_2"
+        BEL "swled_app/seven_seg/count_1" BEL "swled_app/seven_seg/count_0"
+        BEL "swled_app/state_FSM_FFd10" BEL "swled_app/cnt_30" BEL
+        "swled_app/cnt_29" BEL "swled_app/cnt_28" BEL "swled_app/cnt_27" BEL
+        "swled_app/cnt_26" BEL "swled_app/cnt_25" BEL "swled_app/cnt_24" BEL
+        "swled_app/cnt_23" BEL "swled_app/cnt_22" BEL "swled_app/cnt_21" BEL
+        "swled_app/cnt_20" BEL "swled_app/cnt_19" BEL "swled_app/cnt_18" BEL
+        "swled_app/cnt_17" BEL "swled_app/cnt_16" BEL "swled_app/cnt_15" BEL
+        "swled_app/cnt_14" BEL "swled_app/cnt_13" BEL "swled_app/cnt_12" BEL
+        "swled_app/cnt_11" BEL "swled_app/cnt_10" BEL "swled_app/cnt_9" BEL
+        "swled_app/cnt_8" BEL "swled_app/cnt_7" BEL "swled_app/cnt_6" BEL
+        "swled_app/cnt_5" BEL "swled_app/cnt_4" BEL "swled_app/cnt_3" BEL
+        "swled_app/cnt_1" BEL "swled_app/cnt_0" BEL "swled_app/read_done" BEL
+        "comm_fpga_fx2/state_FSM_FFd4_1" BEL "comm_fpga_fx2/state_FSM_FFd2_1"
+        BEL "comm_fpga_fx2/state_FSM_FFd3_1" BEL
+        "comm_fpga_fx2/state_FSM_FFd1_1" BEL "swled_app/cnt_2_1" BEL
+        "swled_app/cnt_3_1" BEL "swled_app/cnt_0_1" BEL "swled_app/cnt_1_1"
+        BEL "swled_app/cnt_2_2" BEL "swled_app/sendAck1_1" BEL
+        "swled_app/MACRO_STATE_FSM_FFd2_1" BEL
+        "swled_app/MACRO_STATE_FSM_FFd3_1" BEL
+        "swled_app/MACRO_STATE_FSM_FFd1_1" BEL "fx2Clk_in_BUFGP/BUFG";
 TS_clk = PERIOD TIMEGRP "fx2Clk_in" 20 ns HIGH 50%;
 SCHEMATIC END;
 

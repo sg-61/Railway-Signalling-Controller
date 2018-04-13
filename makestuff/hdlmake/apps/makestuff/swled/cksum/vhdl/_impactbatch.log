@@ -1,6 +1,6 @@
 iMPACT Version: Oct 13 2013 08:43:40
 
-iMPACT log file Started on Tue Mar 20 14:15:58 2018
+iMPACT log file Started on Fri Apr 13 21:22:01 2018
 
 Preference Table
 Name                 Setting             
@@ -19,7 +19,7 @@ SvfPlayDisplayComments false
 '1': Loading file 'top_level.bit' ...
 done.
 INFO:iMPACT:1777 - 
-   Reading /opt/Xilinx/14.7/ISE_DS/ISE/spartan6/data/xc6slx45.bsd...
+   Reading /14.7/ISE_DS/ISE/spartan6/data/xc6slx45.bsd...
 INFO:iMPACT:2257 - Startup Clock has been changed to 'JtagClk' in the bitstream   stored in memory,
    but the original bitstream file remains unchanged.
 UserID read from the bitstream file = 0xFFFFFFFF.
@@ -39,4 +39,4 @@ INFO:iMPACT:188 - '1': Programming completed successfully.
 LCK cycle: NoWait
 INFO:iMPACT - '1': Checking done pin....done.
 '1': Programmed successfully.
-Elapsed time =      2 sec.
+Elapsed time =      5 sec.

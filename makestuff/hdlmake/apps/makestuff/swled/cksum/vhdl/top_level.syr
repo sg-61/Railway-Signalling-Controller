@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total REAL time to Xst completion: 2.00 secs
+Total CPU time to Xst completion: 0.15 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total REAL time to Xst completion: 2.00 secs
+Total CPU time to Xst completion: 0.15 secs
  
 --> 
 Reading design: top_level.prj
@@ -109,24 +109,27 @@ Slice Utilization Ratio Delta      : 5
 =========================================================================
 *                          HDL Parsing                                  *
 =========================================================================
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/harness.vhdl" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/harness.vhdl" into library work
 Parsing entity <swled>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/decrypter.vhd" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/basic_uart.vhd" into library work
+Parsing entity <basic_uart>.
+Parsing architecture <Behavioral> of entity <basic_uart>.
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/decrypter.vhd" into library work
 Parsing entity <decrypter>.
 Parsing architecture <Behavioral> of entity <decrypter>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/encrypter.vhd" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/encrypter.vhd" into library work
 Parsing entity <encrypter>.
 Parsing architecture <Behavioral> of entity <encrypter>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/libs/makestuff/comm-fpga/fx2/vhdl/comm_fpga_fx2.vhdl" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/libs/makestuff/comm-fpga/fx2/vhdl/comm_fpga_fx2.vhdl" into library work
 Parsing entity <comm_fpga_fx2>.
 Parsing architecture <rtl> of entity <comm_fpga_fx2>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/top_level.vhdl" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/top_level.vhdl" into library work
 Parsing entity <top_level>.
 Parsing architecture <structural> of entity <top_level>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/libs/makestuff/seven-seg/vhdl/seven_seg.vhdl" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/libs/makestuff/seven-seg/vhdl/seven_seg.vhdl" into library work
 Parsing entity <seven_seg>.
 Parsing architecture <rtl> of entity <seven_seg>.
-Parsing VHDL file "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" into library work
+Parsing VHDL file "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" into library work
 Parsing architecture <rtl> of entity <swled>.
 
 =========================================================================
@@ -139,28 +142,30 @@ Elaborating entity <comm_fpga_fx2> (architecture <rtl>) from library <work>.
 
 Elaborating entity <swled> (architecture <rtl>) from library <work>.
 
+Elaborating entity <basic_uart> (architecture <Behavioral>) with generics from library <work>.
+
 Elaborating entity <decrypter> (architecture <Behavioral>) from library <work>.
 
 Elaborating entity <encrypter> (architecture <Behavioral>) from library <work>.
-WARNING:HDLCompiler:1127 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" Line 162: Assignment to checksum_next ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" Line 208: Assignment to checksum_next ignored, since the identifier is never used
 
 Elaborating entity <seven_seg> (architecture <rtl>) with generics from library <work>.
-WARNING:Xst:2972 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 122. All outputs of instance <decAck2> of block <decrypter> are unconnected in block <swled>. Underlying logic will be removed.
-WARNING:Xst:2972 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 152. All outputs of instance <encAck2> of block <encrypter> are unconnected in block <swled>. Underlying logic will be removed.
+WARNING:Xst:2972 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 158. All outputs of instance <decAck2> of block <decrypter> are unconnected in block <swled>. Underlying logic will be removed.
+WARNING:Xst:2972 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 188. All outputs of instance <encAck2> of block <encrypter> are unconnected in block <swled>. Underlying logic will be removed.
 
 =========================================================================
 *                           HDL Synthesis                               *
 =========================================================================
 
 Synthesizing Unit <top_level>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/top_level.vhdl".
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/top_level.vhdl".
     Found 1-bit tristate buffer for signal <fx2Addr_out<0>> created at line 26
     Summary:
 	inferred   1 Tristate(s).
 Unit <top_level> synthesized.
 
 Synthesizing Unit <comm_fpga_fx2>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/libs/makestuff/comm-fpga/fx2/vhdl/comm_fpga_fx2.vhdl".
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/libs/makestuff/comm-fpga/fx2/vhdl/comm_fpga_fx2.vhdl".
     Found 17-bit register for signal <count>.
     Found 7-bit register for signal <chanAddr>.
     Found 1-bit register for signal <isWrite>.
@@ -199,16 +204,20 @@ Synthesizing Unit <comm_fpga_fx2>.
 Unit <comm_fpga_fx2> synthesized.
 
 Synthesizing Unit <swled>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/harness.vhdl".
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 102: Output port <done> of the instance <dec1> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 112: Output port <done> of the instance <dec2> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 122: Output port <P> of the instance <decAck2> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 122: Output port <done> of the instance <decAck2> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 132: Output port <done> of the instance <enc> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 142: Output port <done> of the instance <encAck1> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 152: Output port <C> of the instance <encAck2> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 152: Output port <done> of the instance <encAck2> is unconnected or connected to loadless signal.
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/harness.vhdl".
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 138: Output port <done> of the instance <dec1> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 148: Output port <done> of the instance <dec2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 158: Output port <P> of the instance <decAck2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 158: Output port <done> of the instance <decAck2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 168: Output port <done> of the instance <enc> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 178: Output port <done> of the instance <encAck1> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 188: Output port <C> of the instance <encAck2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 188: Output port <done> of the instance <encAck2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/cksum/vhdl/cksum_rtl.vhdl" line 198: Output port <done> of the instance <encSw_Data> is unconnected or connected to loadless signal.
+    Found 10-bit register for signal <state>.
     Found 8-bit register for signal <reg0>.
+    Found 31-bit register for signal <cnt>.
+    Found 1-bit register for signal <uart_data_valid>.
     Found 8-bit register for signal <f2hData_out>.
     Found 30-bit register for signal <waitCnt>.
     Found 1-bit register for signal <to_wait_clk>.
@@ -222,9 +231,16 @@ INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/c
     Found 1-bit register for signal <read_done>.
     Found 8-bit register for signal <read_data>.
     Found 32-bit register for signal <data_in_buffer>.
+    Found 1-bit register for signal <uart_to_read>.
+    Found 3-bit register for signal <uart_cntRead>.
+    Found 1-bit register for signal <uart_read_done>.
+    Found 8-bit register for signal <uart_read_data>.
+    Found 1-bit register for signal <uart_send_done>.
+    Found 1-bit register for signal <tx_enable>.
+    Found 8-bit register for signal <tx_data>.
     Found 8-bit register for signal <reg0_next>.
+    Found 1-bit register for signal <uart_to_send>.
     Found 8-bit register for signal <writeHost>.
-    Found 31-bit register for signal <cnt>.
     Found 1-bit register for signal <sendAck1>.
     Found 16-bit register for signal <checksum>.
     Found 40-bit register for signal <input_64>.
@@ -236,6 +252,9 @@ INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/c
     Found 1-bit register for signal <enableDecrypt2>.
     Found 1-bit register for signal <resetEncrypt>.
     Found 1-bit register for signal <enableEncrypt>.
+    Found 32-bit register for signal <sw_enc_inp_data>.
+    Found 1-bit register for signal <swEncEnable>.
+    Found 1-bit register for signal <swEncReset>.
     Found 1-bit register for signal <ack1EncEnbale>.
     Found 1-bit register for signal <ack1EncReset>.
     Found 7-bit register for signal <readChan>.
@@ -244,58 +263,126 @@ INFO:Xst:3210 - "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/c
     Found 32-bit register for signal <ack1>.
     Found 9-bit register for signal <waitSecLimit>.
     Found 8-bit register for signal <switch_info>.
-    Found 10-bit register for signal <state>.
+    Found 8-bit register for signal <uart_write_data>.
+    Found 4-bit register for signal <MACRO_STATE>.
+    Found finite state machine <FSM_2> for signal <uart_cntRead>.
+    -----------------------------------------------------------------------
+    | States             | 2                                              |
+    | Transitions        | 4                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 1                                              |
+    | Clock              | clk_in (rising_edge)                           |
+    | Reset              | _n4804 (positive)                              |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 000                                            |
+    | Power Up State     | 000                                            |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
     Found finite state machine <FSM_1> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 24                                             |
-    | Transitions        | 131                                            |
+    | States             | 25                                             |
+    | Transitions        | 410                                            |
+    | Inputs             | 31                                             |
+    | Outputs            | 18                                             |
+    | Clock              | clk_in (rising_edge)                           |
+    | Reset              | reset_in (positive)                            |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 0000000001                                     |
+    | Power Up State     | 0000000000                                     |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found finite state machine <FSM_3> for signal <MACRO_STATE>.
+    -----------------------------------------------------------------------
+    | States             | 7                                              |
+    | Transitions        | 39                                             |
     | Inputs             | 16                                             |
     | Outputs            | 13                                             |
     | Clock              | clk_in (rising_edge)                           |
     | Reset              | reset_in (positive)                            |
     | Reset type         | synchronous                                    |
-    | Reset State        | 0000000000                                     |
-    | Power Up State     | 0000000000                                     |
+    | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 30-bit adder for signal <waitCnt[29]_GND_20_o_add_2_OUT> created at line 179.
-    Found 9-bit adder for signal <waitSecCnt[8]_GND_20_o_add_6_OUT> created at line 202.
-    Found 6-bit adder for signal <cntRead[2]_GND_20_o_add_22_OUT> created at line 232.
-    Found 3-bit adder for signal <cntRead[2]_GND_20_o_add_59_OUT> created at line 233.
-    Found 32-bit adder for signal <n2494> created at line 249.
-    Found 31-bit adder for signal <cnt[30]_GND_20_o_add_87_OUT> created at line 257.
-    Found 32-bit adder for signal <n2493> created at line 577.
-    Found 32-bit adder for signal <n2495> created at line 600.
-    Found 8-bit 4-to-1 multiplexer for signal <_n3463> created at line 267.
-    Found 30-bit comparator greater for signal <waitCnt[29]_waitLimit[29]_LessThan_2_o> created at line 178
-    Found 9-bit comparator greater for signal <waitSecCnt[8]_waitSecLimit[8]_LessThan_6_o> created at line 197
-    Found 3-bit comparator greater for signal <cntRead[2]_PWR_11_o_LessThan_20_o> created at line 223
-    Found 7-bit comparator equal for signal <chanAddr_in[6]_readChan[6]_equal_21_o> created at line 224
-    Found 7-bit comparator equal for signal <chanAddr_in[6]_writeChan[6]_equal_70_o> created at line 246
-    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_107_o> created at line 343
-    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_205_o> created at line 516
-    Found 31-bit comparator greater for signal <cnt[30]_GND_20_o_LessThan_214_o> created at line 530
-    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_237_o> created at line 575
+    Found 30-bit adder for signal <waitCnt[29]_GND_20_o_add_2_OUT> created at line 233.
+    Found 9-bit adder for signal <waitSecCnt[8]_GND_20_o_add_6_OUT> created at line 256.
+    Found 6-bit adder for signal <cntRead[2]_GND_20_o_add_22_OUT> created at line 286.
+    Found 3-bit adder for signal <cntRead[2]_GND_20_o_add_59_OUT> created at line 287.
+    Found 31-bit adder for signal <cnt[30]_GND_20_o_add_80_OUT> created at line 330.
+    Found 32-bit adder for signal <n3346> created at line 347.
+    Found 32-bit adder for signal <n3345> created at line 707.
+    Found 32-bit adder for signal <n3347> created at line 730.
+    Found 31-bit 4-to-1 multiplexer for signal <_n4663> created at line 1309.
+    Found 8-bit 4-to-1 multiplexer for signal <_n4709> created at line 365.
+    Found 1-bit 4-to-1 multiplexer for signal <_n4748> created at line 365.
+    Found 1-bit 4-to-1 multiplexer for signal <_n4751> created at line 365.
+    Found 30-bit comparator greater for signal <waitCnt[29]_waitLimit[29]_LessThan_2_o> created at line 232
+    Found 9-bit comparator greater for signal <waitSecCnt[8]_waitSecLimit[8]_LessThan_6_o> created at line 251
+    Found 3-bit comparator greater for signal <cntRead[2]_PWR_11_o_LessThan_20_o> created at line 277
+    Found 7-bit comparator equal for signal <chanAddr_in[6]_readChan[6]_equal_21_o> created at line 278
+    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_80_o> created at line 328
+    Found 7-bit comparator equal for signal <chanAddr_in[6]_writeChan[6]_equal_92_o> created at line 344
+    Found 31-bit comparator greater for signal <cnt[30]_GND_20_o_LessThan_271_o> created at line 660
+    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_294_o> created at line 705
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[4]_LessThan_1971_o> created at line 741
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[9]_LessThan_1973_o> created at line 751
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[14]_LessThan_1975_o> created at line 761
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[19]_LessThan_1977_o> created at line 771
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[24]_LessThan_1979_o> created at line 781
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[29]_LessThan_1981_o> created at line 791
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[34]_LessThan_1983_o> created at line 801
+    Found 3-bit comparator greater for signal <uart_read_data[2]_input_64[39]_LessThan_1985_o> created at line 811
+    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_2447_o> created at line 1247
+    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_2452_o> created at line 1254
+    Found 31-bit comparator greater for signal <GND_20_o_cnt[30]_LessThan_2538_o> created at line 1318
     Summary:
 	inferred   8 Adder/Subtractor(s).
-	inferred 437 D-type flip-flop(s).
-	inferred   9 Comparator(s).
-	inferred 750 Multiplexer(s).
-	inferred   1 Finite State Machine(s).
+	inferred 501 D-type flip-flop(s).
+	inferred  19 Comparator(s).
+	inferred 1068 Multiplexer(s).
+	inferred   3 Finite State Machine(s).
 Unit <swled> synthesized.
 
+Synthesizing Unit <basic_uart>.
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/basic_uart.vhd".
+        DIVISOR = 1250
+    Found 1-bit register for signal <tx_state_ready>.
+    Found 9-bit register for signal <tx_state_bits>.
+    Found 8-bit register for signal <rx_state_bits>.
+    Found 4-bit register for signal <rx_state_nbits>.
+    Found 4-bit register for signal <tx_state_nbits>.
+    Found 11-bit register for signal <sample_counter>.
+    Found 1-bit register for signal <sample>.
+    Found 1-bit register for signal <rx_state_fsm_state>.
+    Found 1-bit register for signal <rx_state_enable>.
+    Found 1-bit register for signal <tx_state_fsm_state>.
+    Found 4-bit register for signal <rx_state_counter>.
+    Found 4-bit register for signal <tx_state_counter>.
+    Found 11-bit adder for signal <sample_counter[10]_GND_24_o_add_1_OUT> created at line 74.
+    Found 4-bit adder for signal <rx_state_nbits[3]_GND_24_o_add_14_OUT> created at line 125.
+    Found 4-bit adder for signal <rx_state_counter[3]_GND_24_o_add_19_OUT> created at line 128.
+    Found 4-bit adder for signal <tx_state_counter[3]_GND_24_o_add_40_OUT> created at line 180.
+    Found 4-bit subtractor for signal <GND_24_o_GND_24_o_sub_34_OUT<3:0>> created at line 177.
+    Summary:
+	inferred   5 Adder/Subtractor(s).
+	inferred  49 D-type flip-flop(s).
+	inferred  12 Multiplexer(s).
+Unit <basic_uart> synthesized.
+
 Synthesizing Unit <decrypter>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/decrypter.vhd".
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/decrypter.vhd".
     Found 32-bit register for signal <tempP>.
     Found 32-bit register for signal <P>.
     Found 7-bit register for signal <cnt>.
     Found 1-bit register for signal <done>.
     Found 4-bit register for signal <tt>.
-    Found 4-bit adder for signal <tt[3]_PWR_14_o_add_8_OUT> created at line 91.
-    Found 7-bit adder for signal <cnt[6]_GND_23_o_add_14_OUT> created at line 98.
+    Found 4-bit adder for signal <tt[3]_PWR_17_o_add_8_OUT> created at line 91.
+    Found 7-bit adder for signal <cnt[6]_GND_26_o_add_14_OUT> created at line 98.
     Found 1-bit 32-to-1 multiplexer for signal <cnt[4]_K[31]_Mux_6_o> created at line 89.
-    Found 7-bit comparator greater for signal <GND_23_o_cnt[6]_LessThan_6_o> created at line 88
+    Found 7-bit comparator greater for signal <GND_26_o_cnt[6]_LessThan_6_o> created at line 88
     Summary:
 	inferred   2 Adder/Subtractor(s).
 	inferred  76 D-type flip-flop(s).
@@ -304,16 +391,16 @@ Synthesizing Unit <decrypter>.
 Unit <decrypter> synthesized.
 
 Synthesizing Unit <encrypter>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/encrypter.vhd".
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/apps/makestuff/swled/templates/fx2all/vhdl/encrypter.vhd".
     Found 7-bit register for signal <cnt>.
     Found 32-bit register for signal <tempC>.
     Found 32-bit register for signal <C>.
     Found 1-bit register for signal <done>.
     Found 4-bit register for signal <tt>.
-    Found 4-bit adder for signal <tt[3]_GND_25_o_add_5_OUT> created at line 87.
-    Found 7-bit adder for signal <cnt[6]_GND_25_o_add_11_OUT> created at line 94.
+    Found 4-bit adder for signal <tt[3]_GND_28_o_add_5_OUT> created at line 87.
+    Found 7-bit adder for signal <cnt[6]_GND_28_o_add_11_OUT> created at line 94.
     Found 1-bit 32-to-1 multiplexer for signal <cnt[4]_K[31]_Mux_3_o> created at line 85.
-    Found 7-bit comparator greater for signal <GND_25_o_cnt[6]_LessThan_3_o> created at line 84
+    Found 7-bit comparator greater for signal <GND_28_o_cnt[6]_LessThan_3_o> created at line 84
     Summary:
 	inferred   2 Adder/Subtractor(s).
 	inferred  76 D-type flip-flop(s).
@@ -322,7 +409,7 @@ Synthesizing Unit <encrypter>.
 Unit <encrypter> synthesized.
 
 Synthesizing Unit <seven_seg>.
-    Related source file is "/home/shubham/20140524/makestuff/hdlmake/libs/makestuff/seven-seg/vhdl/seven_seg.vhdl".
+    Related source file is "/home/rsudarsanan/The-X-Men/makestuff/hdlmake/libs/makestuff/seven-seg/vhdl/seven_seg.vhdl".
         COUNTER_WIDTH = 18
     Found 18-bit register for signal <count>.
     Found 18-bit adder for signal <count_next> created at line 1241.
@@ -347,60 +434,66 @@ Macro Statistics
 # RAMs                                                 : 2
  16x7-bit single-port Read Only RAM                    : 1
  4x4-bit single-port Read Only RAM                     : 1
-# Adders/Subtractors                                   : 18
+# Adders/Subtractors                                   : 25
+ 11-bit adder                                          : 1
  17-bit subtractor                                     : 1
  18-bit adder                                          : 1
  3-bit adder                                           : 1
  30-bit adder                                          : 1
  31-bit adder                                          : 1
  32-bit adder                                          : 3
- 4-bit adder                                           : 4
+ 4-bit adder                                           : 8
+ 4-bit subtractor                                      : 1
  6-bit adder                                           : 1
- 7-bit adder                                           : 4
+ 7-bit adder                                           : 5
  9-bit adder                                           : 1
-# Registers                                            : 61
- 1-bit register                                        : 21
+# Registers                                            : 90
+ 1-bit register                                        : 35
+ 11-bit register                                       : 1
  16-bit register                                       : 1
  17-bit register                                       : 1
  18-bit register                                       : 1
  3-bit register                                        : 1
  30-bit register                                       : 2
  31-bit register                                       : 1
- 32-bit register                                       : 12
- 4-bit register                                        : 4
+ 32-bit register                                       : 15
+ 4-bit register                                        : 9
  40-bit register                                       : 1
  64-bit register                                       : 1
- 7-bit register                                        : 7
- 8-bit register                                        : 6
- 9-bit register                                        : 2
-# Comparators                                          : 13
- 3-bit comparator greater                              : 1
+ 7-bit register                                        : 8
+ 8-bit register                                        : 10
+ 9-bit register                                        : 3
+# Comparators                                          : 24
+ 3-bit comparator greater                              : 9
  30-bit comparator greater                             : 1
- 31-bit comparator greater                             : 4
+ 31-bit comparator greater                             : 6
  7-bit comparator equal                                : 2
- 7-bit comparator greater                              : 4
+ 7-bit comparator greater                              : 5
  9-bit comparator greater                              : 1
-# Multiplexers                                         : 794
- 1-bit 2-to-1 multiplexer                              : 626
- 1-bit 32-to-1 multiplexer                             : 4
- 1-bit 4-to-1 multiplexer                              : 5
+# Multiplexers                                         : 1127
+ 1-bit 2-to-1 multiplexer                              : 876
+ 1-bit 32-to-1 multiplexer                             : 5
+ 1-bit 4-to-1 multiplexer                              : 7
+ 11-bit 2-to-1 multiplexer                             : 1
  17-bit 2-to-1 multiplexer                             : 3
- 2-bit 2-to-1 multiplexer                              : 4
- 30-bit 2-to-1 multiplexer                             : 6
- 31-bit 2-to-1 multiplexer                             : 56
- 4-bit 2-to-1 multiplexer                              : 4
- 40-bit 2-to-1 multiplexer                             : 9
+ 2-bit 2-to-1 multiplexer                              : 8
+ 30-bit 2-to-1 multiplexer                             : 14
+ 31-bit 2-to-1 multiplexer                             : 77
+ 31-bit 4-to-1 multiplexer                             : 1
+ 32-bit 2-to-1 multiplexer                             : 1
+ 4-bit 2-to-1 multiplexer                              : 8
+ 40-bit 2-to-1 multiplexer                             : 10
  64-bit 2-to-1 multiplexer                             : 6
- 7-bit 2-to-1 multiplexer                              : 4
- 8-bit 2-to-1 multiplexer                              : 44
+ 7-bit 2-to-1 multiplexer                              : 5
+ 8-bit 2-to-1 multiplexer                              : 73
  8-bit 4-to-1 multiplexer                              : 1
- 9-bit 2-to-1 multiplexer                              : 22
+ 9-bit 2-to-1 multiplexer                              : 31
 # Tristates                                            : 13
  1-bit tristate buffer                                 : 13
-# FSMs                                                 : 2
-# Xors                                                 : 24
- 1-bit xor8                                            : 16
- 32-bit xor2                                           : 8
+# FSMs                                                 : 4
+# Xors                                                 : 30
+ 1-bit xor8                                            : 20
+ 32-bit xor2                                           : 10
 
 =========================================================================
 
@@ -408,15 +501,12 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
-INFO:Xst:2261 - The FF/Latch <waitLimit_10> in Unit <swled_app> is equivalent to the following 9 FFs/Latches, which will be removed : <waitLimit_11> <waitLimit_13> <waitLimit_14> <waitLimit_18> <waitLimit_19> <waitLimit_20> <waitLimit_22> <waitLimit_23> <waitLimit_25> 
-INFO:Xst:2261 - The FF/Latch <key_0> in Unit <swled_app> is equivalent to the following 47 FFs/Latches, which will be removed : <key_1> <key_4> <key_5> <key_8> <key_9> <key_12> <key_13> <key_16> <key_17> <key_20> <key_21> <key_24> <key_25> <key_31> <coordinate_1> <coordinate_5> <coordinate_12> <coordinate_13> <coordinate_14> <coordinate_15> <coordinate_20> <coordinate_21> <coordinate_22> <coordinate_23> <coordinate_28> <coordinate_29> <coordinate_30> <coordinate_31> <readChan_0> <readChan_1> <writeChan_1> <ack1_0> <ack1_1> <ack1_2> <ack1_3> <ack1_8> <ack1_9> <ack1_10> <ack1_11> <ack1_16> <ack1_17> <ack1_18> <ack1_19> <ack1_24> <ack1_25> <ack1_26> <ack1_27> 
 INFO:Xst:2261 - The FF/Latch <key_2> in Unit <swled_app> is equivalent to the following 61 FFs/Latches, which will be removed : <key_3> <key_6> <key_7> <key_10> <key_11> <key_14> <key_15> <key_18> <key_19> <key_22> <key_23> <key_26> <key_27> <key_28> <key_29> <key_30> <coordinate_0> <coordinate_2> <coordinate_3> <coordinate_4> <coordinate_6> <coordinate_7> <coordinate_8> <coordinate_9> <coordinate_10> <coordinate_11> <coordinate_16> <coordinate_17> <coordinate_18> <coordinate_19> <coordinate_24> <coordinate_25> <coordinate_26> <coordinate_27> <readChan_2> <readChan_3> <readChan_4> <readChan_5> <readChan_6> <writeChan_0> <writeChan_2> <writeChan_3> <writeChan_4> <writeChan_5> <writeChan_6> <ack1_4> <ack1_5> <ack1_6> <ack1_7> <ack1_12> <ack1_13> <ack1_14> <ack1_15> <ack1_20> <ack1_21> <ack1_22> <ack1_23> <ack1_28> <ack1_29> <ack1_30> <ack1_31> 
+INFO:Xst:2261 - The FF/Latch <key_0> in Unit <swled_app> is equivalent to the following 47 FFs/Latches, which will be removed : <key_1> <key_4> <key_5> <key_8> <key_9> <key_12> <key_13> <key_16> <key_17> <key_20> <key_21> <key_24> <key_25> <key_31> <coordinate_1> <coordinate_5> <coordinate_12> <coordinate_13> <coordinate_14> <coordinate_15> <coordinate_20> <coordinate_21> <coordinate_22> <coordinate_23> <coordinate_28> <coordinate_29> <coordinate_30> <coordinate_31> <readChan_0> <readChan_1> <writeChan_1> <ack1_0> <ack1_1> <ack1_2> <ack1_3> <ack1_8> <ack1_9> <ack1_10> <ack1_11> <ack1_16> <ack1_17> <ack1_18> <ack1_19> <ack1_24> <ack1_25> <ack1_26> <ack1_27> 
+INFO:Xst:2261 - The FF/Latch <waitLimit_10> in Unit <swled_app> is equivalent to the following 9 FFs/Latches, which will be removed : <waitLimit_11> <waitLimit_13> <waitLimit_14> <waitLimit_18> <waitLimit_19> <waitLimit_20> <waitLimit_22> <waitLimit_23> <waitLimit_25> 
 INFO:Xst:2261 - The FF/Latch <waitLimit_0> in Unit <swled_app> is equivalent to the following 19 FFs/Latches, which will be removed : <waitLimit_1> <waitLimit_2> <waitLimit_3> <waitLimit_4> <waitLimit_5> <waitLimit_6> <waitLimit_7> <waitLimit_8> <waitLimit_9> <waitLimit_12> <waitLimit_15> <waitLimit_16> <waitLimit_17> <waitLimit_21> <waitLimit_24> <waitLimit_26> <waitLimit_27> <waitLimit_28> <waitLimit_29> 
 WARNING:Xst:1426 - The value init of the FF/Latch waitLimit_10 hinder the constant cleaning in the block swled_app.
    You should achieve better results by setting this init to 1.
-WARNING:Xst:1293 - FF/Latch <key_2> has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <key_0> has a constant value of 1 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <waitLimit_0> has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <checksum_15> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <checksum_14> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <checksum_13> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
@@ -433,9 +523,19 @@ WARNING:Xst:1710 - FF/Latch <checksum_3> (without init value) has a constant val
 WARNING:Xst:1710 - FF/Latch <checksum_2> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <checksum_1> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <checksum_0> (without init value) has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2404 -  FFs/Latches <writeChan<6:2>> (without init value) have a constant value of 0 in block <swled>.
+WARNING:Xst:1293 - FF/Latch <key_2> has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <key_0> has a constant value of 1 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <waitLimit_0> has a constant value of 0 in block <swled_app>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2404 -  FFs/Latches <readChan<6:2>> (without init value) have a constant value of 0 in block <swled>.
+WARNING:Xst:2404 -  FFs/Latches <writeChan<6:2>> (without init value) have a constant value of 0 in block <swled>.
 WARNING:Xst:2404 -  FFs/Latches <ack1<31:28>> (without init value) have a constant value of 0 in block <swled>.
+
+Synthesizing (advanced) Unit <basic_uart>.
+The following registers are absorbed into counter <sample_counter>: 1 register on signal <sample_counter>.
+The following registers are absorbed into counter <rx_state_nbits>: 1 register on signal <rx_state_nbits>.
+The following registers are absorbed into counter <rx_state_counter>: 1 register on signal <rx_state_counter>.
+The following registers are absorbed into counter <tx_state_counter>: 1 register on signal <tx_state_counter>.
+Unit <basic_uart> synthesized (advanced).
 
 Synthesizing (advanced) Unit <encrypter>.
 The following registers are absorbed into counter <tt>: 1 register on signal <tt>.
@@ -478,46 +578,50 @@ Macro Statistics
 # RAMs                                                 : 2
  16x7-bit single-port distributed Read Only RAM        : 1
  4x4-bit single-port distributed Read Only RAM         : 1
-# Adders/Subtractors                                   : 14
+# Adders/Subtractors                                   : 16
  17-bit subtractor                                     : 1
  30-bit adder                                          : 1
  31-bit adder                                          : 1
  4-bit adder                                           : 2
+ 4-bit subtractor                                      : 1
  6-bit adder                                           : 1
- 7-bit adder                                           : 7
+ 7-bit adder                                           : 8
  9-bit adder                                           : 1
-# Counters                                             : 4
+# Counters                                             : 9
+ 11-bit up counter                                     : 1
  18-bit up counter                                     : 1
  3-bit up counter                                      : 1
- 4-bit up counter                                      : 2
-# Registers                                            : 742
- Flip-Flops                                            : 742
-# Comparators                                          : 13
- 3-bit comparator greater                              : 1
+ 4-bit up counter                                      : 6
+# Registers                                            : 904
+ Flip-Flops                                            : 904
+# Comparators                                          : 24
+ 3-bit comparator greater                              : 9
  30-bit comparator greater                             : 1
- 31-bit comparator greater                             : 4
+ 31-bit comparator greater                             : 6
  7-bit comparator equal                                : 2
- 7-bit comparator greater                              : 4
+ 7-bit comparator greater                              : 5
  9-bit comparator greater                              : 1
-# Multiplexers                                         : 792
- 1-bit 2-to-1 multiplexer                              : 626
- 1-bit 32-to-1 multiplexer                             : 4
- 1-bit 4-to-1 multiplexer                              : 5
+# Multiplexers                                         : 1129
+ 1-bit 2-to-1 multiplexer                              : 884
+ 1-bit 32-to-1 multiplexer                             : 5
+ 1-bit 4-to-1 multiplexer                              : 7
  17-bit 2-to-1 multiplexer                             : 3
- 2-bit 2-to-1 multiplexer                              : 4
- 30-bit 2-to-1 multiplexer                             : 6
- 31-bit 2-to-1 multiplexer                             : 56
- 4-bit 2-to-1 multiplexer                              : 2
- 40-bit 2-to-1 multiplexer                             : 9
+ 2-bit 2-to-1 multiplexer                              : 8
+ 30-bit 2-to-1 multiplexer                             : 14
+ 31-bit 2-to-1 multiplexer                             : 77
+ 31-bit 4-to-1 multiplexer                             : 1
+ 32-bit 2-to-1 multiplexer                             : 1
+ 4-bit 2-to-1 multiplexer                              : 4
+ 40-bit 2-to-1 multiplexer                             : 10
  64-bit 2-to-1 multiplexer                             : 6
- 7-bit 2-to-1 multiplexer                              : 4
- 8-bit 2-to-1 multiplexer                              : 44
+ 7-bit 2-to-1 multiplexer                              : 5
+ 8-bit 2-to-1 multiplexer                              : 72
  8-bit 4-to-1 multiplexer                              : 1
- 9-bit 2-to-1 multiplexer                              : 22
-# FSMs                                                 : 2
-# Xors                                                 : 24
- 1-bit xor8                                            : 16
- 32-bit xor2                                           : 8
+ 9-bit 2-to-1 multiplexer                              : 31
+# FSMs                                                 : 4
+# Xors                                                 : 30
+ 1-bit xor8                                            : 20
+ 32-bit xor2                                           : 10
 
 =========================================================================
 
@@ -544,39 +648,39 @@ WARNING:Xst:1426 - The value init of the FF/Latch waitLimit_23 hinder the consta
    You should achieve better results by setting this init to 1.
 WARNING:Xst:1426 - The value init of the FF/Latch waitLimit_25 hinder the constant cleaning in the block swled.
    You should achieve better results by setting this init to 1.
-WARNING:Xst:1293 - FF/Latch <key_30> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_29> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_28> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_27> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_26> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_25> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_24> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_23> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_22> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_21> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_20> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_19> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_18> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_17> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_16> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_15> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_30> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_31> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_0> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_1> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_2> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_3> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_4> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_5> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_6> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_7> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_8> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_9> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_10> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_11> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_12> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_13> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <checksum_14> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_13> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_12> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_11> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_10> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_9> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_8> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_6> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_5> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_4> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_3> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_2> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_1> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_31> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_14> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_15> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_16> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_17> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_18> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_19> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_20> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_21> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_22> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_23> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_24> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_25> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_26> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_27> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_28> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_29> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_30> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_27> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_26> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_25> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
@@ -593,11 +697,11 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_15> (without i
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_14> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_13> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_12> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_31> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeChan_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeChan_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_15> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <readChan_0> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <readChan_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeChan_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeChan_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_0> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_2> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
@@ -610,103 +714,125 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_8> (without in
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_9> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_10> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ack1_11> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_26> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_24> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_21> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_17> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_16> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_15> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_12> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_9> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_8> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_7> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_6> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_5> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_4> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_3> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_2> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_1> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_1> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_2> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_3> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_4> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_5> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_6> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_8> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_9> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_10> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_11> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_12> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_13> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_14> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <checksum_15> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_0> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_29> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_28> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_27> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_26> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_25> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_24> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_23> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_22> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_21> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_20> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_19> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_18> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_17> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_16> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_15> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_14> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_27> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_28> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_29> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_2> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_3> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_4> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_5> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_6> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_8> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_9> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_10> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_11> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_12> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_11> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_10> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_9> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_8> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_6> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_5> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_4> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_3> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_2> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_1> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_0> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_29> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_28> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_27> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_0> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_1> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_2> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_3> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_4> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_5> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_6> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_7> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_8> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_9> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_12> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_15> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_16> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_17> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_21> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_24> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <waitLimit_26> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_13> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_12> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_11> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_10> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_9> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_8> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_7> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_6> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_5> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_4> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_3> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_2> has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_1> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <key_0> has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_31> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_30> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_13> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_14> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_15> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_16> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_17> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_18> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_19> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_20> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_21> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_22> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_23> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_24> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_25> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_26> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_27> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_28> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <coordinate_29> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <waitLimit_10> in Unit <swled> is equivalent to the following 9 FFs/Latches, which will be removed : <waitLimit_11> <waitLimit_13> <waitLimit_14> <waitLimit_18> <waitLimit_19> <waitLimit_20> <waitLimit_22> <waitLimit_23> <waitLimit_25> 
 Analyzing FSM <MFsm> for best encoding.
-Optimizing FSM <swled_app/FSM_1> on signal <state[1:24]> with one-hot encoding.
-----------------------------------------
+Optimizing FSM <swled_app/FSM_3> on signal <MACRO_STATE[1:3]> with sequential encoding.
+-------------------
+ State | Encoding
+-------------------
+ 0000  | 000
+ 0001  | 001
+ 0010  | 010
+ 0011  | 011
+ 0100  | 100
+ 0101  | 101
+ 0110  | 110
+-------------------
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <swled_app/FSM_2> on signal <uart_cntRead[1:1]> with sequential encoding.
+-------------------
+ State | Encoding
+-------------------
+ 000   | 0
+ 001   | 1
+-------------------
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <swled_app/FSM_1> on signal <state[1:10]> with user encoding.
+--------------------------
  State      | Encoding
-----------------------------------------
- 0000000000 | 000000000000000000000001
- 0000000001 | 000000000000000000000010
- 0000000010 | 000000000000000000000100
- 0000000011 | 000000000000000000001000
- 0000000101 | 000000000000000000010000
- 0000000110 | 000000000000000000100000
- 0000001000 | 000000000000000001000000
- 0000001001 | 000000000000000010000000
- 0000001010 | 000000000000000100000000
- 0000001011 | 000000000000001000000000
- 0000001100 | 000000000000010000000000
- 0000001101 | 000000000000100000000000
- 0000001110 | 000000000001000000000000
- 0000010000 | 000000000010000000000000
- 0000010001 | 000000000100000000000000
- 0000010010 | 000000001000000000000000
- 0000010011 | 000000010000000000000000
- 0000010100 | 000000100000000000000000
- 0000010101 | 000001000000000000000000
- 0000010110 | 000010000000000000000000
- 0000010111 | 000100000000000000000000
- 0000011000 | 001000000000000000000000
- 0000011001 | 010000000000000000000000
- 0000011010 | 100000000000000000000000
-----------------------------------------
+--------------------------
+ 0000000000 | 0000000000
+ 0000000010 | 0000000010
+ 0000000001 | 0000000001
+ 0000000011 | 0000000011
+ 0000000101 | 0000000101
+ 0000000110 | 0000000110
+ 0000001000 | 0000001000
+ 0000001001 | 0000001001
+ 0000001010 | 0000001010
+ 0000001011 | 0000001011
+ 0000001100 | 0000001100
+ 0000001101 | 0000001101
+ 0000001110 | 0000001110
+ 0000010000 | 0000010000
+ 0000010001 | 0000010001
+ 0000010010 | 0000010010
+ 0000010011 | 0000010011
+ 0000010100 | 0000010100
+ 0000010101 | 0000010101
+ 0000010110 | 0000010110
+ 0000010111 | 0000010111
+ 0000011000 | 0000011000
+ 0000011001 | 0000011001
+ 0000011010 | 0000011010
+ 0000000100 | 0000000100
+--------------------------
 Analyzing FSM <MFsm> for best encoding.
 Optimizing FSM <comm_fpga_fx2/FSM_0> on signal <state[1:4]> with user encoding.
 ------------------------------------
@@ -722,194 +848,122 @@ Optimizing FSM <comm_fpga_fx2/FSM_0> on signal <state[1:4]> with user encoding.
  s_end_write_nonaligned | 0111
  s_read                 | 1000
 ------------------------------------
-WARNING:Xst:1710 - FF/Latch <waitSecLimit_4> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <waitSecLimit_5> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <waitSecLimit_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <waitSecLimit_6> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <waitSecLimit_7> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2677 - Node <input_64_2> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_3> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_4> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_7> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_8> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_9> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_12> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_13> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_14> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_17> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_18> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_19> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_22> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_23> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_24> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_27> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_28> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_29> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_31> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_32> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_33> of sequential type is unconnected in block <swled>.
-WARNING:Xst:2677 - Node <input_64_34> of sequential type is unconnected in block <swled>.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <waitSecLimit_5> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_31> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_30> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_29> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_28> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_27> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_26> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_25> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_24> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_23> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_22> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_21> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_20> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_19> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_18> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_17> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_16> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_15> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_14> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_13> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_12> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_11> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_10> (without init value) has a constant value of 1 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_9> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <sw_enc_inp_data_8> (without init value) has a constant value of 0 in block <swled>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2677 - Node <input_64_36> of sequential type is unconnected in block <swled>.
 WARNING:Xst:2677 - Node <input_64_37> of sequential type is unconnected in block <swled>.
 WARNING:Xst:2677 - Node <input_64_38> of sequential type is unconnected in block <swled>.
 WARNING:Xst:2677 - Node <input_64_39> of sequential type is unconnected in block <swled>.
+INFO:Xst:2261 - The FF/Latch <waitSecLimit_3> in Unit <swled> is equivalent to the following FF/Latch, which will be removed : <waitSecLimit_4> 
+INFO:Xst:2261 - The FF/Latch <resetEncrypt> in Unit <swled> is equivalent to the following FF/Latch, which will be removed : <ack1EncReset> 
+INFO:Xst:2261 - The FF/Latch <enableEncrypt> in Unit <swled> is equivalent to the following FF/Latch, which will be removed : <ack1EncEnbale> 
 
 Optimizing unit <top_level> ...
 
 Optimizing unit <swled> ...
+
+Optimizing unit <basic_uart> ...
 
 Optimizing unit <decrypter> ...
 
 Optimizing unit <encrypter> ...
 
 Optimizing unit <seven_seg> ...
-WARNING:Xst:2677 - Node <swled_app/input_data_58> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_57> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_56> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_50> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_49> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_48> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_42> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_41> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_40> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_34> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_33> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_32> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/input_data_0> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/data_in_buffer_0> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/read_data_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/read_data_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/read_data_0> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/P_0> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec2/tempP_0> of sequential type is unconnected in block <top_level>.
 WARNING:Xst:2677 - Node <swled_app/dec2/done> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/P_0> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_26> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_25> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_24> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_18> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_17> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_16> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_10> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_9> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_8> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_2> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_1> of sequential type is unconnected in block <top_level>.
-WARNING:Xst:2677 - Node <swled_app/dec1/tempP_0> of sequential type is unconnected in block <top_level>.
 WARNING:Xst:2677 - Node <swled_app/dec1/done> of sequential type is unconnected in block <top_level>.
+WARNING:Xst:2677 - Node <swled_app/encSw_Data/done> of sequential type is unconnected in block <top_level>.
 WARNING:Xst:2677 - Node <swled_app/encAck1/done> of sequential type is unconnected in block <top_level>.
 WARNING:Xst:2677 - Node <swled_app/enc/done> of sequential type is unconnected in block <top_level>.
 WARNING:Xst:1293 - FF/Latch <swled_app/waitCnt_29> has a constant value of 0 in block <top_level>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <swled_app/waitCnt_28> has a constant value of 0 in block <top_level>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <swled_app/waitCnt_27> has a constant value of 0 in block <top_level>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <swled_app/waitCnt_26> has a constant value of 0 in block <top_level>. This FF/Latch will be trimmed during the optimization process.
-INFO:Xst:2261 - The FF/Latch <swled_app/cnt_30> in Unit <top_level> is equivalent to the following 24 FFs/Latches, which will be removed : <swled_app/cnt_29> <swled_app/cnt_28> <swled_app/cnt_27> <swled_app/cnt_26> <swled_app/cnt_25> <swled_app/cnt_24> <swled_app/cnt_23> <swled_app/cnt_22> <swled_app/cnt_21> <swled_app/cnt_20> <swled_app/cnt_19> <swled_app/cnt_18> <swled_app/cnt_17> <swled_app/cnt_16> <swled_app/cnt_15> <swled_app/cnt_14> <swled_app/cnt_13> <swled_app/cnt_12> <swled_app/cnt_11> <swled_app/cnt_10> <swled_app/cnt_9> <swled_app/cnt_8> <swled_app/cnt_7> <swled_app/cnt_6> 
-INFO:Xst:2261 - The FF/Latch <swled_app/ack1EncReset> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/resetEncrypt> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_30> in Unit <top_level> is equivalent to the following 2 FFs/Latches, which will be removed : <swled_app/enc/C_22> <swled_app/enc/C_14> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_25> in Unit <top_level> is equivalent to the following 2 FFs/Latches, which will be removed : <swled_app/enc/C_17> <swled_app/enc/C_9> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_31> in Unit <top_level> is equivalent to the following 2 FFs/Latches, which will be removed : <swled_app/enc/C_23> <swled_app/enc/C_15> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_28> in Unit <top_level> is equivalent to the following 2 FFs/Latches, which will be removed : <swled_app/enc/C_20> <swled_app/enc/C_12> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_29> in Unit <top_level> is equivalent to the following 4 FFs/Latches, which will be removed : <swled_app/enc/C_21> <swled_app/enc/C_13> <swled_app/enc/C_5> <swled_app/enc/C_1> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_10> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_26> <swled_app/encAck1/C_18> <swled_app/encAck1/C_2> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_11> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_27> <swled_app/encAck1/C_19> <swled_app/encAck1/C_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_12> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_28> <swled_app/encAck1/C_20> <swled_app/encAck1/C_4> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_13> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_29> <swled_app/encAck1/C_21> <swled_app/encAck1/C_5> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_14> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_30> <swled_app/encAck1/C_22> <swled_app/encAck1/C_6> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_15> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_31> <swled_app/encAck1/C_23> <swled_app/encAck1/C_7> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_24> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_16> <swled_app/encAck1/C_8> <swled_app/encAck1/C_0> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_25> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encAck1/C_17> <swled_app/encAck1/C_9> <swled_app/encAck1/C_1> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_30> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec2/tempP_22> <swled_app/dec2/tempP_14> <swled_app/dec2/tempP_6> 
+INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_30> in Unit <top_level> is equivalent to the following 6 FFs/Latches, which will be removed : <swled_app/encAck1/C_26> <swled_app/encAck1/C_18> <swled_app/encAck1/C_10> <swled_app/encAck1/C_2> <swled_app/enc/C_22> <swled_app/enc/C_14> 
+INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_31> in Unit <top_level> is equivalent to the following 6 FFs/Latches, which will be removed : <swled_app/encAck1/C_27> <swled_app/encAck1/C_19> <swled_app/encAck1/C_11> <swled_app/encAck1/C_3> <swled_app/enc/C_23> <swled_app/enc/C_15> 
+INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_28> in Unit <top_level> is equivalent to the following 6 FFs/Latches, which will be removed : <swled_app/encAck1/C_24> <swled_app/encAck1/C_16> <swled_app/encAck1/C_8> <swled_app/encAck1/C_0> <swled_app/enc/C_20> <swled_app/enc/C_12> 
+INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_29> in Unit <top_level> is equivalent to the following 8 FFs/Latches, which will be removed : <swled_app/encAck1/C_25> <swled_app/encAck1/C_17> <swled_app/encAck1/C_9> <swled_app/encAck1/C_1> <swled_app/enc/C_21> <swled_app/enc/C_13> <swled_app/enc/C_5> <swled_app/enc/C_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_12> in Unit <top_level> is equivalent to the following 8 FFs/Latches, which will be removed : <swled_app/encAck1/C_28> <swled_app/encAck1/C_20> <swled_app/encAck1/C_4> <swled_app/enc/C_24> <swled_app/enc/C_16> <swled_app/enc/C_8> <swled_app/enc/C_4> <swled_app/enc/C_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_13> in Unit <top_level> is equivalent to the following 6 FFs/Latches, which will be removed : <swled_app/encAck1/C_29> <swled_app/encAck1/C_21> <swled_app/encAck1/C_5> <swled_app/enc/C_25> <swled_app/enc/C_17> <swled_app/enc/C_9> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_14> in Unit <top_level> is equivalent to the following 8 FFs/Latches, which will be removed : <swled_app/encAck1/C_30> <swled_app/encAck1/C_22> <swled_app/encAck1/C_6> <swled_app/enc/C_26> <swled_app/enc/C_18> <swled_app/enc/C_10> <swled_app/enc/C_6> <swled_app/enc/C_2> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/C_15> in Unit <top_level> is equivalent to the following 8 FFs/Latches, which will be removed : <swled_app/encAck1/C_31> <swled_app/encAck1/C_23> <swled_app/encAck1/C_7> <swled_app/enc/C_27> <swled_app/enc/C_19> <swled_app/enc/C_11> <swled_app/enc/C_7> <swled_app/enc/C_3> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_30> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec2/tempP_26> <swled_app/dec2/tempP_22> <swled_app/dec2/tempP_18> <swled_app/dec2/tempP_14> <swled_app/dec2/tempP_10> <swled_app/dec2/tempP_6> <swled_app/dec2/tempP_2> 
 INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_31> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec2/tempP_27> <swled_app/dec2/tempP_23> <swled_app/dec2/tempP_19> <swled_app/dec2/tempP_15> <swled_app/dec2/tempP_11> <swled_app/dec2/tempP_7> <swled_app/dec2/tempP_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_28> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec2/tempP_20> <swled_app/dec2/tempP_12> <swled_app/dec2/tempP_4> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_29> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec2/tempP_21> <swled_app/dec2/tempP_13> <swled_app/dec2/tempP_5> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_30> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec1/tempP_22> <swled_app/dec1/tempP_14> <swled_app/dec1/tempP_6> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_28> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec2/tempP_24> <swled_app/dec2/tempP_20> <swled_app/dec2/tempP_16> <swled_app/dec2/tempP_12> <swled_app/dec2/tempP_8> <swled_app/dec2/tempP_4> <swled_app/dec2/tempP_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec2/tempP_29> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec2/tempP_25> <swled_app/dec2/tempP_21> <swled_app/dec2/tempP_17> <swled_app/dec2/tempP_13> <swled_app/dec2/tempP_9> <swled_app/dec2/tempP_5> <swled_app/dec2/tempP_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_30> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec1/tempP_26> <swled_app/dec1/tempP_22> <swled_app/dec1/tempP_18> <swled_app/dec1/tempP_14> <swled_app/dec1/tempP_10> <swled_app/dec1/tempP_6> <swled_app/dec1/tempP_2> 
 INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_31> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec1/tempP_27> <swled_app/dec1/tempP_23> <swled_app/dec1/tempP_19> <swled_app/dec1/tempP_15> <swled_app/dec1/tempP_11> <swled_app/dec1/tempP_7> <swled_app/dec1/tempP_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_28> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec1/tempP_20> <swled_app/dec1/tempP_12> <swled_app/dec1/tempP_4> 
-INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_29> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/dec1/tempP_21> <swled_app/dec1/tempP_13> <swled_app/dec1/tempP_5> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_4> in Unit <top_level> is equivalent to the following 4 FFs/Latches, which will be removed : <swled_app/enc/C_24> <swled_app/enc/C_16> <swled_app/enc/C_8> <swled_app/enc/C_0> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_6> in Unit <top_level> is equivalent to the following 4 FFs/Latches, which will be removed : <swled_app/enc/C_26> <swled_app/enc/C_18> <swled_app/enc/C_10> <swled_app/enc/C_2> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/C_7> in Unit <top_level> is equivalent to the following 4 FFs/Latches, which will be removed : <swled_app/enc/C_27> <swled_app/enc/C_19> <swled_app/enc/C_11> <swled_app/enc/C_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/ack1EncEnbale> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enableEncrypt> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_30> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_26> <swled_app/encAck1/tempC_22> <swled_app/encAck1/tempC_18> <swled_app/encAck1/tempC_14> <swled_app/encAck1/tempC_10> <swled_app/encAck1/tempC_6> <swled_app/encAck1/tempC_2> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_31> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_27> <swled_app/encAck1/tempC_23> <swled_app/encAck1/tempC_19> <swled_app/encAck1/tempC_15> <swled_app/encAck1/tempC_11> <swled_app/encAck1/tempC_7> <swled_app/encAck1/tempC_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_28> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_24> <swled_app/encAck1/tempC_20> <swled_app/encAck1/tempC_16> <swled_app/encAck1/tempC_12> <swled_app/encAck1/tempC_8> <swled_app/encAck1/tempC_4> <swled_app/encAck1/tempC_0> 
-INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_29> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_25> <swled_app/encAck1/tempC_21> <swled_app/encAck1/tempC_17> <swled_app/encAck1/tempC_13> <swled_app/encAck1/tempC_9> <swled_app/encAck1/tempC_5> <swled_app/encAck1/tempC_1> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/tempC_30> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/enc/tempC_26> <swled_app/enc/tempC_22> <swled_app/enc/tempC_18> <swled_app/enc/tempC_14> <swled_app/enc/tempC_10> <swled_app/enc/tempC_6> <swled_app/enc/tempC_2> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/tempC_31> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/enc/tempC_27> <swled_app/enc/tempC_23> <swled_app/enc/tempC_19> <swled_app/enc/tempC_15> <swled_app/enc/tempC_11> <swled_app/enc/tempC_7> <swled_app/enc/tempC_3> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/tempC_28> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/enc/tempC_24> <swled_app/enc/tempC_20> <swled_app/enc/tempC_16> <swled_app/enc/tempC_12> <swled_app/enc/tempC_8> <swled_app/enc/tempC_4> <swled_app/enc/tempC_0> 
-INFO:Xst:2261 - The FF/Latch <swled_app/enc/tempC_29> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/enc/tempC_25> <swled_app/enc/tempC_21> <swled_app/enc/tempC_17> <swled_app/enc/tempC_13> <swled_app/enc/tempC_9> <swled_app/enc/tempC_5> <swled_app/enc/tempC_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_28> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec1/tempP_24> <swled_app/dec1/tempP_20> <swled_app/dec1/tempP_16> <swled_app/dec1/tempP_12> <swled_app/dec1/tempP_8> <swled_app/dec1/tempP_4> <swled_app/dec1/tempP_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/dec1/tempP_29> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/dec1/tempP_25> <swled_app/dec1/tempP_21> <swled_app/dec1/tempP_17> <swled_app/dec1/tempP_13> <swled_app/dec1/tempP_9> <swled_app/dec1/tempP_5> <swled_app/dec1/tempP_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/tempC_30> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encSw_Data/tempC_26> <swled_app/encSw_Data/tempC_22> <swled_app/encSw_Data/tempC_18> <swled_app/encSw_Data/tempC_14> <swled_app/encSw_Data/tempC_10> <swled_app/encSw_Data/tempC_6> <swled_app/encSw_Data/tempC_2> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/tempC_31> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encSw_Data/tempC_27> <swled_app/encSw_Data/tempC_23> <swled_app/encSw_Data/tempC_19> <swled_app/encSw_Data/tempC_15> <swled_app/encSw_Data/tempC_11> <swled_app/encSw_Data/tempC_7> <swled_app/encSw_Data/tempC_3> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_0> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/tempC_28> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encSw_Data/tempC_24> <swled_app/encSw_Data/tempC_20> <swled_app/encSw_Data/tempC_16> <swled_app/encSw_Data/tempC_12> <swled_app/encSw_Data/tempC_8> <swled_app/encSw_Data/tempC_4> <swled_app/encSw_Data/tempC_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_1> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/tempC_29> in Unit <top_level> is equivalent to the following 7 FFs/Latches, which will be removed : <swled_app/encSw_Data/tempC_25> <swled_app/encSw_Data/tempC_21> <swled_app/encSw_Data/tempC_17> <swled_app/encSw_Data/tempC_13> <swled_app/encSw_Data/tempC_9> <swled_app/encSw_Data/tempC_5> <swled_app/encSw_Data/tempC_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_2> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_2> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_3> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_3> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_4> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_4> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_5> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_5> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/cnt_6> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/cnt_6> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_30> in Unit <top_level> is equivalent to the following 15 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_26> <swled_app/encAck1/tempC_22> <swled_app/encAck1/tempC_18> <swled_app/encAck1/tempC_14> <swled_app/encAck1/tempC_10> <swled_app/encAck1/tempC_6> <swled_app/encAck1/tempC_2> <swled_app/enc/tempC_30> <swled_app/enc/tempC_26> <swled_app/enc/tempC_22> <swled_app/enc/tempC_18> <swled_app/enc/tempC_14> <swled_app/enc/tempC_10> <swled_app/enc/tempC_6> <swled_app/enc/tempC_2> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_31> in Unit <top_level> is equivalent to the following 15 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_27> <swled_app/encAck1/tempC_23> <swled_app/encAck1/tempC_19> <swled_app/encAck1/tempC_15> <swled_app/encAck1/tempC_11> <swled_app/encAck1/tempC_7> <swled_app/encAck1/tempC_3> <swled_app/enc/tempC_31> <swled_app/enc/tempC_27> <swled_app/enc/tempC_23> <swled_app/enc/tempC_19> <swled_app/enc/tempC_15> <swled_app/enc/tempC_11> <swled_app/enc/tempC_7> <swled_app/enc/tempC_3> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_28> in Unit <top_level> is equivalent to the following 15 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_24> <swled_app/encAck1/tempC_20> <swled_app/encAck1/tempC_16> <swled_app/encAck1/tempC_12> <swled_app/encAck1/tempC_8> <swled_app/encAck1/tempC_4> <swled_app/encAck1/tempC_0> <swled_app/enc/tempC_28> <swled_app/enc/tempC_24> <swled_app/enc/tempC_20> <swled_app/enc/tempC_16> <swled_app/enc/tempC_12> <swled_app/enc/tempC_8> <swled_app/enc/tempC_4> <swled_app/enc/tempC_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tempC_29> in Unit <top_level> is equivalent to the following 15 FFs/Latches, which will be removed : <swled_app/encAck1/tempC_25> <swled_app/encAck1/tempC_21> <swled_app/encAck1/tempC_17> <swled_app/encAck1/tempC_13> <swled_app/encAck1/tempC_9> <swled_app/encAck1/tempC_5> <swled_app/encAck1/tempC_1> <swled_app/enc/tempC_29> <swled_app/enc/tempC_25> <swled_app/enc/tempC_21> <swled_app/enc/tempC_17> <swled_app/enc/tempC_13> <swled_app/enc/tempC_9> <swled_app/enc/tempC_5> <swled_app/enc/tempC_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/uart_cntRead_FSM_FFd1> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/uart_read_done> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_20> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/encSw_Data/C_16> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tt_0> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/tt_0> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_21> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/encSw_Data/C_17> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tt_1> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/tt_1> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_22> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/encSw_Data/C_18> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tt_2> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/tt_2> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_23> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/encSw_Data/C_19> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encAck1/tt_3> in Unit <top_level> is equivalent to the following FF/Latch, which will be removed : <swled_app/enc/tt_3> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_30> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encSw_Data/C_26> <swled_app/encSw_Data/C_14> <swled_app/encSw_Data/C_10> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_31> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encSw_Data/C_27> <swled_app/encSw_Data/C_15> <swled_app/encSw_Data/C_11> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_28> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encSw_Data/C_24> <swled_app/encSw_Data/C_12> <swled_app/encSw_Data/C_8> 
+INFO:Xst:2261 - The FF/Latch <swled_app/encSw_Data/C_29> in Unit <top_level> is equivalent to the following 3 FFs/Latches, which will be removed : <swled_app/encSw_Data/C_25> <swled_app/encSw_Data/C_13> <swled_app/encSw_Data/C_9> 
+INFO:Xst:3203 - The FF/Latch <swled_app/basic_uart_inst/tx_state_ready> in Unit <top_level> is the opposite to the following FF/Latch, which will be removed : <swled_app/basic_uart_inst/tx_state_fsm_state> 
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block top_level, actual ratio is 3.
+Found area constraint ratio of 100 (+ 5) on block top_level, actual ratio is 9.
 FlipFlop comm_fpga_fx2/state_FSM_FFd1 has been replicated 1 time(s)
 FlipFlop comm_fpga_fx2/state_FSM_FFd2 has been replicated 1 time(s)
 FlipFlop comm_fpga_fx2/state_FSM_FFd3 has been replicated 1 time(s)
 FlipFlop comm_fpga_fx2/state_FSM_FFd4 has been replicated 1 time(s)
-FlipFlop swled_app/cnt_0 has been replicated 4 time(s)
-FlipFlop swled_app/cnt_1 has been replicated 3 time(s)
-FlipFlop swled_app/cnt_2 has been replicated 3 time(s)
+FlipFlop swled_app/MACRO_STATE_FSM_FFd1 has been replicated 1 time(s)
+FlipFlop swled_app/MACRO_STATE_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop swled_app/MACRO_STATE_FSM_FFd3 has been replicated 1 time(s)
+FlipFlop swled_app/cnt_0 has been replicated 1 time(s)
+FlipFlop swled_app/cnt_1 has been replicated 1 time(s)
+FlipFlop swled_app/cnt_2 has been replicated 2 time(s)
 FlipFlop swled_app/cnt_3 has been replicated 1 time(s)
-FlipFlop swled_app/cnt_30 has been replicated 3 time(s)
-FlipFlop swled_app/cnt_4 has been replicated 1 time(s)
-FlipFlop swled_app/cnt_5 has been replicated 1 time(s)
-FlipFlop swled_app/state_FSM_FFd15 has been replicated 1 time(s)
-FlipFlop swled_app/state_FSM_FFd18 has been replicated 1 time(s)
-FlipFlop swled_app/to_wait_sec has been replicated 2 time(s)
+FlipFlop swled_app/sendAck1 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -917,8 +971,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 395
- Flip-Flops                                            : 395
+# Registers                                            : 573
+ Flip-Flops                                            : 573
 
 =========================================================================
 
@@ -941,33 +995,33 @@ Top Level Output File Name         : top_level.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 1066
+# BELS                             : 2602
 #      GND                         : 1
-#      INV                         : 53
-#      LUT1                        : 75
-#      LUT2                        : 92
-#      LUT3                        : 86
-#      LUT4                        : 65
-#      LUT5                        : 198
-#      LUT6                        : 300
-#      MUXCY                       : 122
-#      MUXF7                       : 5
+#      INV                         : 38
+#      LUT1                        : 73
+#      LUT2                        : 167
+#      LUT3                        : 222
+#      LUT4                        : 211
+#      LUT5                        : 504
+#      LUT6                        : 1091
+#      MUXCY                       : 146
+#      MUXF7                       : 45
 #      VCC                         : 1
-#      XORCY                       : 68
-# FlipFlops/Latches                : 395
-#      FD                          : 34
-#      FDCE                        : 74
-#      FDE                         : 196
-#      FDPE                        : 26
-#      FDR                         : 29
-#      FDRE                        : 35
-#      FDS                         : 1
+#      XORCY                       : 103
+# FlipFlops/Latches                : 573
+#      FD                          : 68
+#      FDC                         : 12
+#      FDCE                        : 124
+#      FDE                         : 295
+#      FDPE                        : 36
+#      FDR                         : 12
+#      FDRE                        : 26
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 45
-#      IBUF                        : 11
+# IO Buffers                       : 51
+#      IBUF                        : 16
 #      IOBUF                       : 8
-#      OBUF                        : 20
+#      OBUF                        : 21
 #      OBUFT                       : 6
 
 Device utilization summary:
@@ -977,20 +1031,20 @@ Selected Device : 6slx45csg324-2
 
 
 Slice Logic Utilization: 
- Number of Slice Registers:             395  out of  54576     0%  
- Number of Slice LUTs:                  869  out of  27288     3%  
-    Number used as Logic:               869  out of  27288     3%  
+ Number of Slice Registers:             573  out of  54576     1%  
+ Number of Slice LUTs:                 2306  out of  27288     8%  
+    Number used as Logic:              2306  out of  27288     8%  
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:    924
-   Number with an unused Flip Flop:     529  out of    924    57%  
-   Number with an unused LUT:            55  out of    924     5%  
-   Number of fully used LUT-FF pairs:   340  out of    924    36%  
-   Number of unique control sets:        41
+ Number of LUT Flip Flop pairs used:   2372
+   Number with an unused Flip Flop:    1799  out of   2372    75%  
+   Number with an unused LUT:            66  out of   2372     2%  
+   Number of fully used LUT-FF pairs:   507  out of   2372    21%  
+   Number of unique control sets:        56
 
 IO Utilization: 
- Number of IOs:                          46
- Number of bonded IOBs:                  46  out of    218    21%  
+ Number of IOs:                          52
+ Number of bonded IOBs:                  52  out of    218    23%  
 
 Specific Feature Utilization:
  Number of BUFG/BUFGCTRLs:                1  out of     16     6%  
@@ -1016,7 +1070,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-fx2Clk_in                          | BUFGP                  | 395   |
+fx2Clk_in                          | BUFGP                  | 573   |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -1027,10 +1081,10 @@ Timing Summary:
 ---------------
 Speed Grade: -2
 
-   Minimum period: 6.934ns (Maximum Frequency: 144.217MHz)
-   Minimum input arrival time before clock: 8.162ns
-   Maximum output required time after clock: 6.767ns
-   Maximum combinational path delay: 8.025ns
+   Minimum period: 11.164ns (Maximum Frequency: 89.574MHz)
+   Minimum input arrival time before clock: 11.417ns
+   Maximum output required time after clock: 7.474ns
+   Maximum combinational path delay: 8.860ns
 
 Timing Details:
 ---------------
@@ -1038,79 +1092,87 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'fx2Clk_in'
-  Clock period: 6.934ns (frequency: 144.217MHz)
-  Total number of paths / destination ports: 21708 / 773
+  Clock period: 11.164ns (frequency: 89.574MHz)
+  Total number of paths / destination ports: 265211 / 1126
 -------------------------------------------------------------------------
-Delay:               6.934ns (Levels of Logic = 5)
-  Source:            swled_app/cnt_1_2 (FF)
+Delay:               11.164ns (Levels of Logic = 9)
+  Source:            swled_app/cnt_6 (FF)
   Destination:       swled_app/cnt_30 (FF)
   Source Clock:      fx2Clk_in rising
   Destination Clock: fx2Clk_in rising
 
-  Data Path: swled_app/cnt_1_2 to swled_app/cnt_30
+  Data Path: swled_app/cnt_6 to swled_app/cnt_30
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              3   0.525   0.994  swled_app/cnt_1_2 (swled_app/cnt_1_2)
-     LUT3:I0->O           14   0.235   1.127  swled_app/GND_20_o_input_64[39]_Select_1873_o<35>261 (swled_app/GND_20_o_input_64[39]_Select_1873_o<35>26)
-     LUT5:I4->O           14   0.254   1.235  swled_app/GND_20_o_cnt[30]_equal_196_o<30>2 (swled_app/GND_20_o_cnt[30]_equal_196_o)
-     LUT5:I3->O            1   0.250   0.682  swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<10>41_SW3 (N245)
-     LUT6:I5->O            5   0.254   1.069  swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<10>41 (swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<10>4)
-     LUT6:I3->O            2   0.235   0.000  swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<5> (swled_app/cnt[30]_GND_20_o_mux_2293_OUT<5>)
-     FDE:D                     0.074          swled_app/cnt_5
+     FD:C->Q              17   0.525   1.664  swled_app/cnt_6 (swled_app/cnt_6)
+     LUT6:I0->O            7   0.254   1.138  swled_app/GND_20_o_cnt[30]_equal_82_o<30>11 (swled_app/GND_20_o_cnt[30]_equal_82_o<30>11)
+     LUT6:I3->O            9   0.235   0.976  swled_app/GND_20_o_cnt[30]_equal_109_o<30>1_1 (swled_app/GND_20_o_cnt[30]_equal_109_o<30>11)
+     LUT5:I4->O           13   0.254   1.098  swled_app/GND_20_o_cnt[30]_equal_253_o<30>1 (swled_app/GND_20_o_cnt[30]_equal_253_o)
+     LUT6:I5->O            4   0.254   0.804  swled_app/Mmux__n4065137521 (swled_app/Mmux__n406513752)
+     LUT6:I5->O            3   0.254   0.766  swled_app/cnt[30]_cnt[30]_mux_2624_OUT<15>21_1 (swled_app/cnt[30]_cnt[30]_mux_2624_OUT<15>211)
+     LUT6:I5->O           19   0.254   1.261  swled_app/cnt[30]_cnt[30]_mux_2624_OUT<15>2_1 (swled_app/cnt[30]_cnt[30]_mux_2624_OUT<15>22)
+     LUT6:I5->O            1   0.254   0.000  swled_app/cnt[30]_cnt[30]_mux_2624_OUT<30>7_SW2_F (N693)
+     MUXF7:I0->O           1   0.163   0.682  swled_app/cnt[30]_cnt[30]_mux_2624_OUT<30>7_SW2 (N534)
+     LUT6:I5->O            1   0.254   0.000  swled_app/cnt_30_glue_rst (swled_app/cnt_30_glue_rst)
+     FD:D                      0.074          swled_app/cnt_30
     ----------------------------------------
-    Total                      6.934ns (1.827ns logic, 5.107ns route)
-                                       (26.3% logic, 73.7% route)
+    Total                     11.164ns (2.775ns logic, 8.389ns route)
+                                       (24.9% logic, 75.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'fx2Clk_in'
-  Total number of paths / destination ports: 531 / 374
+  Total number of paths / destination ports: 1550 / 514
 -------------------------------------------------------------------------
-Offset:              8.162ns (Levels of Logic = 6)
+Offset:              11.417ns (Levels of Logic = 9)
   Source:            fx2GotRoom_in (PAD)
-  Destination:       swled_app/cnt_2 (FF)
+  Destination:       swled_app/cnt_0 (FF)
   Destination Clock: fx2Clk_in rising
 
-  Data Path: fx2GotRoom_in to swled_app/cnt_2
+  Data Path: fx2GotRoom_in to swled_app/cnt_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            14   1.328   1.557  fx2GotRoom_in_IBUF (fx2GotRoom_in_IBUF)
-     LUT5:I0->O           11   0.254   1.147  comm_fpga_fx2/Mmux_f2hReady_out11 (f2hReady)
-     LUT3:I1->O           10   0.250   1.008  swled_app/chanAddr_in[6]_f2hReady_in_AND_7_o1 (swled_app/chanAddr_in[6]_f2hReady_in_AND_7_o)
-     LUT5:I4->O            1   0.254   0.910  swled_app/Mmux_GND_20_o_cnt[30]_mux_127_OUT10221_SW0 (N228)
-     LUT6:I3->O            1   0.235   0.910  swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<2>2 (swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<2>1)
-     LUT6:I3->O            4   0.235   0.000  swled_app/state_cnt[30]_GND_20_o_mux_2293_OUT<2>5 (swled_app/cnt[30]_GND_20_o_mux_2293_OUT<2>)
-     FDE:D                     0.074          swled_app/cnt_2
+     IBUF:I->O            15   1.328   1.585  fx2GotRoom_in_IBUF (fx2GotRoom_in_IBUF)
+     LUT5:I0->O            8   0.254   1.052  comm_fpga_fx2/Mmux_f2hReady_out11_1 (comm_fpga_fx2/Mmux_f2hReady_out11)
+     LUT3:I1->O            6   0.250   0.876  swled_app/chanAddr_in[6]_f2hReady_in_AND_9_o1_1 (swled_app/chanAddr_in[6]_f2hReady_in_AND_9_o1)
+     LUT5:I4->O            2   0.254   1.002  swled_app/chanAddr_in[6]_f2hReady_in_AND_9_o371 (swled_app/chanAddr_in[6]_f2hReady_in_AND_9_o_mmx_out19)
+     LUT6:I2->O           10   0.254   1.008  swled_app/cnt<0>1 (swled_app/cnt<0>_mmx_out1)
+     LUT5:I4->O            1   0.254   0.910  swled_app/Mmux__n406511181_SW3 (N503)
+     LUT6:I3->O            1   0.235   0.910  swled_app/cnt[30]_cnt[30]_mux_2624_OUT<0>32 (swled_app/cnt[30]_cnt[30]_mux_2624_OUT<0>33)
+     LUT5:I2->O            1   0.235   0.682  swled_app/cnt_0_glue_rst_SW0 (N404)
+     LUT6:I5->O            2   0.254   0.000  swled_app/cnt_0_glue_rst (swled_app/cnt_0_glue_rst)
+     FD:D                      0.074          swled_app/cnt_0
     ----------------------------------------
-    Total                      8.162ns (2.630ns logic, 5.532ns route)
-                                       (32.2% logic, 67.8% route)
+    Total                     11.417ns (3.392ns logic, 8.025ns route)
+                                       (29.7% logic, 70.3% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'fx2Clk_in'
-  Total number of paths / destination ports: 135 / 27
+  Total number of paths / destination ports: 136 / 28
 -------------------------------------------------------------------------
-Offset:              6.767ns (Levels of Logic = 2)
-  Source:            comm_fpga_fx2/state_FSM_FFd4 (FF)
-  Destination:       fx2Data_io<7> (PAD)
+Offset:              7.474ns (Levels of Logic = 3)
+  Source:            comm_fpga_fx2/state_FSM_FFd1_1 (FF)
+  Destination:       sseg_out<7> (PAD)
   Source Clock:      fx2Clk_in rising
 
-  Data Path: comm_fpga_fx2/state_FSM_FFd4 to fx2Data_io<7>
+  Data Path: comm_fpga_fx2/state_FSM_FFd1_1 to sseg_out<7>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FD:C->Q              41   0.525   2.101  comm_fpga_fx2/state_FSM_FFd4 (comm_fpga_fx2/state_FSM_FFd4)
-     LUT5:I0->O            9   0.254   0.975  comm_fpga_fx2/driveBus_inv1 (comm_fpga_fx2/driveBus_inv)
-     OBUFT:I->O                2.912          fx2Write_out_OBUFT (fx2Write_out)
+     FD:C->Q               2   0.525   1.002  comm_fpga_fx2/state_FSM_FFd1_1 (comm_fpga_fx2/state_FSM_FFd1_1)
+     LUT5:I1->O           39   0.254   1.865  comm_fpga_fx2/Mmux_f2hReady_out11 (f2hReady)
+     LUT4:I1->O            1   0.235   0.681  swled_app/seven_seg/Mmux_dot11 (sseg_out_7_OBUF)
+     OBUF:I->O                 2.912          sseg_out_7_OBUF (sseg_out<7>)
     ----------------------------------------
-    Total                      6.767ns (3.691ns logic, 3.076ns route)
-                                       (54.5% logic, 45.5% route)
+    Total                      7.474ns (3.926ns logic, 3.548ns route)
+                                       (52.5% logic, 47.5% route)
 
 =========================================================================
 Timing constraint: Default path analysis
   Total number of paths / destination ports: 21 / 12
 -------------------------------------------------------------------------
-Delay:               8.025ns (Levels of Logic = 4)
+Delay:               8.860ns (Levels of Logic = 4)
   Source:            fx2GotRoom_in (PAD)
   Destination:       sseg_out<7> (PAD)
 
@@ -1118,13 +1180,13 @@ Delay:               8.025ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            14   1.328   1.557  fx2GotRoom_in_IBUF (fx2GotRoom_in_IBUF)
-     LUT5:I0->O           11   0.254   1.039  comm_fpga_fx2/Mmux_f2hReady_out11 (f2hReady)
-     LUT4:I3->O            1   0.254   0.681  swled_app/seven_seg/Mmux_dot11 (sseg_out_7_OBUF)
+     IBUF:I->O            15   1.328   1.585  fx2GotRoom_in_IBUF (fx2GotRoom_in_IBUF)
+     LUT5:I0->O           39   0.254   1.865  comm_fpga_fx2/Mmux_f2hReady_out11 (f2hReady)
+     LUT4:I1->O            1   0.235   0.681  swled_app/seven_seg/Mmux_dot11 (sseg_out_7_OBUF)
      OBUF:I->O                 2.912          sseg_out_7_OBUF (sseg_out<7>)
     ----------------------------------------
-    Total                      8.025ns (4.748ns logic, 3.277ns route)
-                                       (59.2% logic, 40.8% route)
+    Total                      8.860ns (4.729ns logic, 4.131ns route)
+                                       (53.4% logic, 46.6% route)
 
 =========================================================================
 
@@ -1136,21 +1198,21 @@ Clock to Setup on destination clock fx2Clk_in
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-fx2Clk_in      |    6.934|         |         |         |
+fx2Clk_in      |   11.164|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 17.00 secs
-Total CPU time to Xst completion: 16.63 secs
+Total REAL time to Xst completion: 98.00 secs
+Total CPU time to Xst completion: 92.05 secs
  
 --> 
 
 
-Total memory usage is 412368 kilobytes
+Total memory usage is 421808 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  293 (   0 filtered)
-Number of infos    :   50 (   0 filtered)
+Number of warnings :  208 (   0 filtered)
+Number of infos    :   64 (   0 filtered)
 

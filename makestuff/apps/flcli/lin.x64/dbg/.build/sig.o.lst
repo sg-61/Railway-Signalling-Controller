@@ -167,9 +167,9 @@
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 sig.c
                              .bss:0000000000000000 m_sigint
-     /tmp/ccsrAGgy.s:8      .text:0000000000000000 sigIsRaised
-     /tmp/ccsrAGgy.s:28     .text:000000000000000d sigHandler
-     /tmp/ccsrAGgy.s:50     .text:000000000000001e sigRegisterHandler
+     /tmp/ccCUvPfu.s:8      .text:0000000000000000 sigIsRaised
+     /tmp/ccCUvPfu.s:28     .text:000000000000000d sigHandler
+     /tmp/ccCUvPfu.s:50     .text:000000000000001e sigRegisterHandler
 
 UNDEFINED SYMBOLS
 sigemptyset

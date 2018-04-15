@@ -120,36 +120,36 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
  *(.gnu.hash)
  .gnu.hash      0x0000000000400298       0x34 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.dynsym         0x00000000004002d0      0x858
+.dynsym         0x00000000004002d0      0x840
  *(.dynsym)
- .dynsym        0x00000000004002d0      0x858 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .dynsym        0x00000000004002d0      0x840 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.dynstr         0x0000000000400b28      0x4c1
+.dynstr         0x0000000000400b10      0x4bc
  *(.dynstr)
- .dynstr        0x0000000000400b28      0x4c1 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .dynstr        0x0000000000400b10      0x4bc /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.gnu.version    0x0000000000400fea       0xb2
+.gnu.version    0x0000000000400fcc       0xb0
  *(.gnu.version)
- .gnu.version   0x0000000000400fea       0xb2 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .gnu.version   0x0000000000400fcc       0xb0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.gnu.version_d  0x00000000004010a0        0x0
+.gnu.version_d  0x0000000000401080        0x0
  *(.gnu.version_d)
  .gnu.version_d
-                0x00000000004010a0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000401080        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.gnu.version_r  0x00000000004010a0       0x50
+.gnu.version_r  0x0000000000401080       0x50
  *(.gnu.version_r)
  .gnu.version_r
-                0x00000000004010a0       0x50 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000401080       0x50 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.rela.dyn       0x00000000004010f0       0x48
+.rela.dyn       0x00000000004010d0       0x48
  *(.rela.init)
  *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
- .rela.text     0x00000000004010f0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .rela.text     0x00000000004010d0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
  .rela.text.unlikely
-                0x00000000004010f0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x00000000004010d0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
  .rela.text.startup
-                0x00000000004010f0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x00000000004010d0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
  *(.rela.fini)
  *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
  *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
@@ -158,222 +158,221 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
  *(.rela.ctors)
  *(.rela.dtors)
  *(.rela.got)
- .rela.got      0x00000000004010f0       0x18 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .rela.got      0x00000000004010d0       0x18 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
  *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
- .rela.bss      0x0000000000401108       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .rela.bss      0x00000000004010e8       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
  *(.rela.ldata .rela.ldata.* .rela.gnu.linkonce.l.*)
  *(.rela.lbss .rela.lbss.* .rela.gnu.linkonce.lb.*)
  *(.rela.lrodata .rela.lrodata.* .rela.gnu.linkonce.lr.*)
  *(.rela.ifunc)
 
-.rela.plt       0x0000000000401138      0x738
+.rela.plt       0x0000000000401118      0x720
  *(.rela.plt)
- .rela.plt      0x0000000000401138      0x738 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .rela.plt      0x0000000000401118      0x720 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
                 [!provide]                        PROVIDE (__rela_iplt_start, .)
  *(.rela.iplt)
- .rela.iplt     0x0000000000401870        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .rela.iplt     0x0000000000401838        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
                 [!provide]                        PROVIDE (__rela_iplt_end, .)
 
-.init           0x0000000000401870       0x1a
+.init           0x0000000000401838       0x1a
  *(SORT(.init))
- .init          0x0000000000401870       0x15 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
-                0x0000000000401870                _init
- .init          0x0000000000401885        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+ .init          0x0000000000401838       0x15 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
+                0x0000000000401838                _init
+ .init          0x000000000040184d        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 
-.plt            0x0000000000401890      0x4e0
+.plt            0x0000000000401860      0x4d0
  *(.plt)
- .plt           0x0000000000401890      0x4e0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x00000000004018a0                flGetFirmwareVersion
-                0x00000000004018b0                flFlashCustomFirmware
-                0x00000000004018c0                __strcat_chk@@GLIBC_2.3.4
-                0x00000000004018d0                free@@GLIBC_2.2.5
-                0x00000000004018e0                flGetFirmwareID
-                0x00000000004018f0                arg_lit0
-                0x0000000000401900                arg_parse
-                0x0000000000401910                flLoadStandardFirmware
-                0x0000000000401920                __errno_location@@GLIBC_2.2.5
-                0x0000000000401930                arg_print_syntax
-                0x0000000000401940                strncpy@@GLIBC_2.2.5
-                0x0000000000401950                arg_uint0
-                0x0000000000401960                arg_str0
-                0x0000000000401970                sigaction@@GLIBC_2.2.5
-                0x0000000000401980                fread@@GLIBC_2.2.5
-                0x0000000000401990                flSelectConduit
-                0x00000000004019a0                add_history
-                0x00000000004019b0                write@@GLIBC_2.2.5
-                0x00000000004019c0                clock@@GLIBC_2.2.5
-                0x00000000004019d0                fclose@@GLIBC_2.2.5
-                0x00000000004019e0                cfsetospeed@@GLIBC_2.2.5
-                0x00000000004019f0                flSaveFirmware
-                0x0000000000401a00                arg_end
-                0x0000000000401a10                __stack_chk_fail@@GLIBC_2.4
-                0x0000000000401a20                gettimeofday@@GLIBC_2.2.5
-                0x0000000000401a30                readline
-                0x0000000000401a40                flMultiBitPortAccess
-                0x0000000000401a50                jtagScanChain
-                0x0000000000401a60                flOpen
-                0x0000000000401a70                arg_print_glossary
-                0x0000000000401a80                flIsFPGARunning
-                0x0000000000401a90                read@@GLIBC_2.2.5
-                0x0000000000401aa0                __libc_start_main@@GLIBC_2.2.5
-                0x0000000000401ab0                calloc@@GLIBC_2.2.5
-                0x0000000000401ac0                flIsNeroCapable
-                0x0000000000401ad0                sigemptyset@@GLIBC_2.2.5
-                0x0000000000401ae0                flAwaitAsyncWrites
-                0x0000000000401af0                flInitialise
-                0x0000000000401b00                flResetToggle
-                0x0000000000401b10                malloc@@GLIBC_2.2.5
-                0x0000000000401b20                fflush@@GLIBC_2.2.5
-                0x0000000000401b30                _IO_getc@@GLIBC_2.2.5
-                0x0000000000401b40                flReadChannel
-                0x0000000000401b50                arg_str1
-                0x0000000000401b60                bufInitialise
-                0x0000000000401b70                __printf_chk@@GLIBC_2.3.4
-                0x0000000000401b80                flReadChannelAsyncSubmit
-                0x0000000000401b90                tcgetattr@@GLIBC_2.2.5
-                0x0000000000401ba0                tcsetattr@@GLIBC_2.2.5
-                0x0000000000401bb0                open@@GLIBC_2.2.5
-                0x0000000000401bc0                fopen@@GLIBC_2.2.5
-                0x0000000000401bd0                cfsetispeed@@GLIBC_2.2.5
-                0x0000000000401be0                bufDestroy
-                0x0000000000401bf0                strtoul@@GLIBC_2.2.5
-                0x0000000000401c00                bufAppendConst
-                0x0000000000401c10                __isoc99_scanf@@GLIBC_2.7
-                0x0000000000401c20                flWriteChannel
-                0x0000000000401c30                flLoadCustomFirmware
-                0x0000000000401c40                exit@@GLIBC_2.2.5
-                0x0000000000401c50                fwrite@@GLIBC_2.2.5
-                0x0000000000401c60                flIsDeviceAvailable
-                0x0000000000401c70                __fprintf_chk@@GLIBC_2.3.4
-                0x0000000000401c80                flFlashStandardFirmware
-                0x0000000000401c90                flFreeError
-                0x0000000000401ca0                flReadChannelAsyncAwait
-                0x0000000000401cb0                flIsCommCapable
-                0x0000000000401cc0                strerror@@GLIBC_2.2.5
-                0x0000000000401cd0                flWriteChannelAsync
-                0x0000000000401ce0                sleep@@GLIBC_2.2.5
-                0x0000000000401cf0                errPrefix
-                0x0000000000401d00                flSleep
-                0x0000000000401d10                arg_print_errors
-                0x0000000000401d20                usleep@@GLIBC_2.2.5
-                0x0000000000401d30                flClose
-                0x0000000000401d40                __sprintf_chk@@GLIBC_2.3.4
-                0x0000000000401d50                flProgram
-                0x0000000000401d60                arg_nullcheck
+ .plt           0x0000000000401860      0x4d0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000401870                flGetFirmwareVersion
+                0x0000000000401880                flFlashCustomFirmware
+                0x0000000000401890                __strcat_chk@@GLIBC_2.3.4
+                0x00000000004018a0                free@@GLIBC_2.2.5
+                0x00000000004018b0                flGetFirmwareID
+                0x00000000004018c0                arg_lit0
+                0x00000000004018d0                arg_parse
+                0x00000000004018e0                flLoadStandardFirmware
+                0x00000000004018f0                __errno_location@@GLIBC_2.2.5
+                0x0000000000401900                arg_print_syntax
+                0x0000000000401910                strncpy@@GLIBC_2.2.5
+                0x0000000000401920                arg_uint0
+                0x0000000000401930                arg_str0
+                0x0000000000401940                sigaction@@GLIBC_2.2.5
+                0x0000000000401950                fread@@GLIBC_2.2.5
+                0x0000000000401960                flSelectConduit
+                0x0000000000401970                add_history
+                0x0000000000401980                write@@GLIBC_2.2.5
+                0x0000000000401990                clock@@GLIBC_2.2.5
+                0x00000000004019a0                fclose@@GLIBC_2.2.5
+                0x00000000004019b0                cfsetospeed@@GLIBC_2.2.5
+                0x00000000004019c0                flSaveFirmware
+                0x00000000004019d0                arg_end
+                0x00000000004019e0                __stack_chk_fail@@GLIBC_2.4
+                0x00000000004019f0                gettimeofday@@GLIBC_2.2.5
+                0x0000000000401a00                readline
+                0x0000000000401a10                flMultiBitPortAccess
+                0x0000000000401a20                jtagScanChain
+                0x0000000000401a30                flOpen
+                0x0000000000401a40                arg_print_glossary
+                0x0000000000401a50                flIsFPGARunning
+                0x0000000000401a60                read@@GLIBC_2.2.5
+                0x0000000000401a70                __libc_start_main@@GLIBC_2.2.5
+                0x0000000000401a80                calloc@@GLIBC_2.2.5
+                0x0000000000401a90                flIsNeroCapable
+                0x0000000000401aa0                sigemptyset@@GLIBC_2.2.5
+                0x0000000000401ab0                flAwaitAsyncWrites
+                0x0000000000401ac0                flInitialise
+                0x0000000000401ad0                flResetToggle
+                0x0000000000401ae0                malloc@@GLIBC_2.2.5
+                0x0000000000401af0                fflush@@GLIBC_2.2.5
+                0x0000000000401b00                _IO_getc@@GLIBC_2.2.5
+                0x0000000000401b10                flReadChannel
+                0x0000000000401b20                arg_str1
+                0x0000000000401b30                bufInitialise
+                0x0000000000401b40                __printf_chk@@GLIBC_2.3.4
+                0x0000000000401b50                flReadChannelAsyncSubmit
+                0x0000000000401b60                tcgetattr@@GLIBC_2.2.5
+                0x0000000000401b70                tcsetattr@@GLIBC_2.2.5
+                0x0000000000401b80                open@@GLIBC_2.2.5
+                0x0000000000401b90                fopen@@GLIBC_2.2.5
+                0x0000000000401ba0                cfsetispeed@@GLIBC_2.2.5
+                0x0000000000401bb0                bufDestroy
+                0x0000000000401bc0                strtoul@@GLIBC_2.2.5
+                0x0000000000401bd0                bufAppendConst
+                0x0000000000401be0                __isoc99_scanf@@GLIBC_2.7
+                0x0000000000401bf0                flWriteChannel
+                0x0000000000401c00                flLoadCustomFirmware
+                0x0000000000401c10                fwrite@@GLIBC_2.2.5
+                0x0000000000401c20                flIsDeviceAvailable
+                0x0000000000401c30                __fprintf_chk@@GLIBC_2.3.4
+                0x0000000000401c40                flFlashStandardFirmware
+                0x0000000000401c50                flFreeError
+                0x0000000000401c60                flReadChannelAsyncAwait
+                0x0000000000401c70                flIsCommCapable
+                0x0000000000401c80                strerror@@GLIBC_2.2.5
+                0x0000000000401c90                flWriteChannelAsync
+                0x0000000000401ca0                sleep@@GLIBC_2.2.5
+                0x0000000000401cb0                errPrefix
+                0x0000000000401cc0                flSleep
+                0x0000000000401cd0                arg_print_errors
+                0x0000000000401ce0                usleep@@GLIBC_2.2.5
+                0x0000000000401cf0                flClose
+                0x0000000000401d00                __sprintf_chk@@GLIBC_2.3.4
+                0x0000000000401d10                flProgram
+                0x0000000000401d20                arg_nullcheck
  *(.iplt)
- .iplt          0x0000000000401d70        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .iplt          0x0000000000401d30        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.plt.got        0x0000000000401d70        0x8
+.plt.got        0x0000000000401d30        0x8
  *(.plt.got)
- .plt.got       0x0000000000401d70        0x8 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .plt.got       0x0000000000401d30        0x8 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
 .plt.bnd
  *(.plt.bnd)
 
-.text           0x0000000000401d80     0x4f22
+.text           0x0000000000401d40     0x4ed2
  *(.text.unlikely .text.*_unlikely .text.unlikely.*)
  .text.unlikely
-                0x0000000000401d80      0xbdd lin.x64/rel/.build/main.o
+                0x0000000000401d40      0xbdd lin.x64/rel/.build/main.o
  *(.text.exit .text.exit.*)
  *(.text.startup .text.startup.*)
- *fill*         0x000000000040295d        0x3 
- .text.startup  0x0000000000402960     0x1527 lin.x64/rel/.build/main.o
-                0x0000000000402960                main
+ *fill*         0x000000000040291d        0x3 
+ .text.startup  0x0000000000402920     0x1552 lin.x64/rel/.build/main.o
+                0x0000000000402920                main
  *(.text.hot .text.hot.*)
  *(.text .stub .text.* .gnu.linkonce.t.*)
- *fill*         0x0000000000403e87        0x9 
- .text          0x0000000000403e90       0x2a /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x0000000000403e90                _start
- *fill*         0x0000000000403eba        0x6 
- .text          0x0000000000403ec0       0xc6 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
- *fill*         0x0000000000403f86        0xa 
- .text          0x0000000000403f90       0xa5 lin.x64/rel/.build/sig.o
-                0x0000000000403fa0                sigIsRaised
-                0x0000000000403fb0                sigRegisterHandler
- *fill*         0x0000000000404035        0xb 
- .text          0x0000000000404040     0x29ac lin.x64/rel/.build/main.o
-                0x0000000000404040                timediff
-                0x0000000000404070                save_to_file
-                0x0000000000404110                set_interface_attribs
-                0x0000000000404220                set_blocking
-                0x00000000004042e0                read_one_byte_from_uart
-                0x00000000004044b0                write_one_byte_to_uart
-                0x0000000000404550                read_table
-                0x0000000000404600                boolToHex
-                0x00000000004046c0                get_coordinate
-                0x0000000000404760                func
-                0x0000000000404a40                xor
-                0x0000000000404a50                and
-                0x0000000000404a70                decrypt
-                0x0000000000405490                encrypt
-                0x0000000000405d10                read_byte
-                0x0000000000405dc0                write_4byte_to_board
-                0x0000000000406070                read_4byte_from_fpga
-                0x0000000000406310                read_1byte_from_fpgalink
-                0x00000000004065d0                receive_ack
-                0x00000000004068b0                send_ack
-                0x00000000004069e0                wtt
- *fill*         0x00000000004069ec        0x4 
- .text          0x00000000004069f0      0x232 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
-                0x0000000000406a50                dump
-                0x0000000000406bd0                dumpSimple
- *fill*         0x0000000000406c22        0xe 
- .text          0x0000000000406c30       0x72 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
-                0x0000000000406c30                __libc_csu_init
-                0x0000000000406ca0                __libc_csu_fini
+ *fill*         0x0000000000403e72        0xe 
+ .text          0x0000000000403e80       0x2a /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000403e80                _start
+ *fill*         0x0000000000403eaa        0x6 
+ .text          0x0000000000403eb0       0xc6 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
+ *fill*         0x0000000000403f76        0xa 
+ .text          0x0000000000403f80       0xa5 lin.x64/rel/.build/sig.o
+                0x0000000000403f90                sigIsRaised
+                0x0000000000403fa0                sigRegisterHandler
+ *fill*         0x0000000000404025        0xb 
+ .text          0x0000000000404030     0x292c lin.x64/rel/.build/main.o
+                0x0000000000404030                timediff
+                0x0000000000404060                save_to_file
+                0x0000000000404100                set_interface_attribs
+                0x0000000000404210                set_blocking
+                0x00000000004042d0                read_one_byte_from_uart
+                0x0000000000404450                write_one_byte_to_uart
+                0x00000000004044c0                read_table
+                0x0000000000404570                boolToHex
+                0x0000000000404630                get_coordinate
+                0x00000000004046d0                func
+                0x00000000004049b0                xor
+                0x00000000004049c0                and
+                0x00000000004049e0                decrypt
+                0x0000000000405400                encrypt
+                0x0000000000405c80                read_byte
+                0x0000000000405d30                write_4byte_to_board
+                0x0000000000405fe0                read_4byte_from_fpga
+                0x0000000000406280                read_1byte_from_fpgalink
+                0x0000000000406540                receive_ack
+                0x0000000000406820                send_ack
+                0x0000000000406950                wtt
+ *fill*         0x000000000040695c        0x4 
+ .text          0x0000000000406960      0x232 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
+                0x00000000004069c0                dump
+                0x0000000000406b40                dumpSimple
+ *fill*         0x0000000000406b92        0xe 
+ .text          0x0000000000406ba0       0x72 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
+                0x0000000000406ba0                __libc_csu_init
+                0x0000000000406c10                __libc_csu_fini
  *(.gnu.warning)
 
-.fini           0x0000000000406ca4        0x9
+.fini           0x0000000000406c14        0x9
  *(SORT(.fini))
- .fini          0x0000000000406ca4        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
-                0x0000000000406ca4                _fini
- .fini          0x0000000000406ca8        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+ .fini          0x0000000000406c14        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o
+                0x0000000000406c14                _fini
+ .fini          0x0000000000406c18        0x5 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
                 [!provide]                        PROVIDE (__etext, .)
                 [!provide]                        PROVIDE (_etext, .)
                 [!provide]                        PROVIDE (etext, .)
 
-.rodata         0x0000000000406cc0     0x13d0
+.rodata         0x0000000000406c20     0x1770
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.1
-                0x0000000000406cc0      0x551 lin.x64/rel/.build/main.o
-                                        0x581 (size before relaxing)
- *fill*         0x0000000000407211        0x7 
+                0x0000000000406c20      0x4c9 lin.x64/rel/.build/main.o
+                                        0x4f9 (size before relaxing)
+ *fill*         0x00000000004070e9        0x7 
  .rodata.str1.8
-                0x0000000000407218      0xc71 lin.x64/rel/.build/main.o
- *fill*         0x0000000000407e89       0x17 
- .rodata        0x0000000000407ea0      0x128 lin.x64/rel/.build/main.o
- .rodata.cst8   0x0000000000407fc8       0x28 lin.x64/rel/.build/main.o
- .rodata.cst16  0x0000000000407ff0       0x30 lin.x64/rel/.build/main.o
+                0x00000000004070f0     0x10a9 lin.x64/rel/.build/main.o
+ *fill*         0x0000000000408199        0x7 
+ .rodata        0x00000000004081a0      0x128 lin.x64/rel/.build/main.o
+ .rodata.cst8   0x00000000004082c8       0x28 lin.x64/rel/.build/main.o
+ .rodata.cst16  0x00000000004082f0       0x30 lin.x64/rel/.build/main.o
  .rodata.str1.1
-                0x0000000000408020       0x34 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
+                0x0000000000408320       0x34 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
                                          0x48 (size before relaxing)
- *fill*         0x0000000000408054        0x4 
+ *fill*         0x0000000000408354        0x4 
  .rodata.str1.8
-                0x0000000000408058       0x38 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
+                0x0000000000408358       0x38 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
                                          0x34 (size before relaxing)
 
 .rodata1
  *(.rodata1)
 
-.eh_frame_hdr   0x0000000000408090      0x12c
+.eh_frame_hdr   0x0000000000408390      0x12c
  *(.eh_frame_hdr)
- .eh_frame_hdr  0x0000000000408090      0x12c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x0000000000408090                __GNU_EH_FRAME_HDR
+ .eh_frame_hdr  0x0000000000408390      0x12c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x0000000000408390                __GNU_EH_FRAME_HDR
  *(.eh_frame_entry .eh_frame_entry.*)
 
-.eh_frame       0x00000000004081c0      0x77c
+.eh_frame       0x00000000004084c0      0x76c
  *(.eh_frame)
- .eh_frame      0x00000000004081c0       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
- .eh_frame      0x00000000004081f0       0x40 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
- .eh_frame      0x0000000000408230       0x50 lin.x64/rel/.build/sig.o
+ .eh_frame      0x00000000004084c0       0x30 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .eh_frame      0x00000000004084f0       0x40 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .eh_frame      0x0000000000408530       0x50 lin.x64/rel/.build/sig.o
                                          0x60 (size before relaxing)
- .eh_frame      0x0000000000408280      0x570 lin.x64/rel/.build/main.o
-                                        0x548 (size before relaxing)
- .eh_frame      0x00000000004087f0       0xe8 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
+ .eh_frame      0x0000000000408580      0x560 lin.x64/rel/.build/main.o
+                                        0x530 (size before relaxing)
+ .eh_frame      0x0000000000408ae0       0xe8 /home/rsudarsanan/The-X-Men/makestuff/libs/libdump/lin.x64/rel/libdump.a(libdump.o)
                                          0xf0 (size before relaxing)
- .eh_frame      0x00000000004088d8       0x60 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
+ .eh_frame      0x0000000000408bc8       0x60 /usr/lib/x86_64-linux-gnu/libc_nonshared.a(elf-init.oS)
                                          0x78 (size before relaxing)
- .eh_frame      0x0000000000408938        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
+ .eh_frame      0x0000000000408c28        0x4 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
  *(.eh_frame.*)
 
 .gcc_except_table
@@ -459,71 +458,71 @@ LOAD /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
  *(.igot)
                 0x0000000000609fe8                . = DATA_SEGMENT_RELRO_END (., (SIZEOF (.got.plt) >= 0x18)?0x18:0x0)
 
-.got.plt        0x0000000000609000      0x280
+.got.plt        0x0000000000609000      0x278
  *(.got.plt)
- .got.plt       0x0000000000609000      0x280 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .got.plt       0x0000000000609000      0x278 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
                 0x0000000000609000                _GLOBAL_OFFSET_TABLE_
  *(.igot.plt)
- .igot.plt      0x0000000000609280        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+ .igot.plt      0x0000000000609278        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
 
-.data           0x0000000000609280       0x28
+.data           0x0000000000609278       0x28
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x0000000000609280       0x28 lin.x64/rel/.build/main.o
-                0x0000000000609280                mm
-                0x0000000000609288                portname
-                0x0000000000609290                ack2
-                0x0000000000609298                ack1
-                0x00000000006092a0                key
+ .data          0x0000000000609278       0x28 lin.x64/rel/.build/main.o
+                0x0000000000609278                mm
+                0x0000000000609280                portname
+                0x0000000000609288                ack2
+                0x0000000000609290                ack1
+                0x0000000000609298                key
 
 .tm_clone_table
-                0x00000000006092a8        0x0
+                0x00000000006092a0        0x0
  .tm_clone_table
-                0x00000000006092a8        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
+                0x00000000006092a0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
  .tm_clone_table
-                0x00000000006092a8        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
+                0x00000000006092a0        0x0 /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o
 
 .data1
  *(.data1)
-                0x00000000006092a8                _edata = .
+                0x00000000006092a0                _edata = .
                 [!provide]                        PROVIDE (edata, .)
-                0x00000000006092a8                . = .
-                0x00000000006092a8                __bss_start = .
+                0x00000000006092a0                . = .
+                0x00000000006092a0                __bss_start = .
 
-.bss            0x00000000006092c0       0xc8
+.bss            0x00000000006092a0       0xc8
  *(.dynbss)
- .dynbss        0x00000000006092c0       0x28 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
-                0x00000000006092c0                stdout@@GLIBC_2.2.5
-                0x00000000006092e0                stderr@@GLIBC_2.2.5
+ .dynbss        0x00000000006092a0       0x28 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o
+                0x00000000006092a0                stdout@@GLIBC_2.2.5
+                0x00000000006092c0                stderr@@GLIBC_2.2.5
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x00000000006092e8        0x1 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
- .bss           0x00000000006092e9        0x1 lin.x64/rel/.build/sig.o
- *fill*         0x00000000006092ea        0x6 
- .bss           0x00000000006092f0       0x10 lin.x64/rel/.build/main.o
+ .bss           0x00000000006092c8        0x1 /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o
+ .bss           0x00000000006092c9        0x1 lin.x64/rel/.build/sig.o
+ *fill*         0x00000000006092ca        0x6 
+ .bss           0x00000000006092d0       0x10 lin.x64/rel/.build/main.o
  *(COMMON)
- COMMON         0x0000000000609300       0x85 lin.x64/rel/.build/main.o
-                0x0000000000609300                fd
-                0x0000000000609320                line1
-                0x0000000000609384                out
-                0x0000000000609388                . = ALIGN ((. != 0x0)?0x8:0x1)
- *fill*         0x0000000000609385        0x3 
+ COMMON         0x00000000006092e0       0x85 lin.x64/rel/.build/main.o
+                0x00000000006092e0                fd
+                0x0000000000609300                line1
+                0x0000000000609364                out
+                0x0000000000609368                . = ALIGN ((. != 0x0)?0x8:0x1)
+ *fill*         0x0000000000609365        0x3 
 
 .lbss
  *(.dynlbss)
  *(.lbss .lbss.* .gnu.linkonce.lb.*)
  *(LARGE_COMMON)
-                0x0000000000609388                . = ALIGN (0x8)
-                0x0000000000609388                . = SEGMENT_START ("ldata-segment", .)
+                0x0000000000609368                . = ALIGN (0x8)
+                0x0000000000609368                . = SEGMENT_START ("ldata-segment", .)
 
 .lrodata
  *(.lrodata .lrodata.* .gnu.linkonce.lr.*)
 
-.ldata          0x0000000000a09388        0x0
+.ldata          0x0000000000a09368        0x0
  *(.ldata .ldata.* .gnu.linkonce.l.*)
-                0x0000000000a09388                . = ALIGN ((. != 0x0)?0x8:0x1)
-                0x0000000000a09388                . = ALIGN (0x8)
-                0x0000000000a09388                _end = .
+                0x0000000000a09368                . = ALIGN ((. != 0x0)?0x8:0x1)
+                0x0000000000a09368                . = ALIGN (0x8)
+                0x0000000000a09368                _end = .
                 [!provide]                        PROVIDE (end, .)
-                0x0000000000a09388                . = DATA_SEGMENT_END (.)
+                0x0000000000a09368                . = DATA_SEGMENT_END (.)
 
 .stab
  *(.stab)
@@ -1382,13 +1381,6 @@ execve@GLIBC_2.2.5                                /lib/x86_64-linux-gnu/libc.so.
 execvpe                                           /lib/x86_64-linux-gnu/libc.so.6
 execvpe@@GLIBC_2.11                               /lib/x86_64-linux-gnu/libc.so.6
 execvpe@GLIBC_2.11                                /lib/x86_64-linux-gnu/libc.so.6
-exit                                              /lib/x86_64-linux-gnu/libc.so.6
-                                                  lin.x64/rel/.build/main.o
-exit@@GLIBC_2.2.5                                 /lib/x86_64-linux-gnu/libc.so.6
-exit@GLIBC_2.2.5                                  /lib/x86_64-linux-gnu/libc.so.6
-                                                  //lib/x86_64-linux-gnu/libpthread.so.0
-                                                  //lib/x86_64-linux-gnu/libtinfo.so.5
-                                                  /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/libreadline.so
 fchdir                                            /lib/x86_64-linux-gnu/libc.so.6
 fchdir@@GLIBC_2.2.5                               /lib/x86_64-linux-gnu/libc.so.6
 fchdir@GLIBC_2.2.5                                /lib/x86_64-linux-gnu/libc.so.6

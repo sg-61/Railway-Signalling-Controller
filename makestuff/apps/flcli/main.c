@@ -34,6 +34,13 @@
 #else
 #include <sys/time.h>
 #endif
+#define CR     "\x1b[31m"
+#define CG  "\x1b[32m"
+#define CY  "\x1b[33m"
+#define CB  "\x1b[34m"
+#define CM "\x1b[35m"
+#define CC "\x1b[36m"
+#define RST "\x1b[0m"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // global declarations 
@@ -41,8 +48,8 @@ char* key="11001100110011001100110011000001"; // initialise it
 char line1[100];
 char* ack1="11110000111100001111000011110000"; 
 char* ack2="00001111000011110000111100001111"; 
-
-
+char *portname = "/dev/ttyXRUSB0" ;
+int fd; // File descriptor corresponding to the USB Port 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -144,11 +151,11 @@ void set_blocking (int fd, int should_block)
                printf ("error %d setting term attributes", errno);
 } 
 
-char *portname = "/dev/ttyXRUSB0" ;
-int fd; 
-char* read_one_byte_from_uart(long long  timeout){
-    
-    clock_t start;	
+
+char* read_one_byte_from_uart(long long timeout){
+        
+
+   // clock_t start;	
 
     if (fd < 0)
     {
@@ -161,15 +168,16 @@ char* read_one_byte_from_uart(long long  timeout){
     char buf[1];
     char *ans=malloc(9); 
 
-    //printf(" reading data from uart \n"); 
-    //while (timediff(clock(), start) < timeout) {
-    {    	int n = read (fd, buf, sizeof(buf)); 
+	//start = clock();    
+
+   // while (timediff(clock(), start) < timeout*1000) {
+    	int n = read (fd, buf, sizeof(buf)); 
     	if (n == 1) {
-	    	printf("N is =%d", n);
-	    	printf("The read string is %hhx\n",buf[0]);
+	   // 	printf("N is =%d", n);
+	    //	printf("The read string is %hhx\n",buf[0]);
 	    	uint8 temp=buf[0]; 
             ans[0]='\0'; 
-            printf("data read from uart in uint8 %d \n", temp); 
+       //     printf("data read from uart in uint8 %d \n", temp); 
             while(temp>0){
                 if(temp%2==1) { strcat(ans,"1"); }
                 else strcat(ans,"0"); 
@@ -177,25 +185,25 @@ char* read_one_byte_from_uart(long long  timeout){
             }
 	    	return ans;
 	    }
-	}
+	//}
 	ans[0]='f'; return ans; 
 }
 
-void write_one_byte_to_uart(){
+int write_one_byte_to_uart(){
 	    
-	    printf("Write to the UART port in hex\n");
 	    unsigned char data[1];
+	    printf(">> Enter data to Write via Uart:\n>>>> ");
     	scanf("%hhx", &data);
 
     	// error checking 
     	int n = write (fd, data, 1); 
  		if (n!=1)
     	{
-        	printf ("error in writing to the board through UART port");
-        	exit(1);
+        	//printf ("error in writing to the board through UART port");
+        	return 0;
     	}
-        printf("Write Success\n");
-    	return ;
+        //printf("Write Success\n");
+    	return 1;
 
 }
 
@@ -1022,7 +1030,7 @@ char * read_1byte_from_fpgalink(int chan, struct FLContext *handle, const char *
 		uint8 buf[5];
         bool data_is_there=0; 
         while(timeout>0){
-       //     printf("timeout in reverse order -- %d\n" , timeout); 
+      //      printf("timeout in reverse order -- %d\n" , timeout); 
             sleep(0.05);
             timeout--;
             FLStatus fstatus = flReadChannel(handle,chan,1,buf,error); 
@@ -1345,44 +1353,74 @@ int main(int argc, char *argv[]) {
     if( rpOpt->count )
     {
         //printf("Got the file %s\n", rpOpt->sval[0]);
+    
+        printf(CC "==========================================================================================================\n" RST);
+        printf(CM "=============================== " CR "DLD PROJECT BY THE XILINX MEN" CM " ============================================\n" RST);
+        printf(CC "==========================================================================================================\n" RST);
+        
+		entire_process:
+		
+        printf("\nReading Track Data From the CSV File...\n");
+            
    		int table[640][5];
         int rows;
 		const char* path = rpOpt->sval[0];
-		entire_process:
 		rows = read_table(path, table);
-		for(int i=0; i<rows; i++)
-		{
-			printf("%d, %d, %d, %d, %d\n", table[i][0], table[i][1], table[i][2], table[i][3], table[i][4]);
-		}
-    
+	//	for(int i=0; i<rows; i++)
+	//	{
+	//		printf("%d, %d, %d, %d, %d\n", table[i][0], table[i][1], table[i][2], table[i][3], table[i][4]);
+	//	}
+
+        printf(CG "Track Data Read\n" RST);   
+ 
     	sleep(1); 
-    	int x_coordinate[65],y_coordinate[65]; 
+        
+        int x_coordinate[65],y_coordinate[65]; 
+    
     	host_label_2:
+
     	for(int i=0;i<65;i++) { x_coordinate[i]=-1; y_coordinate[i]=-1; }
-    	int start_i=0, end_i=64; 
-    	for(int i=start_i;i<end_i;i++){
+    	
+        int start_i=0, end_i=64; 
+        
+        printf(CB "\nStarting Polling Process\n");  	
+
+        for(int i=start_i;i<end_i;i++){
     			if(isCommCapable){
     					uint8 isRunning; 
     					fStatus=flIsFPGARunning(handle,&isRunning,&error);
     					CHECK_STATUS(fStatus,FLP_LIBERR,cleanup); 
     					if(isRunning){
-                                printf("\n"); 
-    							printf("attempting to read coordinates from  channel %d\n",2*i); 
+    							printf("\n>> Attempting to read Co-ordinates from Channel " CM "%d\n" RST,2*i);
+
     							char* red_data=read_4byte_from_fpga(2*i,handle,error,32); 
-    							printf("red coordinates %s from channel %d\n",red_data, 2*i); 
-    							if(red_data[0]=='f') { printf("failed to coordinates\n"); continue; }
-                                printf("attempting to write coordinates at channel %d\n",2*i+1); 
+
+    							if(red_data[0]=='f') { printf(CR ">>>> Failed to Read co-ordinates from channel\n" RST); continue; }
+
+                                printf(CG ">>>> Successfully Read co-ordinates from channel "  " %d\n" RST,2*i);
+
+                                printf(">>>>>>>> Read data is " CB " %s\n" RST,red_data); 
+
+                                printf(">> Attempting to Write coordinates at channel " CM "%d\n" RST,2*i+1); 
+
     							char write_status=write_4byte_to_board(2*i+1,red_data,handle,error,32); 
-    							if(write_status=='f') { printf("write failed , continuing for next channel\n"); continue; }
-                                printf("attempting to receive ack\n"); 
+
+    							if(write_status=='f') { printf(CR "Write failed, Moving on to the next channel\n" RST); continue; }
+                                
+                                printf(CG ">>>> Successfully Written Co-ordinates to the channel\n" RST);
+        
+                                printf(">> Attempting to receive ACK1\n"); 
+
     							char* ack_status=receive_ack(2*i,handle,error,1); 
+
     							if(ack_status[0]=='f'){
-                                        printf("first ack was incorrect , attempting after 5 seconds\n"); 
+
+                                        printf(CR ">>>> First ack was incorrect, re-attempt after 5 seconds\n" RST); 
     									sleep(5); 
-                                        printf("attempting to receive ack for second time\n"); 
+                                        printf(">> Attempting to receive ACK1 for the second time\n"); 
     									ack_status=receive_ack(2*i,handle,error,1); 
     									if(ack_status[0]='f'){
-                                                printf("second ack was also incorect\n"); 
+                                                printf(CR ">>>> Second ACK was also incorrect, Moving on to the next channel\n" RST); 
     											/*start_i=(i+1)%64; 
     											end_i=i+1; 
     											i=start_i-1; 
@@ -1390,52 +1428,75 @@ int main(int argc, char *argv[]) {
     											continue; 
     									}
     							}
-                                printf("received coordinates correctly and now breaking out of this for loop \n"); 
+                                
+                                printf(CG ">>>> Successfully received ACK1 and co-ordinates\n" RST);
     							get_coordinate(red_data,&x_coordinate[i],&y_coordinate[i]); 
                                 break; 
-    
     					}
     			}
     	}
+
     	int read_chan, write_chan; for(int i=0;i<64;i++) { if(x_coordinate[i]!=-1) { read_chan=2*i;write_chan=read_chan+1;  break; } } 
+
+        printf(">> Co-ordinates are " CB "(%d,%d)\n" RST,x_coordinate[read_chan>>1],y_coordinate[read_chan>>1]); 
+        
+        printf(">> Sending ACK2 to the board\n");
     	send_ack(write_chan,handle, error,32); 
-        printf("x coordinate is %d and y coordinate is %d\n",x_coordinate[read_chan>>1],y_coordinate[read_chan>>1]); 
+
     	char* track_data=func(x_coordinate[read_chan>>1],y_coordinate[read_chan>>1],table,rows); 
-        printf("track data is %s\n", track_data); 
+    
+        printf(">> Writing 64 bits to board\n"); 
+        printf(">>>> Data to write to the board is " CM "%s\n" RST, track_data);
+       
     	write_4byte_to_board(write_chan,track_data,handle, error,32); 
+        printf(CG ">>>> Written first four bytes to board\n" RST);
+        printf(">>>> Waiting to receive ACK\n");
     	char* ack_status=receive_ack(read_chan,handle, error, 256); 
-    	if(ack_status[0]=='f') { goto host_label_2; }
+    	if(ack_status[0]=='f') { 
+                // TODO host label 2
+                printf(CR ">>>> Receiving Ack failed, going to host_label_2\n");
+                goto host_label_2; }
     	else {
+                
     			write_4byte_to_board(write_chan,track_data+32,handle,error,32); 
+                printf(CG ">>>> Written next four bytes to board\n" RST);
+                printf(">>>> Waiting to receive ACK\n");
     			ack_status=receive_ack(read_chan,handle, error, 256); 
-    			if(ack_status[0]=='f') { goto host_label_2; }
+    			if(ack_status[0]=='f') { 
+                            printf(CR ">>>> Receiving Ack failed, going to host_label_2\n");
+                            goto host_label_2; 
+                    }
     			else {
                         
     				send_ack(write_chan,handle,error,32); 
-    				
-    				// goto entire_process; 
+    				printf(CG ">>>> Sent ACK\n" RST);
+                    // goto entire_process; 
     				// Read four bytes
     				// Wait until timeout
 
-                    sleep(20);
-
-                    int flag1 = 0, flag2 = 0 ;
+                    printf("Sleeping until the display of the board is over\n");
+                    sleep(22);
         
                     clock_t start, stop;
                     start = clock();
+
+                   	int flag1 = 0 , flag2 = 0;
                     
-                    int timeout_s = 20;                
-    
-                    while ( 100*((double)(clock())-start)/CLOCKS_PER_SEC < timeout_s) {
-                        printf("%.9f sec\n",100*((double)(clock())-start)/CLOCKS_PER_SEC);  
-                        printf("%.8f sec\n", clock()-start); 
-                        
+                    int timeout_s = 20;
+                    
+                    printf("Waiting to receive data from the board via FPGA and/or UART\n");    
+
+                    while (100*((double)(clock())-start)/CLOCKS_PER_SEC < timeout_s) {
+                        //printf("%.9f sec\n",100*((double)(clock())-start)/CLOCKS_PER_SEC);  
+                        //printf("%.8f sec\n", clock()-start);
                         if (!(flag1)){
                               // 32 tries
                               char* red_data=read_1byte_from_fpgalink(read_chan,handle,error,32);    				
-                              if(red_data[0]=='f') {} // printf("data for track update was not available at fpgalink \n"); }
+                              if(red_data[0]=='f') {// printf("data for track update was not available at fpgalink \n"); 
+                                                }
                               else {
-                                  printf("red track data update -- %s",red_data); 
+                                  printf(CG ">> Read track data from FPGA\n" RST); 
+                                  printf(">>>> Read data is " CM "%s\n" RST,red_data);
                                   flag1 = 1 ;
         	          			// change the entry corresponding to these bytes in the table
     
@@ -1443,8 +1504,8 @@ int main(int argc, char *argv[]) {
         	          			int y_c = y_coordinate[read_chan>>1];
     
         	          			int x,y,z ;
-        	          			x = (red_data[3] == '1') ? 1 : 0  ;
-        	          			y = (red_data[4] == '1') ? 1 : 0  ;
+        	          			x = (red_data[7] == '1') ? 1 : 0  ;
+        	          			y = (red_data[6] == '1') ? 1 : 0  ;
         	          			z = (red_data[5] == '1') ? 1 : 0  ;
     
         	          			int dir = x*4 + y*2 + z;
@@ -1452,43 +1513,57 @@ int main(int argc, char *argv[]) {
         	          			for (int count =0 ; count < rows ; count++){
     
         	          				if (table[count][0] == x_c && table[count][1]==y_c && table[count][2]==dir) {
-        	          					table[count][3] = red_data[6];
+        	          					table[count][3] = red_data[3]-48;
     
-       		          					x = (red_data[0] == '1') ? 1 : 0  ;
+       		          					x = (red_data[2] == '1') ? 1 : 0  ;
        		          					y = (red_data[1] == '1') ? 1 : 0  ;
-       		          					z = (red_data[2] == '1') ? 1 : 0  ;
+       		          					z = (red_data[0] == '1') ? 1 : 0  ;
     
         	          					table[count][4] = x*4 + y*2 + z;
         	          					break;
         	          				}
         	          			}
-                                  printf("Changed the entry to the table\n");
+                                  printf(">>>> Changed the entry to the table\n");
         	          			// Save table
         //	          			save_to_file(table,rows);
     
-                                  printf("Saved the table to the file\n");
+                                  printf(">>>> Saved the table to the file\n");
                               }
                         }
         				// Read data from UART port
-        				if (!(flag2)) {
-                            //printf("Reading uart data from the byte\n");
-        	         		char* red_uart=read_one_byte_from_uart(1);
-                            //printf("out of read_one_byte \n"); 
-                             
-                            if(red_uart[0]=='f' && !(flag2)) { 
-                               //printf("Data for track update is not available at uart port \n");
-                            }
-                             else {
-                                 printf("Data received from UART : %s\n", red_uart);
-                                 flag2 = 1 ;
-                             }
-                             }
-                        if(flag1 == 1 && flag2==1 ) break; 
+        			//	if (!(flag2)) {
+            		//		char* red_uart=read_one_byte_from_uart(0.05);
+                    //       // }                                                                 
+                    //        if(red_uart[0] == 'f' && !(flag2)) { 
+                    //          //  printf("Data for track update is not available at uart port \n");
+                    //        }
+                    //        else {
+                    //            printf(CG ">> Read data Successfully via UART\n" RST);
+                    //           	printf(">>>> Data Received is" CB "%s\n" RST, red_uart);
+                    //            flag2 = 1 ;
+                    //        }
+                    //    }
+                    if(flag1 == 1 ) break;// && flag2 == 1) break;
                     }
-                    flag1 = 0;
-                    flag2 = 0;
-    	    		write_one_byte_to_uart();
-                    goto entire_process; 
+
+                    if(!(flag1)) printf (">> No data received from controller via FPGA\n"); 
+                   // if(!(flag2)) printf (">> No data received from controller via UART\n"); 
+                    flag1 = 0 ;
+                	flag2 = 0 ;
+                   	// TODO To write before this step
+                   	// Make the controller to wait?
+/*
+                    printf("Writing Data to UART\n");
+    	    		if (write_one_byte_to_uart() == 0){
+    	    			printf(CR ">> Writing to UART failed\n" RST);
+					printf(CB "Starting the Entire Process\n" RST);
+    	    			goto host_label_2;
+    	    		}
+    	    		printf(CG ">> Write to UART Successful\n" RST);
+
+    	    		printf(CB "Starting the Entire Process\n" RST);*/
+                    sleep(30);
+                    goto host_label_2; 
     			}
 
 	}

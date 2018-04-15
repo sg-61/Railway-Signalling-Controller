@@ -304,6 +304,7 @@ begin                                                                     --BEGI
                         uart_read_data <= rx_data;
                         uart_read_done <= '1';
                         uart_cntRead <= 1;
+                        uart_data_valid <= '1';
                     end if;
                 else
                     uart_read_done <= '1';
@@ -1315,13 +1316,13 @@ begin                                                                     --BEGI
                         uart_data_valid <= '1';
                         reg0_next <= uart_read_data;
                         state <= 3;
-                    elsif(cnt < 48000000) then
+                    elsif(cnt < 480000000) then
                         cnt <= cnt + 1;
                     else
                         state <= 3;
                     end if;
                 elsif(state = 3) then
-                    uart_to_read <='1';
+--                    uart_to_read <='1';
                     state <= 1;
                     cnt <= 0;
                     MACRO_STATE <= 6;               
@@ -1333,7 +1334,7 @@ begin                                                                     --BEGI
             elsif( MACRO_STATE = 6 ) then 
                 if(state = 1) then
                     if(cnt = 0 and to_wait_sec = '0') then
-                        reg0_next <= "01100001"; 
+                        --reg0_next <= "01100001"; 
                         to_wait_clk <= '0';
                         waitCnt <= 0;
                         to_wait_sec <= '1';
@@ -1342,6 +1343,13 @@ begin                                                                     --BEGI
                         stop_wait_sec <= '0';
                         cnt <= cnt + 1;
                     elsif(cnt = 1 and to_wait_sec = '0') then
+                        if(uart_read_done = '1') then
+                            uart_data_valid <= '1';
+                            reg0_next <= uart_read_data;
+                        else
+                            uart_data_valid <= '0';
+                        end if;
+                        uart_to_read <= '1';
                         state <= 1;
                         MACRO_STATE <= 2;
                         cnt <= 0;
